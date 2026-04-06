@@ -1,9 +1,325 @@
 generator client {
   provider = "prisma-client-js"
-  output   = "../node_modules/.prisma/client"
+  output   = "../src/generated/client"
 }
 
 datasource db {
   provider = "postgresql"
-  url      = env("DATABASE_URL")
+}
+
+// ─── Enums (alinhados com @nexcript/shared) ────────────────────────────────
+
+enum NicheCategory {
+  finance
+  technology
+  productivity
+  lifestyle
+  education
+  entertainment
+  business
+  health
+  personal_development
+  other
+}
+
+enum FormatType {
+  long_form
+  medium_form
+  short_form
+  carousel
+  podcast
+}
+
+enum Platform {
+  youtube
+  youtube_shorts
+  tiktok
+  instagram_reels
+  instagram
+  linkedin
+  podcast
+}
+
+enum ContentTone {
+  formal
+  casual
+  funny
+  serious
+  inspirational
+  educational
+  dark_comedy
+  sarcastic
+}
+
+enum NarrationStyle {
+  professional
+  conversational
+  energetic
+  calm
+  dramatic
+  friendly
+}
+
+enum ProjectStatus {
+  planning
+  in_development
+  in_review
+  active
+  paused
+  archived
+}
+
+enum JobStatus {
+  pending
+  processing
+  completed
+  failed
+  cancelled
+}
+
+enum TtsProvider {
+  google
+  microsoft
+  eleven_labs
+  amazon
+  openai
+  local
+}
+
+enum AssetType {
+  script
+  title
+  thumbnail
+  description
+  narration
+  video
+  thumbnail_image
+  metadata
+}
+
+enum RpmTier {
+  tier_0
+  tier_1
+  tier_2
+  tier_3
+  tier_4
+}
+
+enum Plan {
+  free
+  starter
+  professional
+  enterprise
+}
+
+enum Role {
+  admin
+  manager
+  creator
+  viewer
+}
+
+// ─── Models ────────────────────────────────────────────────────────────────
+
+model Organization {
+  id        String   @id @default(cuid())
+  name      String
+  slug      String   @unique
+  plan      Plan     @default(free)
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  users               User[]
+  channelProfiles     ChannelProfile[]
+  contentProjects     ContentProject[]
+  trendAnalyses       TrendAnalysis[]
+  scripts             Script[]
+  narrations          Narration[]
+  mediaSuggestions    MediaSuggestion[]
+  publicationMetadata PublicationMetadata[]
+  exportJobs          ExportJob[]
+
+  @@map("organizations")
+}
+
+model User {
+  id             String   @id @default(cuid())
+  organizationId String
+  email          String   @unique
+  name           String
+  role           Role     @default(creator)
+  passwordHash   String
+  createdAt      DateTime @default(now())
+  updatedAt      DateTime @updatedAt
+
+  organization    Organization     @relation(fields: [organizationId], references: [id])
+  channelProfiles ChannelProfile[]
+
+  @@index([organizationId])
+  @@map("users")
+}
+
+model ChannelProfile {
+  id             String         @id @default(cuid())
+  organizationId String
+  userId         String
+  name           String
+  platform       Platform
+  niche          NicheCategory
+  tone           ContentTone
+  narrationStyle NarrationStyle
+  languageCode   String         @default("pt-BR")
+  createdAt      DateTime       @default(now())
+  updatedAt      DateTime       @updatedAt
+
+  organization    Organization     @relation(fields: [organizationId], references: [id])
+  user            User             @relation(fields: [userId], references: [id])
+  contentProjects ContentProject[]
+
+  @@index([organizationId])
+  @@map("channel_profiles")
+}
+
+model ContentProject {
+  id               String        @id @default(cuid())
+  organizationId   String
+  channelProfileId String
+  title            String
+  keyword          String
+  niche            NicheCategory
+  format           FormatType
+  status           ProjectStatus @default(planning)
+  durationMinutes  Int?
+  createdAt        DateTime      @default(now())
+  updatedAt        DateTime      @updatedAt
+
+  organization        Organization          @relation(fields: [organizationId], references: [id])
+  channelProfile      ChannelProfile        @relation(fields: [channelProfileId], references: [id])
+  trendAnalyses       TrendAnalysis[]
+  scripts             Script[]
+  mediaSuggestions    MediaSuggestion[]
+  publicationMetadata PublicationMetadata[]
+  exportJobs          ExportJob[]
+
+  @@index([organizationId])
+  @@index([keyword])
+  @@map("content_projects")
+}
+
+model TrendAnalysis {
+  id             String   @id @default(cuid())
+  organizationId String
+  projectId      String
+  keyword        String
+  data           Json
+  analyzedAt     DateTime @default(now())
+  createdAt      DateTime @default(now())
+
+  organization   Organization   @relation(fields: [organizationId], references: [id])
+  contentProject ContentProject @relation(fields: [projectId], references: [id])
+
+  @@index([organizationId])
+  @@index([projectId])
+  @@index([keyword])
+  @@map("trend_analyses")
+}
+
+model Script {
+  id                    String   @id @default(cuid())
+  organizationId        String
+  projectId             String
+  blocks                Json
+  wordCount             Int?
+  estimatedDurationSecs Int?
+  version               Int      @default(1)
+  createdAt             DateTime @default(now())
+  updatedAt             DateTime @updatedAt
+
+  organization   Organization   @relation(fields: [organizationId], references: [id])
+  contentProject ContentProject @relation(fields: [projectId], references: [id])
+  narrations     Narration[]
+
+  @@index([organizationId])
+  @@index([projectId])
+  @@map("scripts")
+}
+
+model Narration {
+  id             String      @id @default(cuid())
+  organizationId String
+  scriptId       String
+  provider       TtsProvider
+  voiceId        String?
+  audioUrl       String?
+  durationSecs   Float?
+  status         JobStatus   @default(pending)
+  createdAt      DateTime    @default(now())
+  updatedAt      DateTime    @updatedAt
+
+  organization Organization @relation(fields: [organizationId], references: [id])
+  script       Script       @relation(fields: [scriptId], references: [id])
+
+  @@index([organizationId])
+  @@index([scriptId])
+  @@map("narrations")
+}
+
+model MediaSuggestion {
+  id             String    @id @default(cuid())
+  organizationId String
+  projectId      String
+  type           AssetType
+  prompt         String?
+  url            String?
+  metadata       Json?
+  createdAt      DateTime  @default(now())
+
+  organization   Organization   @relation(fields: [organizationId], references: [id])
+  contentProject ContentProject @relation(fields: [projectId], references: [id])
+
+  @@index([organizationId])
+  @@index([projectId])
+  @@map("media_suggestions")
+}
+
+model PublicationMetadata {
+  id             String    @id @default(cuid())
+  organizationId String
+  projectId      String    @unique
+  title          String?
+  description    String?
+  tags           String[]
+  thumbnailUrl   String?
+  platform       Platform
+  scheduledAt    DateTime?
+  publishedAt    DateTime?
+  createdAt      DateTime  @default(now())
+  updatedAt      DateTime  @updatedAt
+
+  organization   Organization   @relation(fields: [organizationId], references: [id])
+  contentProject ContentProject @relation(fields: [projectId], references: [id])
+
+  @@index([organizationId])
+  @@map("publication_metadata")
+}
+
+model ExportJob {
+  id             String    @id @default(cuid())
+  organizationId String
+  projectId      String
+  assetType      AssetType
+  status         JobStatus @default(pending)
+  outputUrl      String?
+  errorMessage   String?
+  startedAt      DateTime?
+  completedAt    DateTime?
+  createdAt      DateTime  @default(now())
+  updatedAt      DateTime  @updatedAt
+
+  organization   Organization   @relation(fields: [organizationId], references: [id])
+  contentProject ContentProject @relation(fields: [projectId], references: [id])
+
+  @@index([organizationId])
+  @@index([projectId])
+  @@map("export_jobs")
 }

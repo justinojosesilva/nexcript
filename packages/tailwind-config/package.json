@@ -5,6 +5,10 @@
   "private": true,
   "exports": {
     ".": "./shared-styles.css",
+    "./tokens": {
+      "types": "./index.d.ts",
+      "default": "./index.js"
+    },
     "./postcss": "./postcss.config.js"
   },
   "devDependencies": {
