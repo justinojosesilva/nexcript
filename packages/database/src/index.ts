@@ -1,11 +1,10 @@
-import { PrismaClient } from '@prisma/client';
+/**
+ * Database package - exports Prisma client and shared types
+ * Prisma setup is completed via prisma/schema.prisma and prisma.config.ts
+ */
 
-const globalForPrisma = globalThis as unknown as { prisma: PrismaClient };
+// Re-export shared types and enums for convenience
+export * from '@nexcript/shared';
 
-export const prisma = globalForPrisma.prisma ?? new PrismaClient();
-
-if (process.env.NODE_ENV !== 'production') {
-  globalForPrisma.prisma = prisma;
-}
-
-export * from '@prisma/client';
+// Prisma client will be exported here after schema is defined
+// export { PrismaClient } from '@prisma/client';
