@@ -5,5 +5,9 @@
   "testRegex": ".e2e-spec.ts$",
   "transform": {
     "^.+\\.(t|j)s$": "ts-jest"
+  },
+  "moduleNameMapper": {
+    "^@nexcript/database$": "<rootDir>/../../../packages/database/dist/index.cjs",
+    "^@nexcript/shared$": "<rootDir>/../../../packages/shared/dist/index.cjs"
   }
 }

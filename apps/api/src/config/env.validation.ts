@@ -1,4 +1,4 @@
-import * as Joi from 'joi'
+import * as Joi from 'joi';
 
 export const envValidationSchema = Joi.object({
   PORT: Joi.number().default(3002),
@@ -6,4 +6,4 @@ export const envValidationSchema = Joi.object({
   REDIS_URL: Joi.string().uri().required(),
   JWT_SECRET: Joi.string().min(16).required(),
   JWT_EXPIRES_IN: Joi.string().required(),
-})
+});

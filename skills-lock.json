@@ -1,0 +1,20 @@
+{
+  "version": 1,
+  "skills": {
+    "agile-product-owner": {
+      "source": "davila7/claude-code-templates",
+      "sourceType": "github",
+      "computedHash": "254d556b14a7ae4a09784323bef72720814be7dc81d3bba6427bcefa37d9aca4"
+    },
+    "frontend-design": {
+      "source": "anthropics/skills",
+      "sourceType": "github",
+      "computedHash": "063a0e6448123cd359ad0044cc46b0e490cc7964d45ef4bb9fd842bd2ffbca67"
+    },
+    "scrum-master": {
+      "source": "aj-geddes/claude-code-bmad-skills",
+      "sourceType": "github",
+      "computedHash": "69ba694f8c117c04cc2dc1df7698fc8dd55183c2097b3cea130502a7d527b238"
+    }
+  }
+}
