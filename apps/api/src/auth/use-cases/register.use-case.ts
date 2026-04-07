@@ -3,6 +3,7 @@ import { JwtService } from '@nestjs/jwt';
 import * as bcrypt from 'bcrypt';
 import { PrismaService } from '../../prisma/prisma.service';
 import { RegisterDto, RegisterResponse } from '../dto/register.dto';
+import { RefreshTokenService } from '../services/refresh-token.service';
 
 const BCRYPT_ROUNDS = 10;
 
@@ -11,6 +12,7 @@ export class RegisterUseCase {
   constructor(
     private readonly prismaService: PrismaService,
     private readonly jwtService: JwtService,
+    private readonly refreshTokenService: RefreshTokenService,
   ) {}
 
   async execute(dto: RegisterDto): Promise<RegisterResponse> {
@@ -51,7 +53,11 @@ export class RegisterUseCase {
       role: user.role,
     });
 
-    return { access_token };
+    const refresh_token = await this.refreshTokenService.generateRefreshToken(
+      user.id,
+    );
+
+    return { access_token, refresh_token };
   }
 
   private buildSlug(name: string): string {

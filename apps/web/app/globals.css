@@ -2,70 +2,42 @@
 @import "@nexcript/tailwind-config";
 
 :root {
-  /* Brand Colors */
-  --color-primary: #2a4aff;
-  --color-primary-light: #4a6aff;
-  --color-primary-dark: #1a2aff;
+  color-scheme: dark;
 
-  --color-secondary: #a853ba;
-  --color-secondary-light: #c084fc;
-  --color-secondary-dark: #7e22ce;
+  /* Brand Colors - Nexcript Design System */
+  --color-primary: #7c3aed;
+  --color-primary-light: #ede9fe;
+  --color-primary-dark: #4c1d95;
 
-  --color-accent: #e92a67;
-  --color-accent-light: #f87171;
-  --color-accent-dark: #b91c1c;
+  --color-success: #10b981;
+  --color-warning: #f59e0b;
+  --color-error: #ef4444;
 
-  /* Background & Surface */
-  --bg-base: #fafafa;
-  --bg-surface: #ffffff;
-  --bg-elevated: #f5f5f5;
-  --bg-overlay: rgba(0, 0, 0, 0.5);
+  /* Background & Surface - Dark Theme (Deep Obsidian) */
+  --bg-base: #0d0d0d;
+  --bg-surface: #141414;
+  --bg-card: #1c1c1c;
+  --bg-overlay: rgba(0, 0, 0, 0.8);
 
   /* Text Colors */
-  --text-primary: #212121;
-  --text-secondary: #616161;
-  --text-tertiary: #9e9e9e;
-  --text-inverse: #ffffff;
+  --text-primary: #f5f5f4;
+  --text-secondary: #a8a29e;
+  --text-muted: #57534e;
 
   /* Borders */
-  --border-base: #eeeeee;
-  --border-subtle: #f5f5f5;
-  --border-strong: #bdbdbd;
-
-  /* States */
-  --state-success: #10b981;
-  --state-warning: #f59e0b;
-  --state-error: #ef4444;
-  --state-info: #3b82f6;
+  --border-subtle: rgba(124, 58, 237, 0.1);
+  --border-default: #2a2a2a;
 
   /* Shadows */
-  --shadow-sm: 0 1px 2px 0 rgba(0, 0, 0, 0.05);
-  --shadow-base: 0 1px 3px 0 rgba(0, 0, 0, 0.1);
-  --shadow-md: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
-  --shadow-lg: 0 10px 15px -3px rgba(0, 0, 0, 0.1);
+  --shadow-sm: 0 1px 2px 0 rgba(0, 0, 0, 0.5);
+  --shadow-base: 0 1px 3px 0 rgba(0, 0, 0, 0.6);
+  --shadow-md: 0 4px 6px -1px rgba(0, 0, 0, 0.7);
+  --shadow-lg: 0 10px 15px -3px rgba(0, 0, 0, 0.8);
 
   /* Font Variables */
   --font-syne: "Syne", system-ui, sans-serif;
   --font-dm-sans: "DM Sans", system-ui, sans-serif;
   --font-jetbrains-mono: "JetBrains Mono", monospace;
-}
-
-@media (prefers-color-scheme: dark) {
-  :root {
-    --bg-base: #0a0a0a;
-    --bg-surface: #1a1a1a;
-    --bg-elevated: #242424;
-    --bg-overlay: rgba(0, 0, 0, 0.8);
-
-    --text-primary: #ffffff;
-    --text-secondary: #bdbdbd;
-    --text-tertiary: #757575;
-    --text-inverse: #212121;
-
-    --border-base: #2a2a2a;
-    --border-subtle: #1a1a1a;
-    --border-strong: #424242;
-  }
 }
 
 * {
@@ -76,102 +48,69 @@
 
 html {
   font-family: var(--font-dm-sans);
+  color-scheme: dark;
 }
 
 body {
   color: var(--text-primary);
   background-color: var(--bg-base);
-  transition: color 0.2s, background-color 0.2s;
   line-height: 1.5;
 }
 
 @layer components {
-  /* Brand Primary Utilities */
-  .brand-primary {
-    @apply bg-primary-600 text-white;
-  }
-
-  .brand-primary-light {
-    @apply bg-primary-500 text-white;
-  }
-
-  .brand-primary-dark {
-    @apply bg-primary-700 text-white;
-  }
-
-  /* Background Utilities */
-  .background-base {
-    @apply bg-neutral-50;
-  }
-
-  @media (prefers-color-scheme: dark) {
-    .background-base {
-      @apply bg-neutral-950;
-    }
-  }
-
-  .background-surface {
-    @apply bg-white;
-  }
-
-  @media (prefers-color-scheme: dark) {
-    .background-surface {
-      @apply bg-neutral-900;
-    }
-  }
-
-  /* Content Primary Utilities */
-  .content-primary {
-    @apply text-neutral-900 font-medium;
-  }
-
-  @media (prefers-color-scheme: dark) {
-    .content-primary {
-      @apply text-white;
-    }
-  }
-
-  .content-secondary {
-    @apply text-neutral-600 font-normal;
-  }
-
-  @media (prefers-color-scheme: dark) {
-    .content-secondary {
-      @apply text-neutral-400;
-    }
-  }
-
   /* Button Utilities */
   .btn-primary {
-    @apply px-4 py-2 bg-primary-600 text-white font-medium rounded-md hover:bg-primary-700 transition-colors;
+    @apply px-4 py-2.5 bg-primary-600 hover:bg-primary-700 text-white font-medium rounded-lg transition-colors duration-200;
   }
 
   .btn-secondary {
-    @apply px-4 py-2 bg-neutral-200 text-neutral-900 font-medium rounded-md hover:bg-neutral-300 transition-colors;
+    @apply px-4 py-2.5 bg-neutral-800 hover:bg-neutral-700 text-white font-medium rounded-lg transition-colors duration-200 border border-neutral-700;
   }
 
-  @media (prefers-color-scheme: dark) {
-    .btn-secondary {
-      @apply bg-neutral-800 text-white hover:bg-neutral-700;
-    }
+  .btn-ghost {
+    @apply px-4 py-2.5 text-primary-400 hover:text-primary-300 font-medium rounded-lg transition-colors duration-200;
+  }
+
+  /* Form Utilities */
+  .input-field {
+    @apply w-full px-4 py-2.5 bg-neutral-800 border border-neutral-700 rounded-lg text-white placeholder-neutral-500 transition-colors duration-200;
+  }
+
+  .input-field:focus {
+    @apply outline-none border-primary-500 bg-neutral-900;
   }
 
   /* Badge Utilities */
   .badge-success {
-    @apply px-3 py-1 rounded-full text-sm font-medium;
-    background-color: var(--state-success);
-    color: white;
+    @apply px-3 py-1 rounded-full text-sm font-medium text-white;
+    background-color: var(--color-success);
   }
 
   .badge-warning {
-    @apply px-3 py-1 rounded-full text-sm font-medium;
-    background-color: var(--state-warning);
-    color: white;
+    @apply px-3 py-1 rounded-full text-sm font-medium text-white;
+    background-color: var(--color-warning);
   }
 
   .badge-error {
-    @apply px-3 py-1 rounded-full text-sm font-medium;
-    background-color: var(--state-error);
-    color: white;
+    @apply px-3 py-1 rounded-full text-sm font-medium text-white;
+    background-color: var(--color-error);
+  }
+
+  /* Card Utilities */
+  .card {
+    @apply bg-neutral-800 border border-neutral-700 rounded-lg p-6;
+  }
+
+  /* Text Utilities */
+  .text-primary {
+    color: var(--text-primary);
+  }
+
+  .text-secondary {
+    color: var(--text-secondary);
+  }
+
+  .text-muted {
+    color: var(--text-muted);
   }
 }

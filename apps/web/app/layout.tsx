@@ -2,6 +2,7 @@ import "@nexcript/ui/styles.css";
 import "./globals.css";
 import type { Metadata } from "next";
 import { Syne, DM_Sans, JetBrains_Mono } from "next/font/google";
+import { Providers } from "./providers";
 
 const syne = Syne({
   subsets: ["latin"],
@@ -39,7 +40,9 @@ export default function RootLayout({
       lang="pt-BR"
       className={`${syne.variable} ${dmSans.variable} ${jetbrainsMono.variable}`}
     >
-      <body>{children}</body>
+      <body>
+        <Providers>{children}</Providers>
+      </body>
     </html>
   );
 }

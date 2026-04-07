@@ -140,6 +140,14 @@ exports.Prisma.UserScalarFieldEnum = {
   updatedAt: 'updatedAt'
 };
 
+exports.Prisma.RefreshTokenScalarFieldEnum = {
+  id: 'id',
+  userId: 'userId',
+  token: 'token',
+  expiresAt: 'expiresAt',
+  createdAt: 'createdAt'
+};
+
 exports.Prisma.ChannelProfileScalarFieldEnum = {
   id: 'id',
   organizationId: 'organizationId',
@@ -377,6 +385,7 @@ exports.AssetType = exports.$Enums.AssetType = {
 exports.Prisma.ModelName = {
   Organization: 'Organization',
   User: 'User',
+  RefreshToken: 'RefreshToken',
   ChannelProfile: 'ChannelProfile',
   ContentProject: 'ContentProject',
   TrendAnalysis: 'TrendAnalysis',

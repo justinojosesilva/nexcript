@@ -40,7 +40,7 @@ describe('JobsController', () => {
       const result = await controller.healthCheck();
 
       expect(result).toEqual({ jobId: 'health-check-123' });
-      // eslint-disable-next-line @typescript-eslint/unbound-method
+       
       expect(enqueueHealthCheckUseCase.execute).toHaveBeenCalled();
     });
   });
@@ -59,7 +59,7 @@ describe('JobsController', () => {
       const result = await controller.getStatus('job-123');
 
       expect(result).toEqual(mockStatus);
-      // eslint-disable-next-line @typescript-eslint/unbound-method
+       
       expect(getJobStatusUseCase.execute).toHaveBeenCalledWith('job-123');
     });
 

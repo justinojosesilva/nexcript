@@ -1,5 +1,5 @@
 // Enums
-export * from './enums';
+export * from './enums/index.js';
 
 // Types & Interfaces
-export * from './types';
+export * from './types/index.js';

@@ -1,90 +1,109 @@
 /**
  * Nexcript Design Tokens
  * Definição centralizada de cores, espaçamento, tipografia e outros tokens de design
+ * Dark-first theme com Electric Purple como cor primária
  */
 
 export const nexcriptTokens = {
+  // Brand Colors - Nexcript Approved
+  brand: {
+    primary: '#7C3AED',      // Electric Purple
+    success: '#10B981',      // Emerald Logic
+    warning: '#F59E0B',      // Amber Alert
+    error: '#EF4444',        // Deep Red
+  },
+  background: {
+    base: '#0D0D0D',        // Deep Obsidian
+    surface: '#141414',     // Obsidian Surface
+    card: '#1C1C1C',        // Elevated Obsidian
+  },
+  text: {
+    primary: '#F5F5F4',     // Main White
+    secondary: '#A8A29E',   // Muted Stone
+    muted: '#57534E',       // Dark Stone
+  },
+  border: {
+    subtle: 'rgba(124, 58, 237, 0.1)',  // Purple Glow
+    default: '#2A2A2A',                 // Technical Gray
+  },
+} as const
+
+export const nexcriptTokensWithScales = {
   // Core Brand Colors
   colors: {
-    // Primary - Blue (Main brand color)
+    // Primary - Electric Purple
     primary: {
-      50: '#eff3ff',
-      100: '#dde6ff',
-      200: '#c3d6ff',
-      300: '#9dbdff',
-      400: '#7299ff',
-      500: '#4a6aff',
-      600: '#2a4aff',
-      700: '#2a3aff',
-      800: '#1a2aff',
-      900: '#0f1a99',
-      950: '#0a0f4d',
+      50: '#f5f3ff',
+      100: '#ede9fe',
+      200: '#ddd6fe',
+      300: '#c4b5fd',
+      400: '#a78bfa',
+      500: '#8b5cf6',
+      600: '#7c3aed',
+      700: '#6d28d9',
+      800: '#5b21b6',
+      900: '#4c1d95',
+      950: '#2d1b4e',
     },
-    // Secondary - Purple (Accent)
-    secondary: {
-      50: '#faf5ff',
-      100: '#f3e8ff',
-      200: '#e9d5ff',
-      300: '#d8b4fe',
-      400: '#c084fc',
-      500: '#a853ba',
-      600: '#9333ea',
-      700: '#7e22ce',
-      800: '#6b21a8',
-      900: '#581c87',
-      950: '#3f0f5c',
+    // Semantic - Emerald (Success)
+    success: {
+      50: '#f0fdf4',
+      100: '#dcfce7',
+      500: '#10b981',
+      600: '#059669',
+      700: '#047857',
+      900: '#065f46',
     },
-    // Accent - Red (Action, alerts)
-    accent: {
+    // Semantic - Amber (Warning)
+    warning: {
+      50: '#fffbeb',
+      100: '#fef3c7',
+      500: '#f59e0b',
+      600: '#d97706',
+      700: '#b45309',
+      900: '#78350f',
+    },
+    // Semantic - Red (Error)
+    error: {
       50: '#fef2f2',
       100: '#fee2e2',
-      200: '#fecaca',
-      300: '#fca5a5',
-      400: '#f87171',
-      500: '#e92a67',
+      500: '#ef4444',
       600: '#dc2626',
       700: '#b91c1c',
-      800: '#991b1b',
       900: '#7f1d1d',
-      950: '#431407',
     },
     // Neutral - Grayscale
     neutral: {
-      50: '#fafafa',
-      100: '#f5f5f5',
-      200: '#eeeeee',
-      300: '#e0e0e0',
-      400: '#bdbdbd',
-      500: '#9e9e9e',
-      600: '#757575',
-      700: '#616161',
-      800: '#424242',
-      900: '#212121',
-      950: '#0a0a0a',
+      50: '#fafaf9',
+      100: '#f5f5f4',
+      200: '#e7e5e4',
+      300: '#d6d3d1',
+      400: '#a8a29e',
+      500: '#78716c',
+      600: '#57534e',
+      700: '#44403c',
+      800: '#292524',
+      900: '#1c1917',
+      950: '#0d0d0d',
     },
-    // Semantic Colors
-    success: '#10b981',
-    warning: '#f59e0b',
-    error: '#ef4444',
-    info: '#3b82f6',
   },
 
   // Spacing (Bootstrap-like 8px base unit)
   spacing: {
-    0: '0',
-    1: '0.25rem', // 4px
-    2: '0.5rem', // 8px
-    3: '0.75rem', // 12px
-    4: '1rem', // 16px
-    5: '1.25rem', // 20px
-    6: '1.5rem', // 24px
-    8: '2rem', // 32px
-    10: '2.5rem', // 40px
-    12: '3rem', // 48px
-    16: '4rem', // 64px
-    20: '5rem', // 80px
-    24: '6rem', // 96px
-    32: '8rem', // 128px
+    '0': '0',
+    '1': '0.25rem', // 4px
+    '2': '0.5rem', // 8px
+    '3': '0.75rem', // 12px
+    '4': '1rem', // 16px
+    '5': '1.25rem', // 20px
+    '6': '1.5rem', // 24px
+    '8': '2rem', // 32px
+    '10': '2.5rem', // 40px
+    '12': '3rem', // 48px
+    '16': '4rem', // 64px
+    '20': '5rem', // 80px
+    '24': '6rem', // 96px
+    '32': '8rem', // 128px
   },
 
   // Typography

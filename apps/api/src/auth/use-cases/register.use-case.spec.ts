@@ -47,6 +47,10 @@ const mockJwtService = {
   sign: jest.fn().mockReturnValue('jwt-token'),
 };
 
+const mockRefreshTokenService = {
+  generateRefreshToken: jest.fn().mockResolvedValue('refresh-token'),
+};
+
 const dto = {
   name: 'Alice',
   email: 'alice@example.com',
@@ -61,16 +65,20 @@ describe('RegisterUseCase', () => {
     jest.clearAllMocks();
     (bcrypt.hash as jest.Mock).mockResolvedValue('hashed-password');
     mockJwtService.sign.mockReturnValue('jwt-token');
+    mockRefreshTokenService.generateRefreshToken.mockResolvedValue(
+      'refresh-token',
+    );
     mockPrismaService.client.user.findUnique.mockResolvedValue(null);
     txMock.organization.create.mockResolvedValue(mockOrg);
     txMock.user.create.mockResolvedValue(mockUser);
     useCase = new RegisterUseCase(
       mockPrismaService as any,
       mockJwtService as any,
+      mockRefreshTokenService as any,
     );
   });
 
-  it('creates organization and user atomically and returns access_token', async () => {
+  it('creates organization and user atomically and returns access_token and refresh_token', async () => {
     const result = await useCase.execute(dto);
 
     expect(bcrypt.hash).toHaveBeenCalledWith(dto.password, 10);
@@ -91,7 +99,13 @@ describe('RegisterUseCase', () => {
       orgId: mockOrg.id,
       role: mockUser.role,
     });
-    expect(result).toEqual({ access_token: 'jwt-token' });
+    expect(mockRefreshTokenService.generateRefreshToken).toHaveBeenCalledWith(
+      mockUser.id,
+    );
+    expect(result).toEqual({
+      access_token: 'jwt-token',
+      refresh_token: 'refresh-token',
+    });
   });
 
   it('throws ConflictException (409) when email already exists', async () => {

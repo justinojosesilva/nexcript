@@ -1,5 +1,5 @@
 // Scoring
-export type { DimensionScores, ScoreWeights } from './scoring';
+export type { DimensionScores, ScoreWeights } from './scoring.js';
 
 // Content
 export type {
@@ -7,7 +7,7 @@ export type {
   TitleVariant,
   YouTubeVideo,
   TrendsDataPoint,
-} from './content';
+} from './content.js';
 
 // Workflow
-export type { TagSet, ChecklistItem } from './workflow';
+export type { TagSet, ChecklistItem } from './workflow.js';

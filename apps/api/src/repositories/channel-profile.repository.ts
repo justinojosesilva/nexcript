@@ -21,7 +21,7 @@ export class ChannelProfileRepository implements IChannelProfileRepository {
 
   create(data: Record<string, unknown>): Promise<ChannelProfile> {
     return this.prismaService.client.channelProfile.create({
-      // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
+       
       data: data as any,
     });
   }
@@ -29,7 +29,7 @@ export class ChannelProfileRepository implements IChannelProfileRepository {
   update(id: string, data: Record<string, unknown>): Promise<ChannelProfile> {
     return this.prismaService.client.channelProfile.update({
       where: { id },
-      // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
+       
       data: data as any,
     });
   }

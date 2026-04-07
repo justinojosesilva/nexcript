@@ -1,4 +1,4 @@
-import { NicheCategory, Platform } from '../enums';
+import { NicheCategory, Platform } from '../enums/index.js';
 
 /**
  * Bloco individual dentro de um roteiro de vídeo

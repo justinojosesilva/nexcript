@@ -31,6 +31,10 @@ const mockJwtService = {
   sign: jest.fn().mockReturnValue('jwt-token'),
 };
 
+const mockRefreshTokenService = {
+  generateRefreshToken: jest.fn().mockResolvedValue('refresh-token'),
+};
+
 const dto = {
   email: 'alice@example.com',
   password: 'supersecret',
@@ -44,13 +48,23 @@ describe('LoginUseCase', () => {
     mockPrismaService.client.user.findUnique.mockResolvedValue(mockUser);
     (bcrypt.compare as jest.Mock).mockResolvedValue(true);
     mockJwtService.sign.mockReturnValue('jwt-token');
-    useCase = new LoginUseCase(mockPrismaService as any, mockJwtService as any);
+    mockRefreshTokenService.generateRefreshToken.mockResolvedValue(
+      'refresh-token',
+    );
+    useCase = new LoginUseCase(
+      mockPrismaService as any,
+      mockJwtService as any,
+      mockRefreshTokenService as any,
+    );
   });
 
-  it('returns access_token for valid credentials', async () => {
+  it('returns access_token and refresh_token for valid credentials', async () => {
     const result = await useCase.execute(dto);
 
-    expect(result).toEqual({ access_token: 'jwt-token' });
+    expect(result).toEqual({
+      access_token: 'jwt-token',
+      refresh_token: 'refresh-token',
+    });
   });
 
   it('signs JWT with userId (sub), organizationId, role and email', async () => {
@@ -70,6 +84,7 @@ describe('LoginUseCase', () => {
     await expect(useCase.execute(dto)).rejects.toThrow(UnauthorizedException);
     expect(bcrypt.compare).not.toHaveBeenCalled();
     expect(mockJwtService.sign).not.toHaveBeenCalled();
+    expect(mockRefreshTokenService.generateRefreshToken).not.toHaveBeenCalled();
   });
 
   it('throws UnauthorizedException (401) when password does not match', async () => {
@@ -77,6 +92,7 @@ describe('LoginUseCase', () => {
 
     await expect(useCase.execute(dto)).rejects.toThrow(UnauthorizedException);
     expect(mockJwtService.sign).not.toHaveBeenCalled();
+    expect(mockRefreshTokenService.generateRefreshToken).not.toHaveBeenCalled();
   });
 
   it('returns the same generic error message for not-found and wrong password (no enumeration)', async () => {

@@ -5,11 +5,15 @@ import {
   ApiBody,
   ApiTags,
   ApiBadRequestResponse,
+  ApiConflictResponse,
+  ApiUnauthorizedResponse,
 } from '@nestjs/swagger';
 import { LoginDto, LoginResponse } from './dto/login.dto';
 import { RegisterDto, RegisterResponse } from './dto/register.dto';
+import { RefreshDto, RefreshResponse } from './dto/refresh.dto';
 import { LoginUseCase } from './use-cases/login.use-case';
 import { RegisterUseCase } from './use-cases/register.use-case';
+import { RefreshTokenService } from './services/refresh-token.service';
 import { Public } from './decorators/public.decorator';
 
 @ApiTags('Auth')
@@ -18,6 +22,7 @@ export class AuthController {
   constructor(
     private readonly registerUseCase: RegisterUseCase,
     private readonly loginUseCase: LoginUseCase,
+    private readonly refreshTokenService: RefreshTokenService,
   ) {}
 
   @Public()
@@ -35,7 +40,10 @@ export class AuthController {
     type: RegisterResponse,
   })
   @ApiBadRequestResponse({
-    description: 'Invalid email format or password too short',
+    description: 'Invalid email format, password too short, or missing required fields',
+  })
+  @ApiConflictResponse({
+    description: 'Email address already exists',
   })
   register(@Body() dto: RegisterDto): Promise<RegisterResponse> {
     return this.registerUseCase.execute(dto);
@@ -56,9 +64,55 @@ export class AuthController {
     type: LoginResponse,
   })
   @ApiBadRequestResponse({
-    description: 'Invalid email or password',
+    description: 'Invalid email format or password format',
+  })
+  @ApiUnauthorizedResponse({
+    description: 'Invalid email or password credentials',
   })
   login(@Body() dto: LoginDto): Promise<LoginResponse> {
     return this.loginUseCase.execute(dto);
+  }
+
+  @Public()
+  @Post('refresh')
+  @HttpCode(HttpStatus.OK)
+  @ApiOperation({
+    summary: 'Refresh access token',
+    description:
+      'Uses a refresh token to obtain a new access token and refresh token.',
+  })
+  @ApiBody({ type: RefreshDto })
+  @ApiResponse({
+    status: 200,
+    description: 'Access token refreshed',
+    type: RefreshResponse,
+  })
+  @ApiBadRequestResponse({
+    description: 'Invalid or missing refresh token',
+  })
+  @ApiUnauthorizedResponse({
+    description: 'Refresh token is expired or invalid',
+  })
+  async refresh(@Body() dto: RefreshDto): Promise<RefreshResponse> {
+    const userId = await this.refreshTokenService.validateRefreshToken(
+      dto.refresh_token,
+    );
+
+    const user = await this.refreshTokenService.getUserData(userId);
+
+    const access_token = this.refreshTokenService.generateAccessToken(
+      user.id,
+      user.organizationId,
+      user.role,
+      user.email,
+    );
+
+    // Revoke old refresh token and generate new one
+    await this.refreshTokenService.revokeRefreshToken(dto.refresh_token);
+    const refresh_token = await this.refreshTokenService.generateRefreshToken(
+      userId,
+    );
+
+    return { access_token, refresh_token };
   }
 }
