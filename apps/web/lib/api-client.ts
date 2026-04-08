@@ -1,7 +1,7 @@
-import axios, { AxiosInstance } from 'axios';
-import { getStoredToken } from './auth-client';
+import axios, { AxiosInstance } from "axios";
+import { getStoredToken } from "./auth-client";
 
-const API_URL = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:3002';
+const API_URL = process.env.NEXT_PUBLIC_API_URL || "http://localhost:3002";
 
 let apiInstance: AxiosInstance | null = null;
 
@@ -10,7 +10,7 @@ export function getApiClient(): AxiosInstance {
     apiInstance = axios.create({
       baseURL: API_URL,
       headers: {
-        'Content-Type': 'application/json',
+        "Content-Type": "application/json",
       },
     });
 
@@ -29,9 +29,9 @@ export function getApiClient(): AxiosInstance {
       (error) => {
         if (error.response?.status === 401) {
           // Token expired or invalid
-          localStorage.removeItem('authToken');
-          if (typeof window !== 'undefined') {
-            window.location.href = '/login';
+          localStorage.removeItem("nexcript_token");
+          if (typeof window !== "undefined") {
+            window.location.href = "/login";
           }
         }
         return Promise.reject(error);

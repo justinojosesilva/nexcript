@@ -198,11 +198,7 @@ describe('RedisCacheAdapter', () => {
   describe('invalidateByPrefix', () => {
     it('should invalidate all keys with a given prefix', async () => {
       const prefix = 'trends:';
-      const keys = [
-        'trends:google-1',
-        'trends:google-2',
-        'trends:youtube-1',
-      ];
+      const keys = ['trends:google-1', 'trends:google-2', 'trends:youtube-1'];
 
       mockRedis.keys.mockResolvedValueOnce(keys);
 

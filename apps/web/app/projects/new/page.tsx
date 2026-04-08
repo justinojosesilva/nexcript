@@ -1,9 +1,9 @@
-'use client';
+"use client";
 
-import { useState } from 'react';
-import { useRouter } from 'next/navigation';
-import { useQuery, useMutation } from '@tanstack/react-query';
-import { motion, AnimatePresence } from 'framer-motion';
+import { useState } from "react";
+import { useRouter } from "next/navigation";
+import { useQuery, useMutation } from "@tanstack/react-query";
+import { motion, AnimatePresence } from "framer-motion";
 import {
   ChevronRight,
   ChevronLeft,
@@ -13,86 +13,126 @@ import {
   Mic,
   Layers,
   ArrowLeft,
-} from 'lucide-react';
-import { fetchChannels, createChannel } from '@/lib/channels-client';
-import { createProject } from '@/lib/projects-client';
+} from "lucide-react";
+import { fetchChannels, createChannel } from "@/lib/channels-client";
+import { createProject } from "@/lib/projects-client";
 
 // ─── Constants ───────────────────────────────────────────────────────────────
 
 const NICHES = [
-  { value: 'finance', label: 'Finanças' },
-  { value: 'technology', label: 'Tecnologia' },
-  { value: 'productivity', label: 'Produtividade' },
-  { value: 'lifestyle', label: 'Estilo de Vida' },
-  { value: 'education', label: 'Educação' },
-  { value: 'entertainment', label: 'Entretenimento' },
-  { value: 'business', label: 'Negócios' },
-  { value: 'health', label: 'Saúde' },
-  { value: 'personal_development', label: 'Desenvolvimento Pessoal' },
-  { value: 'other', label: 'Outro' },
+  { value: "finance", label: "Finanças" },
+  { value: "technology", label: "Tecnologia" },
+  { value: "productivity", label: "Produtividade" },
+  { value: "lifestyle", label: "Estilo de Vida" },
+  { value: "education", label: "Educação" },
+  { value: "entertainment", label: "Entretenimento" },
+  { value: "business", label: "Negócios" },
+  { value: "health", label: "Saúde" },
+  { value: "personal_development", label: "Desenvolvimento Pessoal" },
+  { value: "other", label: "Outro" },
 ];
 
 const PLATFORMS = [
-  { value: 'youtube', label: 'YouTube' },
-  { value: 'youtube_shorts', label: 'YouTube Shorts' },
-  { value: 'tiktok', label: 'TikTok' },
-  { value: 'instagram_reels', label: 'Instagram Reels' },
-  { value: 'instagram', label: 'Instagram' },
-  { value: 'linkedin', label: 'LinkedIn' },
-  { value: 'podcast', label: 'Podcast' },
+  { value: "youtube", label: "YouTube" },
+  { value: "youtube_shorts", label: "YouTube Shorts" },
+  { value: "tiktok", label: "TikTok" },
+  { value: "instagram_reels", label: "Instagram Reels" },
+  { value: "instagram", label: "Instagram" },
+  { value: "linkedin", label: "LinkedIn" },
+  { value: "podcast", label: "Podcast" },
 ];
 
 const FORMATS = [
   {
-    value: 'long_form',
-    label: 'Long Form',
-    description: '10+ minutos, conteúdo aprofundado',
-    icon: '📹',
+    value: "long_form",
+    label: "Long Form",
+    description: "10+ minutos, conteúdo aprofundado",
+    icon: "📹",
   },
   {
-    value: 'short_form',
-    label: 'Short Form',
-    description: 'Menos de 1 min, Shorts / TikTok',
-    icon: '⚡',
+    value: "short_form",
+    label: "Short Form",
+    description: "Menos de 1 min, Shorts / TikTok",
+    icon: "⚡",
   },
   {
-    value: 'medium_form',
-    label: 'Medium Form',
-    description: '5 a 10 minutos, formato equilibrado',
-    icon: '🎯',
+    value: "medium_form",
+    label: "Medium Form",
+    description: "5 a 10 minutos, formato equilibrado",
+    icon: "🎯",
   },
   {
-    value: 'podcast',
-    label: 'Podcast',
-    description: 'Áudio / vídeo de podcast',
-    icon: '🎙️',
+    value: "podcast",
+    label: "Podcast",
+    description: "Áudio / vídeo de podcast",
+    icon: "🎙️",
   },
 ];
 
 const TONES = [
-  { value: 'educational', label: 'Educativo', description: 'Ensina e informa com clareza', emoji: '📚' },
-  { value: 'inspirational', label: 'Inspiracional', description: 'Motiva e engaja emocionalmente', emoji: '✨' },
-  { value: 'casual', label: 'Casual', description: 'Descontraído e próximo', emoji: '😊' },
-  { value: 'formal', label: 'Formal', description: 'Profissional e estruturado', emoji: '👔' },
-  { value: 'funny', label: 'Humorístico', description: 'Leve, engraçado e viralizável', emoji: '😂' },
-  { value: 'serious', label: 'Sério', description: 'Direto ao ponto, sem rodeios', emoji: '🎯' },
-  { value: 'dark_comedy', label: 'Comédia Negra', description: 'Humor irreverente e ousado', emoji: '🖤' },
-  { value: 'sarcastic', label: 'Sarcástico', description: 'Crítico com ironia e wit', emoji: '😏' },
+  {
+    value: "educational",
+    label: "Educativo",
+    description: "Ensina e informa com clareza",
+    emoji: "📚",
+  },
+  {
+    value: "inspirational",
+    label: "Inspiracional",
+    description: "Motiva e engaja emocionalmente",
+    emoji: "✨",
+  },
+  {
+    value: "casual",
+    label: "Casual",
+    description: "Descontraído e próximo",
+    emoji: "😊",
+  },
+  {
+    value: "formal",
+    label: "Formal",
+    description: "Profissional e estruturado",
+    emoji: "👔",
+  },
+  {
+    value: "funny",
+    label: "Humorístico",
+    description: "Leve, engraçado e viralizável",
+    emoji: "😂",
+  },
+  {
+    value: "serious",
+    label: "Sério",
+    description: "Direto ao ponto, sem rodeios",
+    emoji: "🎯",
+  },
+  {
+    value: "dark_comedy",
+    label: "Comédia Negra",
+    description: "Humor irreverente e ousado",
+    emoji: "🖤",
+  },
+  {
+    value: "sarcastic",
+    label: "Sarcástico",
+    description: "Crítico com ironia e wit",
+    emoji: "😏",
+  },
 ];
 
 const NARRATION_STYLES = [
-  { value: 'professional', label: 'Profissional' },
-  { value: 'conversational', label: 'Conversacional' },
-  { value: 'energetic', label: 'Energético' },
-  { value: 'calm', label: 'Calmo' },
-  { value: 'dramatic', label: 'Dramático' },
-  { value: 'friendly', label: 'Amigável' },
+  { value: "professional", label: "Profissional" },
+  { value: "conversational", label: "Conversacional" },
+  { value: "energetic", label: "Energético" },
+  { value: "calm", label: "Calmo" },
+  { value: "dramatic", label: "Dramático" },
+  { value: "friendly", label: "Amigável" },
 ];
 
 const STEPS = [
-  { id: 1, label: 'Canal', icon: Tv },
-  { id: 2, label: 'Projeto', icon: Layers },
-  { id: 3, label: 'Tom', icon: Mic },
+  { id: 1, label: "Canal", icon: Tv },
+  { id: 2, label: "Projeto", icon: Layers },
+  { id: 3, label: "Tom", icon: Mic },
 ];
 
 // ─── Types ────────────────────────────────────────────────────────────────────
@@ -140,30 +180,38 @@ function StepIndicator({
               disabled={!isNavigable}
               className={`flex items-center gap-2 rounded-lg px-4 py-2 transition-all duration-200 ${
                 isActive
-                  ? 'bg-purple-600 text-white'
+                  ? "bg-purple-600 text-white"
                   : isCompleted
-                    ? 'cursor-pointer bg-purple-600/20 text-purple-400 hover:bg-purple-600/30'
-                    : 'cursor-not-allowed text-neutral-600'
+                    ? "cursor-pointer bg-purple-600/20 text-purple-400 hover:bg-purple-600/30"
+                    : "cursor-not-allowed text-neutral-600"
               }`}
             >
               <div
                 className={`flex h-6 w-6 items-center justify-center rounded-full text-xs font-bold ${
                   isCompleted
-                    ? 'bg-purple-500 text-white'
+                    ? "bg-purple-500 text-white"
                     : isActive
-                      ? 'bg-white/20 text-white'
-                      : 'bg-neutral-700 text-neutral-500'
+                      ? "bg-white/20 text-white"
+                      : "bg-neutral-700 text-neutral-500"
                 }`}
               >
-                {isCompleted ? <Check className="h-3 w-3" /> : <Icon className="h-3 w-3" />}
+                {isCompleted ? (
+                  <Check className="h-3 w-3" />
+                ) : (
+                  <Icon className="h-3 w-3" />
+                )}
               </div>
-              <span className="hidden text-sm font-medium sm:block">{step.label}</span>
+              <span className="hidden text-sm font-medium sm:block">
+                {step.label}
+              </span>
             </button>
 
             {idx < STEPS.length - 1 && (
               <div
                 className={`h-px w-8 transition-colors duration-300 ${
-                  completedSteps.has(step.id) ? 'bg-purple-500/50' : 'bg-neutral-700'
+                  completedSteps.has(step.id)
+                    ? "bg-purple-500/50"
+                    : "bg-neutral-700"
                 }`}
               />
             )}
@@ -184,19 +232,19 @@ function Step1Channel({
   onChange: (updates: Partial<WizardState>) => void;
 }) {
   const { data: channels = [], isLoading } = useQuery({
-    queryKey: ['channels'],
+    queryKey: ["channels"],
     queryFn: fetchChannels,
   });
 
   const [creatingNew, setCreatingNew] = useState(state.isNewChannel);
 
   const handleSelectExisting = (channelId: string) => {
-    onChange({ channelId, isNewChannel: false, newChannelName: '' });
+    onChange({ channelId, isNewChannel: false, newChannelName: "" });
     setCreatingNew(false);
   };
 
   const handleCreateNew = () => {
-    onChange({ channelId: '', isNewChannel: true });
+    onChange({ channelId: "", isNewChannel: true });
     setCreatingNew(true);
   };
 
@@ -231,15 +279,15 @@ function Step1Channel({
               onClick={() => handleSelectExisting(channel.id)}
               className={`w-full rounded-lg border p-4 text-left transition-all duration-200 ${
                 state.channelId === channel.id && !state.isNewChannel
-                  ? 'border-purple-500 bg-purple-500/10 ring-1 ring-purple-500/30'
-                  : 'border-neutral-700 bg-neutral-800 hover:border-neutral-600 hover:bg-neutral-750'
+                  ? "border-purple-500 bg-purple-500/10 ring-1 ring-purple-500/30"
+                  : "border-neutral-700 bg-neutral-800 hover:border-neutral-600 hover:bg-neutral-750"
               }`}
             >
               <div className="flex items-center justify-between">
                 <div>
                   <p className="font-medium text-white">{channel.name}</p>
                   <p className="mt-0.5 text-sm text-neutral-400">
-                    {platformLabel(channel.platform)} ·{' '}
+                    {platformLabel(channel.platform)} ·{" "}
                     {NICHES.find((n) => n.value === channel.niche)?.label ??
                       channel.niche}
                   </p>
@@ -257,8 +305,8 @@ function Step1Channel({
             onClick={handleCreateNew}
             className={`w-full rounded-lg border p-4 text-left transition-all duration-200 ${
               creatingNew
-                ? 'border-purple-500 bg-purple-500/10 ring-1 ring-purple-500/30'
-                : 'border-dashed border-neutral-600 bg-neutral-800/50 hover:border-neutral-500'
+                ? "border-purple-500 bg-purple-500/10 ring-1 ring-purple-500/30"
+                : "border-dashed border-neutral-600 bg-neutral-800/50 hover:border-neutral-500"
             }`}
           >
             <div className="flex items-center gap-3">
@@ -279,7 +327,7 @@ function Step1Channel({
       {creatingNew && (
         <motion.div
           initial={{ opacity: 0, height: 0 }}
-          animate={{ opacity: 1, height: 'auto' }}
+          animate={{ opacity: 1, height: "auto" }}
           exit={{ opacity: 0, height: 0 }}
           className="space-y-2"
         >
@@ -289,9 +337,7 @@ function Step1Channel({
           <input
             type="text"
             value={state.newChannelName}
-            onChange={(e) =>
-              onChange({ newChannelName: e.target.value })
-            }
+            onChange={(e) => onChange({ newChannelName: e.target.value })}
             placeholder="Ex: Canal do João"
             className="input-field"
             autoFocus
@@ -362,15 +408,17 @@ function Step2Project({
               onClick={() => onChange({ format: fmt.value })}
               className={`rounded-lg border p-4 text-left transition-all duration-200 ${
                 state.format === fmt.value
-                  ? 'border-purple-500 bg-purple-500/10 ring-1 ring-purple-500/30'
-                  : 'border-neutral-700 bg-neutral-800 hover:border-neutral-600'
+                  ? "border-purple-500 bg-purple-500/10 ring-1 ring-purple-500/30"
+                  : "border-neutral-700 bg-neutral-800 hover:border-neutral-600"
               }`}
             >
               <div className="flex items-start gap-3">
                 <span className="text-2xl">{fmt.icon}</span>
                 <div>
                   <p className="font-medium text-white">{fmt.label}</p>
-                  <p className="mt-0.5 text-xs text-neutral-400">{fmt.description}</p>
+                  <p className="mt-0.5 text-xs text-neutral-400">
+                    {fmt.description}
+                  </p>
                 </div>
               </div>
             </button>
@@ -419,7 +467,7 @@ function Step2Project({
       {/* Duration (optional) */}
       <div className="space-y-2">
         <label className="block text-sm font-medium text-white">
-          Duração estimada (minutos){' '}
+          Duração estimada (minutos){" "}
           <span className="text-neutral-500">— opcional</span>
         </label>
         <input
@@ -468,8 +516,8 @@ function Step3Tone({
               onClick={() => onChange({ tone: tone.value })}
               className={`rounded-lg border p-4 text-left transition-all duration-200 ${
                 state.tone === tone.value
-                  ? 'border-purple-500 bg-purple-500/10 ring-1 ring-purple-500/30'
-                  : 'border-neutral-700 bg-neutral-800 hover:border-neutral-600'
+                  ? "border-purple-500 bg-purple-500/10 ring-1 ring-purple-500/30"
+                  : "border-neutral-700 bg-neutral-800 hover:border-neutral-600"
               }`}
             >
               <div className="flex items-start gap-3">
@@ -489,7 +537,7 @@ function Step3Tone({
       {/* Narration Style */}
       <div className="space-y-3">
         <label className="block text-sm font-medium text-white">
-          Estilo de narração{' '}
+          Estilo de narração{" "}
           <span className="text-neutral-500">— opcional</span>
         </label>
         <div className="flex flex-wrap gap-2">
@@ -499,13 +547,13 @@ function Step3Tone({
               onClick={() =>
                 onChange({
                   narrationStyle:
-                    state.narrationStyle === style.value ? '' : style.value,
+                    state.narrationStyle === style.value ? "" : style.value,
                 })
               }
               className={`rounded-full border px-4 py-1.5 text-sm font-medium transition-all duration-200 ${
                 state.narrationStyle === style.value
-                  ? 'border-purple-500 bg-purple-500/20 text-purple-300'
-                  : 'border-neutral-700 bg-neutral-800 text-neutral-300 hover:border-neutral-500'
+                  ? "border-purple-500 bg-purple-500/20 text-purple-300"
+                  : "border-neutral-700 bg-neutral-800 text-neutral-300 hover:border-neutral-500"
               }`}
             >
               {style.label}
@@ -528,19 +576,19 @@ function Step3Tone({
             )}
             {state.niche && (
               <p>
-                <span className="text-neutral-500">Nicho:</span>{' '}
+                <span className="text-neutral-500">Nicho:</span>{" "}
                 {NICHES.find((n) => n.value === state.niche)?.label}
               </p>
             )}
             {state.format && (
               <p>
-                <span className="text-neutral-500">Formato:</span>{' '}
+                <span className="text-neutral-500">Formato:</span>{" "}
                 {FORMATS.find((f) => f.value === state.format)?.label}
               </p>
             )}
             {state.tone && (
               <p>
-                <span className="text-neutral-500">Tom:</span>{' '}
+                <span className="text-neutral-500">Tom:</span>{" "}
                 {TONES.find((t) => t.value === state.tone)?.label}
               </p>
             )}
@@ -554,17 +602,17 @@ function Step3Tone({
 // ─── Main Wizard Page ─────────────────────────────────────────────────────────
 
 const INITIAL_STATE: WizardState = {
-  channelId: '',
+  channelId: "",
   isNewChannel: false,
-  newChannelName: '',
-  title: '',
-  keyword: '',
-  niche: '',
-  format: '',
-  platform: '',
-  durationMinutes: '',
-  tone: '',
-  narrationStyle: '',
+  newChannelName: "",
+  title: "",
+  keyword: "",
+  niche: "",
+  format: "",
+  platform: "",
+  durationMinutes: "",
+  tone: "",
+  narrationStyle: "",
 };
 
 export default function NewProjectPage() {
@@ -588,7 +636,7 @@ export default function NewProjectPage() {
           platform: state.platform,
           niche: state.niche,
           tone: state.tone,
-          narrationStyle: state.narrationStyle || 'conversational',
+          narrationStyle: state.narrationStyle || "conversational",
         });
         channelId = channel.id;
       }
@@ -608,7 +656,7 @@ export default function NewProjectPage() {
       router.push(`/projects/${project.id}`);
     },
     onError: (err: Error) => {
-      setError(err.message || 'Erro ao criar projeto. Tente novamente.');
+      setError(err.message || "Erro ao criar projeto. Tente novamente.");
     },
   });
 
@@ -662,7 +710,7 @@ export default function NewProjectPage() {
         <div className="mx-auto max-w-2xl px-6 py-5">
           <div className="flex items-center gap-4">
             <button
-              onClick={() => router.push('/dashboard')}
+              onClick={() => router.push("/dashboard")}
               className="flex items-center gap-1.5 text-sm text-neutral-400 transition-colors hover:text-white"
             >
               <ArrowLeft className="h-4 w-4" />
@@ -695,7 +743,7 @@ export default function NewProjectPage() {
             initial={{ opacity: 0, x: 20 }}
             animate={{ opacity: 1, x: 0 }}
             exit={{ opacity: 0, x: -20 }}
-            transition={{ duration: 0.2, ease: 'easeInOut' }}
+            transition={{ duration: 0.2, ease: "easeInOut" }}
           >
             {step === 1 && (
               <Step1Channel state={state} onChange={updateState} />
@@ -703,9 +751,7 @@ export default function NewProjectPage() {
             {step === 2 && (
               <Step2Project state={state} onChange={updateState} />
             )}
-            {step === 3 && (
-              <Step3Tone state={state} onChange={updateState} />
-            )}
+            {step === 3 && <Step3Tone state={state} onChange={updateState} />}
           </motion.div>
         </AnimatePresence>
 

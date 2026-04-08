@@ -9,11 +9,7 @@ export class EnqueueTrendAnalysisUseCase {
 
   async execute(input: AnalyzeTrendsInput): Promise<string> {
     const jobId = `analyze-trends-${input.projectId}-${Date.now()}`;
-    const job = await this.jobsQueue.add(
-      'analyze-trends',
-      input,
-      { jobId },
-    );
+    const job = await this.jobsQueue.add('analyze-trends', input, { jobId });
     return job.id!;
   }
 }

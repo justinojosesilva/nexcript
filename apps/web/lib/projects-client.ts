@@ -1,4 +1,4 @@
-import { getApiClient } from './api-client';
+import { getApiClient } from "./api-client";
 
 export interface ChannelProfileData {
   id: string;
@@ -23,9 +23,8 @@ export async function fetchProjects(): Promise<
   ContentProjectWithChannelProfile[]
 > {
   const client = getApiClient();
-  const response = await client.get<ContentProjectWithChannelProfile[]>(
-    '/projects',
-  );
+  const response =
+    await client.get<ContentProjectWithChannelProfile[]>("/projects");
   return response.data;
 }
 
@@ -39,7 +38,7 @@ export async function createProject(data: {
 }): Promise<ContentProjectWithChannelProfile> {
   const client = getApiClient();
   const response = await client.post<ContentProjectWithChannelProfile>(
-    '/projects',
+    "/projects",
     data,
   );
   return response.data;

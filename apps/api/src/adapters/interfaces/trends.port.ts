@@ -12,7 +12,10 @@ export interface ITrendsPort {
    * @returns Array of TrendsDataPoint objects with interest data over time
    * @remarks Returns empty array if service unavailable (graceful fallback)
    */
-  getInterestOverTime(query: string, region: string): Promise<TrendsDataPoint[]>;
+  getInterestOverTime(
+    query: string,
+    region: string,
+  ): Promise<TrendsDataPoint[]>;
 
   /**
    * Get related queries for a search term

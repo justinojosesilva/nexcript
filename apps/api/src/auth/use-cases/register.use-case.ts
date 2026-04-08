@@ -25,12 +25,14 @@ export class RegisterUseCase {
     }
 
     const passwordHash = await bcrypt.hash(dto.password, BCRYPT_ROUNDS);
-    const slug = this.buildSlug(dto.organizationName);
+    // Use provided organizationName or derive from user name
+    const organizationName = dto.organizationName || dto.name;
+    const slug = this.buildSlug(organizationName);
 
     const { organization, user } = await this.prismaService.client.$transaction(
       async (tx) => {
         const organization = await tx.organization.create({
-          data: { name: dto.organizationName, slug },
+          data: { name: organizationName, slug },
         });
 
         const user = await tx.user.create({
@@ -47,24 +49,36 @@ export class RegisterUseCase {
       },
     );
 
-    const access_token = this.jwtService.sign({
+    const accessToken = this.jwtService.sign({
       sub: user.id,
       orgId: organization.id,
       role: user.role,
     });
 
-    const refresh_token = await this.refreshTokenService.generateRefreshToken(
+    const refreshToken = await this.refreshTokenService.generateRefreshToken(
       user.id,
     );
 
-    return { access_token, refresh_token };
+    return {
+      accessToken,
+      refreshToken,
+      user: {
+        id: user.id,
+        email: user.email,
+        name: user.name,
+      },
+    };
   }
 
   private buildSlug(name: string): string {
-    return name
+    const base = name
       .toLowerCase()
       .trim()
       .replace(/[^a-z0-9]+/g, '-')
       .replace(/^-|-$/g, '');
+
+    // Add short unique suffix to handle duplicate names
+    const suffix = Math.random().toString(36).substring(2, 8);
+    return `${base}-${suffix}`.substring(0, 63); // Postgres limit
   }
 }

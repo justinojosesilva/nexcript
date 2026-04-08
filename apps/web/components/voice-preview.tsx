@@ -1,15 +1,15 @@
-'use client';
+"use client";
 
-import { useRef, useState, useEffect } from 'react';
-import { Play, Pause, RotateCcw, AlertCircle, Loader } from 'lucide-react';
+import { useRef, useState, useEffect } from "react";
+import { Play, Pause, RotateCcw, AlertCircle, Loader } from "lucide-react";
 
 interface VoicePreviewProps {
   narration: {
     id: string;
-    provider: 'google' | 'microsoft' | 'eleven_labs' | 'amazon' | 'openai';
+    provider: "google" | "microsoft" | "eleven_labs" | "amazon" | "openai";
     audioUrl?: string;
     durationSec?: number;
-    status: 'pending' | 'processing' | 'completed' | 'failed' | 'cancelled';
+    status: "pending" | "processing" | "completed" | "failed" | "cancelled";
   };
   onRetry?: () => void;
 }
@@ -17,44 +17,44 @@ interface VoicePreviewProps {
 // Provider display names and colors
 const PROVIDER_CONFIG = {
   eleven_labs: {
-    label: 'ElevenLabs',
-    color: 'text-blue-300',
-    bgColor: 'bg-blue-500/20',
+    label: "ElevenLabs",
+    color: "text-blue-300",
+    bgColor: "bg-blue-500/20",
   },
   openai: {
-    label: 'OpenAI TTS',
-    color: 'text-green-300',
-    bgColor: 'bg-green-500/20',
+    label: "OpenAI TTS",
+    color: "text-green-300",
+    bgColor: "bg-green-500/20",
   },
   google: {
-    label: 'Google TTS',
-    color: 'text-red-300',
-    bgColor: 'bg-red-500/20',
+    label: "Google TTS",
+    color: "text-red-300",
+    bgColor: "bg-red-500/20",
   },
   microsoft: {
-    label: 'Microsoft TTS',
-    color: 'text-purple-300',
-    bgColor: 'bg-purple-500/20',
+    label: "Microsoft TTS",
+    color: "text-purple-300",
+    bgColor: "bg-purple-500/20",
   },
   amazon: {
-    label: 'Amazon Polly',
-    color: 'text-orange-300',
-    bgColor: 'bg-orange-500/20',
+    label: "Amazon Polly",
+    color: "text-orange-300",
+    bgColor: "bg-orange-500/20",
   },
 } as const;
 
 function getProviderConfig(
-  provider: VoicePreviewProps['narration']['provider'],
+  provider: VoicePreviewProps["narration"]["provider"],
 ) {
   return PROVIDER_CONFIG[provider] || PROVIDER_CONFIG.google;
 }
 
 // Format time as mm:ss
 function formatTime(seconds: number | undefined): string {
-  if (!seconds || isNaN(seconds)) return '0:00';
+  if (!seconds || isNaN(seconds)) return "0:00";
   const mins = Math.floor(seconds / 60);
   const secs = Math.floor(seconds % 60);
-  return `${mins}:${String(secs).padStart(2, '0')}`;
+  return `${mins}:${String(secs).padStart(2, "0")}`;
 }
 
 export function VoicePreview({ narration, onRetry }: VoicePreviewProps) {
@@ -82,9 +82,9 @@ export function VoicePreview({ narration, onRetry }: VoicePreviewProps) {
       setIsPlaying(false);
     };
 
-    audio.addEventListener('loadedmetadata', handleLoadedMetadata);
-    audio.addEventListener('timeupdate', handleTimeUpdate);
-    audio.addEventListener('ended', handleEnded);
+    audio.addEventListener("loadedmetadata", handleLoadedMetadata);
+    audio.addEventListener("timeupdate", handleTimeUpdate);
+    audio.addEventListener("ended", handleEnded);
 
     // Set duration from narration data if available
     if (narration.durationSec) {
@@ -92,9 +92,9 @@ export function VoicePreview({ narration, onRetry }: VoicePreviewProps) {
     }
 
     return () => {
-      audio.removeEventListener('loadedmetadata', handleLoadedMetadata);
-      audio.removeEventListener('timeupdate', handleTimeUpdate);
-      audio.removeEventListener('ended', handleEnded);
+      audio.removeEventListener("loadedmetadata", handleLoadedMetadata);
+      audio.removeEventListener("timeupdate", handleTimeUpdate);
+      audio.removeEventListener("ended", handleEnded);
     };
   }, [narration.durationSec]);
 
@@ -128,7 +128,7 @@ export function VoicePreview({ narration, onRetry }: VoicePreviewProps) {
   };
 
   // Loading state
-  if (narration.status === 'processing' || narration.status === 'pending') {
+  if (narration.status === "processing" || narration.status === "pending") {
     return (
       <div className="rounded-lg border border-outline-variant bg-surface-container p-6">
         <div className="flex items-center gap-3">
@@ -147,7 +147,7 @@ export function VoicePreview({ narration, onRetry }: VoicePreviewProps) {
   }
 
   // Error state
-  if (narration.status === 'failed') {
+  if (narration.status === "failed") {
     return (
       <div className="rounded-lg border border-red-500/30 bg-red-500/10 p-6">
         <div className="flex items-start gap-3">
@@ -173,7 +173,7 @@ export function VoicePreview({ narration, onRetry }: VoicePreviewProps) {
   }
 
   // Completed state - show player
-  if (narration.status === 'completed' && narration.audioUrl) {
+  if (narration.status === "completed" && narration.audioUrl) {
     const progressPercent = duration ? (currentTime / duration) * 100 : 0;
 
     return (
@@ -204,7 +204,7 @@ export function VoicePreview({ narration, onRetry }: VoicePreviewProps) {
             <button
               onClick={handlePlayPause}
               className="flex h-10 w-10 items-center justify-center rounded-full bg-primary text-on-primary transition-all hover:shadow-lg hover:shadow-primary/30 active:scale-95"
-              aria-label={isPlaying ? 'Pausar' : 'Reproduzir'}
+              aria-label={isPlaying ? "Pausar" : "Reproduzir"}
             >
               {isPlaying ? (
                 <Pause className="h-5 w-5 fill-current" />
@@ -234,7 +234,10 @@ export function VoicePreview({ narration, onRetry }: VoicePreviewProps) {
               {/* Playhead */}
               <div
                 className="absolute top-1/2 h-3 w-3 -translate-y-1/2 rounded-full bg-primary shadow-lg transition-all opacity-0 group-hover:opacity-100"
-                style={{ left: `${progressPercent}%`, transform: 'translate(-50%, -50%)' }}
+                style={{
+                  left: `${progressPercent}%`,
+                  transform: "translate(-50%, -50%)",
+                }}
               />
             </div>
           </div>
@@ -244,7 +247,7 @@ export function VoicePreview({ narration, onRetry }: VoicePreviewProps) {
         {narration.durationSec && (
           <div className="rounded-lg bg-surface-container-low p-3">
             <p className="text-xs text-on-surface-variant">
-              <span className="font-medium text-on-surface">Duração:</span>{' '}
+              <span className="font-medium text-on-surface">Duração:</span>{" "}
               {formatTime(narration.durationSec)}
             </p>
           </div>
@@ -256,9 +259,7 @@ export function VoicePreview({ narration, onRetry }: VoicePreviewProps) {
   // Default state (cancelled or unknown)
   return (
     <div className="rounded-lg border border-outline-variant bg-surface-container p-6">
-      <p className="text-sm text-on-surface-variant">
-        Narração não disponível
-      </p>
+      <p className="text-sm text-on-surface-variant">Narração não disponível</p>
     </div>
   );
 }

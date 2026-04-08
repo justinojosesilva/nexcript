@@ -2,20 +2,20 @@ export interface ThumbnailCopyInput {
   topic: string;
   niche: string;
   titleChosen?: string;
-  style?: 'dark' | 'bright' | 'minimal';
+  style?: "dark" | "bright" | "minimal";
 }
 
 export const thumbnailCopyPrompt = ({
   topic,
   niche,
   titleChosen,
-  style = 'dark',
+  style = "dark",
 }: ThumbnailCopyInput) => `
 Você é um especialista em thumbnails de alto CTR para YouTube.
 
 Gere sugestões de copy e conceito visual para a thumbnail de um vídeo sobre: "${topic}"
 Nicho: ${niche}
-${titleChosen ? `Título escolhido: "${titleChosen}"` : ''}
+${titleChosen ? `Título escolhido: "${titleChosen}"` : ""}
 Estilo visual: ${style}
 
 Para cada sugestão, entregue:

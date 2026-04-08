@@ -99,7 +99,11 @@ export class SaturationScorer implements IScoreDimensionService {
     };
 
     // Cache the result with 1h TTL
-    await this.redis.setex(cacheKey, SaturationScorer.CACHE_TTL, JSON.stringify(dimensions));
+    await this.redis.setex(
+      cacheKey,
+      SaturationScorer.CACHE_TTL,
+      JSON.stringify(dimensions),
+    );
 
     return dimensions;
   }
@@ -149,7 +153,10 @@ export class SaturationScorer implements IScoreDimensionService {
    * Compute saturation score based on YouTube video analysis
    * Returns FALLBACK_SCORE if service is unavailable
    */
-  private async computeSaturationScore(keyword: string, geo: string): Promise<number> {
+  private async computeSaturationScore(
+    keyword: string,
+    geo: string,
+  ): Promise<number> {
     // Geo parameter kept for interface consistency, not used in saturation analysis
     void geo;
 
@@ -172,8 +179,9 @@ export class SaturationScorer implements IScoreDimensionService {
       const recentVideos = videos.filter((v) => v.publishedAt >= sevenDaysAgo);
 
       // Analyze channels (views as proxy for channel size)
-      const largeChannelCount = videos.filter((v) => v.views >= SaturationScorer.LARGE_CHANNEL_VIEWS)
-        .length;
+      const largeChannelCount = videos.filter(
+        (v) => v.views >= SaturationScorer.LARGE_CHANNEL_VIEWS,
+      ).length;
 
       // Analyze old videos (published >30 days ago) in top 10
       const oldVideosInTop10 = videos

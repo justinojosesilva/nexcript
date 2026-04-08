@@ -25,6 +25,7 @@ packages/
 ## Commands
 
 ### Root — executa todos os workspaces via Turbo
+
 ```bash
 pnpm dev          # inicia todos os apps em paralelo
 pnpm build        # build respeitando ordem de dependência
@@ -34,6 +35,7 @@ pnpm format       # prettier em todos os arquivos TS/TSX/MD
 ```
 
 ### Por workspace
+
 ```bash
 pnpm --filter api dev           # NestJS watch mode
 pnpm --filter web dev           # Next.js na porta 3001
@@ -51,6 +53,7 @@ pnpm --filter @nexcript/database studio     # prisma studio
 ```
 
 ### Infraestrutura
+
 ```bash
 docker compose up -d   # Postgres (5432), Redis (6379), pgAdmin (5050)
 ```
@@ -71,9 +74,13 @@ src/
 ```
 
 Uso no worker:
+
 ```typescript
-import { financeScriptPrompt } from '@nexcript/prompts';
-const prompt = financeScriptPrompt({ topic: 'como sair das dívidas', durationMinutes: 12 });
+import { financeScriptPrompt } from "@nexcript/prompts";
+const prompt = financeScriptPrompt({
+  topic: "como sair das dívidas",
+  durationMinutes: 12,
+});
 ```
 
 Para adicionar novos prompts: criar o arquivo na categoria correspondente, exportar a função tipada com interface de input, e adicionar o re-export no `index.ts`.

@@ -1,4 +1,10 @@
-import { IsString, IsNumber, IsEnum, IsOptional, IsArray } from 'class-validator';
+import {
+  IsString,
+  IsNumber,
+  IsEnum,
+  IsOptional,
+  IsArray,
+} from 'class-validator';
 import { ContentTone } from '@nexcript/shared';
 import { ApiProperty } from '@nestjs/swagger';
 

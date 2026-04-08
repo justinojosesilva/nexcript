@@ -15,7 +15,7 @@ Você é um especialista em SEO e copywriting para YouTube.
 
 Gere ${quantity} títulos de alta performance para um vídeo sobre: "${topic}"
 Nicho: ${niche}
-${keywords.length > 0 ? `Palavras-chave para incluir: ${keywords.join(', ')}` : ''}
+${keywords.length > 0 ? `Palavras-chave para incluir: ${keywords.join(", ")}` : ""}
 
 Regras obrigatórias:
 - Máximo de 60 caracteres por título

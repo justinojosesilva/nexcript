@@ -8,21 +8,21 @@ export class RefreshDto {
     description: 'Refresh token (from login/register response)',
   })
   @IsString()
-  refresh_token: string;
+  refreshToken: string;
 }
 
 export class RefreshResponse {
   @ApiProperty({
     example:
       'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIxMjM0NTY3ODkwIn0.dozjgNryP4J3jVmNHl0w5N_XgL0n3I9PlFUP0THsR8U',
-    description: 'New JWT access token (valid for 15 minutes)',
+    description: 'New JWT access token (valid for 7 days)',
   })
-  access_token: string;
+  accessToken: string;
 
   @ApiProperty({
     example:
       'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIxMjM0NTY3ODkwIn0.dozjgNryP4J3jVmNHl0w5N_XgL0n3I9PlFUP0THsR8U',
     description: 'Refresh token (valid for 7 days)',
   })
-  refresh_token: string;
+  refreshToken: string;
 }

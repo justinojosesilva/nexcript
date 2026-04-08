@@ -1,18 +1,37 @@
-import { Injectable, Inject, BadRequestException } from '@nestjs/common';
-import { narrationPromptTemplate, type NarrationPromptInput, type NarrationTone, type NarrationSpeed } from '@nexcript/prompts';
+import {
+  Injectable,
+  Inject,
+  BadRequestException,
+  Logger,
+} from '@nestjs/common';
+import {
+  narrationPromptTemplate,
+  type NarrationPromptInput,
+  type NarrationTone,
+  type NarrationSpeed,
+} from '@nexcript/prompts';
 import { ITtsPort, SynthesizeOutput } from '../../adapters/interfaces/tts.port';
 import { SynthesizeNarrationDto } from '../dto/synthesize-narration.dto';
 import { ContentTone } from '@nexcript/shared';
+import { CacheTtsSynthesisUseCase } from './cache-tts-synthesis.use-case';
 
 interface SynthesizeNarrationInput extends SynthesizeNarrationDto {
   organizationId: string;
+  scriptId: string; // Added for cache key generation
+}
+
+export interface SynthesizeNarrationOutput extends SynthesizeOutput {
+  cacheHit: boolean;
 }
 
 @Injectable()
 export class SynthesizeNarrationUseCase {
+  private readonly logger = new Logger(SynthesizeNarrationUseCase.name);
+
   constructor(
     @Inject('ITtsPort')
-    private ttsPort: ITtsPort,
+    private readonly ttsPort: ITtsPort,
+    private readonly cacheTtsSynthesisUseCase: CacheTtsSynthesisUseCase,
   ) {}
 
   private mapToneToNarrationTone(tone: ContentTone): NarrationTone {
@@ -36,15 +55,26 @@ export class SynthesizeNarrationUseCase {
     return 'NORMAL';
   }
 
-  async execute(input: SynthesizeNarrationInput): Promise<SynthesizeOutput> {
+  async execute(
+    input: SynthesizeNarrationInput,
+  ): Promise<SynthesizeNarrationOutput> {
     if (!input.organizationId) {
       throw new BadRequestException('Missing organization context');
     }
 
+    if (!input.scriptId) {
+      throw new BadRequestException('Missing script ID for cache key');
+    }
+
     // Map input blocks to NarrationBlock format with default estimatedDuration
-    const scriptBlocks = input.scriptBlocks.map(block => ({
+    const scriptBlocks = input.scriptBlocks.map((block) => ({
       id: block.id,
-      type: block.type as 'HOOK' | 'INTRO' | 'DEVELOPMENT' | 'CTA' | 'CONCLUSION',
+      type: block.type as
+        | 'HOOK'
+        | 'INTRO'
+        | 'DEVELOPMENT'
+        | 'CTA'
+        | 'CONCLUSION',
       content: block.content,
       estimatedDuration: 30, // Default 30s per block
     }));
@@ -62,14 +92,34 @@ export class SynthesizeNarrationUseCase {
     // Apply narration prompt template to adapt script for TTS
     const narrationPrompt = narrationPromptTemplate(promptInput);
 
-    // Call TTS adapter with adapted script
-    const synthesisResult = await this.ttsPort.synthesize({
-      text: narrationPrompt,
-      voiceId: input.voiceId,
-      speed: input.speed || 1.0,
-      tone: input.tone,
-    });
+    // Use cached synthesis when available
+    const { output: synthesisResult, cacheHit } =
+      await this.cacheTtsSynthesisUseCase.synthesizeWithCache(
+        {
+          text: narrationPrompt,
+          voiceId: input.voiceId,
+          speed: input.speed || 1.0,
+          tone: input.tone,
+          scriptId: input.scriptId,
+        },
+        this.ttsPort,
+      );
 
-    return synthesisResult;
+    return {
+      ...synthesisResult,
+      cacheHit,
+    };
+  }
+
+  /**
+   * Invalidate cache for a script when blocks are edited
+   */
+  async invalidateCacheForScript(scriptId: string): Promise<void> {
+    await this.cacheTtsSynthesisUseCase.invalidateCacheByScriptId(scriptId);
+    this.logger.log({
+      event: 'script_narration_cache_invalidated',
+      scriptId,
+      timestamp: new Date().toISOString(),
+    });
   }
 }

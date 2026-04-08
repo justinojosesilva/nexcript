@@ -1,4 +1,7 @@
-import { ScoreCalculationResult, DimensionScoreValues } from './score-calculation.js';
+import {
+  ScoreCalculationResult,
+  DimensionScoreValues,
+} from "./score-calculation.js";
 
 /**
  * Interface for dimension-based score calculation services
@@ -10,7 +13,9 @@ export interface IScoreDimensionService {
    * @param input Context-specific input for scoring
    * @returns Dimension scores ready for final calculation
    */
-  calculateDimensions(input: Record<string, unknown>): Promise<DimensionScoreValues>;
+  calculateDimensions(
+    input: Record<string, unknown>,
+  ): Promise<DimensionScoreValues>;
 
   /**
    * Calculate final score from dimensions

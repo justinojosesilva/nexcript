@@ -43,7 +43,7 @@ describe('ScoreCalculator', () => {
       };
 
       expect(() => new ScoreCalculator(invalidWeights)).toThrow(
-        /pesos devem somar 1\.0/i
+        /pesos devem somar 1\.0/i,
       );
     });
   });
@@ -142,7 +142,7 @@ describe('ScoreCalculator', () => {
       };
 
       expect(() => calculator.calculate(invalidDimensions)).toThrow(
-        /deve estar entre 0 e 100/i
+        /deve estar entre 0 e 100/i,
       );
     });
 
@@ -322,7 +322,7 @@ describe('ScoreCalculator', () => {
       const calculator = new ScoreCalculator();
 
       expect(() => calculator.classifyScore(150)).toThrow(
-        /deve estar entre 0 e 100/i
+        /deve estar entre 0 e 100/i,
       );
     });
   });

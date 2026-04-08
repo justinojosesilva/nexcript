@@ -31,10 +31,14 @@ function makePrismaMock(projectOverride?: object | null) {
   return {
     client: {
       contentProject: {
-        findUnique: jest.fn().mockResolvedValue(
-          projectOverride !== undefined ? projectOverride : mockProject,
-        ),
-        update: jest.fn().mockResolvedValue({ ...mockProject, status: 'in_development' }),
+        findUnique: jest
+          .fn()
+          .mockResolvedValue(
+            projectOverride !== undefined ? projectOverride : mockProject,
+          ),
+        update: jest
+          .fn()
+          .mockResolvedValue({ ...mockProject, status: 'in_development' }),
       },
       trendAnalysis: {
         create: jest.fn().mockResolvedValue(mockTrendAnalysis),
@@ -51,7 +55,9 @@ function makeScorerMock(score: number) {
       dimension3: 50,
       dimension4: 50,
     }),
-    calculateScore: jest.fn().mockReturnValue({ score, classification: 'EVALUATE', weights: {} }),
+    calculateScore: jest
+      .fn()
+      .mockReturnValue({ score, classification: 'EVALUATE', weights: {} }),
   };
 }
 
@@ -146,7 +152,8 @@ describe('AnalyzeTrendsUseCase', () => {
     it('should persist TrendAnalysis with all scores in data field', async () => {
       await useCase.execute(defaultInput);
 
-      const createCall = prismaMock.client.trendAnalysis.create.mock.calls[0][0];
+      const createCall =
+        prismaMock.client.trendAnalysis.create.mock.calls[0][0];
       expect(createCall.data.projectId).toBe('proj-1');
       expect(createCall.data.organizationId).toBe('org-1');
       expect(createCall.data.keyword).toBe('javascript');
@@ -179,7 +186,9 @@ describe('AnalyzeTrendsUseCase', () => {
 
     it('should use fallback 50 when demand scorer fails', async () => {
       const failingDemand = {
-        calculateDimensions: jest.fn().mockRejectedValue(new Error('Trends API down')),
+        calculateDimensions: jest
+          .fn()
+          .mockRejectedValue(new Error('Trends API down')),
         calculateScore: jest.fn(),
       };
 
@@ -201,7 +210,9 @@ describe('AnalyzeTrendsUseCase', () => {
 
     it('should use fallback 50 when saturation scorer fails', async () => {
       const failingSaturation = {
-        calculateDimensions: jest.fn().mockRejectedValue(new Error('YouTube quota exceeded')),
+        calculateDimensions: jest
+          .fn()
+          .mockRejectedValue(new Error('YouTube quota exceeded')),
         calculateScore: jest.fn(),
       };
 
@@ -221,7 +232,9 @@ describe('AnalyzeTrendsUseCase', () => {
 
     it('should use fallback 50 when all scorers fail', async () => {
       const failingScorer = {
-        calculateDimensions: jest.fn().mockRejectedValue(new Error('Service unavailable')),
+        calculateDimensions: jest
+          .fn()
+          .mockRejectedValue(new Error('Service unavailable')),
         calculateScore: jest.fn(),
       };
 
@@ -268,7 +281,9 @@ describe('AnalyzeTrendsUseCase', () => {
 
     it('should not propagate any scorer error to the caller', async () => {
       const failingScorer = {
-        calculateDimensions: jest.fn().mockRejectedValue(new Error('Critical failure')),
+        calculateDimensions: jest
+          .fn()
+          .mockRejectedValue(new Error('Critical failure')),
         calculateScore: jest.fn(),
       };
 
@@ -297,7 +312,9 @@ describe('AnalyzeTrendsUseCase', () => {
         makeScorerMock(60) as any,
       );
 
-      await expect(useCase.execute(defaultInput)).rejects.toThrow(NotFoundException);
+      await expect(useCase.execute(defaultInput)).rejects.toThrow(
+        NotFoundException,
+      );
     });
 
     it('should not run scorers if project is not found', async () => {
@@ -325,7 +342,7 @@ describe('AnalyzeTrendsUseCase', () => {
       const useCase = new AnalyzeTrendsUseCase(
         prismaMock as any,
         makeScorerMock(100) as any,
-        makeScorerMock(0) as any,   // saturation=0 is INVERTED → contributes fully
+        makeScorerMock(0) as any, // saturation=0 is INVERTED → contributes fully
         makeScorerMock(100) as any,
         makeScorerMock(100) as any,
       );
@@ -349,7 +366,8 @@ describe('AnalyzeTrendsUseCase', () => {
 
       await useCase.execute(defaultInput);
 
-      const createCall = prismaMock.client.trendAnalysis.create.mock.calls[0][0];
+      const createCall =
+        prismaMock.client.trendAnalysis.create.mock.calls[0][0];
       expect(createCall.data.data).toHaveProperty('finalScore');
       expect(createCall.data.data).toHaveProperty('classification');
       expect(createCall.data.data).toHaveProperty('weights');

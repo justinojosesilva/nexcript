@@ -123,7 +123,7 @@ export class MonetizationScorer implements IScoreDimensionService {
    * @returns Dimension scores for the niche
    */
   async calculateDimensions(
-    input: Record<string, unknown>
+    input: Record<string, unknown>,
   ): Promise<DimensionScoreValues> {
     const niche = input.niche as NicheCategory;
 
@@ -146,7 +146,7 @@ export class MonetizationScorer implements IScoreDimensionService {
     await this.redis.setex(
       cacheKey,
       MonetizationScorer.CACHE_TTL,
-      JSON.stringify(dimensions)
+      JSON.stringify(dimensions),
     );
 
     return dimensions;

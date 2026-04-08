@@ -49,8 +49,8 @@ export class DemandScorer implements IScoreDimensionService {
 
   /** ScoreCalculator with custom weights: Trends 40%, YouTube 35%, Momentum 25%, unused 0% */
   private readonly scoreCalculator = new ScoreCalculator({
-    dimension1: 0.40, // Trends interest
-    dimension2: 0.00, // unused (inversion artifact of ScoreCalculator formula)
+    dimension1: 0.4, // Trends interest
+    dimension2: 0.0, // unused (inversion artifact of ScoreCalculator formula)
     dimension3: 0.35, // YouTube views
     dimension4: 0.25, // Momentum 30 days
   });
@@ -88,7 +88,11 @@ export class DemandScorer implements IScoreDimensionService {
     const dimensions = await this.computeDimensions(keyword, geo);
 
     // Cache the result with 6h TTL
-    await this.redis.setex(cacheKey, DemandScorer.CACHE_TTL, JSON.stringify(dimensions));
+    await this.redis.setex(
+      cacheKey,
+      DemandScorer.CACHE_TTL,
+      JSON.stringify(dimensions),
+    );
 
     return dimensions;
   }
@@ -148,12 +152,20 @@ export class DemandScorer implements IScoreDimensionService {
    * Compute Trends interest score (0-100)
    * Returns FALLBACK_SCORE if service is unavailable
    */
-  private async computeTrendsScore(keyword: string, geo: string): Promise<number> {
+  private async computeTrendsScore(
+    keyword: string,
+    geo: string,
+  ): Promise<number> {
     try {
-      const dataPoints = await this.trendsPort.getInterestOverTime(keyword, geo);
+      const dataPoints = await this.trendsPort.getInterestOverTime(
+        keyword,
+        geo,
+      );
 
       if (!dataPoints || dataPoints.length === 0) {
-        this.logger.warn(`No trends data for "${keyword}" in ${geo}, using fallback`);
+        this.logger.warn(
+          `No trends data for "${keyword}" in ${geo}, using fallback`,
+        );
         return DemandScorer.FALLBACK_SCORE;
       }
 
@@ -188,7 +200,8 @@ export class DemandScorer implements IScoreDimensionService {
       }
 
       // Use the average views from top results
-      const avgViews = videos.reduce((sum, v) => sum + v.views, 0) / videos.length;
+      const avgViews =
+        videos.reduce((sum, v) => sum + v.views, 0) / videos.length;
 
       return DemandScorer.normalizeViewsLogarithmically(avgViews);
     } catch (error) {
@@ -206,23 +219,34 @@ export class DemandScorer implements IScoreDimensionService {
    *
    * Returns FALLBACK_SCORE if service is unavailable
    */
-  private async computeMomentumScore(keyword: string, geo: string): Promise<number> {
+  private async computeMomentumScore(
+    keyword: string,
+    geo: string,
+  ): Promise<number> {
     try {
-      const dataPoints = await this.trendsPort.getInterestOverTime(keyword, geo);
+      const dataPoints = await this.trendsPort.getInterestOverTime(
+        keyword,
+        geo,
+      );
 
       if (!dataPoints || dataPoints.length < 2) {
-        this.logger.warn(`Insufficient trends data for momentum "${keyword}", using fallback`);
+        this.logger.warn(
+          `Insufficient trends data for momentum "${keyword}", using fallback`,
+        );
         return DemandScorer.FALLBACK_SCORE;
       }
 
       // Split into recent (last 4 points) and older (previous 4 points)
       const recent = dataPoints.slice(-4);
-      const older = dataPoints.length >= 8
-        ? dataPoints.slice(-8, -4)
-        : dataPoints.slice(0, Math.ceil(dataPoints.length / 2));
+      const older =
+        dataPoints.length >= 8
+          ? dataPoints.slice(-8, -4)
+          : dataPoints.slice(0, Math.ceil(dataPoints.length / 2));
 
-      const recentAvg = recent.reduce((sum, p) => sum + p.interest, 0) / recent.length;
-      const olderAvg = older.reduce((sum, p) => sum + p.interest, 0) / older.length;
+      const recentAvg =
+        recent.reduce((sum, p) => sum + p.interest, 0) / recent.length;
+      const olderAvg =
+        older.reduce((sum, p) => sum + p.interest, 0) / older.length;
 
       if (olderAvg === 0) {
         // No past data — assume stable
@@ -268,9 +292,7 @@ export class DemandScorer implements IScoreDimensionService {
     momentumScore: number,
   ): number {
     const score =
-      trendsScore * 0.40 +
-      youtubeScore * 0.35 +
-      momentumScore * 0.25;
+      trendsScore * 0.4 + youtubeScore * 0.35 + momentumScore * 0.25;
 
     return Math.min(100, Math.max(0, score));
   }

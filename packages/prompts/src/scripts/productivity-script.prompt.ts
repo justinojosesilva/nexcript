@@ -6,7 +6,7 @@ export interface ProductivityScriptInput {
 
 export const productivityScriptPrompt = ({
   topic,
-  framework = 'método prático com passos aplicáveis hoje',
+  framework = "método prático com passos aplicáveis hoje",
   durationMinutes = 8,
 }: ProductivityScriptInput) => `
 Você é um especialista em produtividade e desenvolvimento pessoal para YouTube.

@@ -1,5 +1,17 @@
-import { Controller, Get, Param, Post, HttpCode, HttpStatus } from '@nestjs/common';
-import { ApiOperation, ApiResponse, ApiTags, ApiBearerAuth } from '@nestjs/swagger';
+import {
+  Controller,
+  Get,
+  Param,
+  Post,
+  HttpCode,
+  HttpStatus,
+} from '@nestjs/common';
+import {
+  ApiOperation,
+  ApiResponse,
+  ApiTags,
+  ApiBearerAuth,
+} from '@nestjs/swagger';
 import { EnqueueHealthCheckUseCase } from './use-cases/enqueue-health-check.use-case';
 import { GetJobStatusUseCase } from './use-cases/get-job-status.use-case';
 import { JobStatusResponse } from './dto/job-status.response';
@@ -34,7 +46,8 @@ export class JobsController {
   @HttpCode(HttpStatus.OK)
   @ApiOperation({
     summary: 'Get job status',
-    description: 'Retrieve the status of a job (script generation, narration, trends analysis, etc.)',
+    description:
+      'Retrieve the status of a job (script generation, narration, trends analysis, etc.)',
   })
   @ApiResponse({
     status: 200,

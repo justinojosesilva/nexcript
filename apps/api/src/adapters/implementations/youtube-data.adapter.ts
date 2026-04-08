@@ -78,7 +78,7 @@ export class YouTubeDataAdapter implements IYouTubePort {
       url.searchParams.append('order', 'relevance');
 
       const response = await fetch(url.toString());
-      const data = await response.json() as any;
+      const data = (await response.json()) as any;
 
       if (!response.ok) {
         return this.handleApiError(data);
@@ -124,7 +124,7 @@ export class YouTubeDataAdapter implements IYouTubePort {
       );
 
       const response = await fetch(url.toString());
-      const data = await response.json() as any;
+      const data = (await response.json()) as any;
 
       if (!response.ok) {
         return this.handleApiError(data);
@@ -210,16 +210,14 @@ export class YouTubeDataAdapter implements IYouTubePort {
     // Check for quota exceeded (rate limit)
     const isRateLimited =
       statusCode === 403 &&
-      (errors.some((e: any) =>
-        e.reason === 'quotaExceeded' ||
-        e.message?.includes('quota'),
+      (errors.some(
+        (e: any) =>
+          e.reason === 'quotaExceeded' || e.message?.includes('quota'),
       ) ||
-      errorMessage.includes('quota'));
+        errorMessage.includes('quota'));
 
     if (isRateLimited) {
-      this.logger.warn(
-        'YouTube API quota exceeded - rate limited',
-      );
+      this.logger.warn('YouTube API quota exceeded - rate limited');
       throw new YouTubeApiError(
         'YouTube API quota exceeded. Please try again later.',
         true,

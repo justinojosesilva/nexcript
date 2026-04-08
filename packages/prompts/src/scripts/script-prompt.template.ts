@@ -1,4 +1,4 @@
-import { FormatType, NicheCategory, ContentTone } from './types.js';
+import { FormatType, NicheCategory, ContentTone } from "./types.js";
 
 export interface ScriptPromptInput {
   topic: string;
@@ -12,7 +12,7 @@ export interface ScriptPromptInput {
 
 export interface ScriptBlockOutput {
   id: string;
-  type: 'HOOK' | 'INTRO' | 'DEVELOPMENT' | 'RETENTION_CTA' | 'CONCLUSION';
+  type: "HOOK" | "INTRO" | "DEVELOPMENT" | "RETENTION_CTA" | "CONCLUSION";
   content: string;
   estimatedDuration: number;
   wordCount: number;
@@ -36,12 +36,15 @@ export const scriptPromptTemplate = ({
   tone = ContentTone.CASUAL,
   formatType,
   gaps = [],
-  targetAudience = 'general audience',
+  targetAudience = "general audience",
   maxTokens,
 }: ScriptPromptInput): { prompt: string; maxTokens: number } => {
   const calculatedMaxTokens = maxTokens || getDefaultMaxTokens(formatType);
   const durationMinutes = getDurationForFormat(formatType);
-  const gapsContext = gaps.length > 0 ? `\n\nQuality Gaps to Address:\n${gaps.map(g => `- ${g}`).join('\n')}` : '';
+  const gapsContext =
+    gaps.length > 0
+      ? `\n\nQuality Gaps to Address:\n${gaps.map((g) => `- ${g}`).join("\n")}`
+      : "";
 
   const prompt = `You are an expert content creator specializing in ${niche} videos.
 

@@ -1,4 +1,4 @@
-import { FormatType, NicheCategory, ContentTone } from './types.js';
+import { FormatType, NicheCategory, ContentTone } from "./types.js";
 
 export interface GenericScriptInput {
   topic: string;
@@ -15,11 +15,11 @@ export const genericScriptPrompt = ({
   format,
   tone = ContentTone.CASUAL,
   durationMinutes = 10,
-  targetAudience = 'general audience',
+  targetAudience = "general audience",
 }: GenericScriptInput): string => {
-  const blockStructure = getBlockStructure(format) || '';
-  const toneGuideline = getToneGuideline(tone) || '';
-  const nicheContext = getNicheContext(niche) || '';
+  const blockStructure = getBlockStructure(format) || "";
+  const toneGuideline = getToneGuideline(tone) || "";
+  const nicheContext = getNicheContext(niche) || "";
 
   return `Você é um especialista em criação de conteúdo para ${niche} no YouTube/TikTok.
 
@@ -111,7 +111,7 @@ function getBlockStructure(format: FormatType): string {
 5. CONCLUSION (16:00–17:00) — conclusão e prévia do próximo episódio`,
   };
 
-  return structures[format] || '';
+  return structures[format] || "";
 }
 
 function getToneGuideline(tone: ContentTone): string {

@@ -62,6 +62,7 @@ This Turborepo has some additional tools already setup for you:
 The application requires keys from the following external APIs:
 
 ### YouTube API
+
 1. Go to [Google Cloud Console](https://console.cloud.google.com/)
 2. Create a new project
 3. Enable the **YouTube Data API v3**
@@ -69,6 +70,7 @@ The application requires keys from the following external APIs:
 5. Copy the key to `YOUTUBE_API_KEY` in `.env`
 
 ### OpenAI API
+
 1. Visit [OpenAI Platform](https://platform.openai.com/)
 2. Sign up or log in to your account
 3. Navigate to API keys section
@@ -76,6 +78,7 @@ The application requires keys from the following external APIs:
 5. Copy the key to `OPENAI_API_KEY` in `.env`
 
 ### Google Trends Region
+
 - Set `GOOGLE_TRENDS_REGION` to your target region code (e.g., `BR` for Brazil, `US` for USA)
 - Refer to [ISO 3166-1 alpha-2](https://en.wikipedia.org/wiki/ISO_3166-1_alpha-2) for region codes
 

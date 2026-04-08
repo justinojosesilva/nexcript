@@ -65,9 +65,9 @@ describe('DemandScorer', () => {
     });
 
     it('should throw if geo is missing', async () => {
-      await expect(scorer.calculateDimensions({ keyword: 'bitcoin' })).rejects.toThrow(
-        'DemandScorer requires "keyword" and "geo" in input',
-      );
+      await expect(
+        scorer.calculateDimensions({ keyword: 'bitcoin' }),
+      ).rejects.toThrow('DemandScorer requires "keyword" and "geo" in input');
     });
 
     it('should return cached result if available', async () => {
@@ -78,9 +78,14 @@ describe('DemandScorer', () => {
         dimension4: 70,
       };
 
-      (redis.get as jest.Mock).mockResolvedValueOnce(JSON.stringify(cachedDimensions));
+      (redis.get as jest.Mock).mockResolvedValueOnce(
+        JSON.stringify(cachedDimensions),
+      );
 
-      const result = await scorer.calculateDimensions({ keyword: 'bitcoin', geo: 'BR' });
+      const result = await scorer.calculateDimensions({
+        keyword: 'bitcoin',
+        geo: 'BR',
+      });
 
       expect(result).toEqual(cachedDimensions);
       expect(youtubePort.searchVideos).not.toHaveBeenCalled();
@@ -95,11 +100,12 @@ describe('DemandScorer', () => {
         makeTrendsDataPoint(88, 7),
       ]);
 
-      youtubePort.searchVideos.mockResolvedValue([
-        makeYouTubeVideo(1_000_000),
-      ]);
+      youtubePort.searchVideos.mockResolvedValue([makeYouTubeVideo(1_000_000)]);
 
-      const result = await scorer.calculateDimensions({ keyword: 'bitcoin', geo: 'BR' });
+      const result = await scorer.calculateDimensions({
+        keyword: 'bitcoin',
+        geo: 'BR',
+      });
 
       expect(result.dimension1).toBeGreaterThan(0);
       expect(result.dimension2).toBe(0);
@@ -112,7 +118,9 @@ describe('DemandScorer', () => {
     });
 
     it('should use correct cache key format demand:{keyword}:{geo}', async () => {
-      trendsPort.getInterestOverTime.mockResolvedValue([makeTrendsDataPoint(50, 7)]);
+      trendsPort.getInterestOverTime.mockResolvedValue([
+        makeTrendsDataPoint(50, 7),
+      ]);
       youtubePort.searchVideos.mockResolvedValue([makeYouTubeVideo(100_000)]);
 
       await scorer.calculateDimensions({ keyword: 'bitcoin', geo: 'BR' });
@@ -126,7 +134,9 @@ describe('DemandScorer', () => {
     });
 
     it('should use TTL of 6 hours (21600 seconds)', async () => {
-      trendsPort.getInterestOverTime.mockResolvedValue([makeTrendsDataPoint(60, 7)]);
+      trendsPort.getInterestOverTime.mockResolvedValue([
+        makeTrendsDataPoint(60, 7),
+      ]);
       youtubePort.searchVideos.mockResolvedValue([makeYouTubeVideo(500_000)]);
 
       await scorer.calculateDimensions({ keyword: 'test', geo: 'US' });
@@ -142,7 +152,10 @@ describe('DemandScorer', () => {
       trendsPort.getInterestOverTime.mockResolvedValue([]); // empty = unavailable
       youtubePort.searchVideos.mockResolvedValue([makeYouTubeVideo(1_000_000)]);
 
-      const result = await scorer.calculateDimensions({ keyword: 'test', geo: 'BR' });
+      const result = await scorer.calculateDimensions({
+        keyword: 'test',
+        geo: 'BR',
+      });
 
       expect(result.dimension1).toBe(50); // Trends fallback
     });
@@ -153,7 +166,10 @@ describe('DemandScorer', () => {
       ]);
       youtubePort.searchVideos.mockResolvedValue([]); // empty = unavailable
 
-      const result = await scorer.calculateDimensions({ keyword: 'test', geo: 'BR' });
+      const result = await scorer.calculateDimensions({
+        keyword: 'test',
+        geo: 'BR',
+      });
 
       expect(result.dimension3).toBe(50); // YouTube fallback
     });
@@ -164,16 +180,24 @@ describe('DemandScorer', () => {
       ]); // only 1 data point
       youtubePort.searchVideos.mockResolvedValue([makeYouTubeVideo(100_000)]);
 
-      const result = await scorer.calculateDimensions({ keyword: 'test', geo: 'BR' });
+      const result = await scorer.calculateDimensions({
+        keyword: 'test',
+        geo: 'BR',
+      });
 
       expect(result.dimension4).toBe(50); // Momentum fallback
     });
 
     it('should return all fallbacks (50) when both services fail', async () => {
-      trendsPort.getInterestOverTime.mockRejectedValue(new Error('Service down'));
+      trendsPort.getInterestOverTime.mockRejectedValue(
+        new Error('Service down'),
+      );
       youtubePort.searchVideos.mockRejectedValue(new Error('Service down'));
 
-      const result = await scorer.calculateDimensions({ keyword: 'test', geo: 'BR' });
+      const result = await scorer.calculateDimensions({
+        keyword: 'test',
+        geo: 'BR',
+      });
 
       expect(result.dimension1).toBe(50);
       expect(result.dimension2).toBe(0);
@@ -263,8 +287,8 @@ describe('DemandScorer', () => {
       expect(result).toHaveProperty('weights');
       expect(result).toHaveProperty('dimensionScores');
       expect(result.dimensionScores).toEqual(dimensions);
-      expect(result.weights.dimension1).toBe(0.40);
-      expect(result.weights.dimension2).toBe(0.00);
+      expect(result.weights.dimension1).toBe(0.4);
+      expect(result.weights.dimension2).toBe(0.0);
       expect(result.weights.dimension3).toBe(0.35);
       expect(result.weights.dimension4).toBe(0.25);
     });
@@ -286,7 +310,10 @@ describe('DemandScorer', () => {
       await scorer.clearCache();
 
       expect(redis.keys).toHaveBeenCalledWith('demand:*');
-      expect(redis.del).toHaveBeenCalledWith('demand:bitcoin:BR', 'demand:ethereum:US');
+      expect(redis.del).toHaveBeenCalledWith(
+        'demand:bitcoin:BR',
+        'demand:ethereum:US',
+      );
     });
 
     it('should not call del when no keys exist', async () => {
@@ -388,7 +415,10 @@ describe('DemandScorer', () => {
       ]);
       youtubePort.searchVideos.mockResolvedValue([makeYouTubeVideo(100_000)]);
 
-      const result = await scorer.calculateDimensions({ keyword: 'growing', geo: 'BR' });
+      const result = await scorer.calculateDimensions({
+        keyword: 'growing',
+        geo: 'BR',
+      });
 
       expect(result.dimension4).toBeGreaterThan(50);
     });
@@ -407,7 +437,10 @@ describe('DemandScorer', () => {
       ]);
       youtubePort.searchVideos.mockResolvedValue([makeYouTubeVideo(100_000)]);
 
-      const result = await scorer.calculateDimensions({ keyword: 'declining', geo: 'BR' });
+      const result = await scorer.calculateDimensions({
+        keyword: 'declining',
+        geo: 'BR',
+      });
 
       expect(result.dimension4).toBeLessThan(50);
     });
@@ -426,7 +459,10 @@ describe('DemandScorer', () => {
       ]);
       youtubePort.searchVideos.mockResolvedValue([makeYouTubeVideo(100_000)]);
 
-      const result = await scorer.calculateDimensions({ keyword: 'stable', geo: 'BR' });
+      const result = await scorer.calculateDimensions({
+        keyword: 'stable',
+        geo: 'BR',
+      });
 
       expect(result.dimension4).toBeCloseTo(50, 1);
     });
@@ -450,7 +486,10 @@ describe('DemandScorer', () => {
         makeYouTubeVideo(2_000_000),
       ]);
 
-      const dimensions = await scorer.calculateDimensions({ keyword: 'viral', geo: 'BR' });
+      const dimensions = await scorer.calculateDimensions({
+        keyword: 'viral',
+        geo: 'BR',
+      });
       const result = scorer.calculateScore(dimensions);
 
       expect(result.score).toBeGreaterThan(75);
@@ -461,7 +500,10 @@ describe('DemandScorer', () => {
       trendsPort.getInterestOverTime.mockResolvedValue([]);
       youtubePort.searchVideos.mockResolvedValue([]);
 
-      const dimensions = await scorer.calculateDimensions({ keyword: 'unknown', geo: 'BR' });
+      const dimensions = await scorer.calculateDimensions({
+        keyword: 'unknown',
+        geo: 'BR',
+      });
       const result = scorer.calculateScore(dimensions);
 
       // All fallbacks = 50 → score = 50

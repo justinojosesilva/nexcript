@@ -1,7 +1,11 @@
 export interface JobStatusResponse {
   jobId: string;
   status: 'PENDING' | 'PROCESSING' | 'DONE' | 'FAILED';
-  type: 'generate-script' | 'generate-narration' | 'analyze-trends' | 'health-check';
+  type:
+    | 'generate-script'
+    | 'generate-narration'
+    | 'analyze-trends'
+    | 'health-check';
   progress?: number;
   result?: {
     scriptId?: string;

@@ -1,7 +1,7 @@
-'use client';
+"use client";
 
-import { useState } from 'react';
-import { ChevronLeft, ChevronRight, TrendingUp, Play } from 'lucide-react';
+import { useState } from "react";
+import { ChevronLeft, ChevronRight, TrendingUp, Play } from "lucide-react";
 import {
   LineChart,
   Line,
@@ -10,8 +10,8 @@ import {
   CartesianGrid,
   Tooltip,
   ResponsiveContainer,
-} from 'recharts';
-import type { TrendAnalysis } from '@/lib/trends-client';
+} from "recharts";
+import type { TrendAnalysis } from "@/lib/trends-client";
 
 function formatNumber(num: number): string {
   if (num >= 1000000) return `${(num / 1000000).toFixed(1)}M`;
@@ -21,7 +21,7 @@ function formatNumber(num: number): string {
 
 function formatDate(dateString: string): string {
   const date = new Date(dateString);
-  return date.toLocaleDateString('pt-BR', { month: 'short', day: 'numeric' });
+  return date.toLocaleDateString("pt-BR", { month: "short", day: "numeric" });
 }
 
 export function TrendsSidebar({ analysis }: { analysis: TrendAnalysis }) {
@@ -31,15 +31,15 @@ export function TrendsSidebar({ analysis }: { analysis: TrendAnalysis }) {
 
   const chartData = trendData.map((point) => ({
     ...point,
-    shortDate: new Date(point.date).toLocaleDateString('pt-BR', {
-      month: 'short',
-      day: 'numeric',
+    shortDate: new Date(point.date).toLocaleDateString("pt-BR", {
+      month: "short",
+      day: "numeric",
     }),
   }));
 
   return (
     <div
-      className={`flex flex-col bg-gradient-to-b from-neutral-800 to-neutral-900 border-l border-neutral-700 transition-all duration-300 ${isCollapsed ? 'w-16' : 'w-80'} relative`}
+      className={`flex flex-col bg-gradient-to-b from-neutral-800 to-neutral-900 border-l border-neutral-700 transition-all duration-300 ${isCollapsed ? "w-16" : "w-80"} relative`}
     >
       {/* Header */}
       <div className="flex items-center justify-between border-b border-neutral-700 px-4 py-4">
@@ -74,25 +74,28 @@ export function TrendsSidebar({ analysis }: { analysis: TrendAnalysis }) {
               <div className="h-48 w-full">
                 <ResponsiveContainer width="100%" height="100%">
                   <LineChart data={chartData}>
-                    <CartesianGrid strokeDasharray="3 3" stroke="rgba(74, 68, 85, 0.2)" />
+                    <CartesianGrid
+                      strokeDasharray="3 3"
+                      stroke="rgba(74, 68, 85, 0.2)"
+                    />
                     <XAxis
                       dataKey="shortDate"
                       stroke="rgba(149, 141, 161, 0.5)"
                       tick={{ fontSize: 10 }}
-                      style={{ fontSize: '10px' }}
+                      style={{ fontSize: "10px" }}
                     />
                     <YAxis
                       stroke="rgba(149, 141, 161, 0.5)"
                       tick={{ fontSize: 10 }}
-                      style={{ fontSize: '10px' }}
+                      style={{ fontSize: "10px" }}
                     />
                     <Tooltip
                       contentStyle={{
-                        backgroundColor: 'rgba(19, 19, 19, 0.9)',
-                        border: '1px solid rgba(210, 187, 255, 0.2)',
-                        borderRadius: '8px',
+                        backgroundColor: "rgba(19, 19, 19, 0.9)",
+                        border: "1px solid rgba(210, 187, 255, 0.2)",
+                        borderRadius: "8px",
                       }}
-                      labelStyle={{ color: 'rgba(210, 187, 255, 1)' }}
+                      labelStyle={{ color: "rgba(210, 187, 255, 1)" }}
                     />
                     <Line
                       type="monotone"

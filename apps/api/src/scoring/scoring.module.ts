@@ -8,7 +8,17 @@ import { QualityGapScorer } from './quality-gap.scorer';
 
 @Module({
   imports: [CacheModule, AdaptersModule],
-  providers: [MonetizationScorer, DemandScorer, SaturationScorer, QualityGapScorer],
-  exports: [MonetizationScorer, DemandScorer, SaturationScorer, QualityGapScorer],
+  providers: [
+    MonetizationScorer,
+    DemandScorer,
+    SaturationScorer,
+    QualityGapScorer,
+  ],
+  exports: [
+    MonetizationScorer,
+    DemandScorer,
+    SaturationScorer,
+    QualityGapScorer,
+  ],
 })
 export class ScoringModule {}

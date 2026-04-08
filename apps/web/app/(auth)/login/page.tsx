@@ -1,25 +1,25 @@
-'use client'
+"use client";
 
-import { useState } from 'react'
-import { useRouter } from 'next/navigation'
-import { useForm } from 'react-hook-form'
-import { zodResolver } from '@hookform/resolvers/zod'
-import { z } from 'zod'
-import Link from 'next/link'
-import { login, storeToken } from '@/lib/auth-client'
+import { useState } from "react";
+import { useRouter } from "next/navigation";
+import { useForm } from "react-hook-form";
+import { zodResolver } from "@hookform/resolvers/zod";
+import { z } from "zod";
+import Link from "next/link";
+import { login, storeToken } from "@/lib/auth-client";
 
 const loginSchema = z.object({
-  email: z.string().email('Email inválido'),
-  password: z.string().min(6, 'Senha deve ter pelo menos 6 caracteres'),
-})
+  email: z.string().email("Email inválido"),
+  password: z.string().min(6, "Senha deve ter pelo menos 6 caracteres"),
+});
 
-type LoginFormData = z.infer<typeof loginSchema>
+type LoginFormData = z.infer<typeof loginSchema>;
 
 export default function LoginPage() {
-  const router = useRouter()
-  const [globalError, setGlobalError] = useState<string | null>(null)
-  const [isLoading, setIsLoading] = useState(false)
-  const [showPassword, setShowPassword] = useState(false)
+  const router = useRouter();
+  const [globalError, setGlobalError] = useState<string | null>(null);
+  const [isLoading, setIsLoading] = useState(false);
+  const [showPassword, setShowPassword] = useState(false);
 
   const {
     register,
@@ -27,30 +27,33 @@ export default function LoginPage() {
     formState: { errors },
   } = useForm<LoginFormData>({
     resolver: zodResolver(loginSchema),
-  })
+  });
 
   const onSubmit = async (data: LoginFormData) => {
-    setGlobalError(null)
-    setIsLoading(true)
+    setGlobalError(null);
+    setIsLoading(true);
 
     try {
-      const response = await login(data)
-      storeToken(response.accessToken)
-      router.push('/dashboard')
+      const response = await login(data);
+      storeToken(response.accessToken);
+      router.push("/dashboard");
     } catch (error) {
       setGlobalError(
-        error instanceof Error ? error.message : 'Erro ao fazer login'
-      )
+        error instanceof Error ? error.message : "Erro ao fazer login",
+      );
     } finally {
-      setIsLoading(false)
+      setIsLoading(false);
     }
-  }
+  };
 
   return (
     <div className="w-full">
       {/* Header */}
       <div className="mb-12">
-        <h2 className="text-4xl font-bold font-headline text-white mb-3" style={{ lineHeight: '1.2' }}>
+        <h2
+          className="text-4xl font-bold font-headline text-white mb-3"
+          style={{ lineHeight: "1.2" }}
+        >
           Boas-vindas
         </h2>
         <p className="text-on-surface-variant text-base font-body">
@@ -63,12 +66,12 @@ export default function LoginPage() {
         <div
           className="mb-6 px-4 py-3 rounded-lg"
           style={{
-            backgroundColor: 'rgba(147, 0, 10, 0.1)',
-            borderColor: 'rgba(255, 180, 171, 0.3)',
-            borderWidth: '1px',
+            backgroundColor: "rgba(147, 0, 10, 0.1)",
+            borderColor: "rgba(255, 180, 171, 0.3)",
+            borderWidth: "1px",
           }}
         >
-          <p className="text-sm font-medium" style={{ color: 'var(--error)' }}>
+          <p className="text-sm font-medium" style={{ color: "var(--error)" }}>
             {globalError}
           </p>
         </div>
@@ -82,12 +85,12 @@ export default function LoginPage() {
             <label
               htmlFor="email"
               className="text-mono ml-1 font-medium"
-              style={{ color: 'var(--outline)' }}
+              style={{ color: "var(--outline)" }}
             >
               E-mail Corporativo
             </label>
             <input
-              {...register('email')}
+              {...register("email")}
               type="email"
               id="email"
               placeholder="nome@exemplo.com"
@@ -102,23 +105,31 @@ export default function LoginPage() {
           {/* Password Field */}
           <div className="space-y-2">
             <div className="flex justify-between items-center px-1">
-              <label htmlFor="password" className="text-mono font-medium" style={{ color: 'var(--outline)' }}>
+              <label
+                htmlFor="password"
+                className="text-mono font-medium"
+                style={{ color: "var(--outline)" }}
+              >
                 Senha
               </label>
               <Link
                 href="/forgot-password"
                 className="text-mono transition-colors"
-                style={{ color: 'var(--primary)' }}
-                onMouseEnter={(e) => (e.currentTarget.style.color = 'var(--on-surface)')}
-                onMouseLeave={(e) => (e.currentTarget.style.color = 'var(--primary)')}
+                style={{ color: "var(--primary)" }}
+                onMouseEnter={(e) =>
+                  (e.currentTarget.style.color = "var(--on-surface)")
+                }
+                onMouseLeave={(e) =>
+                  (e.currentTarget.style.color = "var(--primary)")
+                }
               >
                 Esqueci minha senha
               </Link>
             </div>
             <div className="relative">
               <input
-                {...register('password')}
-                type={showPassword ? 'text' : 'password'}
+                {...register("password")}
+                type={showPassword ? "text" : "password"}
                 id="password"
                 placeholder="••••••••"
                 className="input-field"
@@ -130,7 +141,7 @@ export default function LoginPage() {
                 className="absolute right-4 top-1/2 -translate-y-1/2 text-outline hover:text-white transition-colors"
               >
                 <span className="material-symbols-outlined text-[20px]">
-                  {showPassword ? 'visibility' : 'visibility_off'}
+                  {showPassword ? "visibility" : "visibility_off"}
                 </span>
               </button>
             </div>
@@ -148,7 +159,7 @@ export default function LoginPage() {
           disabled={isLoading}
           className="btn-primary disabled:opacity-50 disabled:cursor-not-allowed"
         >
-          {isLoading ? 'Entrando...' : 'Entrar'}
+          {isLoading ? "Entrando..." : "Entrar"}
         </button>
       </form>
 
@@ -158,8 +169,8 @@ export default function LoginPage() {
           <div
             className="w-full"
             style={{
-              borderTopColor: 'rgba(74, 68, 85, 0.15)',
-              borderTopWidth: '1px',
+              borderTopColor: "rgba(74, 68, 85, 0.15)",
+              borderTopWidth: "1px",
             }}
           />
         </div>
@@ -167,8 +178,8 @@ export default function LoginPage() {
           <span
             className="px-4 text-mono"
             style={{
-              backgroundColor: 'var(--surface-container-low)',
-              color: 'var(--outline)',
+              backgroundColor: "var(--surface-container-low)",
+              color: "var(--outline)",
             }}
           >
             Ou continue com
@@ -182,42 +193,60 @@ export default function LoginPage() {
           type="button"
           className="flex items-center justify-center gap-3 py-3 px-4 rounded-lg transition-colors"
           style={{
-            backgroundColor: 'var(--surface-container-high)',
-            borderColor: 'rgba(74, 68, 85, 0.1)',
-            borderWidth: '1px',
+            backgroundColor: "var(--surface-container-high)",
+            borderColor: "rgba(74, 68, 85, 0.1)",
+            borderWidth: "1px",
           }}
-          onMouseEnter={(e) => (e.currentTarget.style.backgroundColor = 'var(--surface-bright)')}
-          onMouseLeave={(e) => (e.currentTarget.style.backgroundColor = 'var(--surface-container-high)')}
+          onMouseEnter={(e) =>
+            (e.currentTarget.style.backgroundColor = "var(--surface-bright)")
+          }
+          onMouseLeave={(e) =>
+            (e.currentTarget.style.backgroundColor =
+              "var(--surface-container-high)")
+          }
         >
           <GoogleIcon />
-          <span className="text-xs font-medium font-body text-white">Google</span>
+          <span className="text-xs font-medium font-body text-white">
+            Google
+          </span>
         </button>
         <button
           type="button"
           className="flex items-center justify-center gap-3 py-3 px-4 rounded-lg transition-colors"
           style={{
-            backgroundColor: 'var(--surface-container-high)',
-            borderColor: 'rgba(74, 68, 85, 0.1)',
-            borderWidth: '1px',
+            backgroundColor: "var(--surface-container-high)",
+            borderColor: "rgba(74, 68, 85, 0.1)",
+            borderWidth: "1px",
           }}
-          onMouseEnter={(e) => (e.currentTarget.style.backgroundColor = 'var(--surface-bright)')}
-          onMouseLeave={(e) => (e.currentTarget.style.backgroundColor = 'var(--surface-container-high)')}
+          onMouseEnter={(e) =>
+            (e.currentTarget.style.backgroundColor = "var(--surface-bright)")
+          }
+          onMouseLeave={(e) =>
+            (e.currentTarget.style.backgroundColor =
+              "var(--surface-container-high)")
+          }
         >
           <AppleIcon />
-          <span className="text-xs font-medium font-body text-white">Apple</span>
+          <span className="text-xs font-medium font-body text-white">
+            Apple
+          </span>
         </button>
       </div>
 
       {/* Create Account */}
       <div className="text-center mb-16">
-        <p className="text-sm font-body" style={{ color: 'var(--outline)' }}>
-          Não tem uma conta?{' '}
+        <p className="text-sm font-body" style={{ color: "var(--outline)" }}>
+          Não tem uma conta?{" "}
           <Link
             href="/register"
             className="font-semibold transition-colors"
-            style={{ color: 'var(--primary)' }}
-            onMouseEnter={(e) => (e.currentTarget.style.color = 'var(--on-surface)')}
-            onMouseLeave={(e) => (e.currentTarget.style.color = 'var(--primary)')}
+            style={{ color: "var(--primary)" }}
+            onMouseEnter={(e) =>
+              (e.currentTarget.style.color = "var(--on-surface)")
+            }
+            onMouseLeave={(e) =>
+              (e.currentTarget.style.color = "var(--primary)")
+            }
           >
             Criar conta
           </Link>
@@ -225,13 +254,18 @@ export default function LoginPage() {
       </div>
 
       {/* Legal Note */}
-      <div className="flex flex-wrap justify-center gap-4 text-mono" style={{ color: 'rgba(149, 141, 161, 0.5)' }}>
+      <div
+        className="flex flex-wrap justify-center gap-4 text-mono"
+        style={{ color: "rgba(149, 141, 161, 0.5)" }}
+      >
         <Link
           href="/terms"
           className="transition-colors"
-          style={{ color: 'rgba(149, 141, 161, 0.5)' }}
-          onMouseEnter={(e) => (e.currentTarget.style.color = 'var(--outline)')}
-          onMouseLeave={(e) => (e.currentTarget.style.color = 'rgba(149, 141, 161, 0.5)')}
+          style={{ color: "rgba(149, 141, 161, 0.5)" }}
+          onMouseEnter={(e) => (e.currentTarget.style.color = "var(--outline)")}
+          onMouseLeave={(e) =>
+            (e.currentTarget.style.color = "rgba(149, 141, 161, 0.5)")
+          }
         >
           Termos
         </Link>
@@ -239,9 +273,11 @@ export default function LoginPage() {
         <Link
           href="/privacy"
           className="transition-colors"
-          style={{ color: 'rgba(149, 141, 161, 0.5)' }}
-          onMouseEnter={(e) => (e.currentTarget.style.color = 'var(--outline)')}
-          onMouseLeave={(e) => (e.currentTarget.style.color = 'rgba(149, 141, 161, 0.5)')}
+          style={{ color: "rgba(149, 141, 161, 0.5)" }}
+          onMouseEnter={(e) => (e.currentTarget.style.color = "var(--outline)")}
+          onMouseLeave={(e) =>
+            (e.currentTarget.style.color = "rgba(149, 141, 161, 0.5)")
+          }
         >
           Privacidade
         </Link>
@@ -249,15 +285,17 @@ export default function LoginPage() {
         <Link
           href="/support"
           className="transition-colors"
-          style={{ color: 'rgba(149, 141, 161, 0.5)' }}
-          onMouseEnter={(e) => (e.currentTarget.style.color = 'var(--outline)')}
-          onMouseLeave={(e) => (e.currentTarget.style.color = 'rgba(149, 141, 161, 0.5)')}
+          style={{ color: "rgba(149, 141, 161, 0.5)" }}
+          onMouseEnter={(e) => (e.currentTarget.style.color = "var(--outline)")}
+          onMouseLeave={(e) =>
+            (e.currentTarget.style.color = "rgba(149, 141, 161, 0.5)")
+          }
         >
           Suporte
         </Link>
       </div>
     </div>
-  )
+  );
 }
 
 function GoogleIcon() {
@@ -268,7 +306,7 @@ function GoogleIcon() {
       <path d="M5.84 14.09c-.22-.66-.35-1.36-.35-2.09s.13-1.43.35-2.09V7.07H2.18C1.43 8.55 1 10.22 1 12s.43 3.45 1.18 4.93l2.85-2.22.81-.62z" />
       <path d="M12 5.38c1.62 0 3.06.56 4.21 1.64l3.15-3.15C17.45 2.09 14.97 1 12 1 7.7 1 3.99 3.47 2.18 7.07l3.66 2.84c.87-2.6 3.3-4.53 6.16-4.53z" />
     </svg>
-  )
+  );
 }
 
 function AppleIcon() {
@@ -276,5 +314,5 @@ function AppleIcon() {
     <svg className="w-5 h-5" fill="currentColor" viewBox="0 0 24 24">
       <path d="M17.05 20.28c-.96.95-2.04 1.44-3.12 1.44-1.12 0-1.89-.35-3.08-.35-1.2 0-2.12.37-3.12.37-1.04 0-2.16-.54-3.14-1.52-1.93-1.94-2.86-5.26-2.86-7.73 0-2.27.87-4.14 2.21-5.12.83-.62 1.83-.93 2.82-.93.99 0 1.63.31 2.76.31.96 0 1.63-.33 2.73-.33 1.04 0 1.95.31 2.76.92.35.26.68.57.96.94-2.12 1.34-1.78 4.38.74 5.56-.55 1.55-1.34 3.06-2.66 4.38zm-3.16-16.14c0 1.13-.53 2.18-1.41 2.85-.92.7-1.98.77-2.73.77-.07-1.15.42-2.31 1.32-3.04.83-.67 1.99-.81 2.82-.58z" />
     </svg>
-  )
+  );
 }

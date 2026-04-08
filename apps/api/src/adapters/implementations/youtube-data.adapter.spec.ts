@@ -103,12 +103,10 @@ describe('YouTubeDataAdapter', () => {
     });
 
     it('should use default maxResults of 10', async () => {
-      global.fetch = jest
-        .fn()
-        .mockResolvedValueOnce({
-          ok: true,
-          json: async () => ({ items: [] }),
-        } as Response);
+      global.fetch = jest.fn().mockResolvedValueOnce({
+        ok: true,
+        json: async () => ({ items: [] }),
+      } as Response);
 
       await adapter.searchVideos('query');
 
@@ -117,12 +115,10 @@ describe('YouTubeDataAdapter', () => {
     });
 
     it('should return empty array if no videos found', async () => {
-      global.fetch = jest
-        .fn()
-        .mockResolvedValueOnce({
-          ok: true,
-          json: async () => ({ items: [] }),
-        } as Response);
+      global.fetch = jest.fn().mockResolvedValueOnce({
+        ok: true,
+        json: async () => ({ items: [] }),
+      } as Response);
 
       const result = await adapter.searchVideos('query with no results');
 
@@ -133,7 +129,8 @@ describe('YouTubeDataAdapter', () => {
       const mockErrorResponse = {
         error: {
           code: 403,
-          message: 'The request cannot be completed because you have exceeded your quota.',
+          message:
+            'The request cannot be completed because you have exceeded your quota.',
           errors: [
             {
               reason: 'quotaExceeded',
@@ -161,17 +158,15 @@ describe('YouTubeDataAdapter', () => {
     });
 
     it('should throw YouTubeApiError on API failure', async () => {
-      global.fetch = jest
-        .fn()
-        .mockResolvedValueOnce({
-          ok: false,
-          json: async () => ({
-            error: {
-              code: 400,
-              message: 'Invalid query',
-            },
-          }),
-        } as Response);
+      global.fetch = jest.fn().mockResolvedValueOnce({
+        ok: false,
+        json: async () => ({
+          error: {
+            code: 400,
+            message: 'Invalid query',
+          },
+        }),
+      } as Response);
 
       await expect(adapter.searchVideos('query')).rejects.toThrow(
         YouTubeApiError,
@@ -211,12 +206,10 @@ describe('YouTubeDataAdapter', () => {
         ],
       };
 
-      global.fetch = jest
-        .fn()
-        .mockResolvedValueOnce({
-          ok: true,
-          json: async () => mockResponse,
-        } as Response);
+      global.fetch = jest.fn().mockResolvedValueOnce({
+        ok: true,
+        json: async () => mockResponse,
+      } as Response);
 
       const result = await adapter.getVideoStats('video1');
 
@@ -251,12 +244,10 @@ describe('YouTubeDataAdapter', () => {
         ],
       };
 
-      global.fetch = jest
-        .fn()
-        .mockResolvedValueOnce({
-          ok: true,
-          json: async () => mockResponse,
-        } as Response);
+      global.fetch = jest.fn().mockResolvedValueOnce({
+        ok: true,
+        json: async () => mockResponse,
+      } as Response);
 
       const result = await adapter.getVideoStats('video1');
 
@@ -265,12 +256,10 @@ describe('YouTubeDataAdapter', () => {
     });
 
     it('should throw error if video not found', async () => {
-      global.fetch = jest
-        .fn()
-        .mockResolvedValueOnce({
-          ok: true,
-          json: async () => ({ items: [] }),
-        } as Response);
+      global.fetch = jest.fn().mockResolvedValueOnce({
+        ok: true,
+        json: async () => ({ items: [] }),
+      } as Response);
 
       await expect(adapter.getVideoStats('nonexistent')).rejects.toThrow(
         YouTubeApiError,
@@ -286,12 +275,10 @@ describe('YouTubeDataAdapter', () => {
         },
       };
 
-      global.fetch = jest
-        .fn()
-        .mockResolvedValueOnce({
-          ok: false,
-          json: async () => mockErrorResponse,
-        } as Response);
+      global.fetch = jest.fn().mockResolvedValueOnce({
+        ok: false,
+        json: async () => mockErrorResponse,
+      } as Response);
 
       try {
         await adapter.getVideoStats('video1');
@@ -323,7 +310,9 @@ describe('YouTubeDataAdapter', () => {
                 title: 'Test',
                 description: 'Test',
                 publishedAt: '2024-01-01T00:00:00Z',
-                thumbnails: { default: { url: 'http://example.com/thumb.jpg' } },
+                thumbnails: {
+                  default: { url: 'http://example.com/thumb.jpg' },
+                },
               },
               contentDetails: { duration: testCase.duration },
               statistics: {
@@ -333,12 +322,10 @@ describe('YouTubeDataAdapter', () => {
           ],
         };
 
-        global.fetch = jest
-          .fn()
-          .mockResolvedValueOnce({
-            ok: true,
-            json: async () => mockResponse,
-          } as Response);
+        global.fetch = jest.fn().mockResolvedValueOnce({
+          ok: true,
+          json: async () => mockResponse,
+        } as Response);
 
         const result = await adapter.getVideoStats('test');
         expect(result.duration).toBe(testCase.expected);
@@ -348,12 +335,10 @@ describe('YouTubeDataAdapter', () => {
 
   describe('API request format', () => {
     it('should build correct search URL with parameters', async () => {
-      global.fetch = jest
-        .fn()
-        .mockResolvedValueOnce({
-          ok: true,
-          json: async () => ({ items: [] }),
-        } as Response);
+      global.fetch = jest.fn().mockResolvedValueOnce({
+        ok: true,
+        json: async () => ({ items: [] }),
+      } as Response);
 
       await adapter.searchVideos('test query', 5);
 
@@ -366,31 +351,31 @@ describe('YouTubeDataAdapter', () => {
     });
 
     it('should include all required parts in video details request', async () => {
-      global.fetch = jest
-        .fn()
-        .mockResolvedValueOnce({
-          ok: true,
-          json: async () => ({
-            items: [
-              {
-                id: 'test',
-                snippet: {
-                  title: 'Test',
-                  description: 'Test',
-                  publishedAt: '2024-01-01T00:00:00Z',
-                  thumbnails: { default: { url: 'http://example.com' } },
-                },
-                contentDetails: { duration: 'PT1M' },
-                statistics: { viewCount: '0' },
+      global.fetch = jest.fn().mockResolvedValueOnce({
+        ok: true,
+        json: async () => ({
+          items: [
+            {
+              id: 'test',
+              snippet: {
+                title: 'Test',
+                description: 'Test',
+                publishedAt: '2024-01-01T00:00:00Z',
+                thumbnails: { default: { url: 'http://example.com' } },
               },
-            ],
-          }),
-        } as Response);
+              contentDetails: { duration: 'PT1M' },
+              statistics: { viewCount: '0' },
+            },
+          ],
+        }),
+      } as Response);
 
       await adapter.getVideoStats('test');
 
       const url = (global.fetch as jest.Mock).mock.calls[0][0] as string;
-      expect(url).toContain('part=snippet%2CcontentDetails%2Cstatistics%2Cstatus');
+      expect(url).toContain(
+        'part=snippet%2CcontentDetails%2Cstatistics%2Cstatus',
+      );
     });
   });
 });

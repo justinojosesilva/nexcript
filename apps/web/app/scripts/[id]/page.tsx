@@ -1,17 +1,21 @@
-'use client';
+"use client";
 
-import { useParams, useRouter } from 'next/navigation';
-import { useQuery } from '@tanstack/react-query';
-import { ArrowLeft } from 'lucide-react';
-import { fetchScript } from '@/lib/scripts-client';
-import { ScriptEditor } from '@/components/script-editor';
+import { useParams, useRouter } from "next/navigation";
+import { useQuery } from "@tanstack/react-query";
+import { ArrowLeft } from "lucide-react";
+import { fetchScript } from "@/lib/scripts-client";
+import { ScriptEditor } from "@/components/script-editor";
 
 export default function ScriptEditorPage() {
   const { id } = useParams<{ id: string }>();
   const router = useRouter();
 
-  const { data: script, isLoading, error } = useQuery({
-    queryKey: ['script', id],
+  const {
+    data: script,
+    isLoading,
+    error,
+  } = useQuery({
+    queryKey: ["script", id],
     queryFn: () => fetchScript(id),
   });
 
@@ -34,10 +38,7 @@ export default function ScriptEditorPage() {
       <div className="flex min-h-screen items-center justify-center bg-neutral-900">
         <div className="text-center">
           <p className="text-red-400">Roteiro não encontrado.</p>
-          <button
-            onClick={() => router.back()}
-            className="btn-secondary mt-4"
-          >
+          <button onClick={() => router.back()} className="btn-secondary mt-4">
             Voltar
           </button>
         </div>

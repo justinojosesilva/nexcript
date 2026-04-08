@@ -1,4 +1,4 @@
-import { AssetType } from '../enums/index.js';
+import { AssetType } from "../enums/index.js";
 
 /**
  * Conjunto de tags para categorização e busca

@@ -40,7 +40,8 @@ export class AuthController {
     type: RegisterResponse,
   })
   @ApiBadRequestResponse({
-    description: 'Invalid email format, password too short, or missing required fields',
+    description:
+      'Invalid email format, password too short, or missing required fields',
   })
   @ApiConflictResponse({
     description: 'Email address already exists',
@@ -95,12 +96,12 @@ export class AuthController {
   })
   async refresh(@Body() dto: RefreshDto): Promise<RefreshResponse> {
     const userId = await this.refreshTokenService.validateRefreshToken(
-      dto.refresh_token,
+      dto.refreshToken,
     );
 
     const user = await this.refreshTokenService.getUserData(userId);
 
-    const access_token = this.refreshTokenService.generateAccessToken(
+    const accessToken = this.refreshTokenService.generateAccessToken(
       user.id,
       user.organizationId,
       user.role,
@@ -108,11 +109,10 @@ export class AuthController {
     );
 
     // Revoke old refresh token and generate new one
-    await this.refreshTokenService.revokeRefreshToken(dto.refresh_token);
-    const refresh_token = await this.refreshTokenService.generateRefreshToken(
-      userId,
-    );
+    await this.refreshTokenService.revokeRefreshToken(dto.refreshToken);
+    const refreshToken =
+      await this.refreshTokenService.generateRefreshToken(userId);
 
-    return { access_token, refresh_token };
+    return { accessToken, refreshToken };
   }
 }

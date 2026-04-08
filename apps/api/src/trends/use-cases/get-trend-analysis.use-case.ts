@@ -16,10 +16,11 @@ export class GetTrendAnalysisUseCase {
   constructor(private readonly prismaService: PrismaService) {}
 
   async execute(projectId: string): Promise<TrendAnalysisResponse> {
-    const trendAnalysis = await this.prismaService.client.trendAnalysis.findFirst({
-      where: { projectId },
-      orderBy: { analyzedAt: 'desc' },
-    });
+    const trendAnalysis =
+      await this.prismaService.client.trendAnalysis.findFirst({
+        where: { projectId },
+        orderBy: { analyzedAt: 'desc' },
+      });
 
     if (!trendAnalysis) {
       throw new NotFoundException(

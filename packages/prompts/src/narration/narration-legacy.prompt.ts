@@ -1,17 +1,17 @@
 export interface NarrationInput {
   script: string;
-  tone?: 'serious' | 'energetic' | 'calm' | 'suspenseful';
+  tone?: "serious" | "energetic" | "calm" | "suspenseful";
   targetTtsVoice?: string;
 }
 
 export const narrationPrompt = ({
   script,
-  tone = 'energetic',
+  tone = "energetic",
   targetTtsVoice,
 }: NarrationInput) => `
 Você é um especialista em roteiros narrados para YouTube.
 
-Adapte o roteiro abaixo para narração em áudio, otimizado para TTS (text-to-speech)${targetTtsVoice ? ` com a voz "${targetTtsVoice}"` : ''}.
+Adapte o roteiro abaixo para narração em áudio, otimizado para TTS (text-to-speech)${targetTtsVoice ? ` com a voz "${targetTtsVoice}"` : ""}.
 
 Tom desejado: ${tone}
 

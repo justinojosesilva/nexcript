@@ -38,11 +38,10 @@ export class RefreshTokenService {
    * @returns User ID if valid
    */
   async validateRefreshToken(token: string): Promise<string> {
-    const refreshToken = await this.prismaService.client.refreshToken.findUnique(
-      {
+    const refreshToken =
+      await this.prismaService.client.refreshToken.findUnique({
         where: { token },
-      },
-    );
+      });
 
     if (!refreshToken || refreshToken.expiresAt < new Date()) {
       throw new Error('Invalid or expired refresh token');

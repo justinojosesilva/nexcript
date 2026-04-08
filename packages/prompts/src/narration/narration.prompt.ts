@@ -5,14 +5,14 @@
 
 export interface NarrationBlock {
   id: string;
-  type: 'HOOK' | 'INTRO' | 'DEVELOPMENT' | 'CTA' | 'CONCLUSION';
+  type: "HOOK" | "INTRO" | "DEVELOPMENT" | "CTA" | "CONCLUSION";
   content: string;
   estimatedDuration: number;
 }
 
-export type NarrationTone = 'CALM' | 'DRAMATIC' | 'ENERGETIC' | 'SUSPENSEFUL';
-export type NarrationSpeed = 'SLOW' | 'NORMAL' | 'FAST';
-export type VoiceStyle = 'professional' | 'casual' | 'enthusiastic' | 'soft';
+export type NarrationTone = "CALM" | "DRAMATIC" | "ENERGETIC" | "SUSPENSEFUL";
+export type NarrationSpeed = "SLOW" | "NORMAL" | "FAST";
+export type VoiceStyle = "professional" | "casual" | "enthusiastic" | "soft";
 
 export interface NarrationPromptInput {
   scriptBlocks: NarrationBlock[];
@@ -29,24 +29,25 @@ interface NarrationGuidelines {
 
 const toneGuidelines: Record<NarrationTone, NarrationGuidelines> = {
   CALM: {
-    sentenceLength: 'long, flowing sentences (25-35 words)',
-    pauseFrequency: 'minimal pauses, focus on rhythm',
-    emphasisLevel: 'gentle emphasis on key words',
+    sentenceLength: "long, flowing sentences (25-35 words)",
+    pauseFrequency: "minimal pauses, focus on rhythm",
+    emphasisLevel: "gentle emphasis on key words",
   },
   DRAMATIC: {
-    sentenceLength: 'short, impactful sentences (8-15 words)',
-    pauseFrequency: 'strategic pauses between dramatic moments',
-    emphasisLevel: 'strong emphasis on key words using CAPS LOCK',
+    sentenceLength: "short, impactful sentences (8-15 words)",
+    pauseFrequency: "strategic pauses between dramatic moments",
+    emphasisLevel: "strong emphasis on key words using CAPS LOCK",
   },
   ENERGETIC: {
-    sentenceLength: 'medium sentences (15-20 words) with varied length',
-    pauseFrequency: 'moderate pauses to maintain energy',
-    emphasisLevel: 'enthusiastic emphasis on exciting elements',
+    sentenceLength: "medium sentences (15-20 words) with varied length",
+    pauseFrequency: "moderate pauses to maintain energy",
+    emphasisLevel: "enthusiastic emphasis on exciting elements",
   },
   SUSPENSEFUL: {
-    sentenceLength: 'mixed: short for tension, longer for buildup (10-30 words)',
-    pauseFrequency: 'strategic pauses to build tension',
-    emphasisLevel: 'emphasis on mystery and intrigue elements',
+    sentenceLength:
+      "mixed: short for tension, longer for buildup (10-30 words)",
+    pauseFrequency: "strategic pauses to build tension",
+    emphasisLevel: "emphasis on mystery and intrigue elements",
   },
 };
 
@@ -80,7 +81,7 @@ export const narrationPromptTemplate = ({
       (block) =>
         `[${block.type.toUpperCase()}]\n${block.content}\n(Duration: ~${Math.ceil(block.estimatedDuration * speedMultiplier)}s)`,
     )
-    .join('\n\n');
+    .join("\n\n");
 
   return `You are an expert audiobook narrator and TTS adaptation specialist.
 
@@ -146,4 +147,7 @@ Return ONLY the adapted narration text with:
 Begin the adapted narration now:`;
 };
 
-export { narrationPrompt, type NarrationInput } from './narration-legacy.prompt.js';
+export {
+  narrationPrompt,
+  type NarrationInput,
+} from "./narration-legacy.prompt.js";

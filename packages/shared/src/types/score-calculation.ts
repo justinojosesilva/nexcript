@@ -2,9 +2,9 @@
  * Classificação do score final do conteúdo
  */
 export enum ScoreClassification {
-  PUBLISH = 'PUBLISH',
-  EVALUATE = 'EVALUATE',
-  AVOID = 'AVOID',
+  PUBLISH = "PUBLISH",
+  EVALUATE = "EVALUATE",
+  AVOID = "AVOID",
 }
 
 /**

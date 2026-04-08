@@ -8,21 +8,22 @@ export interface GapAnalysisInput {
   }>;
 }
 
-export const gapAnalysisPrompt = ({
-  keyword,
-  videos,
-}: GapAnalysisInput) => `
+export const gapAnalysisPrompt = ({ keyword, videos }: GapAnalysisInput) => `
 Você é um especialista em estratégia de conteúdo para YouTube.
 
 Analise o keyword "${keyword}" e os vídeos existentes abaixo para identificar gaps (lacunas) de conteúdo que poderiam ser explorados.
 
 VÍDEOS EXISTENTES:
-${videos.map((v, i) => `
+${videos
+  .map(
+    (v, i) => `
 ${i + 1}. "${v.title}"
-   ${v.description ? `Descrição: ${v.description}` : ''}
-   ${v.duration ? `Duração: ${v.duration}min` : ''}
-   ${v.viewCount ? `Views: ${v.viewCount.toLocaleString('pt-BR')}` : ''}
-`).join('\n')}
+   ${v.description ? `Descrição: ${v.description}` : ""}
+   ${v.duration ? `Duração: ${v.duration}min` : ""}
+   ${v.viewCount ? `Views: ${v.viewCount.toLocaleString("pt-BR")}` : ""}
+`,
+  )
+  .join("\n")}
 
 INSTRUÇÕES:
 1. Identifique lacunas (gaps) não cobertas pelos vídeos existentes

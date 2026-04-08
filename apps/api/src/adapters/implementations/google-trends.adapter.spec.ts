@@ -269,7 +269,9 @@ describe('GoogleTrendsAdapter', () => {
       const afterTime = Date.now();
 
       expect(result[0].timestamp.getTime()).toBeGreaterThanOrEqual(beforeTime);
-      expect(result[0].timestamp.getTime()).toBeLessThanOrEqual(afterTime + 100);
+      expect(result[0].timestamp.getTime()).toBeLessThanOrEqual(
+        afterTime + 100,
+      );
     });
   });
 
@@ -341,7 +343,7 @@ describe('GoogleTrendsAdapter', () => {
     it('should gracefully handle non-Error exceptions', async () => {
       jest
         .spyOn(adapter as any, 'fetchInterestOverTime')
-         
+
         .mockRejectedValueOnce('unexpected string error');
 
       const result = await adapter.getInterestOverTime('bitcoin', 'BR');
@@ -416,9 +418,7 @@ describe('GoogleTrendsAdapter', () => {
             ],
           },
           {
-            queries: [
-              { query: 'query3', value: 70 },
-            ],
+            queries: [{ query: 'query3', value: 70 }],
           },
         ],
       };

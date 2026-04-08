@@ -17,6 +17,9 @@ import { ScoringModule } from './scoring/scoring.module';
 import { TrendsModule } from './trends/trends.module';
 import { ScriptsModule } from './scripts/scripts.module';
 import { NarrationsModule } from './narrations/narrations.module';
+import { PromptsModule } from './prompts/prompts.module';
+import { HealthModule } from './health/health.module';
+import { LoggingModule } from './logging/logging.module';
 
 @Module({
   imports: [
@@ -37,6 +40,9 @@ import { NarrationsModule } from './narrations/narrations.module';
     ProjectsModule,
     ScriptsModule,
     NarrationsModule,
+    PromptsModule,
+    HealthModule,
+    LoggingModule,
     BullmqModule,
     JobsModule,
   ],

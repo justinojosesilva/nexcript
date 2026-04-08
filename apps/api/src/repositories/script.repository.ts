@@ -20,4 +20,25 @@ export class ScriptRepository implements IScriptRepository {
       where: { id },
     });
   }
+
+  async findByOrganizationAndDateRange(
+    organizationId: string,
+    startDate: Date,
+    endDate: Date,
+  ): Promise<Script[]> {
+    return this.prismaService.client.script.findMany({
+      where: {
+        createdAt: {
+          gte: startDate,
+          lte: endDate,
+        },
+        contentProject: {
+          organizationId: organizationId,
+        },
+      },
+      orderBy: {
+        createdAt: 'desc',
+      },
+    });
+  }
 }

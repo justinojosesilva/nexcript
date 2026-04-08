@@ -1,72 +1,72 @@
 interface LoginRequest {
-  email: string
-  password: string
+  email: string;
+  password: string;
 }
 
 interface RegisterRequest {
-  name: string
-  email: string
-  password: string
+  name: string;
+  email: string;
+  password: string;
 }
 
 interface AuthResponse {
-  accessToken: string
+  accessToken: string;
   user: {
-    id: string
-    email: string
-    name: string
-  }
+    id: string;
+    email: string;
+    name: string;
+  };
 }
 
-const API_URL = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:3002'
+const API_URL = process.env.NEXT_PUBLIC_API_URL || "http://localhost:3002";
 
 export async function login(credentials: LoginRequest): Promise<AuthResponse> {
   const response = await fetch(`${API_URL}/auth/login`, {
-    method: 'POST',
+    method: "POST",
     headers: {
-      'Content-Type': 'application/json',
+      "Content-Type": "application/json",
     },
     body: JSON.stringify(credentials),
-    credentials: 'include',
-  })
+    credentials: "include",
+  });
 
   if (!response.ok) {
-    const error = await response.json()
-    throw new Error(error.message || 'Login failed')
+    const error = await response.json();
+    throw new Error(error.message || "Login failed");
   }
 
-  return response.json()
+  return response.json();
 }
 
 export async function register(data: RegisterRequest): Promise<AuthResponse> {
   const response = await fetch(`${API_URL}/auth/register`, {
-    method: 'POST',
+    method: "POST",
     headers: {
-      'Content-Type': 'application/json',
+      "Content-Type": "application/json",
     },
     body: JSON.stringify(data),
-    credentials: 'include',
-  })
+    credentials: "include",
+  });
 
   if (!response.ok) {
-    const error = await response.json()
-    throw new Error(error.message || 'Registration failed')
+    const error = await response.json();
+    throw new Error(error.message || "Registration failed");
   }
 
-  return response.json()
+  return response.json();
 }
 
 export function getStoredToken(): string | null {
-  if (typeof window === 'undefined') return null
-  return localStorage.getItem('nexcript_token')
+  if (typeof window === "undefined") return null;
+  return localStorage.getItem("nexcript_token");
 }
 
 export function storeToken(token: string): void {
-  if (typeof window === 'undefined') return
-  localStorage.setItem('nexcript_token', token)
+  if (typeof window === "undefined") return;
+  localStorage.setItem("nexcript_token", token);
 }
 
 export function removeToken(): void {
-  if (typeof window === 'undefined') return
-  localStorage.removeItem('nexcript_token')
+  if (typeof window === "undefined") return;
+  localStorage.removeItem("nexcript_token");
 }

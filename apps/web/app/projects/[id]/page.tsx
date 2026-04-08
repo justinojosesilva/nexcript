@@ -1,43 +1,47 @@
-'use client';
+"use client";
 
-import { useParams, useRouter } from 'next/navigation';
-import { useQuery } from '@tanstack/react-query';
-import { ArrowLeft } from 'lucide-react';
-import { fetchProject } from '@/lib/projects-client';
-import { ScriptsList } from '@/components/scripts-list';
+import { useParams, useRouter } from "next/navigation";
+import { useQuery } from "@tanstack/react-query";
+import { ArrowLeft } from "lucide-react";
+import { fetchProject } from "@/lib/projects-client";
+import { ScriptsList } from "@/components/scripts-list";
 
 const STATUS_COLORS: Record<string, string> = {
-  planning: 'bg-blue-500/20 text-blue-300',
-  in_development: 'bg-yellow-500/20 text-yellow-300',
-  in_review: 'bg-purple-500/20 text-purple-300',
-  active: 'bg-green-500/20 text-green-300',
-  paused: 'bg-neutral-500/20 text-neutral-300',
-  archived: 'bg-neutral-500/10 text-neutral-500',
+  planning: "bg-blue-500/20 text-blue-300",
+  in_development: "bg-yellow-500/20 text-yellow-300",
+  in_review: "bg-purple-500/20 text-purple-300",
+  active: "bg-green-500/20 text-green-300",
+  paused: "bg-neutral-500/20 text-neutral-300",
+  archived: "bg-neutral-500/10 text-neutral-500",
 };
 
 const STATUS_LABELS: Record<string, string> = {
-  planning: 'Planejamento',
-  in_development: 'Em Desenvolvimento',
-  in_review: 'Em Revisão',
-  active: 'Ativo',
-  paused: 'Pausado',
-  archived: 'Arquivado',
+  planning: "Planejamento",
+  in_development: "Em Desenvolvimento",
+  in_review: "Em Revisão",
+  active: "Ativo",
+  paused: "Pausado",
+  archived: "Arquivado",
 };
 
 const FORMAT_LABELS: Record<string, string> = {
-  long_form: 'Long Form',
-  medium_form: 'Medium Form',
-  short_form: 'Short Form',
-  carousel: 'Carousel',
-  podcast: 'Podcast',
+  long_form: "Long Form",
+  medium_form: "Medium Form",
+  short_form: "Short Form",
+  carousel: "Carousel",
+  podcast: "Podcast",
 };
 
 export default function ProjectPage() {
   const { id } = useParams<{ id: string }>();
   const router = useRouter();
 
-  const { data: project, isLoading, error } = useQuery({
-    queryKey: ['project', id],
+  const {
+    data: project,
+    isLoading,
+    error,
+  } = useQuery({
+    queryKey: ["project", id],
     queryFn: () => fetchProject(id),
   });
 
@@ -61,7 +65,7 @@ export default function ProjectPage() {
         <div className="text-center">
           <p className="text-red-400">Projeto não encontrado.</p>
           <button
-            onClick={() => router.push('/dashboard')}
+            onClick={() => router.push("/dashboard")}
             className="btn-secondary mt-4"
           >
             Voltar ao Dashboard
@@ -71,10 +75,8 @@ export default function ProjectPage() {
     );
   }
 
-  const statusColor =
-    STATUS_COLORS[project.status] ?? STATUS_COLORS.planning;
-  const statusLabel =
-    STATUS_LABELS[project.status] ?? project.status;
+  const statusColor = STATUS_COLORS[project.status] ?? STATUS_COLORS.planning;
+  const statusLabel = STATUS_LABELS[project.status] ?? project.status;
 
   return (
     <div className="min-h-screen bg-neutral-900">
@@ -83,7 +85,7 @@ export default function ProjectPage() {
         <div className="mx-auto max-w-4xl px-6 py-5">
           <div className="flex items-center gap-4">
             <button
-              onClick={() => router.push('/dashboard')}
+              onClick={() => router.push("/dashboard")}
               className="flex items-center gap-1.5 text-sm text-neutral-400 transition-colors hover:text-white"
             >
               <ArrowLeft className="h-4 w-4" />
@@ -113,7 +115,7 @@ export default function ProjectPage() {
             {project.title}
           </h1>
           <p className="mt-2 text-neutral-400">
-            Palavra-chave:{' '}
+            Palavra-chave:{" "}
             <span className="font-medium text-neutral-200">
               {project.keyword}
             </span>
@@ -136,7 +138,9 @@ export default function ProjectPage() {
               <p className="text-xs font-medium uppercase tracking-wider text-neutral-500">
                 Plataforma
               </p>
-              <p className="mt-1 text-white">{project.channelProfile.platform}</p>
+              <p className="mt-1 text-white">
+                {project.channelProfile.platform}
+              </p>
             </div>
             <div>
               <p className="text-xs font-medium uppercase tracking-wider text-neutral-500">
@@ -145,7 +149,7 @@ export default function ProjectPage() {
               <p className="mt-1 text-white">
                 {project.durationMinutes
                   ? `${project.durationMinutes} min`
-                  : '—'}
+                  : "—"}
               </p>
             </div>
             <div>
@@ -153,10 +157,10 @@ export default function ProjectPage() {
                 Criado em
               </p>
               <p className="mt-1 text-white">
-                {new Date(project.createdAt).toLocaleDateString('pt-BR', {
-                  year: 'numeric',
-                  month: 'long',
-                  day: 'numeric',
+                {new Date(project.createdAt).toLocaleDateString("pt-BR", {
+                  year: "numeric",
+                  month: "long",
+                  day: "numeric",
                 })}
               </p>
             </div>

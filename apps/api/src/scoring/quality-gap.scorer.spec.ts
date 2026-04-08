@@ -46,7 +46,9 @@ describe('QualityGapScorer', () => {
     });
 
     it('should throw error if geo is missing', async () => {
-      await expect(scorer.calculateDimensions({ keyword: 'test' })).rejects.toThrow(
+      await expect(
+        scorer.calculateDimensions({ keyword: 'test' }),
+      ).rejects.toThrow(
         'QualityGapScorer requires "keyword" and "geo" in input',
       );
     });
@@ -60,7 +62,10 @@ describe('QualityGapScorer', () => {
       };
       mockRedis.get.mockResolvedValueOnce(JSON.stringify(cached));
 
-      const result = await scorer.calculateDimensions({ keyword: 'test', geo: 'US' });
+      const result = await scorer.calculateDimensions({
+        keyword: 'test',
+        geo: 'US',
+      });
 
       expect(result).toEqual(cached);
       // Cache key should use only keyword (not geo)
@@ -77,7 +82,10 @@ describe('QualityGapScorer', () => {
       );
       mockRedis.setex.mockResolvedValueOnce('OK');
 
-      const result = await scorer.calculateDimensions({ keyword: 'python', geo: 'BR' });
+      const result = await scorer.calculateDimensions({
+        keyword: 'python',
+        geo: 'BR',
+      });
 
       expect(result.dimension1).toBe(70);
       expect(mockRedis.setex).toHaveBeenCalledWith(
@@ -135,7 +143,12 @@ describe('QualityGapScorer', () => {
 
   describe('calculateScore', () => {
     it('should return PUBLISH classification for score >= 75', () => {
-      const dimensions = { dimension1: 80, dimension2: 50, dimension3: 50, dimension4: 50 };
+      const dimensions = {
+        dimension1: 80,
+        dimension2: 50,
+        dimension3: 50,
+        dimension4: 50,
+      };
       const result = scorer.calculateScore(dimensions);
 
       expect(result.score).toBe(80);
@@ -143,7 +156,12 @@ describe('QualityGapScorer', () => {
     });
 
     it('should return EVALUATE classification for 50 <= score < 75', () => {
-      const dimensions = { dimension1: 60, dimension2: 50, dimension3: 50, dimension4: 50 };
+      const dimensions = {
+        dimension1: 60,
+        dimension2: 50,
+        dimension3: 50,
+        dimension4: 50,
+      };
       const result = scorer.calculateScore(dimensions);
 
       expect(result.score).toBe(60);
@@ -151,7 +169,12 @@ describe('QualityGapScorer', () => {
     });
 
     it('should return AVOID classification for score < 50', () => {
-      const dimensions = { dimension1: 30, dimension2: 50, dimension3: 50, dimension4: 50 };
+      const dimensions = {
+        dimension1: 30,
+        dimension2: 50,
+        dimension3: 50,
+        dimension4: 50,
+      };
       const result = scorer.calculateScore(dimensions);
 
       expect(result.score).toBe(30);
@@ -159,7 +182,12 @@ describe('QualityGapScorer', () => {
     });
 
     it('should set dimension1 weight to 1 and others to 0', () => {
-      const dimensions = { dimension1: 70, dimension2: 80, dimension3: 90, dimension4: 100 };
+      const dimensions = {
+        dimension1: 70,
+        dimension2: 80,
+        dimension3: 90,
+        dimension4: 100,
+      };
       const result = scorer.calculateScore(dimensions);
 
       expect(result.score).toBe(70); // Only dimension1 matters
@@ -182,13 +210,19 @@ describe('QualityGapScorer', () => {
     });
 
     it('should clear all quality-gap cache entries when no key provided', async () => {
-      mockRedis.keys.mockResolvedValueOnce(['quality-gap:python', 'quality-gap:react']);
+      mockRedis.keys.mockResolvedValueOnce([
+        'quality-gap:python',
+        'quality-gap:react',
+      ]);
       mockRedis.del.mockResolvedValueOnce(2);
 
       await scorer.clearCache();
 
       expect(mockRedis.keys).toHaveBeenCalledWith('quality-gap:*');
-      expect(mockRedis.del).toHaveBeenCalledWith('quality-gap:python', 'quality-gap:react');
+      expect(mockRedis.del).toHaveBeenCalledWith(
+        'quality-gap:python',
+        'quality-gap:react',
+      );
     });
 
     it('should not call del if no keys found', async () => {
@@ -206,7 +240,10 @@ describe('QualityGapScorer', () => {
       mockYouTubePort.searchVideos.mockResolvedValueOnce([]);
       mockRedis.setex.mockResolvedValueOnce('OK');
 
-      const result = await scorer.calculateDimensions({ keyword: 'test', geo: 'US' });
+      const result = await scorer.calculateDimensions({
+        keyword: 'test',
+        geo: 'US',
+      });
 
       expect(result.dimension1).toBe(50);
       expect(mockOpenAIPort.complete).not.toHaveBeenCalled();
@@ -214,10 +251,15 @@ describe('QualityGapScorer', () => {
 
     it('should return fallback score (50) if YouTube throws', async () => {
       mockRedis.get.mockResolvedValueOnce(null);
-      mockYouTubePort.searchVideos.mockRejectedValueOnce(new Error('API quota exceeded'));
+      mockYouTubePort.searchVideos.mockRejectedValueOnce(
+        new Error('API quota exceeded'),
+      );
       mockRedis.setex.mockResolvedValueOnce('OK');
 
-      const result = await scorer.calculateDimensions({ keyword: 'test', geo: 'US' });
+      const result = await scorer.calculateDimensions({
+        keyword: 'test',
+        geo: 'US',
+      });
 
       expect(result.dimension1).toBe(50);
     });
@@ -225,10 +267,15 @@ describe('QualityGapScorer', () => {
     it('should return fallback score (50) if OpenAI throws', async () => {
       mockRedis.get.mockResolvedValueOnce(null);
       mockYouTubePort.searchVideos.mockResolvedValueOnce(createMockVideos(5));
-      mockOpenAIPort.complete.mockRejectedValueOnce(new Error('OpenAI unavailable'));
+      mockOpenAIPort.complete.mockRejectedValueOnce(
+        new Error('OpenAI unavailable'),
+      );
       mockRedis.setex.mockResolvedValueOnce('OK');
 
-      const result = await scorer.calculateDimensions({ keyword: 'test', geo: 'US' });
+      const result = await scorer.calculateDimensions({
+        keyword: 'test',
+        geo: 'US',
+      });
 
       expect(result.dimension1).toBe(50);
     });
@@ -239,7 +286,10 @@ describe('QualityGapScorer', () => {
       mockOpenAIPort.complete.mockResolvedValueOnce('not valid json {{{');
       mockRedis.setex.mockResolvedValueOnce('OK');
 
-      const result = await scorer.calculateDimensions({ keyword: 'test', geo: 'US' });
+      const result = await scorer.calculateDimensions({
+        keyword: 'test',
+        geo: 'US',
+      });
 
       expect(result.dimension1).toBe(50);
     });
@@ -252,7 +302,10 @@ describe('QualityGapScorer', () => {
       );
       mockRedis.setex.mockResolvedValueOnce('OK');
 
-      const result = await scorer.calculateDimensions({ keyword: 'test', geo: 'US' });
+      const result = await scorer.calculateDimensions({
+        keyword: 'test',
+        geo: 'US',
+      });
 
       expect(result.dimension1).toBe(50);
     });
@@ -267,7 +320,10 @@ describe('QualityGapScorer', () => {
       );
       mockRedis.setex.mockResolvedValueOnce('OK');
 
-      const result = await scorer.calculateDimensions({ keyword: 'test', geo: 'US' });
+      const result = await scorer.calculateDimensions({
+        keyword: 'test',
+        geo: 'US',
+      });
 
       expect(result.dimension1).toBe(80);
     });
@@ -280,7 +336,10 @@ describe('QualityGapScorer', () => {
       );
       mockRedis.setex.mockResolvedValueOnce('OK');
 
-      const result = await scorer.calculateDimensions({ keyword: 'test', geo: 'US' });
+      const result = await scorer.calculateDimensions({
+        keyword: 'test',
+        geo: 'US',
+      });
 
       expect(result.dimension1).toBe(100);
     });
@@ -293,7 +352,10 @@ describe('QualityGapScorer', () => {
       );
       mockRedis.setex.mockResolvedValueOnce('OK');
 
-      const result = await scorer.calculateDimensions({ keyword: 'test', geo: 'US' });
+      const result = await scorer.calculateDimensions({
+        keyword: 'test',
+        geo: 'US',
+      });
 
       expect(result.dimension1).toBe(0);
     });
@@ -306,7 +368,10 @@ describe('QualityGapScorer', () => {
       );
       mockRedis.setex.mockResolvedValueOnce('OK');
 
-      const result = await scorer.calculateDimensions({ keyword: 'test', geo: 'US' });
+      const result = await scorer.calculateDimensions({
+        keyword: 'test',
+        geo: 'US',
+      });
 
       expect(result.dimension1).toBe(72);
       expect(result.dimension2).toBe(50);

@@ -6,7 +6,7 @@ export interface AiScriptInput {
 
 export const aiScriptPrompt = ({
   topic,
-  angle = 'impacto no mercado de trabalho',
+  angle = "impacto no mercado de trabalho",
   durationMinutes = 10,
 }: AiScriptInput) => `
 Você é um especialista em canais de tecnologia e inteligência artificial no YouTube.

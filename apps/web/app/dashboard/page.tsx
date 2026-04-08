@@ -1,11 +1,11 @@
-'use client';
+"use client";
 
-import type { ContentProjectWithChannelProfile } from '@/lib/projects-client';
-import { useRouter } from 'next/navigation';
-import { useQuery } from '@tanstack/react-query';
-import { removeToken } from '@/lib/auth-client';
-import { fetchProjects } from '@/lib/projects-client';
-import { Plus, Zap } from 'lucide-react';
+import type { ContentProjectWithChannelProfile } from "@/lib/projects-client";
+import { useRouter } from "next/navigation";
+import { useQuery } from "@tanstack/react-query";
+import { removeToken } from "@/lib/auth-client";
+import { fetchProjects } from "@/lib/projects-client";
+import { Plus, Zap } from "lucide-react";
 
 function ProjectSkeleton() {
   return (
@@ -33,11 +33,11 @@ function EmptyState() {
         Nenhum projeto criado
       </h3>
       <p className="mb-6 max-w-sm text-neutral-400">
-        Crie seu primeiro projeto de conteúdo com IA e comece a produzir scripts,
-        títulos e roteiros automaticamente.
+        Crie seu primeiro projeto de conteúdo com IA e comece a produzir
+        scripts, títulos e roteiros automaticamente.
       </p>
       <button
-        onClick={() => router.push('/projects/new')}
+        onClick={() => router.push("/projects/new")}
         className="btn-primary flex items-center gap-2"
       >
         <Plus className="h-4 w-4" />
@@ -53,26 +53,26 @@ function ProjectCard({
   project: ContentProjectWithChannelProfile;
 }) {
   const statusColors: Record<string, string> = {
-    planning: 'bg-blue-500/20 text-blue-300',
-    in_development: 'bg-yellow-500/20 text-yellow-300',
-    in_review: 'bg-purple-500/20 text-purple-300',
-    active: 'bg-green-500/20 text-green-300',
+    planning: "bg-blue-500/20 text-blue-300",
+    in_development: "bg-yellow-500/20 text-yellow-300",
+    in_review: "bg-purple-500/20 text-purple-300",
+    active: "bg-green-500/20 text-green-300",
   };
 
   const statusLabels: Record<string, string> = {
-    planning: 'Planejamento',
-    in_development: 'Em Desenvolvimento',
-    in_review: 'Em Revisão',
-    active: 'Ativo',
+    planning: "Planejamento",
+    in_development: "Em Desenvolvimento",
+    in_review: "Em Revisão",
+    active: "Ativo",
   };
 
   const statusColor = statusColors[project.status] || statusColors.planning;
   const statusLabel = statusLabels[project.status] || project.status;
 
-  const createdAt = new Date(project.createdAt).toLocaleDateString('pt-BR', {
-    year: 'numeric',
-    month: 'short',
-    day: 'numeric',
+  const createdAt = new Date(project.createdAt).toLocaleDateString("pt-BR", {
+    year: "numeric",
+    month: "short",
+    day: "numeric",
   });
 
   return (
@@ -85,16 +85,16 @@ function ProjectCard({
 
       <div className="mb-4 space-y-2 text-sm text-neutral-400">
         <p>
-          <span className="text-neutral-500">Canal:</span>{' '}
+          <span className="text-neutral-500">Canal:</span>{" "}
           {project.channelProfile.name}
         </p>
         <p>
-          <span className="text-neutral-500">Palavra-chave:</span>{' '}
+          <span className="text-neutral-500">Palavra-chave:</span>{" "}
           {project.keyword}
         </p>
         <p>
-          <span className="text-neutral-500">Duração:</span>{' '}
-          {project.durationMinutes ? `${project.durationMinutes} min` : '—'}
+          <span className="text-neutral-500">Duração:</span>{" "}
+          {project.durationMinutes ? `${project.durationMinutes} min` : "—"}
         </p>
       </div>
 
@@ -105,7 +105,7 @@ function ProjectCard({
           {statusLabel}
         </span>
         <span className="inline-flex rounded-full bg-neutral-700/50 px-3 py-1 text-xs font-medium text-neutral-300">
-          {project.format.replace(/_/g, ' ')}
+          {project.format.replace(/_/g, " ")}
         </span>
         <span className="inline-flex rounded-full bg-neutral-700/50 px-3 py-1 text-xs font-medium text-neutral-300">
           {project.niche}
@@ -124,14 +124,18 @@ function ProjectCard({
 
 export default function DashboardPage() {
   const router = useRouter();
-  const { data: projects = [], isLoading, error } = useQuery({
-    queryKey: ['projects'],
+  const {
+    data: projects = [],
+    isLoading,
+    error,
+  } = useQuery({
+    queryKey: ["projects"],
     queryFn: fetchProjects,
   });
 
   const handleLogout = () => {
     removeToken();
-    router.push('/login');
+    router.push("/login");
   };
 
   const hasProjects = projects && projects.length > 0;
@@ -152,7 +156,7 @@ export default function DashboardPage() {
             </div>
             <div className="flex gap-3">
               <button
-                onClick={() => router.push('/projects/new')}
+                onClick={() => router.push("/projects/new")}
                 className="btn-primary flex items-center gap-2"
               >
                 <Plus className="h-4 w-4" />

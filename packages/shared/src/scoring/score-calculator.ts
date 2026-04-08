@@ -3,7 +3,7 @@ import {
   ScoreCalculationResult,
   ScoreClassification,
   ScoreWeightsConfig,
-} from '../types/score-calculation.js';
+} from "../types/score-calculation.js";
 
 /**
  * Calculador de score final baseado em dimensões ponderadas
@@ -54,7 +54,7 @@ export class ScoreCalculator {
     if (Math.abs(sum - 1.0) > tolerance) {
       throw new Error(
         `Pesos devem somar 1.0, mas somaram ${sum.toFixed(3)}. ` +
-          `Forneça pesos válidos: ${JSON.stringify(this.weights)}`
+          `Forneça pesos válidos: ${JSON.stringify(this.weights)}`,
       );
     }
   }
@@ -65,7 +65,7 @@ export class ScoreCalculator {
   private validateScore(score: number, dimension: string): void {
     if (score < 0 || score > 100) {
       throw new Error(
-        `${dimension} deve estar entre 0 e 100, recebeu ${score}`
+        `${dimension} deve estar entre 0 e 100, recebeu ${score}`,
       );
     }
   }
@@ -79,10 +79,10 @@ export class ScoreCalculator {
    */
   calculate(dimensions: DimensionScoreValues): ScoreCalculationResult {
     // Validar entrada
-    this.validateScore(dimensions.dimension1, 'Dimension1');
-    this.validateScore(dimensions.dimension2, 'Dimension2');
-    this.validateScore(dimensions.dimension3, 'Dimension3');
-    this.validateScore(dimensions.dimension4, 'Dimension4');
+    this.validateScore(dimensions.dimension1, "Dimension1");
+    this.validateScore(dimensions.dimension2, "Dimension2");
+    this.validateScore(dimensions.dimension3, "Dimension3");
+    this.validateScore(dimensions.dimension4, "Dimension4");
 
     // Aplicar fórmula: D1×w1 + (100−D2)×w2 + D3×w3 + D4×w4
     const invertedDimension2 = 100 - dimensions.dimension2;

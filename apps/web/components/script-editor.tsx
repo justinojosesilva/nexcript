@@ -1,46 +1,41 @@
-'use client';
+"use client";
 
-import { useState, useCallback, useEffect, useRef } from 'react';
-import { useQuery, useMutation } from '@tanstack/react-query';
-import {
-  ChevronDown,
-  Zap,
-  AlertCircle,
-  Wand2,
-} from 'lucide-react';
+import { useState, useCallback, useEffect, useRef } from "react";
+import { useQuery, useMutation } from "@tanstack/react-query";
+import { ChevronDown, Zap, AlertCircle, Wand2 } from "lucide-react";
 import {
   fetchScriptsByProject,
   updateScript,
   type ScriptBlockData,
   type ScriptData,
-} from '@/lib/scripts-client';
+} from "@/lib/scripts-client";
 
 // Script block type icons and labels
 const BLOCK_TYPES = {
   HOOK: {
-    icon: '🎯',
-    label: 'GANCHO',
-    description: 'Primeira impressão do vídeo',
+    icon: "🎯",
+    label: "GANCHO",
+    description: "Primeira impressão do vídeo",
   },
   INTRO: {
-    icon: '👋',
-    label: 'INTRODUÇÃO',
-    description: 'Apresentação do tema',
+    icon: "👋",
+    label: "INTRODUÇÃO",
+    description: "Apresentação do tema",
   },
   DEVELOPMENT: {
-    icon: '📚',
-    label: 'DESENVOLVIMENTO',
-    description: 'Conteúdo principal',
+    icon: "📚",
+    label: "DESENVOLVIMENTO",
+    description: "Conteúdo principal",
   },
   RETENTION_CTA: {
-    icon: '📌',
-    label: 'CTA RETENÇÃO',
-    description: 'Call-to-action para retenção',
+    icon: "📌",
+    label: "CTA RETENÇÃO",
+    description: "Call-to-action para retenção",
   },
   CONCLUSION: {
-    icon: '✨',
-    label: 'CONCLUSÃO',
-    description: 'Encerramento do vídeo',
+    icon: "✨",
+    label: "CONCLUSÃO",
+    description: "Encerramento do vídeo",
   },
 } as const;
 
@@ -137,7 +132,7 @@ function EditableBlock({ block, type, onBlockUpdate }: EditableBlockProps) {
         </div>
         <ChevronDown
           className={`h-5 w-5 text-on-surface-variant transition-transform duration-200 ${
-            isExpanded ? 'rotate-180' : ''
+            isExpanded ? "rotate-180" : ""
           }`}
         />
       </button>
@@ -201,15 +196,22 @@ function EditableBlock({ block, type, onBlockUpdate }: EditableBlockProps) {
   );
 }
 
-export function ScriptEditor({ projectId, onNarrationGenerate }: ScriptEditorProps) {
+export function ScriptEditor({
+  projectId,
+  onNarrationGenerate,
+}: ScriptEditorProps) {
   const [currentScript, setCurrentScript] = useState<ScriptData | null>(null);
 
   // Debounce timer
   const debounceTimerRef = useRef<NodeJS.Timeout | null>(null);
 
   // Fetch scripts
-  const { data: fetchedScripts, isLoading, error } = useQuery({
-    queryKey: ['scripts', projectId],
+  const {
+    data: fetchedScripts,
+    isLoading,
+    error,
+  } = useQuery({
+    queryKey: ["scripts", projectId],
     queryFn: () => fetchScriptsByProject(projectId),
   });
 
@@ -274,12 +276,12 @@ export function ScriptEditor({ projectId, onNarrationGenerate }: ScriptEditorPro
 
   // Determine if narration button should be enabled
   const isNarrationEnabled =
-    currentScript?.status === 'approved' ||
-    currentScript?.status === 'published';
+    currentScript?.status === "approved" ||
+    currentScript?.status === "published";
 
   const narrationTooltip = !isNarrationEnabled
-    ? 'O roteiro precisa estar aprovado para gerar narração'
-    : 'Gerar narração com IA';
+    ? "O roteiro precisa estar aprovado para gerar narração"
+    : "Gerar narração com IA";
 
   if (error) {
     return (
@@ -337,11 +339,10 @@ export function ScriptEditor({ projectId, onNarrationGenerate }: ScriptEditorPro
       <div className="space-y-4">
         {currentScript.blocks.map((block) => {
           // Determine block type from label
-          const blockType = (
-            Object.keys(BLOCK_TYPES) as BlockType[]
-          ).find(
-            (type) => BLOCK_TYPES[type].label === block.label,
-          ) || ('HOOK' as BlockType);
+          const blockType =
+            (Object.keys(BLOCK_TYPES) as BlockType[]).find(
+              (type) => BLOCK_TYPES[type].label === block.label,
+            ) || ("HOOK" as BlockType);
 
           return (
             <EditableBlock
@@ -373,7 +374,7 @@ export function ScriptEditor({ projectId, onNarrationGenerate }: ScriptEditorPro
               {Math.round((currentScript.estimatedDurationSec || 0) / 60)}:
               {String((currentScript.estimatedDurationSec || 0) % 60).padStart(
                 2,
-                '0',
+                "0",
               )}
             </p>
           </div>
@@ -382,7 +383,7 @@ export function ScriptEditor({ projectId, onNarrationGenerate }: ScriptEditorPro
               Status de salvamento
             </p>
             <p className="mt-2 text-sm text-tertiary">
-              {updateMutation.isPending ? 'Salvando...' : 'Salvo'}
+              {updateMutation.isPending ? "Salvando..." : "Salvo"}
             </p>
           </div>
         </div>

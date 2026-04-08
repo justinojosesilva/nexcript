@@ -1,7 +1,7 @@
-'use client';
+"use client";
 
-import { motion } from 'framer-motion';
-import { Loader } from 'lucide-react';
+import { motion } from "framer-motion";
+import { Loader } from "lucide-react";
 
 interface JobProgressProps {
   currentStep?: string;
@@ -45,12 +45,12 @@ export function JobProgress({
           <motion.div
             className="h-full w-1/3 bg-gradient-to-r from-primary to-primary-container"
             animate={{
-              x: ['0%', '300%', '0%'],
+              x: ["0%", "300%", "0%"],
             }}
             transition={{
               duration: 1.5,
               repeat: Infinity,
-              ease: 'easeInOut',
+              ease: "easeInOut",
             }}
           />
         </div>

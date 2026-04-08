@@ -1,8 +1,8 @@
-import { createContext, useContext, useCallback, useState } from 'react';
+import { createContext, useContext, useCallback, useState } from "react";
 
 export interface Toast {
   id: string;
-  type: 'success' | 'error' | 'info';
+  type: "success" | "error" | "info";
   title: string;
   message?: string;
   action?: {
@@ -13,7 +13,7 @@ export interface Toast {
 
 interface ToastContextType {
   toasts: Toast[];
-  addToast: (toast: Omit<Toast, 'id'>) => string;
+  addToast: (toast: Omit<Toast, "id">) => string;
   removeToast: (id: string) => void;
 }
 
@@ -27,13 +27,13 @@ export function ToastProvider({ children }: { children: React.ReactNode }) {
   }, []);
 
   const addToast = useCallback(
-    (toast: Omit<Toast, 'id'>) => {
+    (toast: Omit<Toast, "id">) => {
       const id = `${Date.now()}-${Math.random()}`;
       const newToast: Toast = { ...toast, id };
       setToasts((prev) => [...prev, newToast]);
 
       // Auto-remove success toasts after 4 seconds
-      if (toast.type === 'success') {
+      if (toast.type === "success") {
         setTimeout(() => {
           removeToast(id);
         }, 4000);
@@ -54,7 +54,7 @@ export function ToastProvider({ children }: { children: React.ReactNode }) {
 export function useToast() {
   const context = useContext(ToastContext);
   if (!context) {
-    throw new Error('useToast must be used within ToastProvider');
+    throw new Error("useToast must be used within ToastProvider");
   }
   return context;
 }

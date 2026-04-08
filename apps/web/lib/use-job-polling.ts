@@ -1,9 +1,9 @@
-import { useEffect, useState } from 'react';
-import { useQuery } from '@tanstack/react-query';
+import { useEffect, useState } from "react";
+import { useQuery } from "@tanstack/react-query";
 
 export interface JobStatus {
   id: string;
-  status: 'pending' | 'processing' | 'completed' | 'failed' | 'cancelled';
+  status: "pending" | "processing" | "completed" | "failed" | "cancelled";
   progress?: number;
   currentStep?: string;
   result?: Record<string, unknown>;
@@ -35,21 +35,21 @@ export function useJobPolling({
   // Track visibility changes to pause/resume polling
   useEffect(() => {
     const handleVisibilityChange = () => {
-      setIsTabActive(document.visibilityState === 'visible');
+      setIsTabActive(document.visibilityState === "visible");
     };
 
-    document.addEventListener('visibilitychange', handleVisibilityChange);
+    document.addEventListener("visibilitychange", handleVisibilityChange);
     return () => {
-      document.removeEventListener('visibilitychange', handleVisibilityChange);
+      document.removeEventListener("visibilitychange", handleVisibilityChange);
     };
   }, []);
 
   const { data, isLoading, error, refetch } = useQuery<JobStatus>({
-    queryKey: ['job', jobId],
+    queryKey: ["job", jobId],
     queryFn: async () => {
       const response = await fetch(`/api/jobs/${jobId}`);
       if (!response.ok) {
-        throw new Error('Failed to fetch job status');
+        throw new Error("Failed to fetch job status");
       }
       return response.json() as Promise<JobStatus>;
     },
@@ -65,9 +65,9 @@ export function useJobPolling({
   useEffect(() => {
     if (!data) return;
     if (
-      data.status === 'completed' ||
-      data.status === 'failed' ||
-      data.status === 'cancelled'
+      data.status === "completed" ||
+      data.status === "failed" ||
+      data.status === "cancelled"
     ) {
       // Job reached terminal state, no more polling needed
       return;
@@ -80,11 +80,11 @@ export function useJobPolling({
 
     setPreviousStatus(data.status);
 
-    if (data.status === 'completed') {
+    if (data.status === "completed") {
       onSuccess?.(data);
       onComplete?.(data);
-    } else if (data.status === 'failed') {
-      onError?.(new Error(data.error || 'Job failed'));
+    } else if (data.status === "failed") {
+      onError?.(new Error(data.error || "Job failed"));
       onComplete?.(data);
     }
   }, [data, previousStatus, onSuccess, onError, onComplete]);
@@ -94,9 +94,9 @@ export function useJobPolling({
     isLoading,
     error: error instanceof Error ? error : null,
     isProcessing:
-      data && (data.status === 'pending' || data.status === 'processing'),
-    isCompleted: data?.status === 'completed',
-    isFailed: data?.status === 'failed',
+      data && (data.status === "pending" || data.status === "processing"),
+    isCompleted: data?.status === "completed",
+    isFailed: data?.status === "failed",
     isTabActive,
     refetch,
   };

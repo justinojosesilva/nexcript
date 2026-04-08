@@ -1,4 +1,4 @@
-import { FormatType, NicheCategory, ContentTone } from './types.js';
+import { FormatType, NicheCategory, ContentTone } from "./types.js";
 
 export interface ScriptGapBasedInput {
   topic: string;
@@ -12,7 +12,7 @@ export interface ScriptGapBasedInput {
 export interface ScriptGapBasedOutput {
   blocks: Array<{
     id: string;
-    type: 'HOOK' | 'INTRO' | 'DEVELOPMENT' | 'RETENTION_CTA' | 'CONCLUSION';
+    type: "HOOK" | "INTRO" | "DEVELOPMENT" | "RETENTION_CTA" | "CONCLUSION";
     content: string;
     estimatedDuration: number;
     wordCount: number;
@@ -45,10 +45,7 @@ const getMaxTokens = (formatType: FormatType): number => {
 const getBlockCount = (
   formatType: FormatType,
 ): { min: number; max: number } => {
-  const blocksByFormat: Record<
-    FormatType,
-    { min: number; max: number }
-  > = {
+  const blocksByFormat: Record<FormatType, { min: number; max: number }> = {
     [FormatType.LONG_FORM]: { min: 5, max: 7 },
     [FormatType.MEDIUM_FORM]: { min: 4, max: 5 },
     [FormatType.SHORT_FORM]: { min: 2, max: 3 },
@@ -77,8 +74,8 @@ export const scriptGapBasedPrompt = ({
   const blockCount = getBlockCount(formatType);
   const gapContext =
     gaps.length > 0
-      ? `\nQuality Gaps to Address:\n${gaps.map((g) => `- ${g}`).join('\n')}\n`
-      : '';
+      ? `\nQuality Gaps to Address:\n${gaps.map((g) => `- ${g}`).join("\n")}\n`
+      : "";
 
   const blockRangeDescription =
     formatType === FormatType.SHORT_FORM
@@ -160,13 +157,21 @@ Apply this tone consistently throughout:
 - INSPIRATIONAL: Motivational language, emotional resonance, uplifting
 
 FORMAT-SPECIFIC CONSTRAINTS:
-${formatType === FormatType.LONG_FORM ? `- Long-form allows detailed explanation and multiple viewpoints
+${
+  formatType === FormatType.LONG_FORM
+    ? `- Long-form allows detailed explanation and multiple viewpoints
 - Include transitions between blocks
-- Can go deep on each gap` : ''}
-${formatType === FormatType.SHORT_FORM ? `- Short-form demands CONCISENESS - every word counts
+- Can go deep on each gap`
+    : ""
+}
+${
+  formatType === FormatType.SHORT_FORM
+    ? `- Short-form demands CONCISENESS - every word counts
 - Maximum 3 blocks total - no filler
 - Jump to the point quickly
-- Each gap gets 1-2 sentences maximum resolution` : ''}
+- Each gap gets 1-2 sentences maximum resolution`
+    : ""
+}
 
 GAP-ADDRESSING CHECKLIST:
 Before finalizing, ensure:

@@ -45,7 +45,6 @@ export class ContentProjectRepository implements IContentProjectRepository {
 
   create(data: Record<string, unknown>): Promise<ContentProject> {
     return this.prismaService.client.contentProject.create({
-       
       data: data as any,
     });
   }
@@ -53,7 +52,7 @@ export class ContentProjectRepository implements IContentProjectRepository {
   update(id: string, data: Record<string, unknown>): Promise<ContentProject> {
     return this.prismaService.client.contentProject.update({
       where: { id },
-       
+
       data: data as any,
     });
   }
@@ -78,7 +77,7 @@ export class ContentProjectRepository implements IContentProjectRepository {
 
     return this.prismaService.client.contentProject.update({
       where: { id },
-       
+
       data: { status: newStatus as any },
     });
   }

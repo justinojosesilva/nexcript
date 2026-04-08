@@ -31,17 +31,25 @@ export class LoginUseCase {
       throw new UnauthorizedException('Invalid credentials');
     }
 
-    const access_token = this.jwtService.sign({
+    const accessToken = this.jwtService.sign({
       sub: user.id,
       organizationId: user.organizationId,
       role: user.role,
       email: user.email,
     });
 
-    const refresh_token = await this.refreshTokenService.generateRefreshToken(
+    const refreshToken = await this.refreshTokenService.generateRefreshToken(
       user.id,
     );
 
-    return { access_token, refresh_token };
+    return {
+      accessToken,
+      refreshToken,
+      user: {
+        id: user.id,
+        email: user.email,
+        name: user.name,
+      },
+    };
   }
 }

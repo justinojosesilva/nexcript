@@ -1,31 +1,31 @@
-'use client';
+"use client";
 
-import { useRouter } from 'next/navigation';
-import { useQuery } from '@tanstack/react-query';
-import { Plus, Zap } from 'lucide-react';
-import { fetchScriptsByProject, type ScriptData } from '@/lib/scripts-client';
+import { useRouter } from "next/navigation";
+import { useQuery } from "@tanstack/react-query";
+import { Plus, Zap } from "lucide-react";
+import { fetchScriptsByProject, type ScriptData } from "@/lib/scripts-client";
 
 // Status color mapping
 const STATUS_COLORS: Record<string, string> = {
-  draft: 'bg-neutral-600/30 text-neutral-300',
-  reviewing: 'bg-yellow-500/20 text-yellow-300',
-  approved: 'bg-green-500/20 text-green-300',
-  published: 'bg-purple-500/20 text-purple-300',
+  draft: "bg-neutral-600/30 text-neutral-300",
+  reviewing: "bg-yellow-500/20 text-yellow-300",
+  approved: "bg-green-500/20 text-green-300",
+  published: "bg-purple-500/20 text-purple-300",
 };
 
 const STATUS_LABELS: Record<string, string> = {
-  draft: 'Rascunho',
-  reviewing: 'Em Revisão',
-  approved: 'Aprovado',
-  published: 'Publicado',
+  draft: "Rascunho",
+  reviewing: "Em Revisão",
+  approved: "Aprovado",
+  published: "Publicado",
 };
 
 const FORMAT_LABELS: Record<string, string> = {
-  short_form: 'Short Form',
-  medium_form: 'Medium Form',
-  long_form: 'Long Form',
-  carousel: 'Carousel',
-  podcast: 'Podcast',
+  short_form: "Short Form",
+  medium_form: "Medium Form",
+  long_form: "Long Form",
+  carousel: "Carousel",
+  podcast: "Podcast",
 };
 
 // Loading skeleton
@@ -83,10 +83,10 @@ function ScriptCard({ script }: { script: ScriptData }) {
   const statusLabel = STATUS_LABELS[script.status] || script.status;
   const formatLabel = FORMAT_LABELS[script.formatType] || script.formatType;
 
-  const createdAt = new Date(script.createdAt).toLocaleDateString('pt-BR', {
-    year: 'numeric',
-    month: 'short',
-    day: 'numeric',
+  const createdAt = new Date(script.createdAt).toLocaleDateString("pt-BR", {
+    year: "numeric",
+    month: "short",
+    day: "numeric",
   });
 
   const durationMinutes = script.estimatedDurationSec
@@ -104,7 +104,7 @@ function ScriptCard({ script }: { script: ScriptData }) {
             Roteiro #{script.id.slice(-6).toUpperCase()}
           </h3>
           <p className="mt-1 text-sm text-neutral-400">
-            {script.wordCount ? `${script.wordCount} palavras` : 'Roteiro novo'}
+            {script.wordCount ? `${script.wordCount} palavras` : "Roteiro novo"}
           </p>
         </div>
       </div>
@@ -123,7 +123,7 @@ function ScriptCard({ script }: { script: ScriptData }) {
       <div className="flex items-center justify-between border-t border-neutral-700 pt-4">
         <span className="text-xs text-neutral-500">{createdAt}</span>
         <span className="text-xs font-medium text-purple-400">
-          {durationMinutes > 0 ? `${durationMinutes} min` : '—'} →
+          {durationMinutes > 0 ? `${durationMinutes} min` : "—"} →
         </span>
       </div>
     </div>
@@ -136,8 +136,12 @@ interface ScriptsListProps {
 }
 
 export function ScriptsList({ projectId, onGenerateClick }: ScriptsListProps) {
-  const { data: scripts = [], isLoading, error } = useQuery({
-    queryKey: ['scripts', projectId],
+  const {
+    data: scripts = [],
+    isLoading,
+    error,
+  } = useQuery({
+    queryKey: ["scripts", projectId],
     queryFn: () => fetchScriptsByProject(projectId),
   });
 
@@ -161,9 +165,7 @@ export function ScriptsList({ projectId, onGenerateClick }: ScriptsListProps) {
     <div className="space-y-6">
       {/* Header with title */}
       <div>
-        <h2 className="font-display text-2xl font-bold text-white">
-          Roteiros
-        </h2>
+        <h2 className="font-display text-2xl font-bold text-white">Roteiros</h2>
         <p className="mt-1 text-sm text-neutral-400">
           Gerencie e edite todos os roteiros deste projeto
         </p>

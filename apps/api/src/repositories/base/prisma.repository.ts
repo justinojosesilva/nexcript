@@ -1,7 +1,3 @@
- 
- 
- 
-
 import { PrismaService } from '../../prisma/prisma.service';
 import { IRepository } from '../interfaces/repository.interface';
 

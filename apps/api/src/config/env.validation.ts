@@ -9,4 +9,5 @@ export const envValidationSchema = Joi.object({
   YOUTUBE_API_KEY: Joi.string().required(),
   GOOGLE_TRENDS_REGION: Joi.string().required(),
   OPENAI_API_KEY: Joi.string().required(),
+  MAX_COST_PER_SCRIPT_BRL: Joi.number().positive().default(1.5),
 });

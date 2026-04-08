@@ -72,9 +72,9 @@ export class AnalyzeTrendsUseCase {
   private static readonly FALLBACK_SCORE = 50;
 
   private readonly scoreCalculator = new ScoreCalculator({
-    dimension1: 0.30, // demand
+    dimension1: 0.3, // demand
     dimension2: 0.25, // saturation (inverted by formula)
-    dimension3: 0.30, // monetization
+    dimension3: 0.3, // monetization
     dimension4: 0.15, // qualityGap
   });
 
@@ -109,27 +109,43 @@ export class AnalyzeTrendsUseCase {
     });
 
     // 3. Run all 4 scorers concurrently — never throw on partial failure
-    const [demandResult, saturationResult, monetizationResult, qualityGapResult] =
-      await Promise.allSettled([
-        this.demandScorer
-          .calculateDimensions({ keyword, geo })
-          .then((dims) => this.demandScorer.calculateScore(dims).score),
-        this.saturationScorer
-          .calculateDimensions({ keyword, geo })
-          .then((dims) => this.saturationScorer.calculateScore(dims).score),
-        this.monetizationScorer
-          .calculateDimensions({ niche })
-          .then((dims) => this.monetizationScorer.calculateScore(dims).score),
-        this.qualityGapScorer
-          .calculateDimensions({ keyword, geo })
-          .then((dims) => this.qualityGapScorer.calculateScore(dims).score),
-      ]);
+    const [
+      demandResult,
+      saturationResult,
+      monetizationResult,
+      qualityGapResult,
+    ] = await Promise.allSettled([
+      this.demandScorer
+        .calculateDimensions({ keyword, geo })
+        .then((dims) => this.demandScorer.calculateScore(dims).score),
+      this.saturationScorer
+        .calculateDimensions({ keyword, geo })
+        .then((dims) => this.saturationScorer.calculateScore(dims).score),
+      this.monetizationScorer
+        .calculateDimensions({ niche })
+        .then((dims) => this.monetizationScorer.calculateScore(dims).score),
+      this.qualityGapScorer
+        .calculateDimensions({ keyword, geo })
+        .then((dims) => this.qualityGapScorer.calculateScore(dims).score),
+    ]);
 
     // 4. Resolve scores — use fallback 50 for any rejected promise
     const demand = this.resolveScore(demandResult, 'demand', keyword);
-    const saturation = this.resolveScore(saturationResult, 'saturation', keyword);
-    const monetization = this.resolveScore(monetizationResult, 'monetization', keyword);
-    const qualityGap = this.resolveScore(qualityGapResult, 'qualityGap', keyword);
+    const saturation = this.resolveScore(
+      saturationResult,
+      'saturation',
+      keyword,
+    );
+    const monetization = this.resolveScore(
+      monetizationResult,
+      'monetization',
+      keyword,
+    );
+    const qualityGap = this.resolveScore(
+      qualityGapResult,
+      'qualityGap',
+      keyword,
+    );
 
     // 5. Calculate combined final score
     const calculationResult = this.scoreCalculator.calculate({
@@ -162,7 +178,7 @@ export class AnalyzeTrendsUseCase {
         organizationId,
         projectId,
         keyword,
-        data: analysisData as any,  
+        data: analysisData as any,
       },
     });
 
@@ -186,7 +202,10 @@ export class AnalyzeTrendsUseCase {
       return result.value;
     }
 
-    const reason = result.reason instanceof Error ? result.reason.message : String(result.reason);
+    const reason =
+      result.reason instanceof Error
+        ? result.reason.message
+        : String(result.reason);
     this.logger.warn(
       `${scorerName} scorer failed for "${keyword}" — using fallback ${AnalyzeTrendsUseCase.FALLBACK_SCORE}. Reason: ${reason}`,
     );

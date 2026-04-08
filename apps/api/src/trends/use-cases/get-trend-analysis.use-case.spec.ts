@@ -48,14 +48,18 @@ describe('GetTrendAnalysisUseCase', () => {
     const result = await useCase.execute('proj-1');
 
     expect(result).toEqual(mockTrendAnalysis);
-    expect(mockPrismaService.client.trendAnalysis.findFirst).toHaveBeenCalledWith({
+    expect(
+      mockPrismaService.client.trendAnalysis.findFirst,
+    ).toHaveBeenCalledWith({
       where: { projectId: 'proj-1' },
       orderBy: { analyzedAt: 'desc' },
     });
   });
 
   it('should throw NotFoundException if no trend analysis exists', async () => {
-    mockPrismaService.client.trendAnalysis.findFirst.mockResolvedValueOnce(null);
+    mockPrismaService.client.trendAnalysis.findFirst.mockResolvedValueOnce(
+      null,
+    );
 
     await expect(useCase.execute('proj-nonexistent')).rejects.toThrow(
       NotFoundException,
@@ -72,7 +76,8 @@ describe('GetTrendAnalysisUseCase', () => {
 
     await useCase.execute('proj-123');
 
-    const callArgs = mockPrismaService.client.trendAnalysis.findFirst.mock.calls[0][0];
+    const callArgs =
+      mockPrismaService.client.trendAnalysis.findFirst.mock.calls[0][0];
     expect(callArgs.where.projectId).toBe('proj-123');
   });
 
@@ -83,7 +88,8 @@ describe('GetTrendAnalysisUseCase', () => {
 
     await useCase.execute('proj-1');
 
-    const callArgs = mockPrismaService.client.trendAnalysis.findFirst.mock.calls[0][0];
+    const callArgs =
+      mockPrismaService.client.trendAnalysis.findFirst.mock.calls[0][0];
     expect(callArgs.orderBy).toEqual({ analyzedAt: 'desc' });
   });
 });

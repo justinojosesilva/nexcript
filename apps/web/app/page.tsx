@@ -1,19 +1,19 @@
-'use client'
+"use client";
 
-import { useEffect } from 'react'
-import { useRouter } from 'next/navigation'
-import { getStoredToken } from '@/lib/auth-client'
-import Link from 'next/link'
+import { useEffect } from "react";
+import { useRouter } from "next/navigation";
+import { getStoredToken } from "@/lib/auth-client";
+import Link from "next/link";
 
 export default function Home() {
-  const router = useRouter()
+  const router = useRouter();
 
   useEffect(() => {
-    const token = getStoredToken()
+    const token = getStoredToken();
     if (token) {
-      router.push('/dashboard')
+      router.push("/dashboard");
     }
-  }, [router])
+  }, [router]);
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-neutral-900 via-neutral-800 to-neutral-900 flex flex-col items-center justify-center px-4 m-8">
@@ -42,5 +42,5 @@ export default function Home() {
         </div>
       </div>
     </div>
-  )
+  );
 }

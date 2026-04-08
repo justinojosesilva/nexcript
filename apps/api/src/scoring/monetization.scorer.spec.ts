@@ -141,14 +141,14 @@ describe('MonetizationScorer', () => {
       await expect(
         scorer.calculateDimensions({
           niche: 'INVALID_NICHE',
-        })
+        }),
       ).rejects.toThrow(/Invalid or missing niche category/);
     });
 
     it('deve rejeitar quando niche não é fornecido', async () => {
-      await expect(
-        scorer.calculateDimensions({})
-      ).rejects.toThrow(/Invalid or missing niche category/);
+      await expect(scorer.calculateDimensions({})).rejects.toThrow(
+        /Invalid or missing niche category/,
+      );
     });
   });
 
@@ -209,8 +209,12 @@ describe('MonetizationScorer', () => {
       await scorer.clearCache();
 
       // Verify both caches are gone
-      const cached1 = await redis.get(`monetization_scorer:${NicheCategory.FINANCE}`);
-      const cached2 = await redis.get(`monetization_scorer:${NicheCategory.TECHNOLOGY}`);
+      const cached1 = await redis.get(
+        `monetization_scorer:${NicheCategory.FINANCE}`,
+      );
+      const cached2 = await redis.get(
+        `monetization_scorer:${NicheCategory.TECHNOLOGY}`,
+      );
 
       expect(cached1).toBeNull();
       expect(cached2).toBeNull();

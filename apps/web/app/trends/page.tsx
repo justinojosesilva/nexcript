@@ -1,37 +1,36 @@
-'use client';
+"use client";
 
-import { useEffect, useState } from 'react';
-import { useQuery, useMutation } from '@tanstack/react-query';
-import { Sparkles, TrendingUp } from 'lucide-react';
-import { ScoreDimensionBreakdown } from '@/components/score-dimension-breakdown';
-import { TrendsSidebar } from '@/components/trends-sidebar';
+import { useEffect, useState } from "react";
+import { useQuery, useMutation } from "@tanstack/react-query";
+import { Sparkles, TrendingUp } from "lucide-react";
+import { ScoreDimensionBreakdown } from "@/components/score-dimension-breakdown";
+import { TrendsSidebar } from "@/components/trends-sidebar";
 import {
   initiateTrendAnalysis,
   getJobStatus,
   getTrendAnalysis,
   type AnalyzeTrendsRequest,
-} from '@/lib/trends-client';
+} from "@/lib/trends-client";
 
 const NICHE_OPTIONS = [
-  { value: 'finance', label: '💰 Finanças' },
-  { value: 'technology', label: '💻 Tecnologia' },
-  { value: 'productivity', label: '⚡ Produtividade' },
-  { value: 'lifestyle', label: '🎨 Lifestyle' },
-  { value: 'education', label: '📚 Educação' },
-  { value: 'entertainment', label: '🎬 Entretenimento' },
-  { value: 'business', label: '📈 Negócios' },
-  { value: 'health', label: '💪 Saúde' },
+  { value: "finance", label: "💰 Finanças" },
+  { value: "technology", label: "💻 Tecnologia" },
+  { value: "productivity", label: "⚡ Produtividade" },
+  { value: "lifestyle", label: "🎨 Lifestyle" },
+  { value: "education", label: "📚 Educação" },
+  { value: "entertainment", label: "🎬 Entretenimento" },
+  { value: "business", label: "📈 Negócios" },
+  { value: "health", label: "💪 Saúde" },
 ];
 
 const GEO_OPTIONS = [
-  { value: 'BR', label: '🇧🇷 Brasil' },
-  { value: 'US', label: '🇺🇸 USA' },
-  { value: 'MX', label: '🇲🇽 México' },
-  { value: 'AR', label: '🇦🇷 Argentina' },
-  { value: 'ES', label: '🇪🇸 Espanha' },
-  { value: 'DE', label: '🇩🇪 Alemanha' },
+  { value: "BR", label: "🇧🇷 Brasil" },
+  { value: "US", label: "🇺🇸 USA" },
+  { value: "MX", label: "🇲🇽 México" },
+  { value: "AR", label: "🇦🇷 Argentina" },
+  { value: "ES", label: "🇪🇸 Espanha" },
+  { value: "DE", label: "🇩🇪 Alemanha" },
 ];
-
 
 function AnalysisSkeleton() {
   return (
@@ -49,11 +48,11 @@ function AnalysisSkeleton() {
 }
 
 function TrendsSearchForm() {
-  const [keyword, setKeyword] = useState('');
-  const [niche, setNiche] = useState('technology');
-  const [geo, setGeo] = useState('BR');
+  const [keyword, setKeyword] = useState("");
+  const [niche, setNiche] = useState("technology");
+  const [geo, setGeo] = useState("BR");
   const [jobId, setJobId] = useState<string | null>(null);
-  const [projectId] = useState('temp-project');
+  const [projectId] = useState("temp-project");
   const [isJobDone, setIsJobDone] = useState(false);
 
   // Mutation to initiate analysis
@@ -68,8 +67,8 @@ function TrendsSearchForm() {
 
   // Poll job status
   const { data: jobStatus, isLoading: isPolling } = useQuery({
-    queryKey: ['jobStatus', jobId],
-    queryFn: () => (jobId ? getJobStatus(jobId) : Promise.reject('No jobId')),
+    queryKey: ["jobStatus", jobId],
+    queryFn: () => (jobId ? getJobStatus(jobId) : Promise.reject("No jobId")),
     enabled: !!jobId && !isJobDone,
     refetchInterval: 1000, // Poll every 1 second
     retry: false,
@@ -77,14 +76,14 @@ function TrendsSearchForm() {
 
   // Fetch results when job is done
   const { data: analysis, isLoading: isLoadingResults } = useQuery({
-    queryKey: ['trendAnalysis', projectId],
+    queryKey: ["trendAnalysis", projectId],
     queryFn: () => getTrendAnalysis(projectId),
     enabled: isJobDone,
   });
 
   // Handle job completion
   useEffect(() => {
-    if (jobStatus?.status === 'DONE') {
+    if (jobStatus?.status === "DONE") {
       setIsJobDone(true);
     }
   }, [jobStatus?.status]);
@@ -164,8 +163,8 @@ function TrendsSearchForm() {
         >
           <Sparkles className="h-4 w-4" />
           {initiateMutation.isPending || isPolling
-            ? 'Analisando tendências...'
-            : 'Analisar Tendência'}
+            ? "Analisando tendências..."
+            : "Analisar Tendência"}
         </button>
       </form>
 
@@ -178,10 +177,10 @@ function TrendsSearchForm() {
         </div>
       )}
 
-      {jobStatus?.status === 'FAILED' && (
+      {jobStatus?.status === "FAILED" && (
         <div className="rounded-lg border border-red-500/50 bg-red-500/10 p-4">
           <p className="text-sm text-red-300">
-            A análise falhou: {jobStatus.failedReason || 'Erro desconhecido'}
+            A análise falhou: {jobStatus.failedReason || "Erro desconhecido"}
           </p>
         </div>
       )}
@@ -194,9 +193,7 @@ function TrendsSearchForm() {
               <div className="animate-spin">
                 <TrendingUp className="h-4 w-4 text-blue-400" />
               </div>
-              <p className="text-sm text-blue-300">
-                Analisando tendências...
-              </p>
+              <p className="text-sm text-blue-300">Analisando tendências...</p>
             </div>
           </div>
           <AnalysisSkeleton />
@@ -214,7 +211,10 @@ function TrendsSearchForm() {
           </div>
           <div className="flex gap-6">
             <div className="flex-1">
-              <ScoreDimensionBreakdown analysis={analysis} projectId="temp-project" />
+              <ScoreDimensionBreakdown
+                analysis={analysis}
+                projectId="temp-project"
+              />
             </div>
             <div className="w-80">
               <TrendsSidebar analysis={analysis} />
@@ -238,7 +238,8 @@ export default function TrendsPage() {
                 Pesquisa de Tendências
               </h1>
               <p className="mt-2 text-neutral-400">
-                Analise palavras-chave e descubra oportunidades de conteúdo de alto impacto
+                Analise palavras-chave e descubra oportunidades de conteúdo de
+                alto impacto
               </p>
             </div>
           </div>

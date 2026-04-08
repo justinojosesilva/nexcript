@@ -1,6 +1,11 @@
 import { Test, TestingModule } from '@nestjs/testing';
 import { SaturationScorer } from './saturation.scorer';
-import { YouTubeVideo, NicheCategory, Platform, ScoreClassification } from '@nexcript/shared';
+import {
+  YouTubeVideo,
+  NicheCategory,
+  Platform,
+  ScoreClassification,
+} from '@nexcript/shared';
 
 describe('SaturationScorer', () => {
   let scorer: SaturationScorer;
@@ -39,7 +44,9 @@ describe('SaturationScorer', () => {
     });
 
     it('should throw error if geo is missing', async () => {
-      await expect(scorer.calculateDimensions({ keyword: 'test' })).rejects.toThrow(
+      await expect(
+        scorer.calculateDimensions({ keyword: 'test' }),
+      ).rejects.toThrow(
         'SaturationScorer requires "keyword" and "geo" in input',
       );
     });
@@ -138,13 +145,19 @@ describe('SaturationScorer', () => {
     });
 
     it('should clear all saturation cache entries when no cacheKey provided', async () => {
-      mockRedis.keys.mockResolvedValueOnce(['saturation:test1:US', 'saturation:test2:BR']);
+      mockRedis.keys.mockResolvedValueOnce([
+        'saturation:test1:US',
+        'saturation:test2:BR',
+      ]);
       mockRedis.del.mockResolvedValueOnce(2);
 
       await scorer.clearCache();
 
       expect(mockRedis.keys).toHaveBeenCalledWith('saturation:*');
-      expect(mockRedis.del).toHaveBeenCalledWith('saturation:test1:US', 'saturation:test2:BR');
+      expect(mockRedis.del).toHaveBeenCalledWith(
+        'saturation:test1:US',
+        'saturation:test2:BR',
+      );
     });
 
     it('should handle empty cache keys array', async () => {
@@ -173,7 +186,9 @@ describe('SaturationScorer', () => {
 
     it('should return fallback score if YouTube throws error', async () => {
       mockRedis.get.mockResolvedValueOnce(null);
-      mockYouTubePort.searchVideos.mockRejectedValueOnce(new Error('API Error'));
+      mockYouTubePort.searchVideos.mockRejectedValueOnce(
+        new Error('API Error'),
+      );
       mockRedis.setex.mockResolvedValueOnce('OK');
 
       const result = await scorer.calculateDimensions({

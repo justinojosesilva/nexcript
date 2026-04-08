@@ -19,7 +19,7 @@ export class ElevenLabsTtsAdapter implements ITtsPort {
   private readonly apiKey: string;
 
   // Pricing: $0.30 per 1K characters (approximate)
-  private readonly costPerKChars = 0.30;
+  private readonly costPerKChars = 0.3;
 
   constructor(
     private readonly configService: ConfigService,

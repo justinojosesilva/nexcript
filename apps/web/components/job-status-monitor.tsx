@@ -1,10 +1,10 @@
-'use client';
+"use client";
 
-import { useEffect } from 'react';
-import { useRouter } from 'next/navigation';
-import { useJobPolling, type JobStatus } from '@/lib/use-job-polling';
-import { useToast } from '@/lib/toast-context';
-import { JobProgress } from './job-progress';
+import { useEffect } from "react";
+import { useRouter } from "next/navigation";
+import { useJobPolling, type JobStatus } from "@/lib/use-job-polling";
+import { useToast } from "@/lib/toast-context";
+import { JobProgress } from "./job-progress";
 
 interface JobStatusMonitorProps {
   jobId: string;
@@ -33,59 +33,58 @@ export function JobStatusMonitor({
   const router = useRouter();
   const { addToast } = useToast();
 
-  const { job, isProcessing, isTabActive } =
-    useJobPolling({
-      jobId,
-      onSuccess: (result) => {
-        onSuccess?.(result);
+  const { job, isProcessing, isTabActive } = useJobPolling({
+    jobId,
+    onSuccess: (result) => {
+      onSuccess?.(result);
 
-        // Show success toast
-        addToast({
-          type: 'success',
-          title: 'Processamento concluído',
-          message: 'O recurso foi criado com sucesso',
-          action: onSuccessRedirect
-            ? {
-                label: 'Visualizar',
-                onClick: () => router.push(onSuccessRedirect),
-              }
-            : undefined,
-        });
+      // Show success toast
+      addToast({
+        type: "success",
+        title: "Processamento concluído",
+        message: "O recurso foi criado com sucesso",
+        action: onSuccessRedirect
+          ? {
+              label: "Visualizar",
+              onClick: () => router.push(onSuccessRedirect),
+            }
+          : undefined,
+      });
 
-        // Auto-redirect if specified
-        if (onSuccessRedirect) {
-          setTimeout(() => {
-            router.push(onSuccessRedirect);
-          }, 500);
-        }
-      },
-      onError: (error) => {
-        onError?.(error);
+      // Auto-redirect if specified
+      if (onSuccessRedirect) {
+        setTimeout(() => {
+          router.push(onSuccessRedirect);
+        }, 500);
+      }
+    },
+    onError: (error) => {
+      onError?.(error);
 
-        // Show error toast
-        addToast({
-          type: 'error',
-          title: 'Erro no processamento',
-          message: error.message || 'Algo deu errado',
-          action: {
-            label: 'Ver detalhes',
-            onClick: () => {
-              // Could open a modal or navigate to error details
-              console.error('Job failed:', error);
-            },
+      // Show error toast
+      addToast({
+        type: "error",
+        title: "Erro no processamento",
+        message: error.message || "Algo deu errado",
+        action: {
+          label: "Ver detalhes",
+          onClick: () => {
+            // Could open a modal or navigate to error details
+            console.error("Job failed:", error);
           },
-        });
-      },
-    });
+        },
+      });
+    },
+  });
 
   // Show notification when tab becomes inactive during processing
   useEffect(() => {
     if (!isProcessing || isTabActive) return;
 
     addToast({
-      type: 'info',
-      title: 'Processamento em andamento',
-      message: 'Sua solicitação continua sendo processada em background',
+      type: "info",
+      title: "Processamento em andamento",
+      message: "Sua solicitação continua sendo processada em background",
     });
   }, [isTabActive, isProcessing, addToast]);
 

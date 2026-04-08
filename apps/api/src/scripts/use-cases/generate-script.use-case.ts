@@ -1,12 +1,20 @@
-import { Injectable, Logger, BadRequestException, Inject } from '@nestjs/common';
+import {
+  Injectable,
+  Logger,
+  BadRequestException,
+  Inject,
+} from '@nestjs/common';
+import { ConfigService } from '@nestjs/config';
 import { type Script } from '@nexcript/database';
-import { genericScriptPrompt, type GenericScriptInput } from '@nexcript/prompts';
-import { FormatType, NicheCategory } from '@nexcript/shared';
+import { genericScriptPrompt } from '@nexcript/prompts';
+import { FormatType } from '@nexcript/shared';
 import { ScriptRepository } from '../../repositories/script.repository';
 import { ContentProjectRepository } from '../../repositories/content-project.repository';
 import { IOpenAIPort } from '../../adapters/interfaces/openai.port';
+import { ICachePort } from '../../cache/interfaces/cache.port';
 import { GenerateScriptDto } from '../dto/generate-script.dto';
 import { ScriptGenerationException } from '../exceptions/script-generation.exception';
+import { BudgetExceededException } from '../exceptions/budget-exceeded.exception';
 
 interface GenerateScriptInput extends GenerateScriptDto {
   organizationId: string;
@@ -32,15 +40,28 @@ interface GeneratedScriptResponse {
 @Injectable()
 export class GenerateScriptUseCase {
   private readonly logger = new Logger(GenerateScriptUseCase.name);
+  private readonly maxCostPerScriptBrl: number;
 
   constructor(
+    private readonly configService: ConfigService,
     private readonly scriptRepository: ScriptRepository,
     private readonly contentProjectRepository: ContentProjectRepository,
     @Inject('IOpenAIPort')
     private readonly openaiPort: IOpenAIPort,
-  ) {}
+    @Inject('ICachePort')
+    private readonly cachePort: ICachePort,
+  ) {
+    this.maxCostPerScriptBrl = this.configService.get<number>(
+      'MAX_COST_PER_SCRIPT_BRL',
+      1.5,
+    );
+  }
 
   async execute(input: GenerateScriptInput): Promise<Script> {
+    if (!input.projectId) {
+      throw new BadRequestException('Missing project ID');
+    }
+
     if (!input.organizationId) {
       throw new BadRequestException('Missing organization context');
     }
@@ -58,18 +79,34 @@ export class GenerateScriptUseCase {
         `Generating script for project ${input.projectId} with format ${input.formatType}`,
       );
 
-      // Generate script content via OpenAI
-      const scriptContent = await this.generateScriptContent(input);
+      // Check cache first
+      const cacheKey = this.generateCacheKey(input);
+      const cachedResponse =
+        await this.cachePort.get<GeneratedScriptResponse>(cacheKey);
 
-      // Parse and validate JSON response
+      let scriptContent: string;
       let parsedResponse: GeneratedScriptResponse;
-      try {
-        parsedResponse = JSON.parse(scriptContent);
-      } catch (parseError) {
-        throw new ScriptGenerationException(
-          'OpenAI returned invalid JSON format',
-          parseError as Error,
-        );
+
+      if (cachedResponse) {
+        this.logger.debug(`Script generation cache hit for key ${cacheKey}`);
+        this.logCacheHit(input);
+        parsedResponse = cachedResponse;
+      } else {
+        // Generate script content via OpenAI
+        scriptContent = await this.generateScriptContent(input);
+
+        // Parse and validate JSON response
+        try {
+          parsedResponse = JSON.parse(scriptContent);
+        } catch (parseError) {
+          throw new ScriptGenerationException(
+            'OpenAI returned invalid JSON format',
+            parseError as Error,
+          );
+        }
+
+        // Cache the response for future requests (TTL: 24h = 86400s)
+        await this.cachePort.set(cacheKey, parsedResponse, 86400);
       }
 
       // Validate required fields
@@ -83,6 +120,30 @@ export class GenerateScriptUseCase {
         throw new ScriptGenerationException(
           'Script generation returned empty blocks',
         );
+      }
+
+      // Validate budget constraint
+      if (parsedResponse.estimatedCostBrl > this.maxCostPerScriptBrl) {
+        throw new BudgetExceededException(
+          parsedResponse.estimatedCostBrl,
+          this.maxCostPerScriptBrl,
+        );
+      }
+
+      // Warn if cost is > 80% of limit
+      if (parsedResponse.estimatedCostBrl > this.maxCostPerScriptBrl * 0.8) {
+        this.logger.warn({
+          event: 'script_high_cost',
+          estimatedCostBrl: parsedResponse.estimatedCostBrl,
+          maxCostBrl: this.maxCostPerScriptBrl,
+          percentage: (
+            (parsedResponse.estimatedCostBrl / this.maxCostPerScriptBrl) *
+            100
+          ).toFixed(0),
+          projectId: input.projectId,
+          organizationId: input.organizationId,
+          timestamp: new Date().toISOString(),
+        });
       }
 
       // Create script in database
@@ -102,7 +163,10 @@ export class GenerateScriptUseCase {
 
       return script;
     } catch (error) {
-      if (error instanceof ScriptGenerationException) {
+      if (
+        error instanceof ScriptGenerationException ||
+        error instanceof BudgetExceededException
+      ) {
         throw error;
       }
 
@@ -153,5 +217,41 @@ export class GenerateScriptUseCase {
     };
 
     return tokenMap[formatType] || 1500;
+  }
+
+  private generateCacheKey(input: GenerateScriptInput): string {
+    // Generate a deterministic cache key: hash(projectId + trendAnalysisId + formatType + tone)
+    return `openai:script-generation:${input.projectId}:${input.trendAnalysisId || 'none'}:${input.formatType}:${input.tone || 'neutral'}`;
+  }
+
+  private logCacheHit(input: GenerateScriptInput): void {
+    // Log cache hit rate for monitoring efficiency
+    this.logger.log({
+      event: 'script_cache_hit',
+      projectId: input.projectId,
+      trendAnalysisId: input.trendAnalysisId || null,
+      formatType: input.formatType,
+      tone: input.tone || null,
+      timestamp: new Date().toISOString(),
+    });
+  }
+
+  async invalidateCache(projectId: string, scriptId: string): Promise<void> {
+    // Find script to get its cache key parameters
+    const script = await this.scriptRepository.findById(scriptId);
+    if (!script) {
+      throw new BadRequestException('Script not found');
+    }
+
+    // Invalidate cache with script's parameters
+    const cacheKeyPattern = `openai:script-generation:${projectId}:${script.trendAnalysisId || 'none'}:${script.formatType}:*`;
+    await this.cachePort.invalidateByPrefix(cacheKeyPattern);
+
+    this.logger.log({
+      event: 'script_cache_invalidated',
+      projectId,
+      scriptId,
+      timestamp: new Date().toISOString(),
+    });
   }
 }

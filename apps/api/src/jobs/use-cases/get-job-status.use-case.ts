@@ -1,4 +1,9 @@
-import { Inject, Injectable, NotFoundException, ForbiddenException } from '@nestjs/common';
+import {
+  Inject,
+  Injectable,
+  NotFoundException,
+  ForbiddenException,
+} from '@nestjs/common';
 import { Queue } from 'bullmq';
 import { JOBS_QUEUE_TOKEN } from '../../bullmq/bullmq.module';
 import { JobStatusResponse } from '../dto/job-status.response';
@@ -21,7 +26,10 @@ export class GetJobStatusUseCase {
 
     // Verify organization ownership of the job
     const jobData = job.data as Record<string, unknown>;
-    if (jobData.organizationId && jobData.organizationId !== input.organizationId) {
+    if (
+      jobData.organizationId &&
+      jobData.organizationId !== input.organizationId
+    ) {
       throw new ForbiddenException('Not authorized to access this job');
     }
 
@@ -60,8 +68,12 @@ export class GetJobStatusUseCase {
     }
 
     // Get timestamps from job - BullMQ stores timestamp property
-    const createdAt = (job as any).timestamp ? new Date((job as any).timestamp) : new Date();
-    const updatedAt = (job as any).processedOn ? new Date((job as any).processedOn) : createdAt;
+    const createdAt = (job as any).timestamp
+      ? new Date((job as any).timestamp)
+      : new Date();
+    const updatedAt = (job as any).processedOn
+      ? new Date((job as any).processedOn)
+      : createdAt;
 
     const response: JobStatusResponse = {
       jobId: job.id!,

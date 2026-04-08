@@ -1,4 +1,3 @@
- 
 import { Injectable } from '@nestjs/common';
 import { ConfigService } from '@nestjs/config';
 import { PassportStrategy } from '@nestjs/passport';
@@ -27,4 +26,3 @@ export class JwtStrategy extends PassportStrategy(Strategy) {
     return payload;
   }
 }
- 

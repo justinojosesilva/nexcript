@@ -40,7 +40,7 @@ describe('JobsController', () => {
       const result = await controller.healthCheck();
 
       expect(result).toEqual({ jobId: 'health-check-123' });
-       
+
       expect(enqueueHealthCheckUseCase.execute).toHaveBeenCalled();
     });
   });
@@ -59,7 +59,7 @@ describe('JobsController', () => {
       const result = await controller.getStatus('job-123');
 
       expect(result).toEqual(mockStatus);
-       
+
       expect(getJobStatusUseCase.execute).toHaveBeenCalledWith('job-123');
     });
 

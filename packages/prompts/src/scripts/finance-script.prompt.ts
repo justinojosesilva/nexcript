@@ -6,7 +6,7 @@ export interface FinanceScriptInput {
 
 export const financeScriptPrompt = ({
   topic,
-  targetAudience = 'pessoas comuns que querem organizar as finanças',
+  targetAudience = "pessoas comuns que querem organizar as finanças",
   durationMinutes = 10,
 }: FinanceScriptInput) => `
 Você é um especialista em canais dark de finanças no YouTube.

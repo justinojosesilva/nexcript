@@ -1,5 +1,8 @@
 import { Injectable, Logger } from '@nestjs/common';
-import { AnalyzeTrendsUseCase, AnalyzeTrendsInput } from './analyze-trends.use-case';
+import {
+  AnalyzeTrendsUseCase,
+  AnalyzeTrendsInput,
+} from './analyze-trends.use-case';
 
 /**
  * ExecuteTrendAnalysisUseCase

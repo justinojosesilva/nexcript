@@ -8,7 +8,12 @@ import {
   UseGuards,
   Request,
 } from '@nestjs/common';
-import { ApiTags, ApiOperation, ApiResponse, ApiExcludeEndpoint } from '@nestjs/swagger';
+import {
+  ApiTags,
+  ApiOperation,
+  ApiResponse,
+  ApiExcludeEndpoint,
+} from '@nestjs/swagger';
 import { JwtAuthGuard } from '../auth/guards/jwt-auth.guard';
 import { EnqueueTrendAnalysisUseCase } from './use-cases/enqueue-trend-analysis.use-case';
 import { GetTrendAnalysisUseCase } from './use-cases/get-trend-analysis.use-case';
@@ -76,7 +81,8 @@ export class TrendsController {
   @Get(':projectId')
   @ApiOperation({
     summary: 'Get completed trend analysis for a project',
-    description: 'Retrieves the most recent completed trend analysis for a project',
+    description:
+      'Retrieves the most recent completed trend analysis for a project',
   })
   @ApiResponse({
     status: 200,
@@ -104,9 +110,7 @@ export class TrendsController {
 
   @Post('internal/execute')
   @ApiExcludeEndpoint()
-  async executeInternal(
-    @Body() input: AnalyzeTrendsInput,
-  ): Promise<unknown> {
+  async executeInternal(@Body() input: AnalyzeTrendsInput): Promise<unknown> {
     return this.executeTrendAnalysisUseCase.execute(input);
   }
 }

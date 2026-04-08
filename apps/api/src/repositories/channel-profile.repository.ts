@@ -21,7 +21,6 @@ export class ChannelProfileRepository implements IChannelProfileRepository {
 
   create(data: Record<string, unknown>): Promise<ChannelProfile> {
     return this.prismaService.client.channelProfile.create({
-       
       data: data as any,
     });
   }
@@ -29,7 +28,7 @@ export class ChannelProfileRepository implements IChannelProfileRepository {
   update(id: string, data: Record<string, unknown>): Promise<ChannelProfile> {
     return this.prismaService.client.channelProfile.update({
       where: { id },
-       
+
       data: data as any,
     });
   }

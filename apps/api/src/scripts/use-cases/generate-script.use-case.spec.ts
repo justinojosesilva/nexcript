@@ -1,17 +1,21 @@
 import { BadRequestException } from '@nestjs/common';
 import { Test, TestingModule } from '@nestjs/testing';
+import { ConfigService } from '@nestjs/config';
 import { FormatType, NicheCategory, ContentTone } from '@nexcript/shared';
 import { GenerateScriptUseCase } from './generate-script.use-case';
 import { ScriptRepository } from '../../repositories/script.repository';
 import { ContentProjectRepository } from '../../repositories/content-project.repository';
 import { IOpenAIPort } from '../../adapters/interfaces/openai.port';
+import { ICachePort } from '../../cache/interfaces/cache.port';
 import { ScriptGenerationException } from '../exceptions/script-generation.exception';
+import { BudgetExceededException } from '../exceptions/budget-exceeded.exception';
 
 describe('GenerateScriptUseCase', () => {
   let useCase: GenerateScriptUseCase;
   let scriptRepository: jest.Mocked<ScriptRepository>;
   let contentProjectRepository: jest.Mocked<ContentProjectRepository>;
   let openaiPort: jest.Mocked<IOpenAIPort>;
+  let cachePort: jest.Mocked<ICachePort>;
 
   const mockProject = {
     id: 'project-1',
@@ -86,6 +90,8 @@ describe('GenerateScriptUseCase', () => {
     estimatedCostBrl: 15.5,
   });
 
+  let configService: jest.Mocked<ConfigService>;
+
   beforeEach(async () => {
     scriptRepository = {
       create: jest.fn().mockResolvedValue(mockScript),
@@ -104,9 +110,29 @@ describe('GenerateScriptUseCase', () => {
       complete: jest.fn().mockResolvedValue(mockOpenAIResponse),
     } as any;
 
+    cachePort = {
+      get: jest.fn().mockResolvedValue(null),
+      set: jest.fn().mockResolvedValue(undefined),
+      delete: jest.fn().mockResolvedValue(undefined),
+      invalidateByPrefix: jest.fn().mockResolvedValue(undefined),
+    } as any;
+
+    configService = {
+      get: jest.fn().mockImplementation((key: string, defaultValue?: any) => {
+        if (key === 'MAX_COST_PER_SCRIPT_BRL') {
+          return 100; // Use high limit for tests by default
+        }
+        return defaultValue;
+      }),
+    } as any;
+
     const module: TestingModule = await Test.createTestingModule({
       providers: [
         GenerateScriptUseCase,
+        {
+          provide: ConfigService,
+          useValue: configService,
+        },
         {
           provide: ScriptRepository,
           useValue: scriptRepository,
@@ -119,10 +145,16 @@ describe('GenerateScriptUseCase', () => {
           provide: 'IOpenAIPort',
           useValue: openaiPort,
         },
+        {
+          provide: 'ICachePort',
+          useValue: cachePort,
+        },
       ],
     })
       .overrideProvider('IOpenAIPort')
       .useValue(openaiPort)
+      .overrideProvider('ICachePort')
+      .useValue(cachePort)
       .compile();
 
     useCase = module.get<GenerateScriptUseCase>(GenerateScriptUseCase);
@@ -155,6 +187,17 @@ describe('GenerateScriptUseCase', () => {
       );
     });
 
+    it('should throw BadRequestException when projectId is missing', async () => {
+      const input = {
+        projectId: undefined as any,
+        formatType: FormatType.LONG_FORM,
+        niche: NicheCategory.FINANCE,
+        organizationId: 'org-1',
+      };
+
+      await expect(useCase.execute(input)).rejects.toThrow(BadRequestException);
+    });
+
     it('should throw BadRequestException when organizationId is missing', async () => {
       const input = {
         projectId: 'project-1',
@@ -163,9 +206,7 @@ describe('GenerateScriptUseCase', () => {
         organizationId: '',
       };
 
-      await expect(useCase.execute(input)).rejects.toThrow(
-        BadRequestException,
-      );
+      await expect(useCase.execute(input)).rejects.toThrow(BadRequestException);
     });
 
     it('should throw BadRequestException when project does not exist', async () => {
@@ -178,9 +219,7 @@ describe('GenerateScriptUseCase', () => {
         organizationId: 'org-1',
       };
 
-      await expect(useCase.execute(input)).rejects.toThrow(
-        BadRequestException,
-      );
+      await expect(useCase.execute(input)).rejects.toThrow(BadRequestException);
     });
 
     it('should throw ScriptGenerationException when OpenAI returns invalid JSON', async () => {
@@ -244,9 +283,7 @@ describe('GenerateScriptUseCase', () => {
     });
 
     it('should throw ScriptGenerationException when OpenAI API fails', async () => {
-      openaiPort.complete.mockRejectedValueOnce(
-        new Error('OpenAI API Error'),
-      );
+      openaiPort.complete.mockRejectedValueOnce(new Error('OpenAI API Error'));
 
       const input = {
         projectId: 'project-1',
@@ -327,20 +364,407 @@ describe('GenerateScriptUseCase', () => {
     });
   });
 
-  describe('calculateMaxTokens', () => {
-    it('should return correct token limits for each format', () => {
-      const testCases = [
-        [FormatType.LONG_FORM, 2000],
-        [FormatType.MEDIUM_FORM, 1500],
-        [FormatType.SHORT_FORM, 800],
-        [FormatType.CAROUSEL, 1200],
-        [FormatType.PODCAST, 2500],
-      ];
+  describe('budget validation', () => {
+    it('should throw BudgetExceededException when estimated cost exceeds limit', async () => {
+      // Create new useCase with low limit
+      configService.get.mockImplementation(
+        (key: string, defaultValue?: any) => {
+          if (key === 'MAX_COST_PER_SCRIPT_BRL') {
+            return 10; // Set low limit for this test
+          }
+          return defaultValue;
+        },
+      );
 
-      testCases.forEach(([format, expectedTokens]) => {
-        // We test this indirectly through the execute method
-        // since it's a private method
+      const useCaseWithLowLimit = new GenerateScriptUseCase(
+        configService,
+        scriptRepository,
+        contentProjectRepository,
+        openaiPort,
+        cachePort,
+      );
+
+      const highCostResponse = JSON.stringify({
+        blocks: [
+          {
+            id: 'hook',
+            type: 'HOOK',
+            content: 'Hook content',
+            estimatedDuration: 30,
+            wordCount: 50,
+          },
+        ],
+        totalEstimatedDuration: 30,
+        totalWordCount: 50,
+        originalityScore: 0.85,
+        estimatedCostBrl: 50, // Exceeds limit of 10
       });
+
+      openaiPort.complete.mockResolvedValueOnce(highCostResponse);
+
+      const input = {
+        projectId: 'project-1',
+        formatType: FormatType.LONG_FORM,
+        niche: NicheCategory.FINANCE,
+        organizationId: 'org-1',
+      };
+
+      await expect(useCaseWithLowLimit.execute(input)).rejects.toThrow(
+        BudgetExceededException,
+      );
+      expect(scriptRepository.create).not.toHaveBeenCalled();
+    });
+
+    it('should log warning when cost is > 80% of limit', async () => {
+      configService.get.mockImplementation(
+        (key: string, defaultValue?: any) => {
+          if (key === 'MAX_COST_PER_SCRIPT_BRL') {
+            return 100;
+          }
+          return defaultValue;
+        },
+      );
+
+      const warningSpy = jest.spyOn(useCase['logger'], 'warn');
+
+      const highCostResponse = JSON.stringify({
+        blocks: [
+          {
+            id: 'hook',
+            type: 'HOOK',
+            content: 'Hook content',
+            estimatedDuration: 30,
+            wordCount: 50,
+          },
+        ],
+        totalEstimatedDuration: 30,
+        totalWordCount: 50,
+        originalityScore: 0.85,
+        estimatedCostBrl: 85, // 85% of limit
+      });
+
+      openaiPort.complete.mockResolvedValueOnce(highCostResponse);
+
+      const input = {
+        projectId: 'project-1',
+        formatType: FormatType.LONG_FORM,
+        niche: NicheCategory.FINANCE,
+        organizationId: 'org-1',
+      };
+
+      await useCase.execute(input);
+
+      expect(warningSpy).toHaveBeenCalledWith(
+        expect.objectContaining({
+          event: 'script_high_cost',
+          estimatedCostBrl: 85,
+          maxCostBrl: 100,
+        }),
+      );
+
+      warningSpy.mockRestore();
+    });
+
+    it('should accept script when cost is exactly at limit', async () => {
+      configService.get.mockImplementation(
+        (key: string, defaultValue?: any) => {
+          if (key === 'MAX_COST_PER_SCRIPT_BRL') {
+            return 100;
+          }
+          return defaultValue;
+        },
+      );
+
+      const boundaryResponse = JSON.stringify({
+        blocks: [
+          {
+            id: 'hook',
+            type: 'HOOK',
+            content: 'Hook content',
+            estimatedDuration: 30,
+            wordCount: 50,
+          },
+        ],
+        totalEstimatedDuration: 30,
+        totalWordCount: 50,
+        originalityScore: 0.85,
+        estimatedCostBrl: 100, // Exactly at limit
+      });
+
+      openaiPort.complete.mockResolvedValueOnce(boundaryResponse);
+
+      const input = {
+        projectId: 'project-1',
+        formatType: FormatType.LONG_FORM,
+        niche: NicheCategory.FINANCE,
+        organizationId: 'org-1',
+      };
+
+      await useCase.execute(input);
+
+      expect(scriptRepository.create).toHaveBeenCalled();
+    });
+
+    it('should accept script when cost is below limit', async () => {
+      configService.get.mockImplementation(
+        (key: string, defaultValue?: any) => {
+          if (key === 'MAX_COST_PER_SCRIPT_BRL') {
+            return 100;
+          }
+          return defaultValue;
+        },
+      );
+
+      const lowCostResponse = JSON.stringify({
+        blocks: [
+          {
+            id: 'hook',
+            type: 'HOOK',
+            content: 'Hook content',
+            estimatedDuration: 30,
+            wordCount: 50,
+          },
+        ],
+        totalEstimatedDuration: 30,
+        totalWordCount: 50,
+        originalityScore: 0.85,
+        estimatedCostBrl: 50, // Below limit
+      });
+
+      openaiPort.complete.mockResolvedValueOnce(lowCostResponse);
+
+      const input = {
+        projectId: 'project-1',
+        formatType: FormatType.LONG_FORM,
+        niche: NicheCategory.FINANCE,
+        organizationId: 'org-1',
+      };
+
+      await useCase.execute(input);
+
+      expect(scriptRepository.create).toHaveBeenCalled();
+    });
+  });
+
+  describe('cache integration', () => {
+    it('should not call OpenAI when cache hit occurs', async () => {
+      const cachedResponse = {
+        blocks: [
+          {
+            id: 'hook',
+            type: 'HOOK',
+            content: 'Cached hook content',
+            estimatedDuration: 30,
+            wordCount: 50,
+          },
+        ],
+        totalEstimatedDuration: 30,
+        totalWordCount: 50,
+        originalityScore: 0.85,
+        estimatedCostBrl: 15.5,
+      };
+
+      cachePort.get.mockResolvedValueOnce(cachedResponse);
+
+      const input = {
+        projectId: 'project-1',
+        formatType: FormatType.LONG_FORM,
+        niche: NicheCategory.FINANCE,
+        organizationId: 'org-1',
+      };
+
+      await useCase.execute(input);
+
+      expect(cachePort.get).toHaveBeenCalledWith(
+        expect.stringContaining('openai:script-generation'),
+      );
+      expect(openaiPort.complete).not.toHaveBeenCalled();
+    });
+
+    it('should cache OpenAI response with 24h TTL on first call', async () => {
+      const input = {
+        projectId: 'project-1',
+        formatType: FormatType.LONG_FORM,
+        niche: NicheCategory.FINANCE,
+        organizationId: 'org-1',
+      };
+
+      await useCase.execute(input);
+
+      expect(cachePort.set).toHaveBeenCalledWith(
+        expect.stringContaining('openai:script-generation'),
+        expect.objectContaining({
+          estimatedCostBrl: 15.5,
+        }),
+        86400, // 24h TTL
+      );
+    });
+
+    it('should call OpenAI when cache miss occurs', async () => {
+      cachePort.get.mockResolvedValueOnce(null); // Cache miss
+
+      const input = {
+        projectId: 'project-1',
+        formatType: FormatType.LONG_FORM,
+        niche: NicheCategory.FINANCE,
+        organizationId: 'org-1',
+      };
+
+      await useCase.execute(input);
+
+      expect(openaiPort.complete).toHaveBeenCalled();
+    });
+
+    it('should generate cache key with trendAnalysisId and tone', async () => {
+      const input = {
+        projectId: 'project-1',
+        trendAnalysisId: 'trend-123',
+        formatType: FormatType.LONG_FORM,
+        tone: ContentTone.CASUAL,
+        niche: NicheCategory.FINANCE,
+        organizationId: 'org-1',
+      };
+
+      await useCase.execute(input);
+
+      const expectedCacheKey = `openai:script-generation:project-1:trend-123:${FormatType.LONG_FORM}:${ContentTone.CASUAL}`;
+      expect(cachePort.get).toHaveBeenCalledWith(expectedCacheKey);
+    });
+
+    it('should use default values in cache key when trendAnalysisId and tone are missing', async () => {
+      const input = {
+        projectId: 'project-1',
+        formatType: FormatType.LONG_FORM,
+        niche: NicheCategory.FINANCE,
+        organizationId: 'org-1',
+      };
+
+      await useCase.execute(input);
+
+      const expectedCacheKey = `openai:script-generation:project-1:none:${FormatType.LONG_FORM}:neutral`;
+      expect(cachePort.get).toHaveBeenCalledWith(expectedCacheKey);
+    });
+  });
+
+  describe('coverage for all format types', () => {
+    const testCases = [
+      [FormatType.LONG_FORM, 2000],
+      [FormatType.MEDIUM_FORM, 1500],
+      [FormatType.SHORT_FORM, 800],
+      [FormatType.CAROUSEL, 1200],
+      [FormatType.PODCAST, 2500],
+    ];
+
+    testCases.forEach(([format, expectedTokens]) => {
+      it(`should use ${expectedTokens} tokens for ${format} format`, async () => {
+        const input = {
+          projectId: 'project-1',
+          formatType: format as FormatType,
+          niche: NicheCategory.FINANCE,
+          organizationId: 'org-1',
+        };
+
+        await useCase.execute(input);
+
+        expect(openaiPort.complete).toHaveBeenCalledWith(
+          expect.any(String),
+          expectedTokens,
+        );
+      });
+    });
+  });
+
+  describe('cache invalidation', () => {
+    it('should invalidate cache with pattern matching trendAnalysisId', async () => {
+      scriptRepository.findById.mockResolvedValueOnce({
+        ...mockScript,
+        trendAnalysisId: 'trend-123',
+      } as any);
+
+      await useCase.invalidateCache('project-1', 'script-1');
+
+      const expectedPattern = `openai:script-generation:project-1:trend-123:${FormatType.LONG_FORM}:*`;
+      expect(cachePort.invalidateByPrefix).toHaveBeenCalledWith(
+        expectedPattern,
+      );
+    });
+
+    it('should throw BadRequestException when script not found', async () => {
+      scriptRepository.findById.mockResolvedValueOnce(null);
+
+      await expect(
+        useCase.invalidateCache('project-1', 'non-existent'),
+      ).rejects.toThrow(BadRequestException);
+    });
+
+    it('should invalidate cache with none pattern when trendAnalysisId is null', async () => {
+      scriptRepository.findById.mockResolvedValueOnce({
+        ...mockScript,
+        trendAnalysisId: null,
+      } as any);
+
+      await useCase.invalidateCache('project-1', 'script-1');
+
+      const expectedPattern = `openai:script-generation:project-1:none:${FormatType.LONG_FORM}:*`;
+      expect(cachePort.invalidateByPrefix).toHaveBeenCalledWith(
+        expectedPattern,
+      );
+    });
+  });
+
+  describe('error handling and edge cases', () => {
+    it('should handle null cache response gracefully', async () => {
+      cachePort.get.mockResolvedValueOnce(null);
+
+      const input = {
+        projectId: 'project-1',
+        formatType: FormatType.LONG_FORM,
+        niche: NicheCategory.FINANCE,
+        organizationId: 'org-1',
+      };
+
+      await useCase.execute(input);
+
+      expect(openaiPort.complete).toHaveBeenCalled();
+    });
+
+    it('should throw ScriptGenerationException when blocks is not an array', async () => {
+      openaiPort.complete.mockResolvedValueOnce(
+        JSON.stringify({
+          blocks: 'not an array',
+          totalEstimatedDuration: 600,
+          totalWordCount: 640,
+          originalityScore: 0.85,
+          estimatedCostBrl: 15.5,
+        }),
+      );
+
+      const input = {
+        projectId: 'project-1',
+        formatType: FormatType.LONG_FORM,
+        niche: NicheCategory.FINANCE,
+        organizationId: 'org-1',
+      };
+
+      await expect(useCase.execute(input)).rejects.toThrow(
+        ScriptGenerationException,
+      );
+    });
+
+    it('should wrap non-ScriptGenerationException errors correctly', async () => {
+      const unexpectedError = new TypeError('Unexpected type error');
+      openaiPort.complete.mockRejectedValueOnce(unexpectedError);
+
+      const input = {
+        projectId: 'project-1',
+        formatType: FormatType.LONG_FORM,
+        niche: NicheCategory.FINANCE,
+        organizationId: 'org-1',
+      };
+
+      await expect(useCase.execute(input)).rejects.toThrow(
+        ScriptGenerationException,
+      );
     });
   });
 });

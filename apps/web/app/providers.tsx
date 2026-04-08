@@ -1,9 +1,9 @@
-'use client';
+"use client";
 
-import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
-import { ReactNode } from 'react';
-import { ToastProvider } from '@/lib/toast-context';
-import { ToastContainer } from '@/components/toast-container';
+import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
+import { ReactNode } from "react";
+import { ToastProvider } from "@/lib/toast-context";
+import { ToastContainer } from "@/components/toast-container";
 
 const queryClient = new QueryClient({
   defaultOptions: {

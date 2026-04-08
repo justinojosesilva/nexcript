@@ -1,4 +1,10 @@
-import { Injectable, OnModuleInit, OnModuleDestroy, Inject, Optional } from '@nestjs/common';
+import {
+  Injectable,
+  OnModuleInit,
+  OnModuleDestroy,
+  Inject,
+  Optional,
+} from '@nestjs/common';
 import { ConfigService } from '@nestjs/config';
 import Redis from 'ioredis';
 import { ICachePort } from '../interfaces/cache.port';
@@ -16,7 +22,9 @@ const DEFAULT_TTLS: Record<string, number> = {
 const DEFAULT_TTL = 60 * 60; // 1 hour default
 
 @Injectable()
-export class RedisCacheAdapter implements ICachePort, OnModuleInit, OnModuleDestroy {
+export class RedisCacheAdapter
+  implements ICachePort, OnModuleInit, OnModuleDestroy
+{
   private redis: Redis;
 
   constructor(
