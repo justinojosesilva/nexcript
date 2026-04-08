@@ -2,6 +2,7 @@
 export type { ScriptPromptInput, ScriptBlockOutput, ScriptOutput } from './scripts/script-prompt.template.js';
 export { scriptPromptTemplate } from './scripts/script-prompt.template.js';
 export { genericScriptPrompt, type GenericScriptInput } from './scripts/generic-script.prompt.js';
+export { scriptGapBasedPrompt, type ScriptGapBasedInput, type ScriptGapBasedOutput } from './scripts/gap-based-script.prompt.js';
 
 // Other scripts
 export * from './scripts/finance-script.prompt.js';
