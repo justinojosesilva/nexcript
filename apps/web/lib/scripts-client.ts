@@ -1,4 +1,4 @@
-import { getApiClient } from './api-client';
+import { getApiClient } from "./api-client";
 
 export interface ScriptBlockData {
   id: string;
@@ -13,7 +13,7 @@ export interface ScriptBlockData {
 export interface ScriptData {
   id: string;
   projectId: string;
-  status: 'draft' | 'reviewing' | 'approved' | 'published';
+  status: "draft" | "reviewing" | "approved" | "published";
   formatType: string;
   blocks: ScriptBlockData[];
   wordCount?: number;
@@ -53,5 +53,26 @@ export async function updateScript(
 ): Promise<ScriptData> {
   const client = getApiClient();
   const response = await client.patch<ScriptData>(`/scripts/${id}`, data);
+  return response.data;
+}
+
+export interface CreateScriptDto {
+  projectId: string;
+  keyword: string;
+  formatType: string;
+  tone: string;
+  trendAnalysisId: string;
+}
+
+export interface CreateScriptResponse {
+  id: string;
+  jobId?: string;
+}
+
+export async function createScript(
+  data: CreateScriptDto,
+): Promise<CreateScriptResponse> {
+  const client = getApiClient();
+  const response = await client.post<CreateScriptResponse>("/scripts", data);
   return response.data;
 }
