@@ -23,4 +23,5 @@ export * from './scoring/monetization-risk.prompt.js';
 export * from './scoring/gap-analysis.prompt.js';
 
 // Narration
-export * from './narration/narration.prompt.js';
+export { narrationPromptTemplate, type NarrationPromptInput, type NarrationBlock, type NarrationTone, type NarrationSpeed, type VoiceStyle, type NarrationOutput } from './narration/narration.prompt.js';
+export { narrationPrompt, type NarrationInput } from './narration/narration-legacy.prompt.js';
