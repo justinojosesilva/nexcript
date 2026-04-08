@@ -16,7 +16,7 @@ export default function Home() {
   }, [router])
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-neutral-900 via-neutral-800 to-neutral-900 flex flex-col items-center justify-center px-4">
+    <div className="min-h-screen bg-gradient-to-br from-neutral-900 via-neutral-800 to-neutral-900 flex flex-col items-center justify-center px-4 m-8">
       <div className="text-center space-y-8 max-w-2xl">
         <div className="space-y-4">
           <h1 className="text-6xl font-bold text-white font-display leading-tight">

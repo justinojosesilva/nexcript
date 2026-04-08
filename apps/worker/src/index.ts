@@ -1,9 +1,11 @@
 import { Queue, Worker, Job } from 'bullmq';
 import Redis from 'ioredis';
+import axios from 'axios';
 import { prisma } from '@nexcript/database';
 
 const REDIS_URL = process.env.REDIS_URL || 'redis://localhost:6379';
 const QUEUE_NAME = 'nexcript-jobs';
+const API_URL = process.env.API_URL || 'http://localhost:3002';
 
 const redisConnection = new Redis(REDIS_URL, {
   maxRetriesPerRequest: null,
@@ -32,6 +34,41 @@ async function processHealthCheckJob(job: Job): Promise<{ status: string }> {
 
   console.log(`[Worker] Completed health-check job: ${job.id}`);
   return { status: 'completed' };
+}
+
+// Job processor for analyze-trends jobs
+async function processAnalyzeTrendsJob(job: Job): Promise<unknown> {
+  console.log(`[Worker] Processing analyze-trends job: ${job.id}`);
+
+  const jobData = job.data as Record<string, unknown>;
+  const { projectId, organizationId, keyword, geo, niche } = jobData;
+
+  try {
+    // Call the internal API endpoint to execute the analysis
+    await job.updateProgress(10);
+
+    const response = await axios.post(`${API_URL}/trends/internal/execute`, {
+      projectId,
+      organizationId,
+      keyword,
+      geo,
+      niche,
+    });
+
+    await job.updateProgress(90);
+
+    console.log(`[Worker] Completed analyze-trends job: ${job.id}`);
+    await job.updateProgress(100);
+
+    return response.data;
+  } catch (error) {
+    const errorMessage = error instanceof Error ? error.message : String(error);
+    console.error(
+      `[Worker] Error calling trends API for job ${job.id}:`,
+      errorMessage,
+    );
+    throw error;
+  }
 }
 
 // Update job status in database for jobs with entity references
@@ -84,6 +121,9 @@ const worker = new Worker(
       switch (job.name) {
         case 'health-check':
           result = await processHealthCheckJob(job);
+          break;
+        case 'analyze-trends':
+          result = await processAnalyzeTrendsJob(job);
           break;
         default:
           throw new Error(`Unknown job type: ${job.name}`);

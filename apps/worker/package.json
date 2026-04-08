@@ -9,6 +9,7 @@
   },
   "dependencies": {
     "@nexcript/database": "workspace:*",
+    "@nexcript/prompts": "workspace:*",
     "@nexcript/shared": "workspace:*",
     "axios": "^1.14.0",
     "bullmq": "^5.73.0",

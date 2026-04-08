@@ -1,0 +1,19 @@
+{
+  "mcpServers": {
+    "stitch": {
+      "transport": "http",
+      "url": "https://stitch.googleapis.com/mcp",
+      "headers": {
+        "X-Goog-Api-Key": "$GOOGLE_API_KEY"
+      }
+    },
+    "notion": {
+      "transport": "stdio",
+      "command": "npx",
+      "args": ["-y", "@anthropic-ai/schemas-mcp-server"],
+      "env": {
+        "NOTION_API_KEY": "$NOTION_API_KEY"
+      }
+    }
+  }
+}

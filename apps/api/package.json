@@ -28,6 +28,7 @@
     "@nestjs/platform-express": "^11.0.1",
     "@nestjs/swagger": "^11.2.6",
     "@nexcript/database": "workspace:*",
+    "@nexcript/prompts": "workspace:*",
     "@nexcript/shared": "workspace:*",
     "axios": "^1.14.0",
     "bcrypt": "^6.0.0",
@@ -37,6 +38,7 @@
     "dotenv": "^17.4.1",
     "ioredis": "^5.10.1",
     "joi": "^18.1.2",
+    "openai": "^6.33.0",
     "passport": "^0.7.0",
     "passport-jwt": "^4.0.1",
     "reflect-metadata": "^0.2.2",
@@ -86,8 +88,9 @@
       "^.+\\.(t|j)s$": "ts-jest"
     },
     "moduleNameMapper": {
-      "^@nexcript/database$": "<rootDir>/../../../packages/database/dist/index.js",
-      "^@nexcript/shared$": "<rootDir>/../../../packages/shared/dist/index.js"
+      "^@nexcript/database$": "<rootDir>/../../../packages/database/dist/index.cjs",
+      "^@nexcript/prompts$": "<rootDir>/../../../packages/prompts/dist/index.cjs",
+      "^@nexcript/shared$": "<rootDir>/../../../packages/shared/dist/index.cjs"
     },
     "collectCoverageFrom": [
       "**/*.(t|j)s"

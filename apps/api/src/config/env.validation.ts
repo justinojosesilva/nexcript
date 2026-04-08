@@ -6,4 +6,7 @@ export const envValidationSchema = Joi.object({
   REDIS_URL: Joi.string().uri().required(),
   JWT_SECRET: Joi.string().min(16).required(),
   JWT_EXPIRES_IN: Joi.string().required(),
+  YOUTUBE_API_KEY: Joi.string().required(),
+  GOOGLE_TRENDS_REGION: Joi.string().required(),
+  OPENAI_API_KEY: Joi.string().required(),
 });

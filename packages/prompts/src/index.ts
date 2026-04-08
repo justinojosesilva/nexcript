@@ -15,6 +15,7 @@ export * from './seo/youtube-description.prompt.js';
 
 // Scoring
 export * from './scoring/monetization-risk.prompt.js';
+export * from './scoring/gap-analysis.prompt.js';
 
 // Narration
 export * from './narration/narration.prompt.js';

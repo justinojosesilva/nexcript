@@ -31,48 +31,63 @@ export const nexcriptTokens = {
 export const nexcriptTokensWithScales = {
   // Core Brand Colors
   colors: {
-    // Primary - Electric Purple
-    primary: {
-      50: '#f5f3ff',
-      100: '#ede9fe',
-      200: '#ddd6fe',
-      300: '#c4b5fd',
-      400: '#a78bfa',
-      500: '#8b5cf6',
-      600: '#7c3aed',
-      700: '#6d28d9',
-      800: '#5b21b6',
-      900: '#4c1d95',
-      950: '#2d1b4e',
-    },
-    // Semantic - Emerald (Success)
-    success: {
-      50: '#f0fdf4',
-      100: '#dcfce7',
-      500: '#10b981',
-      600: '#059669',
-      700: '#047857',
-      900: '#065f46',
-    },
-    // Semantic - Amber (Warning)
-    warning: {
-      50: '#fffbeb',
-      100: '#fef3c7',
-      500: '#f59e0b',
-      600: '#d97706',
-      700: '#b45309',
-      900: '#78350f',
-    },
-    // Semantic - Red (Error)
-    error: {
-      50: '#fef2f2',
-      100: '#fee2e2',
-      500: '#ef4444',
-      600: '#dc2626',
-      700: '#b91c1c',
-      900: '#7f1d1d',
-    },
-    // Neutral - Grayscale
+    // Material Design 3 Colors
+    primary: 'var(--primary)',
+    'primary-container': 'var(--primary-container)',
+    'on-primary': 'var(--on-primary)',
+    'on-primary-container': 'var(--on-primary-container)',
+    'on-primary-fixed': 'var(--on-primary-fixed)',
+    'on-primary-fixed-variant': 'var(--on-primary-fixed-variant)',
+    'primary-fixed': 'var(--primary-fixed)',
+    'primary-fixed-dim': 'var(--primary-fixed-dim)',
+
+    secondary: 'var(--secondary)',
+    'secondary-container': 'var(--secondary-container)',
+    'on-secondary': 'var(--on-secondary)',
+    'on-secondary-container': 'var(--on-secondary-container)',
+    'on-secondary-fixed': 'var(--on-secondary-fixed)',
+    'on-secondary-fixed-variant': 'var(--on-secondary-fixed-variant)',
+    'secondary-fixed': 'var(--secondary-fixed)',
+    'secondary-fixed-dim': 'var(--secondary-fixed-dim)',
+
+    tertiary: 'var(--tertiary)',
+    'tertiary-container': 'var(--tertiary-container)',
+    'on-tertiary': 'var(--on-tertiary)',
+    'on-tertiary-container': 'var(--on-tertiary-container)',
+    'on-tertiary-fixed': 'var(--on-tertiary-fixed)',
+    'on-tertiary-fixed-variant': 'var(--on-tertiary-fixed-variant)',
+    'tertiary-fixed': 'var(--tertiary-fixed)',
+    'tertiary-fixed-dim': 'var(--tertiary-fixed-dim)',
+
+    error: 'var(--error)',
+    'error-container': 'var(--error-container)',
+    'on-error': 'var(--on-error)',
+    'on-error-container': 'var(--on-error-container)',
+
+    background: 'var(--background)',
+    'on-background': 'var(--on-background)',
+
+    surface: 'var(--surface)',
+    'surface-dim': 'var(--surface-dim)',
+    'surface-bright': 'var(--surface-bright)',
+    'surface-container': 'var(--surface-container)',
+    'surface-container-low': 'var(--surface-container-low)',
+    'surface-container-lowest': 'var(--surface-container-lowest)',
+    'surface-container-high': 'var(--surface-container-high)',
+    'surface-container-highest': 'var(--surface-container-highest)',
+    'on-surface': 'var(--on-surface)',
+    'on-surface-variant': 'var(--on-surface-variant)',
+
+    outline: 'var(--outline)',
+    'outline-variant': 'var(--outline-variant)',
+    'surface-variant': 'var(--surface-variant)',
+    'surface-tint': 'var(--surface-tint)',
+
+    'inverse-surface': 'var(--inverse-surface)',
+    'inverse-on-surface': 'var(--inverse-on-surface)',
+    'inverse-primary': 'var(--inverse-primary)',
+
+    // Neutral - Grayscale (keep for compatibility)
     neutral: {
       50: '#fafaf9',
       100: '#f5f5f4',

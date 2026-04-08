@@ -12,6 +12,9 @@ import { ProjectsModule } from './projects/projects.module';
 import { BullmqModule } from './bullmq/bullmq.module';
 import { JobsModule } from './jobs/jobs.module';
 import { JwtAuthGuard } from './auth/guards/jwt-auth.guard';
+import { CacheModule } from './cache/cache.module';
+import { ScoringModule } from './scoring/scoring.module';
+import { TrendsModule } from './trends/trends.module';
 
 @Module({
   imports: [
@@ -23,6 +26,9 @@ import { JwtAuthGuard } from './auth/guards/jwt-auth.guard';
       },
     }),
     PrismaModule,
+    CacheModule,
+    ScoringModule,
+    TrendsModule,
     RepositoriesModule,
     AuthModule,
     ChannelsModule,
