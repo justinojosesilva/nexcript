@@ -175,4 +175,22 @@ export class ScriptsController {
       organizationId: user.organizationId,
     });
   }
+
+  @Post('internal/generate')
+  @HttpCode(HttpStatus.CREATED)
+  @ApiOperation({
+    summary: 'Internal script generation endpoint',
+    description: 'Called by worker process - not for public API',
+  })
+  async internalGenerateScript(
+    @Body() dto: GenerateScriptDto & { projectId: string; organizationId: string; trendAnalysisId: string },
+  ): Promise<{ script: Script }> {
+    const script = await this.generateScriptUseCase.execute({
+      ...dto,
+      projectId: dto.projectId,
+      organizationId: dto.organizationId,
+    });
+
+    return { script };
+  }
 }

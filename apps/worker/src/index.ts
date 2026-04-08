@@ -17,6 +17,14 @@ const redisConnection = new Redis(REDIS_URL, {
 
 const jobsQueue = new Queue(QUEUE_NAME, {
   connection: redisConnection,
+  defaultJobOptions: {
+    attempts: 3,
+    backoff: {
+      type: 'exponential',
+      delay: 2000,
+    },
+    removeOnComplete: false,
+  },
 });
 
 // Job processor for health-check jobs
@@ -71,6 +79,56 @@ async function processAnalyzeTrendsJob(job: Job): Promise<unknown> {
   }
 }
 
+// Job processor for generate-script jobs
+async function processGenerateScriptJob(job: Job): Promise<unknown> {
+  console.log(`[Worker] Processing generate-script job: ${job.id}`);
+
+  const jobData = job.data as Record<string, unknown>;
+  const {
+    projectId,
+    organizationId,
+    trendAnalysisId,
+    formatType,
+    tone,
+  } = jobData;
+
+  try {
+    // Update progress: starting
+    await job.updateProgress(20);
+
+    // Call the internal API endpoint to generate script
+    const response = await axios.post(`${API_URL}/scripts/internal/generate`, {
+      projectId,
+      organizationId,
+      trendAnalysisId,
+      formatType,
+      tone,
+    });
+
+    await job.updateProgress(80);
+
+    // Extract cost information from response
+    const { script } = response.data;
+    if (script?.estimatedCostBrl) {
+      console.log(
+        `[Worker] Script generated with estimated cost: R$ ${script.estimatedCostBrl.toFixed(2)}`,
+      );
+    }
+
+    await job.updateProgress(100);
+
+    console.log(`[Worker] Completed generate-script job: ${job.id}`);
+    return response.data;
+  } catch (error) {
+    const errorMessage = error instanceof Error ? error.message : String(error);
+    console.error(
+      `[Worker] Error calling script generation API for job ${job.id}:`,
+      errorMessage,
+    );
+    throw error;
+  }
+}
+
 // Update job status in database for jobs with entity references
 async function updateJobStatusInDatabase(
   job: Job,
@@ -78,6 +136,21 @@ async function updateJobStatusInDatabase(
   errorMessage?: string,
 ): Promise<void> {
   const jobData = job.data as Record<string, unknown>;
+
+  // If job has a projectId and trendAnalysisId, handle script generation
+  if (jobData.projectId && jobData.trendAnalysisId && job.name === 'generate-script') {
+    const projectId = jobData.projectId as string;
+
+    // On failure: revert ContentProject status to planning (indicates needs retry)
+    if (status === 'failed') {
+      await prisma.contentProject.update({
+        where: { id: projectId },
+        data: {
+          status: 'planning',
+        },
+      });
+    }
+  }
 
   // If job has an exportJobId, update ExportJob entity
   if (jobData.exportJobId && typeof jobData.exportJobId === 'string') {
@@ -124,6 +197,9 @@ const worker = new Worker(
           break;
         case 'analyze-trends':
           result = await processAnalyzeTrendsJob(job);
+          break;
+        case 'generate-script':
+          result = await processGenerateScriptJob(job);
           break;
         default:
           throw new Error(`Unknown job type: ${job.name}`);
