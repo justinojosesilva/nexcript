@@ -7,23 +7,98 @@ import {
   Param,
   Patch,
   Post,
+  ForbiddenException,
+  NotFoundException,
+  BadRequestException,
 } from '@nestjs/common';
+import { ApiOperation, ApiResponse, ApiTags, ApiBearerAuth } from '@nestjs/swagger';
 import { type Script } from '@nexcript/database';
 import { CurrentUser } from '../auth/decorators/current-user.decorator';
 import { type JwtPayload } from '../auth/strategies/jwt.strategy';
 import { GetScriptsUseCase } from './use-cases/get-scripts.use-case';
 import { UpdateScriptUseCase } from './use-cases/update-script.use-case';
 import { GenerateScriptUseCase } from './use-cases/generate-script.use-case';
+import { EnqueueScriptGenerationUseCase } from './use-cases/enqueue-script-generation.use-case';
 import { UpdateScriptDto } from './dto/update-script.dto';
 import { GenerateScriptDto } from './dto/generate-script.dto';
+import { CreateScriptQueueDto } from './dto/create-script-queue.dto';
 
+@ApiTags('scripts')
+@ApiBearerAuth()
 @Controller('scripts')
 export class ScriptsController {
   constructor(
     private readonly getScriptsUseCase: GetScriptsUseCase,
     private readonly updateScriptUseCase: UpdateScriptUseCase,
     private readonly generateScriptUseCase: GenerateScriptUseCase,
+    private readonly enqueueScriptGenerationUseCase: EnqueueScriptGenerationUseCase,
   ) {}
+
+  @Post()
+  @HttpCode(HttpStatus.ACCEPTED)
+  @ApiOperation({
+    summary: 'Enqueue script generation job',
+    description: 'Submit a script generation request that will be processed asynchronously via BullMQ',
+  })
+  @ApiResponse({
+    status: 202,
+    description: 'Job accepted and enqueued',
+    schema: {
+      example: {
+        jobId: 'generate-script-550e8400-e29b-41d4-a716-446655440000-660e8400-e29b-41d4-a716-446655440001-1712580000000',
+        status: 'PENDING',
+      },
+    },
+  })
+  @ApiResponse({
+    status: 403,
+    description: 'Forbidden - projectId does not belong to user organization',
+    schema: {
+      example: {
+        message: 'Project does not belong to organization',
+        error: 'Forbidden',
+        statusCode: 403,
+      },
+    },
+  })
+  @ApiResponse({
+    status: 404,
+    description: 'Not Found - trendAnalysisId does not exist or does not belong to projectId',
+    schema: {
+      example: {
+        message: 'Trend analysis not found',
+        error: 'Bad Request',
+        statusCode: 400,
+      },
+    },
+  })
+  async enqueueScriptGeneration(
+    @Body() dto: CreateScriptQueueDto,
+    @CurrentUser() user: JwtPayload | undefined,
+  ) {
+    if (!user) {
+      throw new Error('User not authenticated');
+    }
+
+    try {
+      return await this.enqueueScriptGenerationUseCase.execute({
+        ...dto,
+        organizationId: user.organizationId,
+      });
+    } catch (error) {
+      if (error instanceof BadRequestException) {
+        // Check if it's a 403 or 404 scenario
+        const message = (error.getResponse() as any).message || '';
+        if (message.includes('does not belong to organization')) {
+          throw new ForbiddenException(message);
+        }
+        if (message.includes('not found')) {
+          throw new NotFoundException(message);
+        }
+      }
+      throw error;
+    }
+  }
 
   @Get()
   @HttpCode(HttpStatus.OK)
