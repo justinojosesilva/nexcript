@@ -162,6 +162,16 @@ export const JobStatus: {
 export type JobStatus = (typeof JobStatus)[keyof typeof JobStatus]
 
 
+export const ScriptStatus: {
+  draft: 'draft',
+  reviewing: 'reviewing',
+  approved: 'approved',
+  published: 'published'
+};
+
+export type ScriptStatus = (typeof ScriptStatus)[keyof typeof ScriptStatus]
+
+
 export const TtsProvider: {
   google: 'google',
   microsoft: 'microsoft',
@@ -247,6 +257,10 @@ export const ProjectStatus: typeof $Enums.ProjectStatus
 export type JobStatus = $Enums.JobStatus
 
 export const JobStatus: typeof $Enums.JobStatus
+
+export type ScriptStatus = $Enums.ScriptStatus
+
+export const ScriptStatus: typeof $Enums.ScriptStatus
 
 export type TtsProvider = $Enums.TtsProvider
 
@@ -1979,8 +1993,6 @@ export namespace Prisma {
     channelProfiles: number
     contentProjects: number
     trendAnalyses: number
-    scripts: number
-    narrations: number
     mediaSuggestions: number
     publicationMetadata: number
     exportJobs: number
@@ -1991,8 +2003,6 @@ export namespace Prisma {
     channelProfiles?: boolean | OrganizationCountOutputTypeCountChannelProfilesArgs
     contentProjects?: boolean | OrganizationCountOutputTypeCountContentProjectsArgs
     trendAnalyses?: boolean | OrganizationCountOutputTypeCountTrendAnalysesArgs
-    scripts?: boolean | OrganizationCountOutputTypeCountScriptsArgs
-    narrations?: boolean | OrganizationCountOutputTypeCountNarrationsArgs
     mediaSuggestions?: boolean | OrganizationCountOutputTypeCountMediaSuggestionsArgs
     publicationMetadata?: boolean | OrganizationCountOutputTypeCountPublicationMetadataArgs
     exportJobs?: boolean | OrganizationCountOutputTypeCountExportJobsArgs
@@ -2035,20 +2045,6 @@ export namespace Prisma {
    */
   export type OrganizationCountOutputTypeCountTrendAnalysesArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     where?: TrendAnalysisWhereInput
-  }
-
-  /**
-   * OrganizationCountOutputType without action
-   */
-  export type OrganizationCountOutputTypeCountScriptsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    where?: ScriptWhereInput
-  }
-
-  /**
-   * OrganizationCountOutputType without action
-   */
-  export type OrganizationCountOutputTypeCountNarrationsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    where?: NarrationWhereInput
   }
 
   /**
@@ -2422,8 +2418,6 @@ export namespace Prisma {
     channelProfiles?: boolean | Organization$channelProfilesArgs<ExtArgs>
     contentProjects?: boolean | Organization$contentProjectsArgs<ExtArgs>
     trendAnalyses?: boolean | Organization$trendAnalysesArgs<ExtArgs>
-    scripts?: boolean | Organization$scriptsArgs<ExtArgs>
-    narrations?: boolean | Organization$narrationsArgs<ExtArgs>
     mediaSuggestions?: boolean | Organization$mediaSuggestionsArgs<ExtArgs>
     publicationMetadata?: boolean | Organization$publicationMetadataArgs<ExtArgs>
     exportJobs?: boolean | Organization$exportJobsArgs<ExtArgs>
@@ -2463,8 +2457,6 @@ export namespace Prisma {
     channelProfiles?: boolean | Organization$channelProfilesArgs<ExtArgs>
     contentProjects?: boolean | Organization$contentProjectsArgs<ExtArgs>
     trendAnalyses?: boolean | Organization$trendAnalysesArgs<ExtArgs>
-    scripts?: boolean | Organization$scriptsArgs<ExtArgs>
-    narrations?: boolean | Organization$narrationsArgs<ExtArgs>
     mediaSuggestions?: boolean | Organization$mediaSuggestionsArgs<ExtArgs>
     publicationMetadata?: boolean | Organization$publicationMetadataArgs<ExtArgs>
     exportJobs?: boolean | Organization$exportJobsArgs<ExtArgs>
@@ -2480,8 +2472,6 @@ export namespace Prisma {
       channelProfiles: Prisma.$ChannelProfilePayload<ExtArgs>[]
       contentProjects: Prisma.$ContentProjectPayload<ExtArgs>[]
       trendAnalyses: Prisma.$TrendAnalysisPayload<ExtArgs>[]
-      scripts: Prisma.$ScriptPayload<ExtArgs>[]
-      narrations: Prisma.$NarrationPayload<ExtArgs>[]
       mediaSuggestions: Prisma.$MediaSuggestionPayload<ExtArgs>[]
       publicationMetadata: Prisma.$PublicationMetadataPayload<ExtArgs>[]
       exportJobs: Prisma.$ExportJobPayload<ExtArgs>[]
@@ -2891,8 +2881,6 @@ export namespace Prisma {
     channelProfiles<T extends Organization$channelProfilesArgs<ExtArgs> = {}>(args?: Subset<T, Organization$channelProfilesArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$ChannelProfilePayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
     contentProjects<T extends Organization$contentProjectsArgs<ExtArgs> = {}>(args?: Subset<T, Organization$contentProjectsArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$ContentProjectPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
     trendAnalyses<T extends Organization$trendAnalysesArgs<ExtArgs> = {}>(args?: Subset<T, Organization$trendAnalysesArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$TrendAnalysisPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
-    scripts<T extends Organization$scriptsArgs<ExtArgs> = {}>(args?: Subset<T, Organization$scriptsArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$ScriptPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
-    narrations<T extends Organization$narrationsArgs<ExtArgs> = {}>(args?: Subset<T, Organization$narrationsArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$NarrationPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
     mediaSuggestions<T extends Organization$mediaSuggestionsArgs<ExtArgs> = {}>(args?: Subset<T, Organization$mediaSuggestionsArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$MediaSuggestionPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
     publicationMetadata<T extends Organization$publicationMetadataArgs<ExtArgs> = {}>(args?: Subset<T, Organization$publicationMetadataArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$PublicationMetadataPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
     exportJobs<T extends Organization$exportJobsArgs<ExtArgs> = {}>(args?: Subset<T, Organization$exportJobsArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$ExportJobPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
@@ -3417,54 +3405,6 @@ export namespace Prisma {
     take?: number
     skip?: number
     distinct?: TrendAnalysisScalarFieldEnum | TrendAnalysisScalarFieldEnum[]
-  }
-
-  /**
-   * Organization.scripts
-   */
-  export type Organization$scriptsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    /**
-     * Select specific fields to fetch from the Script
-     */
-    select?: ScriptSelect<ExtArgs> | null
-    /**
-     * Omit specific fields from the Script
-     */
-    omit?: ScriptOmit<ExtArgs> | null
-    /**
-     * Choose, which related nodes to fetch as well
-     */
-    include?: ScriptInclude<ExtArgs> | null
-    where?: ScriptWhereInput
-    orderBy?: ScriptOrderByWithRelationInput | ScriptOrderByWithRelationInput[]
-    cursor?: ScriptWhereUniqueInput
-    take?: number
-    skip?: number
-    distinct?: ScriptScalarFieldEnum | ScriptScalarFieldEnum[]
-  }
-
-  /**
-   * Organization.narrations
-   */
-  export type Organization$narrationsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    /**
-     * Select specific fields to fetch from the Narration
-     */
-    select?: NarrationSelect<ExtArgs> | null
-    /**
-     * Omit specific fields from the Narration
-     */
-    omit?: NarrationOmit<ExtArgs> | null
-    /**
-     * Choose, which related nodes to fetch as well
-     */
-    include?: NarrationInclude<ExtArgs> | null
-    where?: NarrationWhereInput
-    orderBy?: NarrationOrderByWithRelationInput | NarrationOrderByWithRelationInput[]
-    cursor?: NarrationWhereUniqueInput
-    take?: number
-    skip?: number
-    distinct?: NarrationScalarFieldEnum | NarrationScalarFieldEnum[]
   }
 
   /**
@@ -9392,46 +9332,57 @@ export namespace Prisma {
 
   export type ScriptAvgAggregateOutputType = {
     wordCount: number | null
-    estimatedDurationSecs: number | null
-    version: number | null
+    estimatedDurationSec: number | null
+    originalityScore: number | null
+    estimatedCostBrl: number | null
   }
 
   export type ScriptSumAggregateOutputType = {
     wordCount: number | null
-    estimatedDurationSecs: number | null
-    version: number | null
+    estimatedDurationSec: number | null
+    originalityScore: number | null
+    estimatedCostBrl: number | null
   }
 
   export type ScriptMinAggregateOutputType = {
     id: string | null
-    organizationId: string | null
     projectId: string | null
+    trendAnalysisId: string | null
+    status: $Enums.ScriptStatus | null
+    formatType: $Enums.FormatType | null
     wordCount: number | null
-    estimatedDurationSecs: number | null
-    version: number | null
+    estimatedDurationSec: number | null
+    originalityScore: number | null
+    estimatedCostBrl: number | null
     createdAt: Date | null
     updatedAt: Date | null
   }
 
   export type ScriptMaxAggregateOutputType = {
     id: string | null
-    organizationId: string | null
     projectId: string | null
+    trendAnalysisId: string | null
+    status: $Enums.ScriptStatus | null
+    formatType: $Enums.FormatType | null
     wordCount: number | null
-    estimatedDurationSecs: number | null
-    version: number | null
+    estimatedDurationSec: number | null
+    originalityScore: number | null
+    estimatedCostBrl: number | null
     createdAt: Date | null
     updatedAt: Date | null
   }
 
   export type ScriptCountAggregateOutputType = {
     id: number
-    organizationId: number
     projectId: number
+    trendAnalysisId: number
+    status: number
+    formatType: number
     blocks: number
     wordCount: number
-    estimatedDurationSecs: number
-    version: number
+    estimatedDurationSec: number
+    originalityScore: number
+    estimatedCostBrl: number
     createdAt: number
     updatedAt: number
     _all: number
@@ -9440,46 +9391,57 @@ export namespace Prisma {
 
   export type ScriptAvgAggregateInputType = {
     wordCount?: true
-    estimatedDurationSecs?: true
-    version?: true
+    estimatedDurationSec?: true
+    originalityScore?: true
+    estimatedCostBrl?: true
   }
 
   export type ScriptSumAggregateInputType = {
     wordCount?: true
-    estimatedDurationSecs?: true
-    version?: true
+    estimatedDurationSec?: true
+    originalityScore?: true
+    estimatedCostBrl?: true
   }
 
   export type ScriptMinAggregateInputType = {
     id?: true
-    organizationId?: true
     projectId?: true
+    trendAnalysisId?: true
+    status?: true
+    formatType?: true
     wordCount?: true
-    estimatedDurationSecs?: true
-    version?: true
+    estimatedDurationSec?: true
+    originalityScore?: true
+    estimatedCostBrl?: true
     createdAt?: true
     updatedAt?: true
   }
 
   export type ScriptMaxAggregateInputType = {
     id?: true
-    organizationId?: true
     projectId?: true
+    trendAnalysisId?: true
+    status?: true
+    formatType?: true
     wordCount?: true
-    estimatedDurationSecs?: true
-    version?: true
+    estimatedDurationSec?: true
+    originalityScore?: true
+    estimatedCostBrl?: true
     createdAt?: true
     updatedAt?: true
   }
 
   export type ScriptCountAggregateInputType = {
     id?: true
-    organizationId?: true
     projectId?: true
+    trendAnalysisId?: true
+    status?: true
+    formatType?: true
     blocks?: true
     wordCount?: true
-    estimatedDurationSecs?: true
-    version?: true
+    estimatedDurationSec?: true
+    originalityScore?: true
+    estimatedCostBrl?: true
     createdAt?: true
     updatedAt?: true
     _all?: true
@@ -9573,12 +9535,15 @@ export namespace Prisma {
 
   export type ScriptGroupByOutputType = {
     id: string
-    organizationId: string
     projectId: string
+    trendAnalysisId: string | null
+    status: $Enums.ScriptStatus
+    formatType: $Enums.FormatType
     blocks: JsonValue
     wordCount: number | null
-    estimatedDurationSecs: number | null
-    version: number
+    estimatedDurationSec: number | null
+    originalityScore: number | null
+    estimatedCostBrl: number | null
     createdAt: Date
     updatedAt: Date
     _count: ScriptCountAggregateOutputType | null
@@ -9604,15 +9569,17 @@ export namespace Prisma {
 
   export type ScriptSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
     id?: boolean
-    organizationId?: boolean
     projectId?: boolean
+    trendAnalysisId?: boolean
+    status?: boolean
+    formatType?: boolean
     blocks?: boolean
     wordCount?: boolean
-    estimatedDurationSecs?: boolean
-    version?: boolean
+    estimatedDurationSec?: boolean
+    originalityScore?: boolean
+    estimatedCostBrl?: boolean
     createdAt?: boolean
     updatedAt?: boolean
-    organization?: boolean | OrganizationDefaultArgs<ExtArgs>
     contentProject?: boolean | ContentProjectDefaultArgs<ExtArgs>
     narrations?: boolean | Script$narrationsArgs<ExtArgs>
     _count?: boolean | ScriptCountOutputTypeDefaultArgs<ExtArgs>
@@ -9620,75 +9587,81 @@ export namespace Prisma {
 
   export type ScriptSelectCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
     id?: boolean
-    organizationId?: boolean
     projectId?: boolean
+    trendAnalysisId?: boolean
+    status?: boolean
+    formatType?: boolean
     blocks?: boolean
     wordCount?: boolean
-    estimatedDurationSecs?: boolean
-    version?: boolean
+    estimatedDurationSec?: boolean
+    originalityScore?: boolean
+    estimatedCostBrl?: boolean
     createdAt?: boolean
     updatedAt?: boolean
-    organization?: boolean | OrganizationDefaultArgs<ExtArgs>
     contentProject?: boolean | ContentProjectDefaultArgs<ExtArgs>
   }, ExtArgs["result"]["script"]>
 
   export type ScriptSelectUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
     id?: boolean
-    organizationId?: boolean
     projectId?: boolean
+    trendAnalysisId?: boolean
+    status?: boolean
+    formatType?: boolean
     blocks?: boolean
     wordCount?: boolean
-    estimatedDurationSecs?: boolean
-    version?: boolean
+    estimatedDurationSec?: boolean
+    originalityScore?: boolean
+    estimatedCostBrl?: boolean
     createdAt?: boolean
     updatedAt?: boolean
-    organization?: boolean | OrganizationDefaultArgs<ExtArgs>
     contentProject?: boolean | ContentProjectDefaultArgs<ExtArgs>
   }, ExtArgs["result"]["script"]>
 
   export type ScriptSelectScalar = {
     id?: boolean
-    organizationId?: boolean
     projectId?: boolean
+    trendAnalysisId?: boolean
+    status?: boolean
+    formatType?: boolean
     blocks?: boolean
     wordCount?: boolean
-    estimatedDurationSecs?: boolean
-    version?: boolean
+    estimatedDurationSec?: boolean
+    originalityScore?: boolean
+    estimatedCostBrl?: boolean
     createdAt?: boolean
     updatedAt?: boolean
   }
 
-  export type ScriptOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "organizationId" | "projectId" | "blocks" | "wordCount" | "estimatedDurationSecs" | "version" | "createdAt" | "updatedAt", ExtArgs["result"]["script"]>
+  export type ScriptOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "projectId" | "trendAnalysisId" | "status" | "formatType" | "blocks" | "wordCount" | "estimatedDurationSec" | "originalityScore" | "estimatedCostBrl" | "createdAt" | "updatedAt", ExtArgs["result"]["script"]>
   export type ScriptInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    organization?: boolean | OrganizationDefaultArgs<ExtArgs>
     contentProject?: boolean | ContentProjectDefaultArgs<ExtArgs>
     narrations?: boolean | Script$narrationsArgs<ExtArgs>
     _count?: boolean | ScriptCountOutputTypeDefaultArgs<ExtArgs>
   }
   export type ScriptIncludeCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    organization?: boolean | OrganizationDefaultArgs<ExtArgs>
     contentProject?: boolean | ContentProjectDefaultArgs<ExtArgs>
   }
   export type ScriptIncludeUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    organization?: boolean | OrganizationDefaultArgs<ExtArgs>
     contentProject?: boolean | ContentProjectDefaultArgs<ExtArgs>
   }
 
   export type $ScriptPayload<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     name: "Script"
     objects: {
-      organization: Prisma.$OrganizationPayload<ExtArgs>
       contentProject: Prisma.$ContentProjectPayload<ExtArgs>
       narrations: Prisma.$NarrationPayload<ExtArgs>[]
     }
     scalars: $Extensions.GetPayloadResult<{
       id: string
-      organizationId: string
       projectId: string
+      trendAnalysisId: string | null
+      status: $Enums.ScriptStatus
+      formatType: $Enums.FormatType
       blocks: Prisma.JsonValue
       wordCount: number | null
-      estimatedDurationSecs: number | null
-      version: number
+      estimatedDurationSec: number | null
+      originalityScore: number | null
+      estimatedCostBrl: number | null
       createdAt: Date
       updatedAt: Date
     }, ExtArgs["result"]["script"]>
@@ -10085,7 +10058,6 @@ export namespace Prisma {
    */
   export interface Prisma__ScriptClient<T, Null = never, ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
     readonly [Symbol.toStringTag]: "PrismaPromise"
-    organization<T extends OrganizationDefaultArgs<ExtArgs> = {}>(args?: Subset<T, OrganizationDefaultArgs<ExtArgs>>): Prisma__OrganizationClient<$Result.GetResult<Prisma.$OrganizationPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
     contentProject<T extends ContentProjectDefaultArgs<ExtArgs> = {}>(args?: Subset<T, ContentProjectDefaultArgs<ExtArgs>>): Prisma__ContentProjectClient<$Result.GetResult<Prisma.$ContentProjectPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
     narrations<T extends Script$narrationsArgs<ExtArgs> = {}>(args?: Subset<T, Script$narrationsArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$NarrationPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
     /**
@@ -10118,12 +10090,15 @@ export namespace Prisma {
    */
   interface ScriptFieldRefs {
     readonly id: FieldRef<"Script", 'String'>
-    readonly organizationId: FieldRef<"Script", 'String'>
     readonly projectId: FieldRef<"Script", 'String'>
+    readonly trendAnalysisId: FieldRef<"Script", 'String'>
+    readonly status: FieldRef<"Script", 'ScriptStatus'>
+    readonly formatType: FieldRef<"Script", 'FormatType'>
     readonly blocks: FieldRef<"Script", 'Json'>
     readonly wordCount: FieldRef<"Script", 'Int'>
-    readonly estimatedDurationSecs: FieldRef<"Script", 'Int'>
-    readonly version: FieldRef<"Script", 'Int'>
+    readonly estimatedDurationSec: FieldRef<"Script", 'Int'>
+    readonly originalityScore: FieldRef<"Script", 'Float'>
+    readonly estimatedCostBrl: FieldRef<"Script", 'Float'>
     readonly createdAt: FieldRef<"Script", 'DateTime'>
     readonly updatedAt: FieldRef<"Script", 'DateTime'>
   }
@@ -10582,21 +10557,24 @@ export namespace Prisma {
   }
 
   export type NarrationAvgAggregateOutputType = {
-    durationSecs: number | null
+    speed: number | null
+    durationSec: number | null
   }
 
   export type NarrationSumAggregateOutputType = {
-    durationSecs: number | null
+    speed: number | null
+    durationSec: number | null
   }
 
   export type NarrationMinAggregateOutputType = {
     id: string | null
-    organizationId: string | null
     scriptId: string | null
     provider: $Enums.TtsProvider | null
     voiceId: string | null
+    tone: $Enums.ContentTone | null
+    speed: number | null
     audioUrl: string | null
-    durationSecs: number | null
+    durationSec: number | null
     status: $Enums.JobStatus | null
     createdAt: Date | null
     updatedAt: Date | null
@@ -10604,12 +10582,13 @@ export namespace Prisma {
 
   export type NarrationMaxAggregateOutputType = {
     id: string | null
-    organizationId: string | null
     scriptId: string | null
     provider: $Enums.TtsProvider | null
     voiceId: string | null
+    tone: $Enums.ContentTone | null
+    speed: number | null
     audioUrl: string | null
-    durationSecs: number | null
+    durationSec: number | null
     status: $Enums.JobStatus | null
     createdAt: Date | null
     updatedAt: Date | null
@@ -10617,12 +10596,13 @@ export namespace Prisma {
 
   export type NarrationCountAggregateOutputType = {
     id: number
-    organizationId: number
     scriptId: number
     provider: number
     voiceId: number
+    tone: number
+    speed: number
     audioUrl: number
-    durationSecs: number
+    durationSec: number
     status: number
     createdAt: number
     updatedAt: number
@@ -10631,21 +10611,24 @@ export namespace Prisma {
 
 
   export type NarrationAvgAggregateInputType = {
-    durationSecs?: true
+    speed?: true
+    durationSec?: true
   }
 
   export type NarrationSumAggregateInputType = {
-    durationSecs?: true
+    speed?: true
+    durationSec?: true
   }
 
   export type NarrationMinAggregateInputType = {
     id?: true
-    organizationId?: true
     scriptId?: true
     provider?: true
     voiceId?: true
+    tone?: true
+    speed?: true
     audioUrl?: true
-    durationSecs?: true
+    durationSec?: true
     status?: true
     createdAt?: true
     updatedAt?: true
@@ -10653,12 +10636,13 @@ export namespace Prisma {
 
   export type NarrationMaxAggregateInputType = {
     id?: true
-    organizationId?: true
     scriptId?: true
     provider?: true
     voiceId?: true
+    tone?: true
+    speed?: true
     audioUrl?: true
-    durationSecs?: true
+    durationSec?: true
     status?: true
     createdAt?: true
     updatedAt?: true
@@ -10666,12 +10650,13 @@ export namespace Prisma {
 
   export type NarrationCountAggregateInputType = {
     id?: true
-    organizationId?: true
     scriptId?: true
     provider?: true
     voiceId?: true
+    tone?: true
+    speed?: true
     audioUrl?: true
-    durationSecs?: true
+    durationSec?: true
     status?: true
     createdAt?: true
     updatedAt?: true
@@ -10766,12 +10751,13 @@ export namespace Prisma {
 
   export type NarrationGroupByOutputType = {
     id: string
-    organizationId: string
     scriptId: string
     provider: $Enums.TtsProvider
     voiceId: string | null
+    tone: $Enums.ContentTone | null
+    speed: number | null
     audioUrl: string | null
-    durationSecs: number | null
+    durationSec: number | null
     status: $Enums.JobStatus
     createdAt: Date
     updatedAt: Date
@@ -10798,90 +10784,88 @@ export namespace Prisma {
 
   export type NarrationSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
     id?: boolean
-    organizationId?: boolean
     scriptId?: boolean
     provider?: boolean
     voiceId?: boolean
+    tone?: boolean
+    speed?: boolean
     audioUrl?: boolean
-    durationSecs?: boolean
+    durationSec?: boolean
     status?: boolean
     createdAt?: boolean
     updatedAt?: boolean
-    organization?: boolean | OrganizationDefaultArgs<ExtArgs>
     script?: boolean | ScriptDefaultArgs<ExtArgs>
   }, ExtArgs["result"]["narration"]>
 
   export type NarrationSelectCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
     id?: boolean
-    organizationId?: boolean
     scriptId?: boolean
     provider?: boolean
     voiceId?: boolean
+    tone?: boolean
+    speed?: boolean
     audioUrl?: boolean
-    durationSecs?: boolean
+    durationSec?: boolean
     status?: boolean
     createdAt?: boolean
     updatedAt?: boolean
-    organization?: boolean | OrganizationDefaultArgs<ExtArgs>
     script?: boolean | ScriptDefaultArgs<ExtArgs>
   }, ExtArgs["result"]["narration"]>
 
   export type NarrationSelectUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
     id?: boolean
-    organizationId?: boolean
     scriptId?: boolean
     provider?: boolean
     voiceId?: boolean
+    tone?: boolean
+    speed?: boolean
     audioUrl?: boolean
-    durationSecs?: boolean
+    durationSec?: boolean
     status?: boolean
     createdAt?: boolean
     updatedAt?: boolean
-    organization?: boolean | OrganizationDefaultArgs<ExtArgs>
     script?: boolean | ScriptDefaultArgs<ExtArgs>
   }, ExtArgs["result"]["narration"]>
 
   export type NarrationSelectScalar = {
     id?: boolean
-    organizationId?: boolean
     scriptId?: boolean
     provider?: boolean
     voiceId?: boolean
+    tone?: boolean
+    speed?: boolean
     audioUrl?: boolean
-    durationSecs?: boolean
+    durationSec?: boolean
     status?: boolean
     createdAt?: boolean
     updatedAt?: boolean
   }
 
-  export type NarrationOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "organizationId" | "scriptId" | "provider" | "voiceId" | "audioUrl" | "durationSecs" | "status" | "createdAt" | "updatedAt", ExtArgs["result"]["narration"]>
+  export type NarrationOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "scriptId" | "provider" | "voiceId" | "tone" | "speed" | "audioUrl" | "durationSec" | "status" | "createdAt" | "updatedAt", ExtArgs["result"]["narration"]>
   export type NarrationInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    organization?: boolean | OrganizationDefaultArgs<ExtArgs>
     script?: boolean | ScriptDefaultArgs<ExtArgs>
   }
   export type NarrationIncludeCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    organization?: boolean | OrganizationDefaultArgs<ExtArgs>
     script?: boolean | ScriptDefaultArgs<ExtArgs>
   }
   export type NarrationIncludeUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    organization?: boolean | OrganizationDefaultArgs<ExtArgs>
     script?: boolean | ScriptDefaultArgs<ExtArgs>
   }
 
   export type $NarrationPayload<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     name: "Narration"
     objects: {
-      organization: Prisma.$OrganizationPayload<ExtArgs>
       script: Prisma.$ScriptPayload<ExtArgs>
     }
     scalars: $Extensions.GetPayloadResult<{
       id: string
-      organizationId: string
       scriptId: string
       provider: $Enums.TtsProvider
       voiceId: string | null
+      tone: $Enums.ContentTone | null
+      speed: number | null
       audioUrl: string | null
-      durationSecs: number | null
+      durationSec: number | null
       status: $Enums.JobStatus
       createdAt: Date
       updatedAt: Date
@@ -11279,7 +11263,6 @@ export namespace Prisma {
    */
   export interface Prisma__NarrationClient<T, Null = never, ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
     readonly [Symbol.toStringTag]: "PrismaPromise"
-    organization<T extends OrganizationDefaultArgs<ExtArgs> = {}>(args?: Subset<T, OrganizationDefaultArgs<ExtArgs>>): Prisma__OrganizationClient<$Result.GetResult<Prisma.$OrganizationPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
     script<T extends ScriptDefaultArgs<ExtArgs> = {}>(args?: Subset<T, ScriptDefaultArgs<ExtArgs>>): Prisma__ScriptClient<$Result.GetResult<Prisma.$ScriptPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
     /**
      * Attaches callbacks for the resolution and/or rejection of the Promise.
@@ -11311,12 +11294,13 @@ export namespace Prisma {
    */
   interface NarrationFieldRefs {
     readonly id: FieldRef<"Narration", 'String'>
-    readonly organizationId: FieldRef<"Narration", 'String'>
     readonly scriptId: FieldRef<"Narration", 'String'>
     readonly provider: FieldRef<"Narration", 'TtsProvider'>
     readonly voiceId: FieldRef<"Narration", 'String'>
+    readonly tone: FieldRef<"Narration", 'ContentTone'>
+    readonly speed: FieldRef<"Narration", 'Float'>
     readonly audioUrl: FieldRef<"Narration", 'String'>
-    readonly durationSecs: FieldRef<"Narration", 'Float'>
+    readonly durationSec: FieldRef<"Narration", 'Float'>
     readonly status: FieldRef<"Narration", 'JobStatus'>
     readonly createdAt: FieldRef<"Narration", 'DateTime'>
     readonly updatedAt: FieldRef<"Narration", 'DateTime'>
@@ -15252,12 +15236,15 @@ export namespace Prisma {
 
   export const ScriptScalarFieldEnum: {
     id: 'id',
-    organizationId: 'organizationId',
     projectId: 'projectId',
+    trendAnalysisId: 'trendAnalysisId',
+    status: 'status',
+    formatType: 'formatType',
     blocks: 'blocks',
     wordCount: 'wordCount',
-    estimatedDurationSecs: 'estimatedDurationSecs',
-    version: 'version',
+    estimatedDurationSec: 'estimatedDurationSec',
+    originalityScore: 'originalityScore',
+    estimatedCostBrl: 'estimatedCostBrl',
     createdAt: 'createdAt',
     updatedAt: 'updatedAt'
   };
@@ -15267,12 +15254,13 @@ export namespace Prisma {
 
   export const NarrationScalarFieldEnum: {
     id: 'id',
-    organizationId: 'organizationId',
     scriptId: 'scriptId',
     provider: 'provider',
     voiceId: 'voiceId',
+    tone: 'tone',
+    speed: 'speed',
     audioUrl: 'audioUrl',
-    durationSecs: 'durationSecs',
+    durationSec: 'durationSec',
     status: 'status',
     createdAt: 'createdAt',
     updatedAt: 'updatedAt'
@@ -15552,16 +15540,16 @@ export namespace Prisma {
 
 
   /**
-   * Reference to a field of type 'TtsProvider'
+   * Reference to a field of type 'ScriptStatus'
    */
-  export type EnumTtsProviderFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'TtsProvider'>
+  export type EnumScriptStatusFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'ScriptStatus'>
     
 
 
   /**
-   * Reference to a field of type 'TtsProvider[]'
+   * Reference to a field of type 'ScriptStatus[]'
    */
-  export type ListEnumTtsProviderFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'TtsProvider[]'>
+  export type ListEnumScriptStatusFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'ScriptStatus[]'>
     
 
 
@@ -15576,6 +15564,20 @@ export namespace Prisma {
    * Reference to a field of type 'Float[]'
    */
   export type ListFloatFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'Float[]'>
+    
+
+
+  /**
+   * Reference to a field of type 'TtsProvider'
+   */
+  export type EnumTtsProviderFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'TtsProvider'>
+    
+
+
+  /**
+   * Reference to a field of type 'TtsProvider[]'
+   */
+  export type ListEnumTtsProviderFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'TtsProvider[]'>
     
 
 
@@ -15624,8 +15626,6 @@ export namespace Prisma {
     channelProfiles?: ChannelProfileListRelationFilter
     contentProjects?: ContentProjectListRelationFilter
     trendAnalyses?: TrendAnalysisListRelationFilter
-    scripts?: ScriptListRelationFilter
-    narrations?: NarrationListRelationFilter
     mediaSuggestions?: MediaSuggestionListRelationFilter
     publicationMetadata?: PublicationMetadataListRelationFilter
     exportJobs?: ExportJobListRelationFilter
@@ -15642,8 +15642,6 @@ export namespace Prisma {
     channelProfiles?: ChannelProfileOrderByRelationAggregateInput
     contentProjects?: ContentProjectOrderByRelationAggregateInput
     trendAnalyses?: TrendAnalysisOrderByRelationAggregateInput
-    scripts?: ScriptOrderByRelationAggregateInput
-    narrations?: NarrationOrderByRelationAggregateInput
     mediaSuggestions?: MediaSuggestionOrderByRelationAggregateInput
     publicationMetadata?: PublicationMetadataOrderByRelationAggregateInput
     exportJobs?: ExportJobOrderByRelationAggregateInput
@@ -15663,8 +15661,6 @@ export namespace Prisma {
     channelProfiles?: ChannelProfileListRelationFilter
     contentProjects?: ContentProjectListRelationFilter
     trendAnalyses?: TrendAnalysisListRelationFilter
-    scripts?: ScriptListRelationFilter
-    narrations?: NarrationListRelationFilter
     mediaSuggestions?: MediaSuggestionListRelationFilter
     publicationMetadata?: PublicationMetadataListRelationFilter
     exportJobs?: ExportJobListRelationFilter
@@ -16094,30 +16090,34 @@ export namespace Prisma {
     OR?: ScriptWhereInput[]
     NOT?: ScriptWhereInput | ScriptWhereInput[]
     id?: StringFilter<"Script"> | string
-    organizationId?: StringFilter<"Script"> | string
     projectId?: StringFilter<"Script"> | string
+    trendAnalysisId?: StringNullableFilter<"Script"> | string | null
+    status?: EnumScriptStatusFilter<"Script"> | $Enums.ScriptStatus
+    formatType?: EnumFormatTypeFilter<"Script"> | $Enums.FormatType
     blocks?: JsonFilter<"Script">
     wordCount?: IntNullableFilter<"Script"> | number | null
-    estimatedDurationSecs?: IntNullableFilter<"Script"> | number | null
-    version?: IntFilter<"Script"> | number
+    estimatedDurationSec?: IntNullableFilter<"Script"> | number | null
+    originalityScore?: FloatNullableFilter<"Script"> | number | null
+    estimatedCostBrl?: FloatNullableFilter<"Script"> | number | null
     createdAt?: DateTimeFilter<"Script"> | Date | string
     updatedAt?: DateTimeFilter<"Script"> | Date | string
-    organization?: XOR<OrganizationScalarRelationFilter, OrganizationWhereInput>
     contentProject?: XOR<ContentProjectScalarRelationFilter, ContentProjectWhereInput>
     narrations?: NarrationListRelationFilter
   }
 
   export type ScriptOrderByWithRelationInput = {
     id?: SortOrder
-    organizationId?: SortOrder
     projectId?: SortOrder
+    trendAnalysisId?: SortOrderInput | SortOrder
+    status?: SortOrder
+    formatType?: SortOrder
     blocks?: SortOrder
     wordCount?: SortOrderInput | SortOrder
-    estimatedDurationSecs?: SortOrderInput | SortOrder
-    version?: SortOrder
+    estimatedDurationSec?: SortOrderInput | SortOrder
+    originalityScore?: SortOrderInput | SortOrder
+    estimatedCostBrl?: SortOrderInput | SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
-    organization?: OrganizationOrderByWithRelationInput
     contentProject?: ContentProjectOrderByWithRelationInput
     narrations?: NarrationOrderByRelationAggregateInput
   }
@@ -16127,27 +16127,32 @@ export namespace Prisma {
     AND?: ScriptWhereInput | ScriptWhereInput[]
     OR?: ScriptWhereInput[]
     NOT?: ScriptWhereInput | ScriptWhereInput[]
-    organizationId?: StringFilter<"Script"> | string
     projectId?: StringFilter<"Script"> | string
+    trendAnalysisId?: StringNullableFilter<"Script"> | string | null
+    status?: EnumScriptStatusFilter<"Script"> | $Enums.ScriptStatus
+    formatType?: EnumFormatTypeFilter<"Script"> | $Enums.FormatType
     blocks?: JsonFilter<"Script">
     wordCount?: IntNullableFilter<"Script"> | number | null
-    estimatedDurationSecs?: IntNullableFilter<"Script"> | number | null
-    version?: IntFilter<"Script"> | number
+    estimatedDurationSec?: IntNullableFilter<"Script"> | number | null
+    originalityScore?: FloatNullableFilter<"Script"> | number | null
+    estimatedCostBrl?: FloatNullableFilter<"Script"> | number | null
     createdAt?: DateTimeFilter<"Script"> | Date | string
     updatedAt?: DateTimeFilter<"Script"> | Date | string
-    organization?: XOR<OrganizationScalarRelationFilter, OrganizationWhereInput>
     contentProject?: XOR<ContentProjectScalarRelationFilter, ContentProjectWhereInput>
     narrations?: NarrationListRelationFilter
   }, "id">
 
   export type ScriptOrderByWithAggregationInput = {
     id?: SortOrder
-    organizationId?: SortOrder
     projectId?: SortOrder
+    trendAnalysisId?: SortOrderInput | SortOrder
+    status?: SortOrder
+    formatType?: SortOrder
     blocks?: SortOrder
     wordCount?: SortOrderInput | SortOrder
-    estimatedDurationSecs?: SortOrderInput | SortOrder
-    version?: SortOrder
+    estimatedDurationSec?: SortOrderInput | SortOrder
+    originalityScore?: SortOrderInput | SortOrder
+    estimatedCostBrl?: SortOrderInput | SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
     _count?: ScriptCountOrderByAggregateInput
@@ -16162,12 +16167,15 @@ export namespace Prisma {
     OR?: ScriptScalarWhereWithAggregatesInput[]
     NOT?: ScriptScalarWhereWithAggregatesInput | ScriptScalarWhereWithAggregatesInput[]
     id?: StringWithAggregatesFilter<"Script"> | string
-    organizationId?: StringWithAggregatesFilter<"Script"> | string
     projectId?: StringWithAggregatesFilter<"Script"> | string
+    trendAnalysisId?: StringNullableWithAggregatesFilter<"Script"> | string | null
+    status?: EnumScriptStatusWithAggregatesFilter<"Script"> | $Enums.ScriptStatus
+    formatType?: EnumFormatTypeWithAggregatesFilter<"Script"> | $Enums.FormatType
     blocks?: JsonWithAggregatesFilter<"Script">
     wordCount?: IntNullableWithAggregatesFilter<"Script"> | number | null
-    estimatedDurationSecs?: IntNullableWithAggregatesFilter<"Script"> | number | null
-    version?: IntWithAggregatesFilter<"Script"> | number
+    estimatedDurationSec?: IntNullableWithAggregatesFilter<"Script"> | number | null
+    originalityScore?: FloatNullableWithAggregatesFilter<"Script"> | number | null
+    estimatedCostBrl?: FloatNullableWithAggregatesFilter<"Script"> | number | null
     createdAt?: DateTimeWithAggregatesFilter<"Script"> | Date | string
     updatedAt?: DateTimeWithAggregatesFilter<"Script"> | Date | string
   }
@@ -16177,31 +16185,31 @@ export namespace Prisma {
     OR?: NarrationWhereInput[]
     NOT?: NarrationWhereInput | NarrationWhereInput[]
     id?: StringFilter<"Narration"> | string
-    organizationId?: StringFilter<"Narration"> | string
     scriptId?: StringFilter<"Narration"> | string
     provider?: EnumTtsProviderFilter<"Narration"> | $Enums.TtsProvider
     voiceId?: StringNullableFilter<"Narration"> | string | null
+    tone?: EnumContentToneNullableFilter<"Narration"> | $Enums.ContentTone | null
+    speed?: FloatNullableFilter<"Narration"> | number | null
     audioUrl?: StringNullableFilter<"Narration"> | string | null
-    durationSecs?: FloatNullableFilter<"Narration"> | number | null
+    durationSec?: FloatNullableFilter<"Narration"> | number | null
     status?: EnumJobStatusFilter<"Narration"> | $Enums.JobStatus
     createdAt?: DateTimeFilter<"Narration"> | Date | string
     updatedAt?: DateTimeFilter<"Narration"> | Date | string
-    organization?: XOR<OrganizationScalarRelationFilter, OrganizationWhereInput>
     script?: XOR<ScriptScalarRelationFilter, ScriptWhereInput>
   }
 
   export type NarrationOrderByWithRelationInput = {
     id?: SortOrder
-    organizationId?: SortOrder
     scriptId?: SortOrder
     provider?: SortOrder
     voiceId?: SortOrderInput | SortOrder
+    tone?: SortOrderInput | SortOrder
+    speed?: SortOrderInput | SortOrder
     audioUrl?: SortOrderInput | SortOrder
-    durationSecs?: SortOrderInput | SortOrder
+    durationSec?: SortOrderInput | SortOrder
     status?: SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
-    organization?: OrganizationOrderByWithRelationInput
     script?: ScriptOrderByWithRelationInput
   }
 
@@ -16210,27 +16218,28 @@ export namespace Prisma {
     AND?: NarrationWhereInput | NarrationWhereInput[]
     OR?: NarrationWhereInput[]
     NOT?: NarrationWhereInput | NarrationWhereInput[]
-    organizationId?: StringFilter<"Narration"> | string
     scriptId?: StringFilter<"Narration"> | string
     provider?: EnumTtsProviderFilter<"Narration"> | $Enums.TtsProvider
     voiceId?: StringNullableFilter<"Narration"> | string | null
+    tone?: EnumContentToneNullableFilter<"Narration"> | $Enums.ContentTone | null
+    speed?: FloatNullableFilter<"Narration"> | number | null
     audioUrl?: StringNullableFilter<"Narration"> | string | null
-    durationSecs?: FloatNullableFilter<"Narration"> | number | null
+    durationSec?: FloatNullableFilter<"Narration"> | number | null
     status?: EnumJobStatusFilter<"Narration"> | $Enums.JobStatus
     createdAt?: DateTimeFilter<"Narration"> | Date | string
     updatedAt?: DateTimeFilter<"Narration"> | Date | string
-    organization?: XOR<OrganizationScalarRelationFilter, OrganizationWhereInput>
     script?: XOR<ScriptScalarRelationFilter, ScriptWhereInput>
   }, "id">
 
   export type NarrationOrderByWithAggregationInput = {
     id?: SortOrder
-    organizationId?: SortOrder
     scriptId?: SortOrder
     provider?: SortOrder
     voiceId?: SortOrderInput | SortOrder
+    tone?: SortOrderInput | SortOrder
+    speed?: SortOrderInput | SortOrder
     audioUrl?: SortOrderInput | SortOrder
-    durationSecs?: SortOrderInput | SortOrder
+    durationSec?: SortOrderInput | SortOrder
     status?: SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
@@ -16246,12 +16255,13 @@ export namespace Prisma {
     OR?: NarrationScalarWhereWithAggregatesInput[]
     NOT?: NarrationScalarWhereWithAggregatesInput | NarrationScalarWhereWithAggregatesInput[]
     id?: StringWithAggregatesFilter<"Narration"> | string
-    organizationId?: StringWithAggregatesFilter<"Narration"> | string
     scriptId?: StringWithAggregatesFilter<"Narration"> | string
     provider?: EnumTtsProviderWithAggregatesFilter<"Narration"> | $Enums.TtsProvider
     voiceId?: StringNullableWithAggregatesFilter<"Narration"> | string | null
+    tone?: EnumContentToneNullableWithAggregatesFilter<"Narration"> | $Enums.ContentTone | null
+    speed?: FloatNullableWithAggregatesFilter<"Narration"> | number | null
     audioUrl?: StringNullableWithAggregatesFilter<"Narration"> | string | null
-    durationSecs?: FloatNullableWithAggregatesFilter<"Narration"> | number | null
+    durationSec?: FloatNullableWithAggregatesFilter<"Narration"> | number | null
     status?: EnumJobStatusWithAggregatesFilter<"Narration"> | $Enums.JobStatus
     createdAt?: DateTimeWithAggregatesFilter<"Narration"> | Date | string
     updatedAt?: DateTimeWithAggregatesFilter<"Narration"> | Date | string
@@ -16522,8 +16532,6 @@ export namespace Prisma {
     channelProfiles?: ChannelProfileCreateNestedManyWithoutOrganizationInput
     contentProjects?: ContentProjectCreateNestedManyWithoutOrganizationInput
     trendAnalyses?: TrendAnalysisCreateNestedManyWithoutOrganizationInput
-    scripts?: ScriptCreateNestedManyWithoutOrganizationInput
-    narrations?: NarrationCreateNestedManyWithoutOrganizationInput
     mediaSuggestions?: MediaSuggestionCreateNestedManyWithoutOrganizationInput
     publicationMetadata?: PublicationMetadataCreateNestedManyWithoutOrganizationInput
     exportJobs?: ExportJobCreateNestedManyWithoutOrganizationInput
@@ -16540,8 +16548,6 @@ export namespace Prisma {
     channelProfiles?: ChannelProfileUncheckedCreateNestedManyWithoutOrganizationInput
     contentProjects?: ContentProjectUncheckedCreateNestedManyWithoutOrganizationInput
     trendAnalyses?: TrendAnalysisUncheckedCreateNestedManyWithoutOrganizationInput
-    scripts?: ScriptUncheckedCreateNestedManyWithoutOrganizationInput
-    narrations?: NarrationUncheckedCreateNestedManyWithoutOrganizationInput
     mediaSuggestions?: MediaSuggestionUncheckedCreateNestedManyWithoutOrganizationInput
     publicationMetadata?: PublicationMetadataUncheckedCreateNestedManyWithoutOrganizationInput
     exportJobs?: ExportJobUncheckedCreateNestedManyWithoutOrganizationInput
@@ -16558,8 +16564,6 @@ export namespace Prisma {
     channelProfiles?: ChannelProfileUpdateManyWithoutOrganizationNestedInput
     contentProjects?: ContentProjectUpdateManyWithoutOrganizationNestedInput
     trendAnalyses?: TrendAnalysisUpdateManyWithoutOrganizationNestedInput
-    scripts?: ScriptUpdateManyWithoutOrganizationNestedInput
-    narrations?: NarrationUpdateManyWithoutOrganizationNestedInput
     mediaSuggestions?: MediaSuggestionUpdateManyWithoutOrganizationNestedInput
     publicationMetadata?: PublicationMetadataUpdateManyWithoutOrganizationNestedInput
     exportJobs?: ExportJobUpdateManyWithoutOrganizationNestedInput
@@ -16576,8 +16580,6 @@ export namespace Prisma {
     channelProfiles?: ChannelProfileUncheckedUpdateManyWithoutOrganizationNestedInput
     contentProjects?: ContentProjectUncheckedUpdateManyWithoutOrganizationNestedInput
     trendAnalyses?: TrendAnalysisUncheckedUpdateManyWithoutOrganizationNestedInput
-    scripts?: ScriptUncheckedUpdateManyWithoutOrganizationNestedInput
-    narrations?: NarrationUncheckedUpdateManyWithoutOrganizationNestedInput
     mediaSuggestions?: MediaSuggestionUncheckedUpdateManyWithoutOrganizationNestedInput
     publicationMetadata?: PublicationMetadataUncheckedUpdateManyWithoutOrganizationNestedInput
     exportJobs?: ExportJobUncheckedUpdateManyWithoutOrganizationNestedInput
@@ -17035,25 +17037,31 @@ export namespace Prisma {
 
   export type ScriptCreateInput = {
     id?: string
+    trendAnalysisId?: string | null
+    status?: $Enums.ScriptStatus
+    formatType: $Enums.FormatType
     blocks: JsonNullValueInput | InputJsonValue
     wordCount?: number | null
-    estimatedDurationSecs?: number | null
-    version?: number
+    estimatedDurationSec?: number | null
+    originalityScore?: number | null
+    estimatedCostBrl?: number | null
     createdAt?: Date | string
     updatedAt?: Date | string
-    organization: OrganizationCreateNestedOneWithoutScriptsInput
     contentProject: ContentProjectCreateNestedOneWithoutScriptsInput
     narrations?: NarrationCreateNestedManyWithoutScriptInput
   }
 
   export type ScriptUncheckedCreateInput = {
     id?: string
-    organizationId: string
     projectId: string
+    trendAnalysisId?: string | null
+    status?: $Enums.ScriptStatus
+    formatType: $Enums.FormatType
     blocks: JsonNullValueInput | InputJsonValue
     wordCount?: number | null
-    estimatedDurationSecs?: number | null
-    version?: number
+    estimatedDurationSec?: number | null
+    originalityScore?: number | null
+    estimatedCostBrl?: number | null
     createdAt?: Date | string
     updatedAt?: Date | string
     narrations?: NarrationUncheckedCreateNestedManyWithoutScriptInput
@@ -17061,25 +17069,31 @@ export namespace Prisma {
 
   export type ScriptUpdateInput = {
     id?: StringFieldUpdateOperationsInput | string
+    trendAnalysisId?: NullableStringFieldUpdateOperationsInput | string | null
+    status?: EnumScriptStatusFieldUpdateOperationsInput | $Enums.ScriptStatus
+    formatType?: EnumFormatTypeFieldUpdateOperationsInput | $Enums.FormatType
     blocks?: JsonNullValueInput | InputJsonValue
     wordCount?: NullableIntFieldUpdateOperationsInput | number | null
-    estimatedDurationSecs?: NullableIntFieldUpdateOperationsInput | number | null
-    version?: IntFieldUpdateOperationsInput | number
+    estimatedDurationSec?: NullableIntFieldUpdateOperationsInput | number | null
+    originalityScore?: NullableFloatFieldUpdateOperationsInput | number | null
+    estimatedCostBrl?: NullableFloatFieldUpdateOperationsInput | number | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    organization?: OrganizationUpdateOneRequiredWithoutScriptsNestedInput
     contentProject?: ContentProjectUpdateOneRequiredWithoutScriptsNestedInput
     narrations?: NarrationUpdateManyWithoutScriptNestedInput
   }
 
   export type ScriptUncheckedUpdateInput = {
     id?: StringFieldUpdateOperationsInput | string
-    organizationId?: StringFieldUpdateOperationsInput | string
     projectId?: StringFieldUpdateOperationsInput | string
+    trendAnalysisId?: NullableStringFieldUpdateOperationsInput | string | null
+    status?: EnumScriptStatusFieldUpdateOperationsInput | $Enums.ScriptStatus
+    formatType?: EnumFormatTypeFieldUpdateOperationsInput | $Enums.FormatType
     blocks?: JsonNullValueInput | InputJsonValue
     wordCount?: NullableIntFieldUpdateOperationsInput | number | null
-    estimatedDurationSecs?: NullableIntFieldUpdateOperationsInput | number | null
-    version?: IntFieldUpdateOperationsInput | number
+    estimatedDurationSec?: NullableIntFieldUpdateOperationsInput | number | null
+    originalityScore?: NullableFloatFieldUpdateOperationsInput | number | null
+    estimatedCostBrl?: NullableFloatFieldUpdateOperationsInput | number | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     narrations?: NarrationUncheckedUpdateManyWithoutScriptNestedInput
@@ -17087,34 +17101,44 @@ export namespace Prisma {
 
   export type ScriptCreateManyInput = {
     id?: string
-    organizationId: string
     projectId: string
+    trendAnalysisId?: string | null
+    status?: $Enums.ScriptStatus
+    formatType: $Enums.FormatType
     blocks: JsonNullValueInput | InputJsonValue
     wordCount?: number | null
-    estimatedDurationSecs?: number | null
-    version?: number
+    estimatedDurationSec?: number | null
+    originalityScore?: number | null
+    estimatedCostBrl?: number | null
     createdAt?: Date | string
     updatedAt?: Date | string
   }
 
   export type ScriptUpdateManyMutationInput = {
     id?: StringFieldUpdateOperationsInput | string
+    trendAnalysisId?: NullableStringFieldUpdateOperationsInput | string | null
+    status?: EnumScriptStatusFieldUpdateOperationsInput | $Enums.ScriptStatus
+    formatType?: EnumFormatTypeFieldUpdateOperationsInput | $Enums.FormatType
     blocks?: JsonNullValueInput | InputJsonValue
     wordCount?: NullableIntFieldUpdateOperationsInput | number | null
-    estimatedDurationSecs?: NullableIntFieldUpdateOperationsInput | number | null
-    version?: IntFieldUpdateOperationsInput | number
+    estimatedDurationSec?: NullableIntFieldUpdateOperationsInput | number | null
+    originalityScore?: NullableFloatFieldUpdateOperationsInput | number | null
+    estimatedCostBrl?: NullableFloatFieldUpdateOperationsInput | number | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
   export type ScriptUncheckedUpdateManyInput = {
     id?: StringFieldUpdateOperationsInput | string
-    organizationId?: StringFieldUpdateOperationsInput | string
     projectId?: StringFieldUpdateOperationsInput | string
+    trendAnalysisId?: NullableStringFieldUpdateOperationsInput | string | null
+    status?: EnumScriptStatusFieldUpdateOperationsInput | $Enums.ScriptStatus
+    formatType?: EnumFormatTypeFieldUpdateOperationsInput | $Enums.FormatType
     blocks?: JsonNullValueInput | InputJsonValue
     wordCount?: NullableIntFieldUpdateOperationsInput | number | null
-    estimatedDurationSecs?: NullableIntFieldUpdateOperationsInput | number | null
-    version?: IntFieldUpdateOperationsInput | number
+    estimatedDurationSec?: NullableIntFieldUpdateOperationsInput | number | null
+    originalityScore?: NullableFloatFieldUpdateOperationsInput | number | null
+    estimatedCostBrl?: NullableFloatFieldUpdateOperationsInput | number | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
@@ -17123,23 +17147,25 @@ export namespace Prisma {
     id?: string
     provider: $Enums.TtsProvider
     voiceId?: string | null
+    tone?: $Enums.ContentTone | null
+    speed?: number | null
     audioUrl?: string | null
-    durationSecs?: number | null
+    durationSec?: number | null
     status?: $Enums.JobStatus
     createdAt?: Date | string
     updatedAt?: Date | string
-    organization: OrganizationCreateNestedOneWithoutNarrationsInput
     script: ScriptCreateNestedOneWithoutNarrationsInput
   }
 
   export type NarrationUncheckedCreateInput = {
     id?: string
-    organizationId: string
     scriptId: string
     provider: $Enums.TtsProvider
     voiceId?: string | null
+    tone?: $Enums.ContentTone | null
+    speed?: number | null
     audioUrl?: string | null
-    durationSecs?: number | null
+    durationSec?: number | null
     status?: $Enums.JobStatus
     createdAt?: Date | string
     updatedAt?: Date | string
@@ -17149,23 +17175,25 @@ export namespace Prisma {
     id?: StringFieldUpdateOperationsInput | string
     provider?: EnumTtsProviderFieldUpdateOperationsInput | $Enums.TtsProvider
     voiceId?: NullableStringFieldUpdateOperationsInput | string | null
+    tone?: NullableEnumContentToneFieldUpdateOperationsInput | $Enums.ContentTone | null
+    speed?: NullableFloatFieldUpdateOperationsInput | number | null
     audioUrl?: NullableStringFieldUpdateOperationsInput | string | null
-    durationSecs?: NullableFloatFieldUpdateOperationsInput | number | null
+    durationSec?: NullableFloatFieldUpdateOperationsInput | number | null
     status?: EnumJobStatusFieldUpdateOperationsInput | $Enums.JobStatus
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    organization?: OrganizationUpdateOneRequiredWithoutNarrationsNestedInput
     script?: ScriptUpdateOneRequiredWithoutNarrationsNestedInput
   }
 
   export type NarrationUncheckedUpdateInput = {
     id?: StringFieldUpdateOperationsInput | string
-    organizationId?: StringFieldUpdateOperationsInput | string
     scriptId?: StringFieldUpdateOperationsInput | string
     provider?: EnumTtsProviderFieldUpdateOperationsInput | $Enums.TtsProvider
     voiceId?: NullableStringFieldUpdateOperationsInput | string | null
+    tone?: NullableEnumContentToneFieldUpdateOperationsInput | $Enums.ContentTone | null
+    speed?: NullableFloatFieldUpdateOperationsInput | number | null
     audioUrl?: NullableStringFieldUpdateOperationsInput | string | null
-    durationSecs?: NullableFloatFieldUpdateOperationsInput | number | null
+    durationSec?: NullableFloatFieldUpdateOperationsInput | number | null
     status?: EnumJobStatusFieldUpdateOperationsInput | $Enums.JobStatus
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -17173,12 +17201,13 @@ export namespace Prisma {
 
   export type NarrationCreateManyInput = {
     id?: string
-    organizationId: string
     scriptId: string
     provider: $Enums.TtsProvider
     voiceId?: string | null
+    tone?: $Enums.ContentTone | null
+    speed?: number | null
     audioUrl?: string | null
-    durationSecs?: number | null
+    durationSec?: number | null
     status?: $Enums.JobStatus
     createdAt?: Date | string
     updatedAt?: Date | string
@@ -17188,8 +17217,10 @@ export namespace Prisma {
     id?: StringFieldUpdateOperationsInput | string
     provider?: EnumTtsProviderFieldUpdateOperationsInput | $Enums.TtsProvider
     voiceId?: NullableStringFieldUpdateOperationsInput | string | null
+    tone?: NullableEnumContentToneFieldUpdateOperationsInput | $Enums.ContentTone | null
+    speed?: NullableFloatFieldUpdateOperationsInput | number | null
     audioUrl?: NullableStringFieldUpdateOperationsInput | string | null
-    durationSecs?: NullableFloatFieldUpdateOperationsInput | number | null
+    durationSec?: NullableFloatFieldUpdateOperationsInput | number | null
     status?: EnumJobStatusFieldUpdateOperationsInput | $Enums.JobStatus
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -17197,12 +17228,13 @@ export namespace Prisma {
 
   export type NarrationUncheckedUpdateManyInput = {
     id?: StringFieldUpdateOperationsInput | string
-    organizationId?: StringFieldUpdateOperationsInput | string
     scriptId?: StringFieldUpdateOperationsInput | string
     provider?: EnumTtsProviderFieldUpdateOperationsInput | $Enums.TtsProvider
     voiceId?: NullableStringFieldUpdateOperationsInput | string | null
+    tone?: NullableEnumContentToneFieldUpdateOperationsInput | $Enums.ContentTone | null
+    speed?: NullableFloatFieldUpdateOperationsInput | number | null
     audioUrl?: NullableStringFieldUpdateOperationsInput | string | null
-    durationSecs?: NullableFloatFieldUpdateOperationsInput | number | null
+    durationSec?: NullableFloatFieldUpdateOperationsInput | number | null
     status?: EnumJobStatusFieldUpdateOperationsInput | $Enums.JobStatus
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -17539,18 +17571,6 @@ export namespace Prisma {
     none?: TrendAnalysisWhereInput
   }
 
-  export type ScriptListRelationFilter = {
-    every?: ScriptWhereInput
-    some?: ScriptWhereInput
-    none?: ScriptWhereInput
-  }
-
-  export type NarrationListRelationFilter = {
-    every?: NarrationWhereInput
-    some?: NarrationWhereInput
-    none?: NarrationWhereInput
-  }
-
   export type MediaSuggestionListRelationFilter = {
     every?: MediaSuggestionWhereInput
     some?: MediaSuggestionWhereInput
@@ -17582,14 +17602,6 @@ export namespace Prisma {
   }
 
   export type TrendAnalysisOrderByRelationAggregateInput = {
-    _count?: SortOrder
-  }
-
-  export type ScriptOrderByRelationAggregateInput = {
-    _count?: SortOrder
-  }
-
-  export type NarrationOrderByRelationAggregateInput = {
     _count?: SortOrder
   }
 
@@ -17908,9 +17920,19 @@ export namespace Prisma {
     isNot?: ChannelProfileWhereInput
   }
 
+  export type ScriptListRelationFilter = {
+    every?: ScriptWhereInput
+    some?: ScriptWhereInput
+    none?: ScriptWhereInput
+  }
+
   export type SortOrderInput = {
     sort: SortOrder
     nulls?: NullsOrder
+  }
+
+  export type ScriptOrderByRelationAggregateInput = {
+    _count?: SortOrder
   }
 
   export type ContentProjectCountOrderByAggregateInput = {
@@ -18081,86 +18103,6 @@ export namespace Prisma {
     _max?: NestedJsonFilter<$PrismaModel>
   }
 
-  export type IntFilter<$PrismaModel = never> = {
-    equals?: number | IntFieldRefInput<$PrismaModel>
-    in?: number[] | ListIntFieldRefInput<$PrismaModel>
-    notIn?: number[] | ListIntFieldRefInput<$PrismaModel>
-    lt?: number | IntFieldRefInput<$PrismaModel>
-    lte?: number | IntFieldRefInput<$PrismaModel>
-    gt?: number | IntFieldRefInput<$PrismaModel>
-    gte?: number | IntFieldRefInput<$PrismaModel>
-    not?: NestedIntFilter<$PrismaModel> | number
-  }
-
-  export type ScriptCountOrderByAggregateInput = {
-    id?: SortOrder
-    organizationId?: SortOrder
-    projectId?: SortOrder
-    blocks?: SortOrder
-    wordCount?: SortOrder
-    estimatedDurationSecs?: SortOrder
-    version?: SortOrder
-    createdAt?: SortOrder
-    updatedAt?: SortOrder
-  }
-
-  export type ScriptAvgOrderByAggregateInput = {
-    wordCount?: SortOrder
-    estimatedDurationSecs?: SortOrder
-    version?: SortOrder
-  }
-
-  export type ScriptMaxOrderByAggregateInput = {
-    id?: SortOrder
-    organizationId?: SortOrder
-    projectId?: SortOrder
-    wordCount?: SortOrder
-    estimatedDurationSecs?: SortOrder
-    version?: SortOrder
-    createdAt?: SortOrder
-    updatedAt?: SortOrder
-  }
-
-  export type ScriptMinOrderByAggregateInput = {
-    id?: SortOrder
-    organizationId?: SortOrder
-    projectId?: SortOrder
-    wordCount?: SortOrder
-    estimatedDurationSecs?: SortOrder
-    version?: SortOrder
-    createdAt?: SortOrder
-    updatedAt?: SortOrder
-  }
-
-  export type ScriptSumOrderByAggregateInput = {
-    wordCount?: SortOrder
-    estimatedDurationSecs?: SortOrder
-    version?: SortOrder
-  }
-
-  export type IntWithAggregatesFilter<$PrismaModel = never> = {
-    equals?: number | IntFieldRefInput<$PrismaModel>
-    in?: number[] | ListIntFieldRefInput<$PrismaModel>
-    notIn?: number[] | ListIntFieldRefInput<$PrismaModel>
-    lt?: number | IntFieldRefInput<$PrismaModel>
-    lte?: number | IntFieldRefInput<$PrismaModel>
-    gt?: number | IntFieldRefInput<$PrismaModel>
-    gte?: number | IntFieldRefInput<$PrismaModel>
-    not?: NestedIntWithAggregatesFilter<$PrismaModel> | number
-    _count?: NestedIntFilter<$PrismaModel>
-    _avg?: NestedFloatFilter<$PrismaModel>
-    _sum?: NestedIntFilter<$PrismaModel>
-    _min?: NestedIntFilter<$PrismaModel>
-    _max?: NestedIntFilter<$PrismaModel>
-  }
-
-  export type EnumTtsProviderFilter<$PrismaModel = never> = {
-    equals?: $Enums.TtsProvider | EnumTtsProviderFieldRefInput<$PrismaModel>
-    in?: $Enums.TtsProvider[] | ListEnumTtsProviderFieldRefInput<$PrismaModel>
-    notIn?: $Enums.TtsProvider[] | ListEnumTtsProviderFieldRefInput<$PrismaModel>
-    not?: NestedEnumTtsProviderFilter<$PrismaModel> | $Enums.TtsProvider
-  }
-
   export type StringNullableFilter<$PrismaModel = never> = {
     equals?: string | StringFieldRefInput<$PrismaModel> | null
     in?: string[] | ListStringFieldRefInput<$PrismaModel> | null
@@ -18176,6 +18118,13 @@ export namespace Prisma {
     not?: NestedStringNullableFilter<$PrismaModel> | string | null
   }
 
+  export type EnumScriptStatusFilter<$PrismaModel = never> = {
+    equals?: $Enums.ScriptStatus | EnumScriptStatusFieldRefInput<$PrismaModel>
+    in?: $Enums.ScriptStatus[] | ListEnumScriptStatusFieldRefInput<$PrismaModel>
+    notIn?: $Enums.ScriptStatus[] | ListEnumScriptStatusFieldRefInput<$PrismaModel>
+    not?: NestedEnumScriptStatusFilter<$PrismaModel> | $Enums.ScriptStatus
+  }
+
   export type FloatNullableFilter<$PrismaModel = never> = {
     equals?: number | FloatFieldRefInput<$PrismaModel> | null
     in?: number[] | ListFloatFieldRefInput<$PrismaModel> | null
@@ -18187,73 +18136,71 @@ export namespace Prisma {
     not?: NestedFloatNullableFilter<$PrismaModel> | number | null
   }
 
-  export type EnumJobStatusFilter<$PrismaModel = never> = {
-    equals?: $Enums.JobStatus | EnumJobStatusFieldRefInput<$PrismaModel>
-    in?: $Enums.JobStatus[] | ListEnumJobStatusFieldRefInput<$PrismaModel>
-    notIn?: $Enums.JobStatus[] | ListEnumJobStatusFieldRefInput<$PrismaModel>
-    not?: NestedEnumJobStatusFilter<$PrismaModel> | $Enums.JobStatus
+  export type NarrationListRelationFilter = {
+    every?: NarrationWhereInput
+    some?: NarrationWhereInput
+    none?: NarrationWhereInput
   }
 
-  export type ScriptScalarRelationFilter = {
-    is?: ScriptWhereInput
-    isNot?: ScriptWhereInput
+  export type NarrationOrderByRelationAggregateInput = {
+    _count?: SortOrder
   }
 
-  export type NarrationCountOrderByAggregateInput = {
+  export type ScriptCountOrderByAggregateInput = {
     id?: SortOrder
-    organizationId?: SortOrder
-    scriptId?: SortOrder
-    provider?: SortOrder
-    voiceId?: SortOrder
-    audioUrl?: SortOrder
-    durationSecs?: SortOrder
+    projectId?: SortOrder
+    trendAnalysisId?: SortOrder
     status?: SortOrder
+    formatType?: SortOrder
+    blocks?: SortOrder
+    wordCount?: SortOrder
+    estimatedDurationSec?: SortOrder
+    originalityScore?: SortOrder
+    estimatedCostBrl?: SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
   }
 
-  export type NarrationAvgOrderByAggregateInput = {
-    durationSecs?: SortOrder
+  export type ScriptAvgOrderByAggregateInput = {
+    wordCount?: SortOrder
+    estimatedDurationSec?: SortOrder
+    originalityScore?: SortOrder
+    estimatedCostBrl?: SortOrder
   }
 
-  export type NarrationMaxOrderByAggregateInput = {
+  export type ScriptMaxOrderByAggregateInput = {
     id?: SortOrder
-    organizationId?: SortOrder
-    scriptId?: SortOrder
-    provider?: SortOrder
-    voiceId?: SortOrder
-    audioUrl?: SortOrder
-    durationSecs?: SortOrder
+    projectId?: SortOrder
+    trendAnalysisId?: SortOrder
     status?: SortOrder
+    formatType?: SortOrder
+    wordCount?: SortOrder
+    estimatedDurationSec?: SortOrder
+    originalityScore?: SortOrder
+    estimatedCostBrl?: SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
   }
 
-  export type NarrationMinOrderByAggregateInput = {
+  export type ScriptMinOrderByAggregateInput = {
     id?: SortOrder
-    organizationId?: SortOrder
-    scriptId?: SortOrder
-    provider?: SortOrder
-    voiceId?: SortOrder
-    audioUrl?: SortOrder
-    durationSecs?: SortOrder
+    projectId?: SortOrder
+    trendAnalysisId?: SortOrder
     status?: SortOrder
+    formatType?: SortOrder
+    wordCount?: SortOrder
+    estimatedDurationSec?: SortOrder
+    originalityScore?: SortOrder
+    estimatedCostBrl?: SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
   }
 
-  export type NarrationSumOrderByAggregateInput = {
-    durationSecs?: SortOrder
-  }
-
-  export type EnumTtsProviderWithAggregatesFilter<$PrismaModel = never> = {
-    equals?: $Enums.TtsProvider | EnumTtsProviderFieldRefInput<$PrismaModel>
-    in?: $Enums.TtsProvider[] | ListEnumTtsProviderFieldRefInput<$PrismaModel>
-    notIn?: $Enums.TtsProvider[] | ListEnumTtsProviderFieldRefInput<$PrismaModel>
-    not?: NestedEnumTtsProviderWithAggregatesFilter<$PrismaModel> | $Enums.TtsProvider
-    _count?: NestedIntFilter<$PrismaModel>
-    _min?: NestedEnumTtsProviderFilter<$PrismaModel>
-    _max?: NestedEnumTtsProviderFilter<$PrismaModel>
+  export type ScriptSumOrderByAggregateInput = {
+    wordCount?: SortOrder
+    estimatedDurationSec?: SortOrder
+    originalityScore?: SortOrder
+    estimatedCostBrl?: SortOrder
   }
 
   export type StringNullableWithAggregatesFilter<$PrismaModel = never> = {
@@ -18274,6 +18221,16 @@ export namespace Prisma {
     _max?: NestedStringNullableFilter<$PrismaModel>
   }
 
+  export type EnumScriptStatusWithAggregatesFilter<$PrismaModel = never> = {
+    equals?: $Enums.ScriptStatus | EnumScriptStatusFieldRefInput<$PrismaModel>
+    in?: $Enums.ScriptStatus[] | ListEnumScriptStatusFieldRefInput<$PrismaModel>
+    notIn?: $Enums.ScriptStatus[] | ListEnumScriptStatusFieldRefInput<$PrismaModel>
+    not?: NestedEnumScriptStatusWithAggregatesFilter<$PrismaModel> | $Enums.ScriptStatus
+    _count?: NestedIntFilter<$PrismaModel>
+    _min?: NestedEnumScriptStatusFilter<$PrismaModel>
+    _max?: NestedEnumScriptStatusFilter<$PrismaModel>
+  }
+
   export type FloatNullableWithAggregatesFilter<$PrismaModel = never> = {
     equals?: number | FloatFieldRefInput<$PrismaModel> | null
     in?: number[] | ListFloatFieldRefInput<$PrismaModel> | null
@@ -18288,6 +18245,104 @@ export namespace Prisma {
     _sum?: NestedFloatNullableFilter<$PrismaModel>
     _min?: NestedFloatNullableFilter<$PrismaModel>
     _max?: NestedFloatNullableFilter<$PrismaModel>
+  }
+
+  export type EnumTtsProviderFilter<$PrismaModel = never> = {
+    equals?: $Enums.TtsProvider | EnumTtsProviderFieldRefInput<$PrismaModel>
+    in?: $Enums.TtsProvider[] | ListEnumTtsProviderFieldRefInput<$PrismaModel>
+    notIn?: $Enums.TtsProvider[] | ListEnumTtsProviderFieldRefInput<$PrismaModel>
+    not?: NestedEnumTtsProviderFilter<$PrismaModel> | $Enums.TtsProvider
+  }
+
+  export type EnumContentToneNullableFilter<$PrismaModel = never> = {
+    equals?: $Enums.ContentTone | EnumContentToneFieldRefInput<$PrismaModel> | null
+    in?: $Enums.ContentTone[] | ListEnumContentToneFieldRefInput<$PrismaModel> | null
+    notIn?: $Enums.ContentTone[] | ListEnumContentToneFieldRefInput<$PrismaModel> | null
+    not?: NestedEnumContentToneNullableFilter<$PrismaModel> | $Enums.ContentTone | null
+  }
+
+  export type EnumJobStatusFilter<$PrismaModel = never> = {
+    equals?: $Enums.JobStatus | EnumJobStatusFieldRefInput<$PrismaModel>
+    in?: $Enums.JobStatus[] | ListEnumJobStatusFieldRefInput<$PrismaModel>
+    notIn?: $Enums.JobStatus[] | ListEnumJobStatusFieldRefInput<$PrismaModel>
+    not?: NestedEnumJobStatusFilter<$PrismaModel> | $Enums.JobStatus
+  }
+
+  export type ScriptScalarRelationFilter = {
+    is?: ScriptWhereInput
+    isNot?: ScriptWhereInput
+  }
+
+  export type NarrationCountOrderByAggregateInput = {
+    id?: SortOrder
+    scriptId?: SortOrder
+    provider?: SortOrder
+    voiceId?: SortOrder
+    tone?: SortOrder
+    speed?: SortOrder
+    audioUrl?: SortOrder
+    durationSec?: SortOrder
+    status?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+  }
+
+  export type NarrationAvgOrderByAggregateInput = {
+    speed?: SortOrder
+    durationSec?: SortOrder
+  }
+
+  export type NarrationMaxOrderByAggregateInput = {
+    id?: SortOrder
+    scriptId?: SortOrder
+    provider?: SortOrder
+    voiceId?: SortOrder
+    tone?: SortOrder
+    speed?: SortOrder
+    audioUrl?: SortOrder
+    durationSec?: SortOrder
+    status?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+  }
+
+  export type NarrationMinOrderByAggregateInput = {
+    id?: SortOrder
+    scriptId?: SortOrder
+    provider?: SortOrder
+    voiceId?: SortOrder
+    tone?: SortOrder
+    speed?: SortOrder
+    audioUrl?: SortOrder
+    durationSec?: SortOrder
+    status?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+  }
+
+  export type NarrationSumOrderByAggregateInput = {
+    speed?: SortOrder
+    durationSec?: SortOrder
+  }
+
+  export type EnumTtsProviderWithAggregatesFilter<$PrismaModel = never> = {
+    equals?: $Enums.TtsProvider | EnumTtsProviderFieldRefInput<$PrismaModel>
+    in?: $Enums.TtsProvider[] | ListEnumTtsProviderFieldRefInput<$PrismaModel>
+    notIn?: $Enums.TtsProvider[] | ListEnumTtsProviderFieldRefInput<$PrismaModel>
+    not?: NestedEnumTtsProviderWithAggregatesFilter<$PrismaModel> | $Enums.TtsProvider
+    _count?: NestedIntFilter<$PrismaModel>
+    _min?: NestedEnumTtsProviderFilter<$PrismaModel>
+    _max?: NestedEnumTtsProviderFilter<$PrismaModel>
+  }
+
+  export type EnumContentToneNullableWithAggregatesFilter<$PrismaModel = never> = {
+    equals?: $Enums.ContentTone | EnumContentToneFieldRefInput<$PrismaModel> | null
+    in?: $Enums.ContentTone[] | ListEnumContentToneFieldRefInput<$PrismaModel> | null
+    notIn?: $Enums.ContentTone[] | ListEnumContentToneFieldRefInput<$PrismaModel> | null
+    not?: NestedEnumContentToneNullableWithAggregatesFilter<$PrismaModel> | $Enums.ContentTone | null
+    _count?: NestedIntNullableFilter<$PrismaModel>
+    _min?: NestedEnumContentToneNullableFilter<$PrismaModel>
+    _max?: NestedEnumContentToneNullableFilter<$PrismaModel>
   }
 
   export type EnumJobStatusWithAggregatesFilter<$PrismaModel = never> = {
@@ -18543,20 +18598,6 @@ export namespace Prisma {
     connect?: TrendAnalysisWhereUniqueInput | TrendAnalysisWhereUniqueInput[]
   }
 
-  export type ScriptCreateNestedManyWithoutOrganizationInput = {
-    create?: XOR<ScriptCreateWithoutOrganizationInput, ScriptUncheckedCreateWithoutOrganizationInput> | ScriptCreateWithoutOrganizationInput[] | ScriptUncheckedCreateWithoutOrganizationInput[]
-    connectOrCreate?: ScriptCreateOrConnectWithoutOrganizationInput | ScriptCreateOrConnectWithoutOrganizationInput[]
-    createMany?: ScriptCreateManyOrganizationInputEnvelope
-    connect?: ScriptWhereUniqueInput | ScriptWhereUniqueInput[]
-  }
-
-  export type NarrationCreateNestedManyWithoutOrganizationInput = {
-    create?: XOR<NarrationCreateWithoutOrganizationInput, NarrationUncheckedCreateWithoutOrganizationInput> | NarrationCreateWithoutOrganizationInput[] | NarrationUncheckedCreateWithoutOrganizationInput[]
-    connectOrCreate?: NarrationCreateOrConnectWithoutOrganizationInput | NarrationCreateOrConnectWithoutOrganizationInput[]
-    createMany?: NarrationCreateManyOrganizationInputEnvelope
-    connect?: NarrationWhereUniqueInput | NarrationWhereUniqueInput[]
-  }
-
   export type MediaSuggestionCreateNestedManyWithoutOrganizationInput = {
     create?: XOR<MediaSuggestionCreateWithoutOrganizationInput, MediaSuggestionUncheckedCreateWithoutOrganizationInput> | MediaSuggestionCreateWithoutOrganizationInput[] | MediaSuggestionUncheckedCreateWithoutOrganizationInput[]
     connectOrCreate?: MediaSuggestionCreateOrConnectWithoutOrganizationInput | MediaSuggestionCreateOrConnectWithoutOrganizationInput[]
@@ -18604,20 +18645,6 @@ export namespace Prisma {
     connectOrCreate?: TrendAnalysisCreateOrConnectWithoutOrganizationInput | TrendAnalysisCreateOrConnectWithoutOrganizationInput[]
     createMany?: TrendAnalysisCreateManyOrganizationInputEnvelope
     connect?: TrendAnalysisWhereUniqueInput | TrendAnalysisWhereUniqueInput[]
-  }
-
-  export type ScriptUncheckedCreateNestedManyWithoutOrganizationInput = {
-    create?: XOR<ScriptCreateWithoutOrganizationInput, ScriptUncheckedCreateWithoutOrganizationInput> | ScriptCreateWithoutOrganizationInput[] | ScriptUncheckedCreateWithoutOrganizationInput[]
-    connectOrCreate?: ScriptCreateOrConnectWithoutOrganizationInput | ScriptCreateOrConnectWithoutOrganizationInput[]
-    createMany?: ScriptCreateManyOrganizationInputEnvelope
-    connect?: ScriptWhereUniqueInput | ScriptWhereUniqueInput[]
-  }
-
-  export type NarrationUncheckedCreateNestedManyWithoutOrganizationInput = {
-    create?: XOR<NarrationCreateWithoutOrganizationInput, NarrationUncheckedCreateWithoutOrganizationInput> | NarrationCreateWithoutOrganizationInput[] | NarrationUncheckedCreateWithoutOrganizationInput[]
-    connectOrCreate?: NarrationCreateOrConnectWithoutOrganizationInput | NarrationCreateOrConnectWithoutOrganizationInput[]
-    createMany?: NarrationCreateManyOrganizationInputEnvelope
-    connect?: NarrationWhereUniqueInput | NarrationWhereUniqueInput[]
   }
 
   export type MediaSuggestionUncheckedCreateNestedManyWithoutOrganizationInput = {
@@ -18707,34 +18734,6 @@ export namespace Prisma {
     update?: TrendAnalysisUpdateWithWhereUniqueWithoutOrganizationInput | TrendAnalysisUpdateWithWhereUniqueWithoutOrganizationInput[]
     updateMany?: TrendAnalysisUpdateManyWithWhereWithoutOrganizationInput | TrendAnalysisUpdateManyWithWhereWithoutOrganizationInput[]
     deleteMany?: TrendAnalysisScalarWhereInput | TrendAnalysisScalarWhereInput[]
-  }
-
-  export type ScriptUpdateManyWithoutOrganizationNestedInput = {
-    create?: XOR<ScriptCreateWithoutOrganizationInput, ScriptUncheckedCreateWithoutOrganizationInput> | ScriptCreateWithoutOrganizationInput[] | ScriptUncheckedCreateWithoutOrganizationInput[]
-    connectOrCreate?: ScriptCreateOrConnectWithoutOrganizationInput | ScriptCreateOrConnectWithoutOrganizationInput[]
-    upsert?: ScriptUpsertWithWhereUniqueWithoutOrganizationInput | ScriptUpsertWithWhereUniqueWithoutOrganizationInput[]
-    createMany?: ScriptCreateManyOrganizationInputEnvelope
-    set?: ScriptWhereUniqueInput | ScriptWhereUniqueInput[]
-    disconnect?: ScriptWhereUniqueInput | ScriptWhereUniqueInput[]
-    delete?: ScriptWhereUniqueInput | ScriptWhereUniqueInput[]
-    connect?: ScriptWhereUniqueInput | ScriptWhereUniqueInput[]
-    update?: ScriptUpdateWithWhereUniqueWithoutOrganizationInput | ScriptUpdateWithWhereUniqueWithoutOrganizationInput[]
-    updateMany?: ScriptUpdateManyWithWhereWithoutOrganizationInput | ScriptUpdateManyWithWhereWithoutOrganizationInput[]
-    deleteMany?: ScriptScalarWhereInput | ScriptScalarWhereInput[]
-  }
-
-  export type NarrationUpdateManyWithoutOrganizationNestedInput = {
-    create?: XOR<NarrationCreateWithoutOrganizationInput, NarrationUncheckedCreateWithoutOrganizationInput> | NarrationCreateWithoutOrganizationInput[] | NarrationUncheckedCreateWithoutOrganizationInput[]
-    connectOrCreate?: NarrationCreateOrConnectWithoutOrganizationInput | NarrationCreateOrConnectWithoutOrganizationInput[]
-    upsert?: NarrationUpsertWithWhereUniqueWithoutOrganizationInput | NarrationUpsertWithWhereUniqueWithoutOrganizationInput[]
-    createMany?: NarrationCreateManyOrganizationInputEnvelope
-    set?: NarrationWhereUniqueInput | NarrationWhereUniqueInput[]
-    disconnect?: NarrationWhereUniqueInput | NarrationWhereUniqueInput[]
-    delete?: NarrationWhereUniqueInput | NarrationWhereUniqueInput[]
-    connect?: NarrationWhereUniqueInput | NarrationWhereUniqueInput[]
-    update?: NarrationUpdateWithWhereUniqueWithoutOrganizationInput | NarrationUpdateWithWhereUniqueWithoutOrganizationInput[]
-    updateMany?: NarrationUpdateManyWithWhereWithoutOrganizationInput | NarrationUpdateManyWithWhereWithoutOrganizationInput[]
-    deleteMany?: NarrationScalarWhereInput | NarrationScalarWhereInput[]
   }
 
   export type MediaSuggestionUpdateManyWithoutOrganizationNestedInput = {
@@ -18833,34 +18832,6 @@ export namespace Prisma {
     update?: TrendAnalysisUpdateWithWhereUniqueWithoutOrganizationInput | TrendAnalysisUpdateWithWhereUniqueWithoutOrganizationInput[]
     updateMany?: TrendAnalysisUpdateManyWithWhereWithoutOrganizationInput | TrendAnalysisUpdateManyWithWhereWithoutOrganizationInput[]
     deleteMany?: TrendAnalysisScalarWhereInput | TrendAnalysisScalarWhereInput[]
-  }
-
-  export type ScriptUncheckedUpdateManyWithoutOrganizationNestedInput = {
-    create?: XOR<ScriptCreateWithoutOrganizationInput, ScriptUncheckedCreateWithoutOrganizationInput> | ScriptCreateWithoutOrganizationInput[] | ScriptUncheckedCreateWithoutOrganizationInput[]
-    connectOrCreate?: ScriptCreateOrConnectWithoutOrganizationInput | ScriptCreateOrConnectWithoutOrganizationInput[]
-    upsert?: ScriptUpsertWithWhereUniqueWithoutOrganizationInput | ScriptUpsertWithWhereUniqueWithoutOrganizationInput[]
-    createMany?: ScriptCreateManyOrganizationInputEnvelope
-    set?: ScriptWhereUniqueInput | ScriptWhereUniqueInput[]
-    disconnect?: ScriptWhereUniqueInput | ScriptWhereUniqueInput[]
-    delete?: ScriptWhereUniqueInput | ScriptWhereUniqueInput[]
-    connect?: ScriptWhereUniqueInput | ScriptWhereUniqueInput[]
-    update?: ScriptUpdateWithWhereUniqueWithoutOrganizationInput | ScriptUpdateWithWhereUniqueWithoutOrganizationInput[]
-    updateMany?: ScriptUpdateManyWithWhereWithoutOrganizationInput | ScriptUpdateManyWithWhereWithoutOrganizationInput[]
-    deleteMany?: ScriptScalarWhereInput | ScriptScalarWhereInput[]
-  }
-
-  export type NarrationUncheckedUpdateManyWithoutOrganizationNestedInput = {
-    create?: XOR<NarrationCreateWithoutOrganizationInput, NarrationUncheckedCreateWithoutOrganizationInput> | NarrationCreateWithoutOrganizationInput[] | NarrationUncheckedCreateWithoutOrganizationInput[]
-    connectOrCreate?: NarrationCreateOrConnectWithoutOrganizationInput | NarrationCreateOrConnectWithoutOrganizationInput[]
-    upsert?: NarrationUpsertWithWhereUniqueWithoutOrganizationInput | NarrationUpsertWithWhereUniqueWithoutOrganizationInput[]
-    createMany?: NarrationCreateManyOrganizationInputEnvelope
-    set?: NarrationWhereUniqueInput | NarrationWhereUniqueInput[]
-    disconnect?: NarrationWhereUniqueInput | NarrationWhereUniqueInput[]
-    delete?: NarrationWhereUniqueInput | NarrationWhereUniqueInput[]
-    connect?: NarrationWhereUniqueInput | NarrationWhereUniqueInput[]
-    update?: NarrationUpdateWithWhereUniqueWithoutOrganizationInput | NarrationUpdateWithWhereUniqueWithoutOrganizationInput[]
-    updateMany?: NarrationUpdateManyWithWhereWithoutOrganizationInput | NarrationUpdateManyWithWhereWithoutOrganizationInput[]
-    deleteMany?: NarrationScalarWhereInput | NarrationScalarWhereInput[]
   }
 
   export type MediaSuggestionUncheckedUpdateManyWithoutOrganizationNestedInput = {
@@ -19389,12 +19360,6 @@ export namespace Prisma {
     update?: XOR<XOR<ContentProjectUpdateToOneWithWhereWithoutTrendAnalysesInput, ContentProjectUpdateWithoutTrendAnalysesInput>, ContentProjectUncheckedUpdateWithoutTrendAnalysesInput>
   }
 
-  export type OrganizationCreateNestedOneWithoutScriptsInput = {
-    create?: XOR<OrganizationCreateWithoutScriptsInput, OrganizationUncheckedCreateWithoutScriptsInput>
-    connectOrCreate?: OrganizationCreateOrConnectWithoutScriptsInput
-    connect?: OrganizationWhereUniqueInput
-  }
-
   export type ContentProjectCreateNestedOneWithoutScriptsInput = {
     create?: XOR<ContentProjectCreateWithoutScriptsInput, ContentProjectUncheckedCreateWithoutScriptsInput>
     connectOrCreate?: ContentProjectCreateOrConnectWithoutScriptsInput
@@ -19415,20 +19380,20 @@ export namespace Prisma {
     connect?: NarrationWhereUniqueInput | NarrationWhereUniqueInput[]
   }
 
-  export type IntFieldUpdateOperationsInput = {
-    set?: number
+  export type NullableStringFieldUpdateOperationsInput = {
+    set?: string | null
+  }
+
+  export type EnumScriptStatusFieldUpdateOperationsInput = {
+    set?: $Enums.ScriptStatus
+  }
+
+  export type NullableFloatFieldUpdateOperationsInput = {
+    set?: number | null
     increment?: number
     decrement?: number
     multiply?: number
     divide?: number
-  }
-
-  export type OrganizationUpdateOneRequiredWithoutScriptsNestedInput = {
-    create?: XOR<OrganizationCreateWithoutScriptsInput, OrganizationUncheckedCreateWithoutScriptsInput>
-    connectOrCreate?: OrganizationCreateOrConnectWithoutScriptsInput
-    upsert?: OrganizationUpsertWithoutScriptsInput
-    connect?: OrganizationWhereUniqueInput
-    update?: XOR<XOR<OrganizationUpdateToOneWithWhereWithoutScriptsInput, OrganizationUpdateWithoutScriptsInput>, OrganizationUncheckedUpdateWithoutScriptsInput>
   }
 
   export type ContentProjectUpdateOneRequiredWithoutScriptsNestedInput = {
@@ -19467,12 +19432,6 @@ export namespace Prisma {
     deleteMany?: NarrationScalarWhereInput | NarrationScalarWhereInput[]
   }
 
-  export type OrganizationCreateNestedOneWithoutNarrationsInput = {
-    create?: XOR<OrganizationCreateWithoutNarrationsInput, OrganizationUncheckedCreateWithoutNarrationsInput>
-    connectOrCreate?: OrganizationCreateOrConnectWithoutNarrationsInput
-    connect?: OrganizationWhereUniqueInput
-  }
-
   export type ScriptCreateNestedOneWithoutNarrationsInput = {
     create?: XOR<ScriptCreateWithoutNarrationsInput, ScriptUncheckedCreateWithoutNarrationsInput>
     connectOrCreate?: ScriptCreateOrConnectWithoutNarrationsInput
@@ -19483,28 +19442,12 @@ export namespace Prisma {
     set?: $Enums.TtsProvider
   }
 
-  export type NullableStringFieldUpdateOperationsInput = {
-    set?: string | null
-  }
-
-  export type NullableFloatFieldUpdateOperationsInput = {
-    set?: number | null
-    increment?: number
-    decrement?: number
-    multiply?: number
-    divide?: number
+  export type NullableEnumContentToneFieldUpdateOperationsInput = {
+    set?: $Enums.ContentTone | null
   }
 
   export type EnumJobStatusFieldUpdateOperationsInput = {
     set?: $Enums.JobStatus
-  }
-
-  export type OrganizationUpdateOneRequiredWithoutNarrationsNestedInput = {
-    create?: XOR<OrganizationCreateWithoutNarrationsInput, OrganizationUncheckedCreateWithoutNarrationsInput>
-    connectOrCreate?: OrganizationCreateOrConnectWithoutNarrationsInput
-    upsert?: OrganizationUpsertWithoutNarrationsInput
-    connect?: OrganizationWhereUniqueInput
-    update?: XOR<XOR<OrganizationUpdateToOneWithWhereWithoutNarrationsInput, OrganizationUpdateWithoutNarrationsInput>, OrganizationUncheckedUpdateWithoutNarrationsInput>
   }
 
   export type ScriptUpdateOneRequiredWithoutNarrationsNestedInput = {
@@ -19880,40 +19823,6 @@ export namespace Prisma {
     not?: InputJsonValue | JsonFieldRefInput<$PrismaModel> | JsonNullValueFilter
   }
 
-  export type NestedIntWithAggregatesFilter<$PrismaModel = never> = {
-    equals?: number | IntFieldRefInput<$PrismaModel>
-    in?: number[] | ListIntFieldRefInput<$PrismaModel>
-    notIn?: number[] | ListIntFieldRefInput<$PrismaModel>
-    lt?: number | IntFieldRefInput<$PrismaModel>
-    lte?: number | IntFieldRefInput<$PrismaModel>
-    gt?: number | IntFieldRefInput<$PrismaModel>
-    gte?: number | IntFieldRefInput<$PrismaModel>
-    not?: NestedIntWithAggregatesFilter<$PrismaModel> | number
-    _count?: NestedIntFilter<$PrismaModel>
-    _avg?: NestedFloatFilter<$PrismaModel>
-    _sum?: NestedIntFilter<$PrismaModel>
-    _min?: NestedIntFilter<$PrismaModel>
-    _max?: NestedIntFilter<$PrismaModel>
-  }
-
-  export type NestedFloatFilter<$PrismaModel = never> = {
-    equals?: number | FloatFieldRefInput<$PrismaModel>
-    in?: number[] | ListFloatFieldRefInput<$PrismaModel>
-    notIn?: number[] | ListFloatFieldRefInput<$PrismaModel>
-    lt?: number | FloatFieldRefInput<$PrismaModel>
-    lte?: number | FloatFieldRefInput<$PrismaModel>
-    gt?: number | FloatFieldRefInput<$PrismaModel>
-    gte?: number | FloatFieldRefInput<$PrismaModel>
-    not?: NestedFloatFilter<$PrismaModel> | number
-  }
-
-  export type NestedEnumTtsProviderFilter<$PrismaModel = never> = {
-    equals?: $Enums.TtsProvider | EnumTtsProviderFieldRefInput<$PrismaModel>
-    in?: $Enums.TtsProvider[] | ListEnumTtsProviderFieldRefInput<$PrismaModel>
-    notIn?: $Enums.TtsProvider[] | ListEnumTtsProviderFieldRefInput<$PrismaModel>
-    not?: NestedEnumTtsProviderFilter<$PrismaModel> | $Enums.TtsProvider
-  }
-
   export type NestedStringNullableFilter<$PrismaModel = never> = {
     equals?: string | StringFieldRefInput<$PrismaModel> | null
     in?: string[] | ListStringFieldRefInput<$PrismaModel> | null
@@ -19928,21 +19837,11 @@ export namespace Prisma {
     not?: NestedStringNullableFilter<$PrismaModel> | string | null
   }
 
-  export type NestedEnumJobStatusFilter<$PrismaModel = never> = {
-    equals?: $Enums.JobStatus | EnumJobStatusFieldRefInput<$PrismaModel>
-    in?: $Enums.JobStatus[] | ListEnumJobStatusFieldRefInput<$PrismaModel>
-    notIn?: $Enums.JobStatus[] | ListEnumJobStatusFieldRefInput<$PrismaModel>
-    not?: NestedEnumJobStatusFilter<$PrismaModel> | $Enums.JobStatus
-  }
-
-  export type NestedEnumTtsProviderWithAggregatesFilter<$PrismaModel = never> = {
-    equals?: $Enums.TtsProvider | EnumTtsProviderFieldRefInput<$PrismaModel>
-    in?: $Enums.TtsProvider[] | ListEnumTtsProviderFieldRefInput<$PrismaModel>
-    notIn?: $Enums.TtsProvider[] | ListEnumTtsProviderFieldRefInput<$PrismaModel>
-    not?: NestedEnumTtsProviderWithAggregatesFilter<$PrismaModel> | $Enums.TtsProvider
-    _count?: NestedIntFilter<$PrismaModel>
-    _min?: NestedEnumTtsProviderFilter<$PrismaModel>
-    _max?: NestedEnumTtsProviderFilter<$PrismaModel>
+  export type NestedEnumScriptStatusFilter<$PrismaModel = never> = {
+    equals?: $Enums.ScriptStatus | EnumScriptStatusFieldRefInput<$PrismaModel>
+    in?: $Enums.ScriptStatus[] | ListEnumScriptStatusFieldRefInput<$PrismaModel>
+    notIn?: $Enums.ScriptStatus[] | ListEnumScriptStatusFieldRefInput<$PrismaModel>
+    not?: NestedEnumScriptStatusFilter<$PrismaModel> | $Enums.ScriptStatus
   }
 
   export type NestedStringNullableWithAggregatesFilter<$PrismaModel = never> = {
@@ -19962,6 +19861,16 @@ export namespace Prisma {
     _max?: NestedStringNullableFilter<$PrismaModel>
   }
 
+  export type NestedEnumScriptStatusWithAggregatesFilter<$PrismaModel = never> = {
+    equals?: $Enums.ScriptStatus | EnumScriptStatusFieldRefInput<$PrismaModel>
+    in?: $Enums.ScriptStatus[] | ListEnumScriptStatusFieldRefInput<$PrismaModel>
+    notIn?: $Enums.ScriptStatus[] | ListEnumScriptStatusFieldRefInput<$PrismaModel>
+    not?: NestedEnumScriptStatusWithAggregatesFilter<$PrismaModel> | $Enums.ScriptStatus
+    _count?: NestedIntFilter<$PrismaModel>
+    _min?: NestedEnumScriptStatusFilter<$PrismaModel>
+    _max?: NestedEnumScriptStatusFilter<$PrismaModel>
+  }
+
   export type NestedFloatNullableWithAggregatesFilter<$PrismaModel = never> = {
     equals?: number | FloatFieldRefInput<$PrismaModel> | null
     in?: number[] | ListFloatFieldRefInput<$PrismaModel> | null
@@ -19976,6 +19885,47 @@ export namespace Prisma {
     _sum?: NestedFloatNullableFilter<$PrismaModel>
     _min?: NestedFloatNullableFilter<$PrismaModel>
     _max?: NestedFloatNullableFilter<$PrismaModel>
+  }
+
+  export type NestedEnumTtsProviderFilter<$PrismaModel = never> = {
+    equals?: $Enums.TtsProvider | EnumTtsProviderFieldRefInput<$PrismaModel>
+    in?: $Enums.TtsProvider[] | ListEnumTtsProviderFieldRefInput<$PrismaModel>
+    notIn?: $Enums.TtsProvider[] | ListEnumTtsProviderFieldRefInput<$PrismaModel>
+    not?: NestedEnumTtsProviderFilter<$PrismaModel> | $Enums.TtsProvider
+  }
+
+  export type NestedEnumContentToneNullableFilter<$PrismaModel = never> = {
+    equals?: $Enums.ContentTone | EnumContentToneFieldRefInput<$PrismaModel> | null
+    in?: $Enums.ContentTone[] | ListEnumContentToneFieldRefInput<$PrismaModel> | null
+    notIn?: $Enums.ContentTone[] | ListEnumContentToneFieldRefInput<$PrismaModel> | null
+    not?: NestedEnumContentToneNullableFilter<$PrismaModel> | $Enums.ContentTone | null
+  }
+
+  export type NestedEnumJobStatusFilter<$PrismaModel = never> = {
+    equals?: $Enums.JobStatus | EnumJobStatusFieldRefInput<$PrismaModel>
+    in?: $Enums.JobStatus[] | ListEnumJobStatusFieldRefInput<$PrismaModel>
+    notIn?: $Enums.JobStatus[] | ListEnumJobStatusFieldRefInput<$PrismaModel>
+    not?: NestedEnumJobStatusFilter<$PrismaModel> | $Enums.JobStatus
+  }
+
+  export type NestedEnumTtsProviderWithAggregatesFilter<$PrismaModel = never> = {
+    equals?: $Enums.TtsProvider | EnumTtsProviderFieldRefInput<$PrismaModel>
+    in?: $Enums.TtsProvider[] | ListEnumTtsProviderFieldRefInput<$PrismaModel>
+    notIn?: $Enums.TtsProvider[] | ListEnumTtsProviderFieldRefInput<$PrismaModel>
+    not?: NestedEnumTtsProviderWithAggregatesFilter<$PrismaModel> | $Enums.TtsProvider
+    _count?: NestedIntFilter<$PrismaModel>
+    _min?: NestedEnumTtsProviderFilter<$PrismaModel>
+    _max?: NestedEnumTtsProviderFilter<$PrismaModel>
+  }
+
+  export type NestedEnumContentToneNullableWithAggregatesFilter<$PrismaModel = never> = {
+    equals?: $Enums.ContentTone | EnumContentToneFieldRefInput<$PrismaModel> | null
+    in?: $Enums.ContentTone[] | ListEnumContentToneFieldRefInput<$PrismaModel> | null
+    notIn?: $Enums.ContentTone[] | ListEnumContentToneFieldRefInput<$PrismaModel> | null
+    not?: NestedEnumContentToneNullableWithAggregatesFilter<$PrismaModel> | $Enums.ContentTone | null
+    _count?: NestedIntNullableFilter<$PrismaModel>
+    _min?: NestedEnumContentToneNullableFilter<$PrismaModel>
+    _max?: NestedEnumContentToneNullableFilter<$PrismaModel>
   }
 
   export type NestedEnumJobStatusWithAggregatesFilter<$PrismaModel = never> = {
@@ -20196,74 +20146,6 @@ export namespace Prisma {
 
   export type TrendAnalysisCreateManyOrganizationInputEnvelope = {
     data: TrendAnalysisCreateManyOrganizationInput | TrendAnalysisCreateManyOrganizationInput[]
-    skipDuplicates?: boolean
-  }
-
-  export type ScriptCreateWithoutOrganizationInput = {
-    id?: string
-    blocks: JsonNullValueInput | InputJsonValue
-    wordCount?: number | null
-    estimatedDurationSecs?: number | null
-    version?: number
-    createdAt?: Date | string
-    updatedAt?: Date | string
-    contentProject: ContentProjectCreateNestedOneWithoutScriptsInput
-    narrations?: NarrationCreateNestedManyWithoutScriptInput
-  }
-
-  export type ScriptUncheckedCreateWithoutOrganizationInput = {
-    id?: string
-    projectId: string
-    blocks: JsonNullValueInput | InputJsonValue
-    wordCount?: number | null
-    estimatedDurationSecs?: number | null
-    version?: number
-    createdAt?: Date | string
-    updatedAt?: Date | string
-    narrations?: NarrationUncheckedCreateNestedManyWithoutScriptInput
-  }
-
-  export type ScriptCreateOrConnectWithoutOrganizationInput = {
-    where: ScriptWhereUniqueInput
-    create: XOR<ScriptCreateWithoutOrganizationInput, ScriptUncheckedCreateWithoutOrganizationInput>
-  }
-
-  export type ScriptCreateManyOrganizationInputEnvelope = {
-    data: ScriptCreateManyOrganizationInput | ScriptCreateManyOrganizationInput[]
-    skipDuplicates?: boolean
-  }
-
-  export type NarrationCreateWithoutOrganizationInput = {
-    id?: string
-    provider: $Enums.TtsProvider
-    voiceId?: string | null
-    audioUrl?: string | null
-    durationSecs?: number | null
-    status?: $Enums.JobStatus
-    createdAt?: Date | string
-    updatedAt?: Date | string
-    script: ScriptCreateNestedOneWithoutNarrationsInput
-  }
-
-  export type NarrationUncheckedCreateWithoutOrganizationInput = {
-    id?: string
-    scriptId: string
-    provider: $Enums.TtsProvider
-    voiceId?: string | null
-    audioUrl?: string | null
-    durationSecs?: number | null
-    status?: $Enums.JobStatus
-    createdAt?: Date | string
-    updatedAt?: Date | string
-  }
-
-  export type NarrationCreateOrConnectWithoutOrganizationInput = {
-    where: NarrationWhereUniqueInput
-    create: XOR<NarrationCreateWithoutOrganizationInput, NarrationUncheckedCreateWithoutOrganizationInput>
-  }
-
-  export type NarrationCreateManyOrganizationInputEnvelope = {
-    data: NarrationCreateManyOrganizationInput | NarrationCreateManyOrganizationInput[]
     skipDuplicates?: boolean
   }
 
@@ -20496,69 +20378,6 @@ export namespace Prisma {
     createdAt?: DateTimeFilter<"TrendAnalysis"> | Date | string
   }
 
-  export type ScriptUpsertWithWhereUniqueWithoutOrganizationInput = {
-    where: ScriptWhereUniqueInput
-    update: XOR<ScriptUpdateWithoutOrganizationInput, ScriptUncheckedUpdateWithoutOrganizationInput>
-    create: XOR<ScriptCreateWithoutOrganizationInput, ScriptUncheckedCreateWithoutOrganizationInput>
-  }
-
-  export type ScriptUpdateWithWhereUniqueWithoutOrganizationInput = {
-    where: ScriptWhereUniqueInput
-    data: XOR<ScriptUpdateWithoutOrganizationInput, ScriptUncheckedUpdateWithoutOrganizationInput>
-  }
-
-  export type ScriptUpdateManyWithWhereWithoutOrganizationInput = {
-    where: ScriptScalarWhereInput
-    data: XOR<ScriptUpdateManyMutationInput, ScriptUncheckedUpdateManyWithoutOrganizationInput>
-  }
-
-  export type ScriptScalarWhereInput = {
-    AND?: ScriptScalarWhereInput | ScriptScalarWhereInput[]
-    OR?: ScriptScalarWhereInput[]
-    NOT?: ScriptScalarWhereInput | ScriptScalarWhereInput[]
-    id?: StringFilter<"Script"> | string
-    organizationId?: StringFilter<"Script"> | string
-    projectId?: StringFilter<"Script"> | string
-    blocks?: JsonFilter<"Script">
-    wordCount?: IntNullableFilter<"Script"> | number | null
-    estimatedDurationSecs?: IntNullableFilter<"Script"> | number | null
-    version?: IntFilter<"Script"> | number
-    createdAt?: DateTimeFilter<"Script"> | Date | string
-    updatedAt?: DateTimeFilter<"Script"> | Date | string
-  }
-
-  export type NarrationUpsertWithWhereUniqueWithoutOrganizationInput = {
-    where: NarrationWhereUniqueInput
-    update: XOR<NarrationUpdateWithoutOrganizationInput, NarrationUncheckedUpdateWithoutOrganizationInput>
-    create: XOR<NarrationCreateWithoutOrganizationInput, NarrationUncheckedCreateWithoutOrganizationInput>
-  }
-
-  export type NarrationUpdateWithWhereUniqueWithoutOrganizationInput = {
-    where: NarrationWhereUniqueInput
-    data: XOR<NarrationUpdateWithoutOrganizationInput, NarrationUncheckedUpdateWithoutOrganizationInput>
-  }
-
-  export type NarrationUpdateManyWithWhereWithoutOrganizationInput = {
-    where: NarrationScalarWhereInput
-    data: XOR<NarrationUpdateManyMutationInput, NarrationUncheckedUpdateManyWithoutOrganizationInput>
-  }
-
-  export type NarrationScalarWhereInput = {
-    AND?: NarrationScalarWhereInput | NarrationScalarWhereInput[]
-    OR?: NarrationScalarWhereInput[]
-    NOT?: NarrationScalarWhereInput | NarrationScalarWhereInput[]
-    id?: StringFilter<"Narration"> | string
-    organizationId?: StringFilter<"Narration"> | string
-    scriptId?: StringFilter<"Narration"> | string
-    provider?: EnumTtsProviderFilter<"Narration"> | $Enums.TtsProvider
-    voiceId?: StringNullableFilter<"Narration"> | string | null
-    audioUrl?: StringNullableFilter<"Narration"> | string | null
-    durationSecs?: FloatNullableFilter<"Narration"> | number | null
-    status?: EnumJobStatusFilter<"Narration"> | $Enums.JobStatus
-    createdAt?: DateTimeFilter<"Narration"> | Date | string
-    updatedAt?: DateTimeFilter<"Narration"> | Date | string
-  }
-
   export type MediaSuggestionUpsertWithWhereUniqueWithoutOrganizationInput = {
     where: MediaSuggestionWhereUniqueInput
     update: XOR<MediaSuggestionUpdateWithoutOrganizationInput, MediaSuggestionUncheckedUpdateWithoutOrganizationInput>
@@ -20666,8 +20485,6 @@ export namespace Prisma {
     channelProfiles?: ChannelProfileCreateNestedManyWithoutOrganizationInput
     contentProjects?: ContentProjectCreateNestedManyWithoutOrganizationInput
     trendAnalyses?: TrendAnalysisCreateNestedManyWithoutOrganizationInput
-    scripts?: ScriptCreateNestedManyWithoutOrganizationInput
-    narrations?: NarrationCreateNestedManyWithoutOrganizationInput
     mediaSuggestions?: MediaSuggestionCreateNestedManyWithoutOrganizationInput
     publicationMetadata?: PublicationMetadataCreateNestedManyWithoutOrganizationInput
     exportJobs?: ExportJobCreateNestedManyWithoutOrganizationInput
@@ -20683,8 +20500,6 @@ export namespace Prisma {
     channelProfiles?: ChannelProfileUncheckedCreateNestedManyWithoutOrganizationInput
     contentProjects?: ContentProjectUncheckedCreateNestedManyWithoutOrganizationInput
     trendAnalyses?: TrendAnalysisUncheckedCreateNestedManyWithoutOrganizationInput
-    scripts?: ScriptUncheckedCreateNestedManyWithoutOrganizationInput
-    narrations?: NarrationUncheckedCreateNestedManyWithoutOrganizationInput
     mediaSuggestions?: MediaSuggestionUncheckedCreateNestedManyWithoutOrganizationInput
     publicationMetadata?: PublicationMetadataUncheckedCreateNestedManyWithoutOrganizationInput
     exportJobs?: ExportJobUncheckedCreateNestedManyWithoutOrganizationInput
@@ -20778,8 +20593,6 @@ export namespace Prisma {
     channelProfiles?: ChannelProfileUpdateManyWithoutOrganizationNestedInput
     contentProjects?: ContentProjectUpdateManyWithoutOrganizationNestedInput
     trendAnalyses?: TrendAnalysisUpdateManyWithoutOrganizationNestedInput
-    scripts?: ScriptUpdateManyWithoutOrganizationNestedInput
-    narrations?: NarrationUpdateManyWithoutOrganizationNestedInput
     mediaSuggestions?: MediaSuggestionUpdateManyWithoutOrganizationNestedInput
     publicationMetadata?: PublicationMetadataUpdateManyWithoutOrganizationNestedInput
     exportJobs?: ExportJobUpdateManyWithoutOrganizationNestedInput
@@ -20795,8 +20608,6 @@ export namespace Prisma {
     channelProfiles?: ChannelProfileUncheckedUpdateManyWithoutOrganizationNestedInput
     contentProjects?: ContentProjectUncheckedUpdateManyWithoutOrganizationNestedInput
     trendAnalyses?: TrendAnalysisUncheckedUpdateManyWithoutOrganizationNestedInput
-    scripts?: ScriptUncheckedUpdateManyWithoutOrganizationNestedInput
-    narrations?: NarrationUncheckedUpdateManyWithoutOrganizationNestedInput
     mediaSuggestions?: MediaSuggestionUncheckedUpdateManyWithoutOrganizationNestedInput
     publicationMetadata?: PublicationMetadataUncheckedUpdateManyWithoutOrganizationNestedInput
     exportJobs?: ExportJobUncheckedUpdateManyWithoutOrganizationNestedInput
@@ -20919,8 +20730,6 @@ export namespace Prisma {
     users?: UserCreateNestedManyWithoutOrganizationInput
     contentProjects?: ContentProjectCreateNestedManyWithoutOrganizationInput
     trendAnalyses?: TrendAnalysisCreateNestedManyWithoutOrganizationInput
-    scripts?: ScriptCreateNestedManyWithoutOrganizationInput
-    narrations?: NarrationCreateNestedManyWithoutOrganizationInput
     mediaSuggestions?: MediaSuggestionCreateNestedManyWithoutOrganizationInput
     publicationMetadata?: PublicationMetadataCreateNestedManyWithoutOrganizationInput
     exportJobs?: ExportJobCreateNestedManyWithoutOrganizationInput
@@ -20936,8 +20745,6 @@ export namespace Prisma {
     users?: UserUncheckedCreateNestedManyWithoutOrganizationInput
     contentProjects?: ContentProjectUncheckedCreateNestedManyWithoutOrganizationInput
     trendAnalyses?: TrendAnalysisUncheckedCreateNestedManyWithoutOrganizationInput
-    scripts?: ScriptUncheckedCreateNestedManyWithoutOrganizationInput
-    narrations?: NarrationUncheckedCreateNestedManyWithoutOrganizationInput
     mediaSuggestions?: MediaSuggestionUncheckedCreateNestedManyWithoutOrganizationInput
     publicationMetadata?: PublicationMetadataUncheckedCreateNestedManyWithoutOrganizationInput
     exportJobs?: ExportJobUncheckedCreateNestedManyWithoutOrganizationInput
@@ -21044,8 +20851,6 @@ export namespace Prisma {
     users?: UserUpdateManyWithoutOrganizationNestedInput
     contentProjects?: ContentProjectUpdateManyWithoutOrganizationNestedInput
     trendAnalyses?: TrendAnalysisUpdateManyWithoutOrganizationNestedInput
-    scripts?: ScriptUpdateManyWithoutOrganizationNestedInput
-    narrations?: NarrationUpdateManyWithoutOrganizationNestedInput
     mediaSuggestions?: MediaSuggestionUpdateManyWithoutOrganizationNestedInput
     publicationMetadata?: PublicationMetadataUpdateManyWithoutOrganizationNestedInput
     exportJobs?: ExportJobUpdateManyWithoutOrganizationNestedInput
@@ -21061,8 +20866,6 @@ export namespace Prisma {
     users?: UserUncheckedUpdateManyWithoutOrganizationNestedInput
     contentProjects?: ContentProjectUncheckedUpdateManyWithoutOrganizationNestedInput
     trendAnalyses?: TrendAnalysisUncheckedUpdateManyWithoutOrganizationNestedInput
-    scripts?: ScriptUncheckedUpdateManyWithoutOrganizationNestedInput
-    narrations?: NarrationUncheckedUpdateManyWithoutOrganizationNestedInput
     mediaSuggestions?: MediaSuggestionUncheckedUpdateManyWithoutOrganizationNestedInput
     publicationMetadata?: PublicationMetadataUncheckedUpdateManyWithoutOrganizationNestedInput
     exportJobs?: ExportJobUncheckedUpdateManyWithoutOrganizationNestedInput
@@ -21129,8 +20932,6 @@ export namespace Prisma {
     users?: UserCreateNestedManyWithoutOrganizationInput
     channelProfiles?: ChannelProfileCreateNestedManyWithoutOrganizationInput
     trendAnalyses?: TrendAnalysisCreateNestedManyWithoutOrganizationInput
-    scripts?: ScriptCreateNestedManyWithoutOrganizationInput
-    narrations?: NarrationCreateNestedManyWithoutOrganizationInput
     mediaSuggestions?: MediaSuggestionCreateNestedManyWithoutOrganizationInput
     publicationMetadata?: PublicationMetadataCreateNestedManyWithoutOrganizationInput
     exportJobs?: ExportJobCreateNestedManyWithoutOrganizationInput
@@ -21146,8 +20947,6 @@ export namespace Prisma {
     users?: UserUncheckedCreateNestedManyWithoutOrganizationInput
     channelProfiles?: ChannelProfileUncheckedCreateNestedManyWithoutOrganizationInput
     trendAnalyses?: TrendAnalysisUncheckedCreateNestedManyWithoutOrganizationInput
-    scripts?: ScriptUncheckedCreateNestedManyWithoutOrganizationInput
-    narrations?: NarrationUncheckedCreateNestedManyWithoutOrganizationInput
     mediaSuggestions?: MediaSuggestionUncheckedCreateNestedManyWithoutOrganizationInput
     publicationMetadata?: PublicationMetadataUncheckedCreateNestedManyWithoutOrganizationInput
     exportJobs?: ExportJobUncheckedCreateNestedManyWithoutOrganizationInput
@@ -21221,23 +21020,29 @@ export namespace Prisma {
 
   export type ScriptCreateWithoutContentProjectInput = {
     id?: string
+    trendAnalysisId?: string | null
+    status?: $Enums.ScriptStatus
+    formatType: $Enums.FormatType
     blocks: JsonNullValueInput | InputJsonValue
     wordCount?: number | null
-    estimatedDurationSecs?: number | null
-    version?: number
+    estimatedDurationSec?: number | null
+    originalityScore?: number | null
+    estimatedCostBrl?: number | null
     createdAt?: Date | string
     updatedAt?: Date | string
-    organization: OrganizationCreateNestedOneWithoutScriptsInput
     narrations?: NarrationCreateNestedManyWithoutScriptInput
   }
 
   export type ScriptUncheckedCreateWithoutContentProjectInput = {
     id?: string
-    organizationId: string
+    trendAnalysisId?: string | null
+    status?: $Enums.ScriptStatus
+    formatType: $Enums.FormatType
     blocks: JsonNullValueInput | InputJsonValue
     wordCount?: number | null
-    estimatedDurationSecs?: number | null
-    version?: number
+    estimatedDurationSec?: number | null
+    originalityScore?: number | null
+    estimatedCostBrl?: number | null
     createdAt?: Date | string
     updatedAt?: Date | string
     narrations?: NarrationUncheckedCreateNestedManyWithoutScriptInput
@@ -21378,8 +21183,6 @@ export namespace Prisma {
     users?: UserUpdateManyWithoutOrganizationNestedInput
     channelProfiles?: ChannelProfileUpdateManyWithoutOrganizationNestedInput
     trendAnalyses?: TrendAnalysisUpdateManyWithoutOrganizationNestedInput
-    scripts?: ScriptUpdateManyWithoutOrganizationNestedInput
-    narrations?: NarrationUpdateManyWithoutOrganizationNestedInput
     mediaSuggestions?: MediaSuggestionUpdateManyWithoutOrganizationNestedInput
     publicationMetadata?: PublicationMetadataUpdateManyWithoutOrganizationNestedInput
     exportJobs?: ExportJobUpdateManyWithoutOrganizationNestedInput
@@ -21395,8 +21198,6 @@ export namespace Prisma {
     users?: UserUncheckedUpdateManyWithoutOrganizationNestedInput
     channelProfiles?: ChannelProfileUncheckedUpdateManyWithoutOrganizationNestedInput
     trendAnalyses?: TrendAnalysisUncheckedUpdateManyWithoutOrganizationNestedInput
-    scripts?: ScriptUncheckedUpdateManyWithoutOrganizationNestedInput
-    narrations?: NarrationUncheckedUpdateManyWithoutOrganizationNestedInput
     mediaSuggestions?: MediaSuggestionUncheckedUpdateManyWithoutOrganizationNestedInput
     publicationMetadata?: PublicationMetadataUncheckedUpdateManyWithoutOrganizationNestedInput
     exportJobs?: ExportJobUncheckedUpdateManyWithoutOrganizationNestedInput
@@ -21473,6 +21274,24 @@ export namespace Prisma {
     data: XOR<ScriptUpdateManyMutationInput, ScriptUncheckedUpdateManyWithoutContentProjectInput>
   }
 
+  export type ScriptScalarWhereInput = {
+    AND?: ScriptScalarWhereInput | ScriptScalarWhereInput[]
+    OR?: ScriptScalarWhereInput[]
+    NOT?: ScriptScalarWhereInput | ScriptScalarWhereInput[]
+    id?: StringFilter<"Script"> | string
+    projectId?: StringFilter<"Script"> | string
+    trendAnalysisId?: StringNullableFilter<"Script"> | string | null
+    status?: EnumScriptStatusFilter<"Script"> | $Enums.ScriptStatus
+    formatType?: EnumFormatTypeFilter<"Script"> | $Enums.FormatType
+    blocks?: JsonFilter<"Script">
+    wordCount?: IntNullableFilter<"Script"> | number | null
+    estimatedDurationSec?: IntNullableFilter<"Script"> | number | null
+    originalityScore?: FloatNullableFilter<"Script"> | number | null
+    estimatedCostBrl?: FloatNullableFilter<"Script"> | number | null
+    createdAt?: DateTimeFilter<"Script"> | Date | string
+    updatedAt?: DateTimeFilter<"Script"> | Date | string
+  }
+
   export type MediaSuggestionUpsertWithWhereUniqueWithoutContentProjectInput = {
     where: MediaSuggestionWhereUniqueInput
     update: XOR<MediaSuggestionUpdateWithoutContentProjectInput, MediaSuggestionUncheckedUpdateWithoutContentProjectInput>
@@ -21531,8 +21350,6 @@ export namespace Prisma {
     users?: UserCreateNestedManyWithoutOrganizationInput
     channelProfiles?: ChannelProfileCreateNestedManyWithoutOrganizationInput
     contentProjects?: ContentProjectCreateNestedManyWithoutOrganizationInput
-    scripts?: ScriptCreateNestedManyWithoutOrganizationInput
-    narrations?: NarrationCreateNestedManyWithoutOrganizationInput
     mediaSuggestions?: MediaSuggestionCreateNestedManyWithoutOrganizationInput
     publicationMetadata?: PublicationMetadataCreateNestedManyWithoutOrganizationInput
     exportJobs?: ExportJobCreateNestedManyWithoutOrganizationInput
@@ -21548,8 +21365,6 @@ export namespace Prisma {
     users?: UserUncheckedCreateNestedManyWithoutOrganizationInput
     channelProfiles?: ChannelProfileUncheckedCreateNestedManyWithoutOrganizationInput
     contentProjects?: ContentProjectUncheckedCreateNestedManyWithoutOrganizationInput
-    scripts?: ScriptUncheckedCreateNestedManyWithoutOrganizationInput
-    narrations?: NarrationUncheckedCreateNestedManyWithoutOrganizationInput
     mediaSuggestions?: MediaSuggestionUncheckedCreateNestedManyWithoutOrganizationInput
     publicationMetadata?: PublicationMetadataUncheckedCreateNestedManyWithoutOrganizationInput
     exportJobs?: ExportJobUncheckedCreateNestedManyWithoutOrganizationInput
@@ -21622,8 +21437,6 @@ export namespace Prisma {
     users?: UserUpdateManyWithoutOrganizationNestedInput
     channelProfiles?: ChannelProfileUpdateManyWithoutOrganizationNestedInput
     contentProjects?: ContentProjectUpdateManyWithoutOrganizationNestedInput
-    scripts?: ScriptUpdateManyWithoutOrganizationNestedInput
-    narrations?: NarrationUpdateManyWithoutOrganizationNestedInput
     mediaSuggestions?: MediaSuggestionUpdateManyWithoutOrganizationNestedInput
     publicationMetadata?: PublicationMetadataUpdateManyWithoutOrganizationNestedInput
     exportJobs?: ExportJobUpdateManyWithoutOrganizationNestedInput
@@ -21639,8 +21452,6 @@ export namespace Prisma {
     users?: UserUncheckedUpdateManyWithoutOrganizationNestedInput
     channelProfiles?: ChannelProfileUncheckedUpdateManyWithoutOrganizationNestedInput
     contentProjects?: ContentProjectUncheckedUpdateManyWithoutOrganizationNestedInput
-    scripts?: ScriptUncheckedUpdateManyWithoutOrganizationNestedInput
-    narrations?: NarrationUncheckedUpdateManyWithoutOrganizationNestedInput
     mediaSuggestions?: MediaSuggestionUncheckedUpdateManyWithoutOrganizationNestedInput
     publicationMetadata?: PublicationMetadataUncheckedUpdateManyWithoutOrganizationNestedInput
     exportJobs?: ExportJobUncheckedUpdateManyWithoutOrganizationNestedInput
@@ -21693,45 +21504,6 @@ export namespace Prisma {
     exportJobs?: ExportJobUncheckedUpdateManyWithoutContentProjectNestedInput
   }
 
-  export type OrganizationCreateWithoutScriptsInput = {
-    id?: string
-    name: string
-    slug: string
-    plan?: $Enums.Plan
-    createdAt?: Date | string
-    updatedAt?: Date | string
-    users?: UserCreateNestedManyWithoutOrganizationInput
-    channelProfiles?: ChannelProfileCreateNestedManyWithoutOrganizationInput
-    contentProjects?: ContentProjectCreateNestedManyWithoutOrganizationInput
-    trendAnalyses?: TrendAnalysisCreateNestedManyWithoutOrganizationInput
-    narrations?: NarrationCreateNestedManyWithoutOrganizationInput
-    mediaSuggestions?: MediaSuggestionCreateNestedManyWithoutOrganizationInput
-    publicationMetadata?: PublicationMetadataCreateNestedManyWithoutOrganizationInput
-    exportJobs?: ExportJobCreateNestedManyWithoutOrganizationInput
-  }
-
-  export type OrganizationUncheckedCreateWithoutScriptsInput = {
-    id?: string
-    name: string
-    slug: string
-    plan?: $Enums.Plan
-    createdAt?: Date | string
-    updatedAt?: Date | string
-    users?: UserUncheckedCreateNestedManyWithoutOrganizationInput
-    channelProfiles?: ChannelProfileUncheckedCreateNestedManyWithoutOrganizationInput
-    contentProjects?: ContentProjectUncheckedCreateNestedManyWithoutOrganizationInput
-    trendAnalyses?: TrendAnalysisUncheckedCreateNestedManyWithoutOrganizationInput
-    narrations?: NarrationUncheckedCreateNestedManyWithoutOrganizationInput
-    mediaSuggestions?: MediaSuggestionUncheckedCreateNestedManyWithoutOrganizationInput
-    publicationMetadata?: PublicationMetadataUncheckedCreateNestedManyWithoutOrganizationInput
-    exportJobs?: ExportJobUncheckedCreateNestedManyWithoutOrganizationInput
-  }
-
-  export type OrganizationCreateOrConnectWithoutScriptsInput = {
-    where: OrganizationWhereUniqueInput
-    create: XOR<OrganizationCreateWithoutScriptsInput, OrganizationUncheckedCreateWithoutScriptsInput>
-  }
-
   export type ContentProjectCreateWithoutScriptsInput = {
     id?: string
     title: string
@@ -21777,21 +21549,23 @@ export namespace Prisma {
     id?: string
     provider: $Enums.TtsProvider
     voiceId?: string | null
+    tone?: $Enums.ContentTone | null
+    speed?: number | null
     audioUrl?: string | null
-    durationSecs?: number | null
+    durationSec?: number | null
     status?: $Enums.JobStatus
     createdAt?: Date | string
     updatedAt?: Date | string
-    organization: OrganizationCreateNestedOneWithoutNarrationsInput
   }
 
   export type NarrationUncheckedCreateWithoutScriptInput = {
     id?: string
-    organizationId: string
     provider: $Enums.TtsProvider
     voiceId?: string | null
+    tone?: $Enums.ContentTone | null
+    speed?: number | null
     audioUrl?: string | null
-    durationSecs?: number | null
+    durationSec?: number | null
     status?: $Enums.JobStatus
     createdAt?: Date | string
     updatedAt?: Date | string
@@ -21805,51 +21579,6 @@ export namespace Prisma {
   export type NarrationCreateManyScriptInputEnvelope = {
     data: NarrationCreateManyScriptInput | NarrationCreateManyScriptInput[]
     skipDuplicates?: boolean
-  }
-
-  export type OrganizationUpsertWithoutScriptsInput = {
-    update: XOR<OrganizationUpdateWithoutScriptsInput, OrganizationUncheckedUpdateWithoutScriptsInput>
-    create: XOR<OrganizationCreateWithoutScriptsInput, OrganizationUncheckedCreateWithoutScriptsInput>
-    where?: OrganizationWhereInput
-  }
-
-  export type OrganizationUpdateToOneWithWhereWithoutScriptsInput = {
-    where?: OrganizationWhereInput
-    data: XOR<OrganizationUpdateWithoutScriptsInput, OrganizationUncheckedUpdateWithoutScriptsInput>
-  }
-
-  export type OrganizationUpdateWithoutScriptsInput = {
-    id?: StringFieldUpdateOperationsInput | string
-    name?: StringFieldUpdateOperationsInput | string
-    slug?: StringFieldUpdateOperationsInput | string
-    plan?: EnumPlanFieldUpdateOperationsInput | $Enums.Plan
-    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    users?: UserUpdateManyWithoutOrganizationNestedInput
-    channelProfiles?: ChannelProfileUpdateManyWithoutOrganizationNestedInput
-    contentProjects?: ContentProjectUpdateManyWithoutOrganizationNestedInput
-    trendAnalyses?: TrendAnalysisUpdateManyWithoutOrganizationNestedInput
-    narrations?: NarrationUpdateManyWithoutOrganizationNestedInput
-    mediaSuggestions?: MediaSuggestionUpdateManyWithoutOrganizationNestedInput
-    publicationMetadata?: PublicationMetadataUpdateManyWithoutOrganizationNestedInput
-    exportJobs?: ExportJobUpdateManyWithoutOrganizationNestedInput
-  }
-
-  export type OrganizationUncheckedUpdateWithoutScriptsInput = {
-    id?: StringFieldUpdateOperationsInput | string
-    name?: StringFieldUpdateOperationsInput | string
-    slug?: StringFieldUpdateOperationsInput | string
-    plan?: EnumPlanFieldUpdateOperationsInput | $Enums.Plan
-    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    users?: UserUncheckedUpdateManyWithoutOrganizationNestedInput
-    channelProfiles?: ChannelProfileUncheckedUpdateManyWithoutOrganizationNestedInput
-    contentProjects?: ContentProjectUncheckedUpdateManyWithoutOrganizationNestedInput
-    trendAnalyses?: TrendAnalysisUncheckedUpdateManyWithoutOrganizationNestedInput
-    narrations?: NarrationUncheckedUpdateManyWithoutOrganizationNestedInput
-    mediaSuggestions?: MediaSuggestionUncheckedUpdateManyWithoutOrganizationNestedInput
-    publicationMetadata?: PublicationMetadataUncheckedUpdateManyWithoutOrganizationNestedInput
-    exportJobs?: ExportJobUncheckedUpdateManyWithoutOrganizationNestedInput
   }
 
   export type ContentProjectUpsertWithoutScriptsInput = {
@@ -21915,65 +21644,49 @@ export namespace Prisma {
     data: XOR<NarrationUpdateManyMutationInput, NarrationUncheckedUpdateManyWithoutScriptInput>
   }
 
-  export type OrganizationCreateWithoutNarrationsInput = {
-    id?: string
-    name: string
-    slug: string
-    plan?: $Enums.Plan
-    createdAt?: Date | string
-    updatedAt?: Date | string
-    users?: UserCreateNestedManyWithoutOrganizationInput
-    channelProfiles?: ChannelProfileCreateNestedManyWithoutOrganizationInput
-    contentProjects?: ContentProjectCreateNestedManyWithoutOrganizationInput
-    trendAnalyses?: TrendAnalysisCreateNestedManyWithoutOrganizationInput
-    scripts?: ScriptCreateNestedManyWithoutOrganizationInput
-    mediaSuggestions?: MediaSuggestionCreateNestedManyWithoutOrganizationInput
-    publicationMetadata?: PublicationMetadataCreateNestedManyWithoutOrganizationInput
-    exportJobs?: ExportJobCreateNestedManyWithoutOrganizationInput
-  }
-
-  export type OrganizationUncheckedCreateWithoutNarrationsInput = {
-    id?: string
-    name: string
-    slug: string
-    plan?: $Enums.Plan
-    createdAt?: Date | string
-    updatedAt?: Date | string
-    users?: UserUncheckedCreateNestedManyWithoutOrganizationInput
-    channelProfiles?: ChannelProfileUncheckedCreateNestedManyWithoutOrganizationInput
-    contentProjects?: ContentProjectUncheckedCreateNestedManyWithoutOrganizationInput
-    trendAnalyses?: TrendAnalysisUncheckedCreateNestedManyWithoutOrganizationInput
-    scripts?: ScriptUncheckedCreateNestedManyWithoutOrganizationInput
-    mediaSuggestions?: MediaSuggestionUncheckedCreateNestedManyWithoutOrganizationInput
-    publicationMetadata?: PublicationMetadataUncheckedCreateNestedManyWithoutOrganizationInput
-    exportJobs?: ExportJobUncheckedCreateNestedManyWithoutOrganizationInput
-  }
-
-  export type OrganizationCreateOrConnectWithoutNarrationsInput = {
-    where: OrganizationWhereUniqueInput
-    create: XOR<OrganizationCreateWithoutNarrationsInput, OrganizationUncheckedCreateWithoutNarrationsInput>
+  export type NarrationScalarWhereInput = {
+    AND?: NarrationScalarWhereInput | NarrationScalarWhereInput[]
+    OR?: NarrationScalarWhereInput[]
+    NOT?: NarrationScalarWhereInput | NarrationScalarWhereInput[]
+    id?: StringFilter<"Narration"> | string
+    scriptId?: StringFilter<"Narration"> | string
+    provider?: EnumTtsProviderFilter<"Narration"> | $Enums.TtsProvider
+    voiceId?: StringNullableFilter<"Narration"> | string | null
+    tone?: EnumContentToneNullableFilter<"Narration"> | $Enums.ContentTone | null
+    speed?: FloatNullableFilter<"Narration"> | number | null
+    audioUrl?: StringNullableFilter<"Narration"> | string | null
+    durationSec?: FloatNullableFilter<"Narration"> | number | null
+    status?: EnumJobStatusFilter<"Narration"> | $Enums.JobStatus
+    createdAt?: DateTimeFilter<"Narration"> | Date | string
+    updatedAt?: DateTimeFilter<"Narration"> | Date | string
   }
 
   export type ScriptCreateWithoutNarrationsInput = {
     id?: string
+    trendAnalysisId?: string | null
+    status?: $Enums.ScriptStatus
+    formatType: $Enums.FormatType
     blocks: JsonNullValueInput | InputJsonValue
     wordCount?: number | null
-    estimatedDurationSecs?: number | null
-    version?: number
+    estimatedDurationSec?: number | null
+    originalityScore?: number | null
+    estimatedCostBrl?: number | null
     createdAt?: Date | string
     updatedAt?: Date | string
-    organization: OrganizationCreateNestedOneWithoutScriptsInput
     contentProject: ContentProjectCreateNestedOneWithoutScriptsInput
   }
 
   export type ScriptUncheckedCreateWithoutNarrationsInput = {
     id?: string
-    organizationId: string
     projectId: string
+    trendAnalysisId?: string | null
+    status?: $Enums.ScriptStatus
+    formatType: $Enums.FormatType
     blocks: JsonNullValueInput | InputJsonValue
     wordCount?: number | null
-    estimatedDurationSecs?: number | null
-    version?: number
+    estimatedDurationSec?: number | null
+    originalityScore?: number | null
+    estimatedCostBrl?: number | null
     createdAt?: Date | string
     updatedAt?: Date | string
   }
@@ -21981,51 +21694,6 @@ export namespace Prisma {
   export type ScriptCreateOrConnectWithoutNarrationsInput = {
     where: ScriptWhereUniqueInput
     create: XOR<ScriptCreateWithoutNarrationsInput, ScriptUncheckedCreateWithoutNarrationsInput>
-  }
-
-  export type OrganizationUpsertWithoutNarrationsInput = {
-    update: XOR<OrganizationUpdateWithoutNarrationsInput, OrganizationUncheckedUpdateWithoutNarrationsInput>
-    create: XOR<OrganizationCreateWithoutNarrationsInput, OrganizationUncheckedCreateWithoutNarrationsInput>
-    where?: OrganizationWhereInput
-  }
-
-  export type OrganizationUpdateToOneWithWhereWithoutNarrationsInput = {
-    where?: OrganizationWhereInput
-    data: XOR<OrganizationUpdateWithoutNarrationsInput, OrganizationUncheckedUpdateWithoutNarrationsInput>
-  }
-
-  export type OrganizationUpdateWithoutNarrationsInput = {
-    id?: StringFieldUpdateOperationsInput | string
-    name?: StringFieldUpdateOperationsInput | string
-    slug?: StringFieldUpdateOperationsInput | string
-    plan?: EnumPlanFieldUpdateOperationsInput | $Enums.Plan
-    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    users?: UserUpdateManyWithoutOrganizationNestedInput
-    channelProfiles?: ChannelProfileUpdateManyWithoutOrganizationNestedInput
-    contentProjects?: ContentProjectUpdateManyWithoutOrganizationNestedInput
-    trendAnalyses?: TrendAnalysisUpdateManyWithoutOrganizationNestedInput
-    scripts?: ScriptUpdateManyWithoutOrganizationNestedInput
-    mediaSuggestions?: MediaSuggestionUpdateManyWithoutOrganizationNestedInput
-    publicationMetadata?: PublicationMetadataUpdateManyWithoutOrganizationNestedInput
-    exportJobs?: ExportJobUpdateManyWithoutOrganizationNestedInput
-  }
-
-  export type OrganizationUncheckedUpdateWithoutNarrationsInput = {
-    id?: StringFieldUpdateOperationsInput | string
-    name?: StringFieldUpdateOperationsInput | string
-    slug?: StringFieldUpdateOperationsInput | string
-    plan?: EnumPlanFieldUpdateOperationsInput | $Enums.Plan
-    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    users?: UserUncheckedUpdateManyWithoutOrganizationNestedInput
-    channelProfiles?: ChannelProfileUncheckedUpdateManyWithoutOrganizationNestedInput
-    contentProjects?: ContentProjectUncheckedUpdateManyWithoutOrganizationNestedInput
-    trendAnalyses?: TrendAnalysisUncheckedUpdateManyWithoutOrganizationNestedInput
-    scripts?: ScriptUncheckedUpdateManyWithoutOrganizationNestedInput
-    mediaSuggestions?: MediaSuggestionUncheckedUpdateManyWithoutOrganizationNestedInput
-    publicationMetadata?: PublicationMetadataUncheckedUpdateManyWithoutOrganizationNestedInput
-    exportJobs?: ExportJobUncheckedUpdateManyWithoutOrganizationNestedInput
   }
 
   export type ScriptUpsertWithoutNarrationsInput = {
@@ -22041,24 +21709,30 @@ export namespace Prisma {
 
   export type ScriptUpdateWithoutNarrationsInput = {
     id?: StringFieldUpdateOperationsInput | string
+    trendAnalysisId?: NullableStringFieldUpdateOperationsInput | string | null
+    status?: EnumScriptStatusFieldUpdateOperationsInput | $Enums.ScriptStatus
+    formatType?: EnumFormatTypeFieldUpdateOperationsInput | $Enums.FormatType
     blocks?: JsonNullValueInput | InputJsonValue
     wordCount?: NullableIntFieldUpdateOperationsInput | number | null
-    estimatedDurationSecs?: NullableIntFieldUpdateOperationsInput | number | null
-    version?: IntFieldUpdateOperationsInput | number
+    estimatedDurationSec?: NullableIntFieldUpdateOperationsInput | number | null
+    originalityScore?: NullableFloatFieldUpdateOperationsInput | number | null
+    estimatedCostBrl?: NullableFloatFieldUpdateOperationsInput | number | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    organization?: OrganizationUpdateOneRequiredWithoutScriptsNestedInput
     contentProject?: ContentProjectUpdateOneRequiredWithoutScriptsNestedInput
   }
 
   export type ScriptUncheckedUpdateWithoutNarrationsInput = {
     id?: StringFieldUpdateOperationsInput | string
-    organizationId?: StringFieldUpdateOperationsInput | string
     projectId?: StringFieldUpdateOperationsInput | string
+    trendAnalysisId?: NullableStringFieldUpdateOperationsInput | string | null
+    status?: EnumScriptStatusFieldUpdateOperationsInput | $Enums.ScriptStatus
+    formatType?: EnumFormatTypeFieldUpdateOperationsInput | $Enums.FormatType
     blocks?: JsonNullValueInput | InputJsonValue
     wordCount?: NullableIntFieldUpdateOperationsInput | number | null
-    estimatedDurationSecs?: NullableIntFieldUpdateOperationsInput | number | null
-    version?: IntFieldUpdateOperationsInput | number
+    estimatedDurationSec?: NullableIntFieldUpdateOperationsInput | number | null
+    originalityScore?: NullableFloatFieldUpdateOperationsInput | number | null
+    estimatedCostBrl?: NullableFloatFieldUpdateOperationsInput | number | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
@@ -22074,8 +21748,6 @@ export namespace Prisma {
     channelProfiles?: ChannelProfileCreateNestedManyWithoutOrganizationInput
     contentProjects?: ContentProjectCreateNestedManyWithoutOrganizationInput
     trendAnalyses?: TrendAnalysisCreateNestedManyWithoutOrganizationInput
-    scripts?: ScriptCreateNestedManyWithoutOrganizationInput
-    narrations?: NarrationCreateNestedManyWithoutOrganizationInput
     publicationMetadata?: PublicationMetadataCreateNestedManyWithoutOrganizationInput
     exportJobs?: ExportJobCreateNestedManyWithoutOrganizationInput
   }
@@ -22091,8 +21763,6 @@ export namespace Prisma {
     channelProfiles?: ChannelProfileUncheckedCreateNestedManyWithoutOrganizationInput
     contentProjects?: ContentProjectUncheckedCreateNestedManyWithoutOrganizationInput
     trendAnalyses?: TrendAnalysisUncheckedCreateNestedManyWithoutOrganizationInput
-    scripts?: ScriptUncheckedCreateNestedManyWithoutOrganizationInput
-    narrations?: NarrationUncheckedCreateNestedManyWithoutOrganizationInput
     publicationMetadata?: PublicationMetadataUncheckedCreateNestedManyWithoutOrganizationInput
     exportJobs?: ExportJobUncheckedCreateNestedManyWithoutOrganizationInput
   }
@@ -22165,8 +21835,6 @@ export namespace Prisma {
     channelProfiles?: ChannelProfileUpdateManyWithoutOrganizationNestedInput
     contentProjects?: ContentProjectUpdateManyWithoutOrganizationNestedInput
     trendAnalyses?: TrendAnalysisUpdateManyWithoutOrganizationNestedInput
-    scripts?: ScriptUpdateManyWithoutOrganizationNestedInput
-    narrations?: NarrationUpdateManyWithoutOrganizationNestedInput
     publicationMetadata?: PublicationMetadataUpdateManyWithoutOrganizationNestedInput
     exportJobs?: ExportJobUpdateManyWithoutOrganizationNestedInput
   }
@@ -22182,8 +21850,6 @@ export namespace Prisma {
     channelProfiles?: ChannelProfileUncheckedUpdateManyWithoutOrganizationNestedInput
     contentProjects?: ContentProjectUncheckedUpdateManyWithoutOrganizationNestedInput
     trendAnalyses?: TrendAnalysisUncheckedUpdateManyWithoutOrganizationNestedInput
-    scripts?: ScriptUncheckedUpdateManyWithoutOrganizationNestedInput
-    narrations?: NarrationUncheckedUpdateManyWithoutOrganizationNestedInput
     publicationMetadata?: PublicationMetadataUncheckedUpdateManyWithoutOrganizationNestedInput
     exportJobs?: ExportJobUncheckedUpdateManyWithoutOrganizationNestedInput
   }
@@ -22246,8 +21912,6 @@ export namespace Prisma {
     channelProfiles?: ChannelProfileCreateNestedManyWithoutOrganizationInput
     contentProjects?: ContentProjectCreateNestedManyWithoutOrganizationInput
     trendAnalyses?: TrendAnalysisCreateNestedManyWithoutOrganizationInput
-    scripts?: ScriptCreateNestedManyWithoutOrganizationInput
-    narrations?: NarrationCreateNestedManyWithoutOrganizationInput
     mediaSuggestions?: MediaSuggestionCreateNestedManyWithoutOrganizationInput
     exportJobs?: ExportJobCreateNestedManyWithoutOrganizationInput
   }
@@ -22263,8 +21927,6 @@ export namespace Prisma {
     channelProfiles?: ChannelProfileUncheckedCreateNestedManyWithoutOrganizationInput
     contentProjects?: ContentProjectUncheckedCreateNestedManyWithoutOrganizationInput
     trendAnalyses?: TrendAnalysisUncheckedCreateNestedManyWithoutOrganizationInput
-    scripts?: ScriptUncheckedCreateNestedManyWithoutOrganizationInput
-    narrations?: NarrationUncheckedCreateNestedManyWithoutOrganizationInput
     mediaSuggestions?: MediaSuggestionUncheckedCreateNestedManyWithoutOrganizationInput
     exportJobs?: ExportJobUncheckedCreateNestedManyWithoutOrganizationInput
   }
@@ -22337,8 +21999,6 @@ export namespace Prisma {
     channelProfiles?: ChannelProfileUpdateManyWithoutOrganizationNestedInput
     contentProjects?: ContentProjectUpdateManyWithoutOrganizationNestedInput
     trendAnalyses?: TrendAnalysisUpdateManyWithoutOrganizationNestedInput
-    scripts?: ScriptUpdateManyWithoutOrganizationNestedInput
-    narrations?: NarrationUpdateManyWithoutOrganizationNestedInput
     mediaSuggestions?: MediaSuggestionUpdateManyWithoutOrganizationNestedInput
     exportJobs?: ExportJobUpdateManyWithoutOrganizationNestedInput
   }
@@ -22354,8 +22014,6 @@ export namespace Prisma {
     channelProfiles?: ChannelProfileUncheckedUpdateManyWithoutOrganizationNestedInput
     contentProjects?: ContentProjectUncheckedUpdateManyWithoutOrganizationNestedInput
     trendAnalyses?: TrendAnalysisUncheckedUpdateManyWithoutOrganizationNestedInput
-    scripts?: ScriptUncheckedUpdateManyWithoutOrganizationNestedInput
-    narrations?: NarrationUncheckedUpdateManyWithoutOrganizationNestedInput
     mediaSuggestions?: MediaSuggestionUncheckedUpdateManyWithoutOrganizationNestedInput
     exportJobs?: ExportJobUncheckedUpdateManyWithoutOrganizationNestedInput
   }
@@ -22418,8 +22076,6 @@ export namespace Prisma {
     channelProfiles?: ChannelProfileCreateNestedManyWithoutOrganizationInput
     contentProjects?: ContentProjectCreateNestedManyWithoutOrganizationInput
     trendAnalyses?: TrendAnalysisCreateNestedManyWithoutOrganizationInput
-    scripts?: ScriptCreateNestedManyWithoutOrganizationInput
-    narrations?: NarrationCreateNestedManyWithoutOrganizationInput
     mediaSuggestions?: MediaSuggestionCreateNestedManyWithoutOrganizationInput
     publicationMetadata?: PublicationMetadataCreateNestedManyWithoutOrganizationInput
   }
@@ -22435,8 +22091,6 @@ export namespace Prisma {
     channelProfiles?: ChannelProfileUncheckedCreateNestedManyWithoutOrganizationInput
     contentProjects?: ContentProjectUncheckedCreateNestedManyWithoutOrganizationInput
     trendAnalyses?: TrendAnalysisUncheckedCreateNestedManyWithoutOrganizationInput
-    scripts?: ScriptUncheckedCreateNestedManyWithoutOrganizationInput
-    narrations?: NarrationUncheckedCreateNestedManyWithoutOrganizationInput
     mediaSuggestions?: MediaSuggestionUncheckedCreateNestedManyWithoutOrganizationInput
     publicationMetadata?: PublicationMetadataUncheckedCreateNestedManyWithoutOrganizationInput
   }
@@ -22509,8 +22163,6 @@ export namespace Prisma {
     channelProfiles?: ChannelProfileUpdateManyWithoutOrganizationNestedInput
     contentProjects?: ContentProjectUpdateManyWithoutOrganizationNestedInput
     trendAnalyses?: TrendAnalysisUpdateManyWithoutOrganizationNestedInput
-    scripts?: ScriptUpdateManyWithoutOrganizationNestedInput
-    narrations?: NarrationUpdateManyWithoutOrganizationNestedInput
     mediaSuggestions?: MediaSuggestionUpdateManyWithoutOrganizationNestedInput
     publicationMetadata?: PublicationMetadataUpdateManyWithoutOrganizationNestedInput
   }
@@ -22526,8 +22178,6 @@ export namespace Prisma {
     channelProfiles?: ChannelProfileUncheckedUpdateManyWithoutOrganizationNestedInput
     contentProjects?: ContentProjectUncheckedUpdateManyWithoutOrganizationNestedInput
     trendAnalyses?: TrendAnalysisUncheckedUpdateManyWithoutOrganizationNestedInput
-    scripts?: ScriptUncheckedUpdateManyWithoutOrganizationNestedInput
-    narrations?: NarrationUncheckedUpdateManyWithoutOrganizationNestedInput
     mediaSuggestions?: MediaSuggestionUncheckedUpdateManyWithoutOrganizationNestedInput
     publicationMetadata?: PublicationMetadataUncheckedUpdateManyWithoutOrganizationNestedInput
   }
@@ -22622,29 +22272,6 @@ export namespace Prisma {
     data: JsonNullValueInput | InputJsonValue
     analyzedAt?: Date | string
     createdAt?: Date | string
-  }
-
-  export type ScriptCreateManyOrganizationInput = {
-    id?: string
-    projectId: string
-    blocks: JsonNullValueInput | InputJsonValue
-    wordCount?: number | null
-    estimatedDurationSecs?: number | null
-    version?: number
-    createdAt?: Date | string
-    updatedAt?: Date | string
-  }
-
-  export type NarrationCreateManyOrganizationInput = {
-    id?: string
-    scriptId: string
-    provider: $Enums.TtsProvider
-    voiceId?: string | null
-    audioUrl?: string | null
-    durationSecs?: number | null
-    status?: $Enums.JobStatus
-    createdAt?: Date | string
-    updatedAt?: Date | string
   }
 
   export type MediaSuggestionCreateManyOrganizationInput = {
@@ -22833,77 +22460,6 @@ export namespace Prisma {
     data?: JsonNullValueInput | InputJsonValue
     analyzedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
-  }
-
-  export type ScriptUpdateWithoutOrganizationInput = {
-    id?: StringFieldUpdateOperationsInput | string
-    blocks?: JsonNullValueInput | InputJsonValue
-    wordCount?: NullableIntFieldUpdateOperationsInput | number | null
-    estimatedDurationSecs?: NullableIntFieldUpdateOperationsInput | number | null
-    version?: IntFieldUpdateOperationsInput | number
-    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    contentProject?: ContentProjectUpdateOneRequiredWithoutScriptsNestedInput
-    narrations?: NarrationUpdateManyWithoutScriptNestedInput
-  }
-
-  export type ScriptUncheckedUpdateWithoutOrganizationInput = {
-    id?: StringFieldUpdateOperationsInput | string
-    projectId?: StringFieldUpdateOperationsInput | string
-    blocks?: JsonNullValueInput | InputJsonValue
-    wordCount?: NullableIntFieldUpdateOperationsInput | number | null
-    estimatedDurationSecs?: NullableIntFieldUpdateOperationsInput | number | null
-    version?: IntFieldUpdateOperationsInput | number
-    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    narrations?: NarrationUncheckedUpdateManyWithoutScriptNestedInput
-  }
-
-  export type ScriptUncheckedUpdateManyWithoutOrganizationInput = {
-    id?: StringFieldUpdateOperationsInput | string
-    projectId?: StringFieldUpdateOperationsInput | string
-    blocks?: JsonNullValueInput | InputJsonValue
-    wordCount?: NullableIntFieldUpdateOperationsInput | number | null
-    estimatedDurationSecs?: NullableIntFieldUpdateOperationsInput | number | null
-    version?: IntFieldUpdateOperationsInput | number
-    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
-  }
-
-  export type NarrationUpdateWithoutOrganizationInput = {
-    id?: StringFieldUpdateOperationsInput | string
-    provider?: EnumTtsProviderFieldUpdateOperationsInput | $Enums.TtsProvider
-    voiceId?: NullableStringFieldUpdateOperationsInput | string | null
-    audioUrl?: NullableStringFieldUpdateOperationsInput | string | null
-    durationSecs?: NullableFloatFieldUpdateOperationsInput | number | null
-    status?: EnumJobStatusFieldUpdateOperationsInput | $Enums.JobStatus
-    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    script?: ScriptUpdateOneRequiredWithoutNarrationsNestedInput
-  }
-
-  export type NarrationUncheckedUpdateWithoutOrganizationInput = {
-    id?: StringFieldUpdateOperationsInput | string
-    scriptId?: StringFieldUpdateOperationsInput | string
-    provider?: EnumTtsProviderFieldUpdateOperationsInput | $Enums.TtsProvider
-    voiceId?: NullableStringFieldUpdateOperationsInput | string | null
-    audioUrl?: NullableStringFieldUpdateOperationsInput | string | null
-    durationSecs?: NullableFloatFieldUpdateOperationsInput | number | null
-    status?: EnumJobStatusFieldUpdateOperationsInput | $Enums.JobStatus
-    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
-  }
-
-  export type NarrationUncheckedUpdateManyWithoutOrganizationInput = {
-    id?: StringFieldUpdateOperationsInput | string
-    scriptId?: StringFieldUpdateOperationsInput | string
-    provider?: EnumTtsProviderFieldUpdateOperationsInput | $Enums.TtsProvider
-    voiceId?: NullableStringFieldUpdateOperationsInput | string | null
-    audioUrl?: NullableStringFieldUpdateOperationsInput | string | null
-    durationSecs?: NullableFloatFieldUpdateOperationsInput | number | null
-    status?: EnumJobStatusFieldUpdateOperationsInput | $Enums.JobStatus
-    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
   export type MediaSuggestionUpdateWithoutOrganizationInput = {
@@ -23172,11 +22728,14 @@ export namespace Prisma {
 
   export type ScriptCreateManyContentProjectInput = {
     id?: string
-    organizationId: string
+    trendAnalysisId?: string | null
+    status?: $Enums.ScriptStatus
+    formatType: $Enums.FormatType
     blocks: JsonNullValueInput | InputJsonValue
     wordCount?: number | null
-    estimatedDurationSecs?: number | null
-    version?: number
+    estimatedDurationSec?: number | null
+    originalityScore?: number | null
+    estimatedCostBrl?: number | null
     createdAt?: Date | string
     updatedAt?: Date | string
   }
@@ -23247,23 +22806,29 @@ export namespace Prisma {
 
   export type ScriptUpdateWithoutContentProjectInput = {
     id?: StringFieldUpdateOperationsInput | string
+    trendAnalysisId?: NullableStringFieldUpdateOperationsInput | string | null
+    status?: EnumScriptStatusFieldUpdateOperationsInput | $Enums.ScriptStatus
+    formatType?: EnumFormatTypeFieldUpdateOperationsInput | $Enums.FormatType
     blocks?: JsonNullValueInput | InputJsonValue
     wordCount?: NullableIntFieldUpdateOperationsInput | number | null
-    estimatedDurationSecs?: NullableIntFieldUpdateOperationsInput | number | null
-    version?: IntFieldUpdateOperationsInput | number
+    estimatedDurationSec?: NullableIntFieldUpdateOperationsInput | number | null
+    originalityScore?: NullableFloatFieldUpdateOperationsInput | number | null
+    estimatedCostBrl?: NullableFloatFieldUpdateOperationsInput | number | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    organization?: OrganizationUpdateOneRequiredWithoutScriptsNestedInput
     narrations?: NarrationUpdateManyWithoutScriptNestedInput
   }
 
   export type ScriptUncheckedUpdateWithoutContentProjectInput = {
     id?: StringFieldUpdateOperationsInput | string
-    organizationId?: StringFieldUpdateOperationsInput | string
+    trendAnalysisId?: NullableStringFieldUpdateOperationsInput | string | null
+    status?: EnumScriptStatusFieldUpdateOperationsInput | $Enums.ScriptStatus
+    formatType?: EnumFormatTypeFieldUpdateOperationsInput | $Enums.FormatType
     blocks?: JsonNullValueInput | InputJsonValue
     wordCount?: NullableIntFieldUpdateOperationsInput | number | null
-    estimatedDurationSecs?: NullableIntFieldUpdateOperationsInput | number | null
-    version?: IntFieldUpdateOperationsInput | number
+    estimatedDurationSec?: NullableIntFieldUpdateOperationsInput | number | null
+    originalityScore?: NullableFloatFieldUpdateOperationsInput | number | null
+    estimatedCostBrl?: NullableFloatFieldUpdateOperationsInput | number | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     narrations?: NarrationUncheckedUpdateManyWithoutScriptNestedInput
@@ -23271,11 +22836,14 @@ export namespace Prisma {
 
   export type ScriptUncheckedUpdateManyWithoutContentProjectInput = {
     id?: StringFieldUpdateOperationsInput | string
-    organizationId?: StringFieldUpdateOperationsInput | string
+    trendAnalysisId?: NullableStringFieldUpdateOperationsInput | string | null
+    status?: EnumScriptStatusFieldUpdateOperationsInput | $Enums.ScriptStatus
+    formatType?: EnumFormatTypeFieldUpdateOperationsInput | $Enums.FormatType
     blocks?: JsonNullValueInput | InputJsonValue
     wordCount?: NullableIntFieldUpdateOperationsInput | number | null
-    estimatedDurationSecs?: NullableIntFieldUpdateOperationsInput | number | null
-    version?: IntFieldUpdateOperationsInput | number
+    estimatedDurationSec?: NullableIntFieldUpdateOperationsInput | number | null
+    originalityScore?: NullableFloatFieldUpdateOperationsInput | number | null
+    estimatedCostBrl?: NullableFloatFieldUpdateOperationsInput | number | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
@@ -23393,11 +22961,12 @@ export namespace Prisma {
 
   export type NarrationCreateManyScriptInput = {
     id?: string
-    organizationId: string
     provider: $Enums.TtsProvider
     voiceId?: string | null
+    tone?: $Enums.ContentTone | null
+    speed?: number | null
     audioUrl?: string | null
-    durationSecs?: number | null
+    durationSec?: number | null
     status?: $Enums.JobStatus
     createdAt?: Date | string
     updatedAt?: Date | string
@@ -23407,21 +22976,23 @@ export namespace Prisma {
     id?: StringFieldUpdateOperationsInput | string
     provider?: EnumTtsProviderFieldUpdateOperationsInput | $Enums.TtsProvider
     voiceId?: NullableStringFieldUpdateOperationsInput | string | null
+    tone?: NullableEnumContentToneFieldUpdateOperationsInput | $Enums.ContentTone | null
+    speed?: NullableFloatFieldUpdateOperationsInput | number | null
     audioUrl?: NullableStringFieldUpdateOperationsInput | string | null
-    durationSecs?: NullableFloatFieldUpdateOperationsInput | number | null
+    durationSec?: NullableFloatFieldUpdateOperationsInput | number | null
     status?: EnumJobStatusFieldUpdateOperationsInput | $Enums.JobStatus
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    organization?: OrganizationUpdateOneRequiredWithoutNarrationsNestedInput
   }
 
   export type NarrationUncheckedUpdateWithoutScriptInput = {
     id?: StringFieldUpdateOperationsInput | string
-    organizationId?: StringFieldUpdateOperationsInput | string
     provider?: EnumTtsProviderFieldUpdateOperationsInput | $Enums.TtsProvider
     voiceId?: NullableStringFieldUpdateOperationsInput | string | null
+    tone?: NullableEnumContentToneFieldUpdateOperationsInput | $Enums.ContentTone | null
+    speed?: NullableFloatFieldUpdateOperationsInput | number | null
     audioUrl?: NullableStringFieldUpdateOperationsInput | string | null
-    durationSecs?: NullableFloatFieldUpdateOperationsInput | number | null
+    durationSec?: NullableFloatFieldUpdateOperationsInput | number | null
     status?: EnumJobStatusFieldUpdateOperationsInput | $Enums.JobStatus
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -23429,11 +23000,12 @@ export namespace Prisma {
 
   export type NarrationUncheckedUpdateManyWithoutScriptInput = {
     id?: StringFieldUpdateOperationsInput | string
-    organizationId?: StringFieldUpdateOperationsInput | string
     provider?: EnumTtsProviderFieldUpdateOperationsInput | $Enums.TtsProvider
     voiceId?: NullableStringFieldUpdateOperationsInput | string | null
+    tone?: NullableEnumContentToneFieldUpdateOperationsInput | $Enums.ContentTone | null
+    speed?: NullableFloatFieldUpdateOperationsInput | number | null
     audioUrl?: NullableStringFieldUpdateOperationsInput | string | null
-    durationSecs?: NullableFloatFieldUpdateOperationsInput | number | null
+    durationSec?: NullableFloatFieldUpdateOperationsInput | number | null
     status?: EnumJobStatusFieldUpdateOperationsInput | $Enums.JobStatus
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string

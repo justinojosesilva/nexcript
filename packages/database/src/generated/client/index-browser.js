@@ -188,24 +188,28 @@ exports.Prisma.TrendAnalysisScalarFieldEnum = {
 
 exports.Prisma.ScriptScalarFieldEnum = {
   id: 'id',
-  organizationId: 'organizationId',
   projectId: 'projectId',
+  trendAnalysisId: 'trendAnalysisId',
+  status: 'status',
+  formatType: 'formatType',
   blocks: 'blocks',
   wordCount: 'wordCount',
-  estimatedDurationSecs: 'estimatedDurationSecs',
-  version: 'version',
+  estimatedDurationSec: 'estimatedDurationSec',
+  originalityScore: 'originalityScore',
+  estimatedCostBrl: 'estimatedCostBrl',
   createdAt: 'createdAt',
   updatedAt: 'updatedAt'
 };
 
 exports.Prisma.NarrationScalarFieldEnum = {
   id: 'id',
-  organizationId: 'organizationId',
   scriptId: 'scriptId',
   provider: 'provider',
   voiceId: 'voiceId',
+  tone: 'tone',
+  speed: 'speed',
   audioUrl: 'audioUrl',
-  durationSecs: 'durationSecs',
+  durationSec: 'durationSec',
   status: 'status',
   createdAt: 'createdAt',
   updatedAt: 'updatedAt'
@@ -352,6 +356,13 @@ exports.ProjectStatus = exports.$Enums.ProjectStatus = {
   active: 'active',
   paused: 'paused',
   archived: 'archived'
+};
+
+exports.ScriptStatus = exports.$Enums.ScriptStatus = {
+  draft: 'draft',
+  reviewing: 'reviewing',
+  approved: 'approved',
+  published: 'published'
 };
 
 exports.TtsProvider = exports.$Enums.TtsProvider = {

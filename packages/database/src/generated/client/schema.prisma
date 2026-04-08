@@ -77,6 +77,13 @@ enum JobStatus {
   cancelled
 }
 
+enum ScriptStatus {
+  draft
+  reviewing
+  approved
+  published
+}
+
 enum TtsProvider {
   google
   microsoft
@@ -133,8 +140,6 @@ model Organization {
   channelProfiles     ChannelProfile[]
   contentProjects     ContentProject[]
   trendAnalyses       TrendAnalysis[]
-  scripts             Script[]
-  narrations          Narration[]
   mediaSuggestions    MediaSuggestion[]
   publicationMetadata PublicationMetadata[]
   exportJobs          ExportJob[]
@@ -239,41 +244,41 @@ model TrendAnalysis {
 }
 
 model Script {
-  id                    String   @id @default(cuid())
-  organizationId        String
-  projectId             String
-  blocks                Json
-  wordCount             Int?
-  estimatedDurationSecs Int?
-  version               Int      @default(1)
-  createdAt             DateTime @default(now())
-  updatedAt             DateTime @updatedAt
+  id                   String       @id @default(cuid())
+  projectId            String
+  trendAnalysisId      String?
+  status               ScriptStatus @default(draft)
+  formatType           FormatType
+  blocks               Json
+  wordCount            Int?
+  estimatedDurationSec Int?
+  originalityScore     Float?
+  estimatedCostBrl     Float?
+  createdAt            DateTime     @default(now())
+  updatedAt            DateTime     @updatedAt
 
-  organization   Organization   @relation(fields: [organizationId], references: [id])
   contentProject ContentProject @relation(fields: [projectId], references: [id])
   narrations     Narration[]
 
-  @@index([organizationId])
   @@index([projectId])
   @@map("scripts")
 }
 
 model Narration {
-  id             String      @id @default(cuid())
-  organizationId String
-  scriptId       String
-  provider       TtsProvider
-  voiceId        String?
-  audioUrl       String?
-  durationSecs   Float?
-  status         JobStatus   @default(pending)
-  createdAt      DateTime    @default(now())
-  updatedAt      DateTime    @updatedAt
+  id          String       @id @default(cuid())
+  scriptId    String
+  provider    TtsProvider
+  voiceId     String?
+  tone        ContentTone?
+  speed       Float?       @default(1.0)
+  audioUrl    String?
+  durationSec Float?
+  status      JobStatus    @default(pending)
+  createdAt   DateTime     @default(now())
+  updatedAt   DateTime     @updatedAt
 
-  organization Organization @relation(fields: [organizationId], references: [id])
-  script       Script       @relation(fields: [scriptId], references: [id])
+  script Script @relation(fields: [scriptId], references: [id])
 
-  @@index([organizationId])
   @@index([scriptId])
   @@map("narrations")
 }

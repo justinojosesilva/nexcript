@@ -2,6 +2,7 @@
 export * from './scripts/finance-script.prompt.js';
 export * from './scripts/ai-script.prompt.js';
 export * from './scripts/productivity-script.prompt.js';
+export * from './scripts/generic-script.prompt.js';
 
 // Titles
 export * from './titles/youtube-title.prompt.js';

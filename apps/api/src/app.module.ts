@@ -15,6 +15,7 @@ import { JwtAuthGuard } from './auth/guards/jwt-auth.guard';
 import { CacheModule } from './cache/cache.module';
 import { ScoringModule } from './scoring/scoring.module';
 import { TrendsModule } from './trends/trends.module';
+import { ScriptsModule } from './scripts/scripts.module';
 
 @Module({
   imports: [
@@ -33,6 +34,7 @@ import { TrendsModule } from './trends/trends.module';
     AuthModule,
     ChannelsModule,
     ProjectsModule,
+    ScriptsModule,
     BullmqModule,
     JobsModule,
   ],
