@@ -4,7 +4,7 @@ import { useParams, useRouter } from 'next/navigation';
 import { useQuery } from '@tanstack/react-query';
 import { ArrowLeft } from 'lucide-react';
 import { fetchProject } from '@/lib/projects-client';
-import { ScriptEditor } from '@/components/script-editor';
+import { ScriptsList } from '@/components/scripts-list';
 
 const STATUS_COLORS: Record<string, string> = {
   planning: 'bg-blue-500/20 text-blue-300',
@@ -163,15 +163,8 @@ export default function ProjectPage() {
           </div>
         </div>
 
-        {/* Script Editor Section */}
-        <div>
-          <h2 className="mb-6 font-display text-2xl font-bold text-white">
-            Roteiro do Vídeo
-          </h2>
-          <div className="rounded-lg border border-neutral-800 bg-neutral-800/50 p-8">
-            <ScriptEditor projectId={id} />
-          </div>
-        </div>
+        {/* Scripts List Section */}
+        <ScriptsList projectId={id} />
       </div>
     </div>
   );
