@@ -1,7 +1,14 @@
 export interface JobStatusResponse {
-  id: string;
+  jobId: string;
   status: 'PENDING' | 'PROCESSING' | 'DONE' | 'FAILED';
+  type: 'generate-script' | 'generate-narration' | 'analyze-trends' | 'health-check';
   progress?: number;
-  data?: unknown;
-  failedReason?: string;
+  result?: {
+    scriptId?: string;
+    narrationId?: string;
+    [key: string]: unknown;
+  };
+  errorMessage?: string;
+  createdAt: Date;
+  updatedAt: Date;
 }
