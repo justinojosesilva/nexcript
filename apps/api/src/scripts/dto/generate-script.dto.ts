@@ -3,7 +3,11 @@ import { IsString, IsEnum, IsOptional } from 'class-validator';
 
 export class GenerateScriptDto {
   @IsString()
-  projectId: string;
+  projectId?: string;
+
+  @IsString()
+  @IsOptional()
+  organizationId?: string;
 
   @IsString()
   @IsOptional()

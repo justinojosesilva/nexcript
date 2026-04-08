@@ -2,8 +2,9 @@
 
 import { useParams, useRouter } from 'next/navigation';
 import { useQuery } from '@tanstack/react-query';
-import { ArrowLeft, Zap } from 'lucide-react';
+import { ArrowLeft } from 'lucide-react';
 import { fetchProject } from '@/lib/projects-client';
+import { ScriptEditor } from '@/components/script-editor';
 
 const STATUS_COLORS: Record<string, string> = {
   planning: 'bg-blue-500/20 text-blue-300',
@@ -162,17 +163,14 @@ export default function ProjectPage() {
           </div>
         </div>
 
-        {/* AI Actions Placeholder */}
-        <div className="rounded-lg border-2 border-dashed border-neutral-700 p-10 text-center">
-          <div className="mx-auto mb-4 flex h-12 w-12 items-center justify-center rounded-full bg-purple-500/10">
-            <Zap className="h-6 w-6 text-purple-400" />
+        {/* Script Editor Section */}
+        <div>
+          <h2 className="mb-6 font-display text-2xl font-bold text-white">
+            Roteiro do Vídeo
+          </h2>
+          <div className="rounded-lg border border-neutral-800 bg-neutral-800/50 p-8">
+            <ScriptEditor projectId={id} />
           </div>
-          <h3 className="mb-2 font-display text-lg font-semibold text-white">
-            Gerar conteúdo com IA
-          </h3>
-          <p className="text-sm text-neutral-400">
-            Roteiros, títulos, thumbnails e narração estarão disponíveis em breve.
-          </p>
         </div>
       </div>
     </div>
