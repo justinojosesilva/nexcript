@@ -27,6 +27,16 @@ const jobsQueue = new Queue(QUEUE_NAME, {
   },
 });
 
+// Special handling for narration jobs with different retry policy
+const narrationJobOptions = {
+  attempts: 2, // Only 2 retries for narration
+  backoff: {
+    type: 'exponential' as const,
+    delay: 2000,
+  },
+  removeOnComplete: false,
+};
+
 // Job processor for health-check jobs
 async function processHealthCheckJob(job: Job): Promise<{ status: string }> {
   console.log(`[Worker] Processing health-check job: ${job.id}`);
@@ -129,6 +139,57 @@ async function processGenerateScriptJob(job: Job): Promise<unknown> {
   }
 }
 
+// Job processor for narration jobs
+async function processNarrationJob(job: Job): Promise<unknown> {
+  console.log(`[Worker] Processing narration job: ${job.id}`);
+
+  const jobData = job.data as Record<string, unknown>;
+  const {
+    narrationId,
+    organizationId,
+    scriptBlocks,
+    tone,
+    voiceId,
+    speed,
+  } = jobData;
+
+  try {
+    // Update progress: starting
+    await job.updateProgress(20);
+
+    // Call the internal API endpoint to synthesize narration
+    const response = await axios.post(`${API_URL}/narrations/internal/synthesize`, {
+      organizationId,
+      scriptBlocks,
+      tone,
+      voiceId,
+      speed: speed || 1.0,
+    });
+
+    await job.updateProgress(80);
+
+    // Extract cost information from response
+    const { estimatedCostBrl, durationSec } = response.data;
+    if (estimatedCostBrl) {
+      console.log(
+        `[Worker] Narration synthesized with estimated cost: R$ ${estimatedCostBrl.toFixed(2)}, duration: ${durationSec}s`,
+      );
+    }
+
+    await job.updateProgress(100);
+
+    console.log(`[Worker] Completed narration job: ${job.id}`);
+    return response.data;
+  } catch (error) {
+    const errorMessage = error instanceof Error ? error.message : String(error);
+    console.error(
+      `[Worker] Error calling narration API for job ${job.id}:`,
+      errorMessage,
+    );
+    throw error;
+  }
+}
+
 // Update job status in database for jobs with entity references
 async function updateJobStatusInDatabase(
   job: Job,
@@ -152,6 +213,85 @@ async function updateJobStatusInDatabase(
     }
   }
 
+  // If job is narration, handle narration status and project status updates
+  if (job.name === 'generate-narration' && jobData.narrationId && typeof jobData.narrationId === 'string') {
+    const narrationId = jobData.narrationId as string;
+    const projectId = jobData.projectId as string;
+
+    // Update Narration entity
+    if (status === 'completed') {
+      // Update narration with audio URL (extracted from job result)
+      const jobResult = (job as any).returnvalue;
+      if (jobResult?.audioUrl) {
+        await prisma.narration.update({
+          where: { id: narrationId },
+          data: {
+            status: 'completed',
+            audioUrl: jobResult.audioUrl,
+            durationSec: jobResult.durationSec || null,
+            updatedAt: new Date(),
+          },
+        });
+      } else {
+        await prisma.narration.update({
+          where: { id: narrationId },
+          data: {
+            status: 'completed',
+            updatedAt: new Date(),
+          },
+        });
+      }
+
+      // Update project status to READY after narration completion
+      if (projectId && typeof projectId === 'string') {
+        await prisma.contentProject.update({
+          where: { id: projectId },
+          data: {
+            status: 'active',
+          },
+        });
+      }
+    } else if (status === 'processing') {
+      // Update Narration status to processing
+      await prisma.narration.update({
+        where: { id: narrationId },
+        data: {
+          status: 'processing',
+          updatedAt: new Date(),
+        },
+      });
+
+      // Update project status to NARRATING
+      if (projectId && typeof projectId === 'string') {
+        await prisma.contentProject.update({
+          where: { id: projectId },
+          data: {
+            status: 'in_review',
+          },
+        });
+      }
+    } else if (status === 'failed') {
+      // On failure: save error message but don't lock project (allow retry)
+      await prisma.narration.update({
+        where: { id: narrationId },
+        data: {
+          status: 'failed',
+          updatedAt: new Date(),
+        },
+      });
+
+      // Revert project status back to in_development so it's not stuck
+      if (projectId && typeof projectId === 'string') {
+        await prisma.contentProject.update({
+          where: { id: projectId },
+          data: {
+            status: 'in_development',
+          },
+        });
+      }
+    }
+  }
+
   // If job has an exportJobId, update ExportJob entity
   if (jobData.exportJobId && typeof jobData.exportJobId === 'string') {
     await prisma.exportJob.update({
@@ -161,17 +301,6 @@ async function updateJobStatusInDatabase(
         errorMessage: errorMessage || null,
         startedAt: status === 'processing' ? new Date() : undefined,
         completedAt: status === 'completed' || status === 'failed' ? new Date() : undefined,
-      },
-    });
-  }
-
-  // If job has a narrationId, update Narration entity
-  if (jobData.narrationId && typeof jobData.narrationId === 'string') {
-    await prisma.narration.update({
-      where: { id: jobData.narrationId },
-      data: {
-        status: status === 'completed' ? 'completed' : status === 'processing' ? 'processing' : 'failed',
-        updatedAt: new Date(),
       },
     });
   }
@@ -200,6 +329,9 @@ const worker = new Worker(
           break;
         case 'generate-script':
           result = await processGenerateScriptJob(job);
+          break;
+        case 'generate-narration':
+          result = await processNarrationJob(job);
           break;
         default:
           throw new Error(`Unknown job type: ${job.name}`);

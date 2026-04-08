@@ -16,6 +16,7 @@ import { CacheModule } from './cache/cache.module';
 import { ScoringModule } from './scoring/scoring.module';
 import { TrendsModule } from './trends/trends.module';
 import { ScriptsModule } from './scripts/scripts.module';
+import { NarrationsModule } from './narrations/narrations.module';
 
 @Module({
   imports: [
@@ -35,6 +36,7 @@ import { ScriptsModule } from './scripts/scripts.module';
     ChannelsModule,
     ProjectsModule,
     ScriptsModule,
+    NarrationsModule,
     BullmqModule,
     JobsModule,
   ],
