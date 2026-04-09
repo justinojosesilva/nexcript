@@ -9,13 +9,13 @@ import { Plus, Zap } from "lucide-react";
 
 function ProjectSkeleton() {
   return (
-    <div className="animate-pulse rounded-lg border border-neutral-700 bg-neutral-800 p-6">
-      <div className="mb-4 h-6 w-2/3 rounded bg-neutral-700" />
-      <div className="mb-2 h-4 w-1/2 rounded bg-neutral-700" />
-      <div className="mb-4 h-4 w-1/3 rounded bg-neutral-700" />
+    <div className="animate-pulse rounded-xl border border-gray-700/30 bg-gray-900/50 p-6">
+      <div className="mb-4 h-6 w-2/3 rounded bg-gray-800" />
+      <div className="mb-2 h-4 w-1/2 rounded bg-gray-800" />
+      <div className="mb-4 h-4 w-1/3 rounded bg-gray-800" />
       <div className="flex gap-2">
-        <div className="h-6 w-20 rounded-full bg-neutral-700" />
-        <div className="h-6 w-20 rounded-full bg-neutral-700" />
+        <div className="h-6 w-20 rounded-full bg-gray-800" />
+        <div className="h-6 w-20 rounded-full bg-gray-800" />
       </div>
     </div>
   );
@@ -25,14 +25,14 @@ function EmptyState() {
   const router = useRouter();
 
   return (
-    <div className="flex flex-col items-center justify-center rounded-lg border-2 border-dashed border-neutral-700 px-12 py-20 text-center">
-      <div className="mb-4 flex h-16 w-16 items-center justify-center rounded-full bg-gradient-to-br from-purple-500/20 to-purple-900/20">
-        <Zap className="h-8 w-8 text-purple-400" />
+    <div className="flex flex-col items-center justify-center rounded-xl border-2 border-dashed border-purple-500/30 px-12 py-20 text-center">
+      <div className="mb-4 flex h-16 w-16 items-center justify-center rounded-full bg-gradient-to-br from-[#7C3AED]/20 to-[#7C3AED]/10">
+        <Zap className="h-8 w-8 text-[#7C3AED]" />
       </div>
-      <h3 className="mb-2 text-xl font-semibold text-white">
+      <h3 className="mb-2 text-xl font-headline font-bold text-white">
         Nenhum projeto criado
       </h3>
-      <p className="mb-6 max-w-sm text-neutral-400">
+      <p className="mb-6 max-w-sm text-gray-400">
         Crie seu primeiro projeto de conteúdo com IA e comece a produzir
         scripts, títulos e roteiros automaticamente.
       </p>
@@ -54,9 +54,9 @@ function ProjectCard({
 }) {
   const statusColors: Record<string, string> = {
     planning: "bg-blue-500/20 text-blue-300",
-    in_development: "bg-yellow-500/20 text-yellow-300",
-    in_review: "bg-purple-500/20 text-purple-300",
-    active: "bg-green-500/20 text-green-300",
+    in_development: "bg-orange-500/20 text-orange-300",
+    in_review: "bg-[#7C3AED]/20 text-[#A78BFA]",
+    active: "bg-[#4EDEA3]/20 text-[#4EDEA3]",
   };
 
   const statusLabels: Record<string, string> = {
@@ -76,24 +76,24 @@ function ProjectCard({
   });
 
   return (
-    <div className="group rounded-lg border border-neutral-700 bg-gradient-to-br from-neutral-800 to-neutral-900 p-6 transition-all duration-300 hover:border-purple-500/50 hover:shadow-lg hover:shadow-purple-500/20">
+    <div className="group card cursor-pointer">
       <div className="mb-3 flex items-start justify-between">
-        <h3 className="flex-1 font-display text-lg font-semibold text-white transition-colors group-hover:text-purple-300">
+        <h3 className="flex-1 font-headline text-lg font-semibold text-white transition-colors group-hover:text-[#7C3AED]">
           {project.title}
         </h3>
       </div>
 
-      <div className="mb-4 space-y-2 text-sm text-neutral-400">
+      <div className="mb-4 space-y-2 text-sm text-gray-400">
         <p>
-          <span className="text-neutral-500">Canal:</span>{" "}
+          <span className="text-gray-500">Canal:</span>{" "}
           {project.channelProfile.name}
         </p>
         <p>
-          <span className="text-neutral-500">Palavra-chave:</span>{" "}
+          <span className="text-gray-500">Palavra-chave:</span>{" "}
           {project.keyword}
         </p>
         <p>
-          <span className="text-neutral-500">Duração:</span>{" "}
+          <span className="text-gray-500">Duração:</span>{" "}
           {project.durationMinutes ? `${project.durationMinutes} min` : "—"}
         </p>
       </div>
@@ -104,17 +104,17 @@ function ProjectCard({
         >
           {statusLabel}
         </span>
-        <span className="inline-flex rounded-full bg-neutral-700/50 px-3 py-1 text-xs font-medium text-neutral-300">
+        <span className="inline-flex rounded-full bg-gray-700/50 px-3 py-1 text-xs font-medium text-gray-300">
           {project.format.replace(/_/g, " ")}
         </span>
-        <span className="inline-flex rounded-full bg-neutral-700/50 px-3 py-1 text-xs font-medium text-neutral-300">
+        <span className="inline-flex rounded-full bg-gray-700/50 px-3 py-1 text-xs font-medium text-gray-300">
           {project.niche}
         </span>
       </div>
 
-      <div className="flex items-center justify-between border-t border-neutral-700 pt-4">
-        <span className="text-xs text-neutral-500">{createdAt}</span>
-        <button className="text-xs font-medium text-purple-400 transition-colors hover:text-purple-300">
+      <div className="flex items-center justify-between border-t border-gray-700/50 pt-4">
+        <span className="text-xs text-gray-500">{createdAt}</span>
+        <button className="text-xs font-medium text-[#7C3AED] transition-colors hover:text-[#A78BFA] cursor-pointer">
           Ver Detalhes →
         </button>
       </div>
@@ -141,16 +141,16 @@ export default function DashboardPage() {
   const hasProjects = projects && projects.length > 0;
 
   return (
-    <div className="min-h-screen bg-neutral-900">
+    <div className="min-h-screen bg-[#0E0E0E]">
       {/* Header */}
-      <div className="border-b border-neutral-800 bg-neutral-900/50 backdrop-blur-sm">
+      <div className="border-b border-gray-800/50 bg-[#0E0E0E]/50 backdrop-blur-sm">
         <div className="mx-auto max-w-7xl px-6 py-6 sm:py-8">
           <div className="flex items-center justify-between">
             <div>
-              <h1 className="font-display text-3xl font-bold text-white sm:text-4xl">
+              <h1 className="font-headline text-3xl font-bold text-white sm:text-4xl">
                 Projetos
               </h1>
-              <p className="mt-2 text-neutral-400">
+              <p className="mt-2 text-gray-400">
                 Gerencia seus projetos de conteúdo com IA
               </p>
             </div>
@@ -173,7 +173,7 @@ export default function DashboardPage() {
       {/* Main Content */}
       <div className="mx-auto max-w-7xl px-6 py-12 sm:py-16">
         {error ? (
-          <div className="rounded-lg border border-red-500/50 bg-red-500/10 p-4">
+          <div className="rounded-xl border border-red-500/30 bg-red-500/10 p-4">
             <p className="text-red-300">
               Erro ao carregar projetos. Por favor, tente novamente.
             </p>
@@ -187,9 +187,14 @@ export default function DashboardPage() {
         ) : !hasProjects ? (
           <EmptyState />
         ) : (
-          <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
-            {projects.map((project) => (
-              <ProjectCard key={project.id} project={project} />
+          <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-3 auto-rows-max">
+            {projects.map((project, index) => (
+              <div
+                key={project.id}
+                className={index % 5 === 0 ? "sm:col-span-2 sm:row-span-2" : ""}
+              >
+                <ProjectCard project={project} />
+              </div>
             ))}
           </div>
         )}

@@ -75,22 +75,15 @@ export default function RegisterPage() {
         >
           Criar Conta
         </h2>
-        <p className="text-on-surface-variant text-base font-body">
+        <p className="text-gray-400 text-base font-body">
           Comece sua jornada com Nexcript
         </p>
       </div>
 
       {/* Error Alert */}
       {globalError && (
-        <div
-          className="mb-6 px-4 py-3 rounded-lg"
-          style={{
-            backgroundColor: "rgba(147, 0, 10, 0.1)",
-            borderColor: "rgba(255, 180, 171, 0.3)",
-            borderWidth: "1px",
-          }}
-        >
-          <p className="text-sm font-medium" style={{ color: "var(--error)" }}>
+        <div className="mb-6 rounded-xl border border-red-500/30 bg-red-500/10 p-4">
+          <p className="text-sm font-medium text-red-300">
             {globalError}
           </p>
         </div>
@@ -103,8 +96,7 @@ export default function RegisterPage() {
           <div className="space-y-2.5">
             <label
               htmlFor="name"
-              className="text-mono ml-1 font-medium"
-              style={{ color: "var(--outline)" }}
+              className="text-mono ml-1 font-medium text-gray-400"
             >
               Nome Completo
             </label>
@@ -117,7 +109,7 @@ export default function RegisterPage() {
               disabled={isLoading}
             />
             {errors.name && (
-              <p className="text-error text-xs mt-1">{errors.name.message}</p>
+              <p className="text-red-400 text-xs mt-1">{errors.name.message}</p>
             )}
           </div>
 
@@ -125,8 +117,7 @@ export default function RegisterPage() {
           <div className="space-y-2">
             <label
               htmlFor="email"
-              className="text-mono ml-1 font-medium"
-              style={{ color: "var(--outline)" }}
+              className="text-mono ml-1 font-medium text-gray-400"
             >
               E-mail Corporativo
             </label>
@@ -139,7 +130,7 @@ export default function RegisterPage() {
               disabled={isLoading}
             />
             {errors.email && (
-              <p className="text-error text-xs mt-1">{errors.email.message}</p>
+              <p className="text-red-400 text-xs mt-1">{errors.email.message}</p>
             )}
           </div>
 
@@ -147,8 +138,7 @@ export default function RegisterPage() {
           <div className="space-y-2">
             <label
               htmlFor="password"
-              className="text-mono ml-1 font-medium"
-              style={{ color: "var(--outline)" }}
+              className="text-mono ml-1 font-medium text-gray-400"
             >
               Senha
             </label>
@@ -164,7 +154,7 @@ export default function RegisterPage() {
               <button
                 type="button"
                 onClick={() => setShowPassword(!showPassword)}
-                className="absolute right-4 top-1/2 -translate-y-1/2 text-outline hover:text-white transition-colors"
+                className="absolute right-4 top-1/2 -translate-y-1/2 text-gray-500 hover:text-gray-300 transition-colors"
               >
                 <span className="material-symbols-outlined text-[20px]">
                   {showPassword ? "visibility" : "visibility_off"}
@@ -172,7 +162,7 @@ export default function RegisterPage() {
               </button>
             </div>
             {errors.password && (
-              <p className="text-error text-xs mt-1">
+              <p className="text-red-400 text-xs mt-1">
                 {errors.password.message}
               </p>
             )}
@@ -183,9 +173,9 @@ export default function RegisterPage() {
                 <div className="flex gap-1">
                   {[0, 1, 2].map((i) => {
                     const colors = [
-                      "var(--secondary)",
-                      "var(--tertiary)",
-                      "var(--primary)",
+                      "#7C3AED",
+                      "#4EDEA3",
+                      "#7C3AED",
                     ];
                     return (
                       <div
@@ -195,13 +185,13 @@ export default function RegisterPage() {
                           backgroundColor:
                             i < passwordStrength
                               ? colors[i]
-                              : "rgba(149, 141, 161, 0.2)",
+                              : "rgba(107, 114, 128, 0.3)",
                         }}
                       />
                     );
                   })}
                 </div>
-                <p className="text-xs" style={{ color: "var(--outline)" }}>
+                <p className="text-xs text-gray-400">
                   {passwordStrength === 0 && "Fraca"}
                   {passwordStrength === 1 && "Moderada"}
                   {passwordStrength === 2 && "Forte"}
@@ -212,24 +202,16 @@ export default function RegisterPage() {
           </div>
 
           {/* Password Requirements */}
-          <div
-            className="text-xs space-y-1 p-3 rounded-lg"
-            style={{
-              backgroundColor: "rgba(14, 14, 14, 0.5)",
-              borderColor: "rgba(74, 68, 85, 0.1)",
-              borderWidth: "1px",
-              color: "var(--outline)",
-            }}
-          >
-            <p className="font-medium mb-2">Sua senha deve conter:</p>
+          <div className="text-xs space-y-1 p-3 rounded-lg border border-gray-800/30 bg-gray-900/50 text-gray-400">
+            <p className="font-medium mb-2 text-gray-300">Sua senha deve conter:</p>
             <ul className="space-y-1">
               <li className="flex items-center gap-2">
                 <span
                   style={{
                     color:
                       password?.length >= 8
-                        ? "var(--tertiary)"
-                        : "rgba(149, 141, 161, 0.3)",
+                        ? "#4EDEA3"
+                        : "rgba(107, 114, 128, 0.5)",
                   }}
                 >
                   ✓
@@ -238,8 +220,8 @@ export default function RegisterPage() {
                   style={{
                     color:
                       password?.length >= 8
-                        ? "var(--on-surface)"
-                        : "rgba(149, 141, 161, 0.5)",
+                        ? "#E5E7EB"
+                        : "rgba(107, 114, 128, 0.7)",
                   }}
                 >
                   Mínimo 8 caracteres
@@ -249,8 +231,8 @@ export default function RegisterPage() {
                 <span
                   style={{
                     color: /[A-Z]/.test(password)
-                      ? "var(--tertiary)"
-                      : "rgba(149, 141, 161, 0.3)",
+                      ? "#4EDEA3"
+                      : "rgba(107, 114, 128, 0.5)",
                   }}
                 >
                   ✓
@@ -258,8 +240,8 @@ export default function RegisterPage() {
                 <span
                   style={{
                     color: /[A-Z]/.test(password)
-                      ? "var(--on-surface)"
-                      : "rgba(149, 141, 161, 0.5)",
+                      ? "#E5E7EB"
+                      : "rgba(107, 114, 128, 0.7)",
                   }}
                 >
                   Pelo menos uma letra maiúscula
@@ -269,8 +251,8 @@ export default function RegisterPage() {
                 <span
                   style={{
                     color: /[0-9]/.test(password)
-                      ? "var(--tertiary)"
-                      : "rgba(149, 141, 161, 0.3)",
+                      ? "#4EDEA3"
+                      : "rgba(107, 114, 128, 0.5)",
                   }}
                 >
                   ✓
@@ -278,8 +260,8 @@ export default function RegisterPage() {
                 <span
                   style={{
                     color: /[0-9]/.test(password)
-                      ? "var(--on-surface)"
-                      : "rgba(149, 141, 161, 0.5)",
+                      ? "#E5E7EB"
+                      : "rgba(107, 114, 128, 0.7)",
                   }}
                 >
                   Pelo menos um número
@@ -302,21 +284,11 @@ export default function RegisterPage() {
       {/* Divider */}
       <div className="relative my-10">
         <div className="absolute inset-0 flex items-center">
-          <div
-            className="w-full"
-            style={{
-              borderTopColor: "rgba(74, 68, 85, 0.15)",
-              borderTopWidth: "1px",
-            }}
-          />
+          <div className="w-full border-t border-gray-800/30" />
         </div>
         <div className="relative flex justify-center">
           <span
-            className="px-4 text-mono"
-            style={{
-              backgroundColor: "var(--surface-container-low)",
-              color: "var(--outline)",
-            }}
+            className="px-4 text-mono text-gray-400 bg-[#0E0E0E]"
           >
             Ou continue com
           </span>
@@ -327,19 +299,7 @@ export default function RegisterPage() {
       <div className="grid grid-cols-2 gap-4 mb-12">
         <button
           type="button"
-          className="flex items-center justify-center gap-3 py-3 px-4 rounded-lg transition-colors"
-          style={{
-            backgroundColor: "var(--surface-container-high)",
-            borderColor: "rgba(74, 68, 85, 0.1)",
-            borderWidth: "1px",
-          }}
-          onMouseEnter={(e) =>
-            (e.currentTarget.style.backgroundColor = "var(--surface-bright)")
-          }
-          onMouseLeave={(e) =>
-            (e.currentTarget.style.backgroundColor =
-              "var(--surface-container-high)")
-          }
+          className="flex items-center justify-center gap-3 py-3 px-4 rounded-lg border border-gray-800/30 bg-gray-900/50 transition-colors hover:bg-gray-900"
         >
           <GoogleIcon />
           <span className="text-xs font-medium font-body text-white">
@@ -348,19 +308,7 @@ export default function RegisterPage() {
         </button>
         <button
           type="button"
-          className="flex items-center justify-center gap-3 py-3 px-4 rounded-lg transition-colors"
-          style={{
-            backgroundColor: "var(--surface-container-high)",
-            borderColor: "rgba(74, 68, 85, 0.1)",
-            borderWidth: "1px",
-          }}
-          onMouseEnter={(e) =>
-            (e.currentTarget.style.backgroundColor = "var(--surface-bright)")
-          }
-          onMouseLeave={(e) =>
-            (e.currentTarget.style.backgroundColor =
-              "var(--surface-container-high)")
-          }
+          className="flex items-center justify-center gap-3 py-3 px-4 rounded-lg border border-gray-800/30 bg-gray-900/50 transition-colors hover:bg-gray-900"
         >
           <AppleIcon />
           <span className="text-xs font-medium font-body text-white">
@@ -371,18 +319,11 @@ export default function RegisterPage() {
 
       {/* Sign In */}
       <div className="text-center mb-16">
-        <p className="text-sm font-body" style={{ color: "var(--outline)" }}>
+        <p className="text-sm font-body text-gray-400">
           Já tem uma conta?{" "}
           <Link
             href="/login"
-            className="font-semibold transition-colors"
-            style={{ color: "var(--primary)" }}
-            onMouseEnter={(e) =>
-              (e.currentTarget.style.color = "var(--on-surface)")
-            }
-            onMouseLeave={(e) =>
-              (e.currentTarget.style.color = "var(--primary)")
-            }
+            className="font-semibold text-[#7C3AED] transition-colors hover:text-white"
           >
             Entrar
           </Link>
@@ -390,42 +331,24 @@ export default function RegisterPage() {
       </div>
 
       {/* Legal Note */}
-      <div
-        className="flex flex-wrap justify-center gap-4 text-mono"
-        style={{ color: "rgba(149, 141, 161, 0.5)" }}
-      >
+      <div className="flex flex-wrap justify-center gap-4 text-mono text-gray-600 hover:text-gray-400">
         <Link
           href="/terms"
-          className="transition-colors"
-          style={{ color: "rgba(149, 141, 161, 0.5)" }}
-          onMouseEnter={(e) => (e.currentTarget.style.color = "var(--outline)")}
-          onMouseLeave={(e) =>
-            (e.currentTarget.style.color = "rgba(149, 141, 161, 0.5)")
-          }
+          className="transition-colors text-gray-600 hover:text-gray-400"
         >
           Termos
         </Link>
         <span>•</span>
         <Link
           href="/privacy"
-          className="transition-colors"
-          style={{ color: "rgba(149, 141, 161, 0.5)" }}
-          onMouseEnter={(e) => (e.currentTarget.style.color = "var(--outline)")}
-          onMouseLeave={(e) =>
-            (e.currentTarget.style.color = "rgba(149, 141, 161, 0.5)")
-          }
+          className="transition-colors text-gray-600 hover:text-gray-400"
         >
           Privacidade
         </Link>
         <span>•</span>
         <Link
           href="/support"
-          className="transition-colors"
-          style={{ color: "rgba(149, 141, 161, 0.5)" }}
-          onMouseEnter={(e) => (e.currentTarget.style.color = "var(--outline)")}
-          onMouseLeave={(e) =>
-            (e.currentTarget.style.color = "rgba(149, 141, 161, 0.5)")
-          }
+          className="transition-colors text-gray-600 hover:text-gray-400"
         >
           Suporte
         </Link>

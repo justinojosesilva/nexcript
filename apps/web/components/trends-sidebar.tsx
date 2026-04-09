@@ -39,13 +39,13 @@ export function TrendsSidebar({ analysis }: { analysis: TrendAnalysis }) {
 
   return (
     <div
-      className={`flex flex-col bg-gradient-to-b from-neutral-800 to-neutral-900 border-l border-neutral-700 transition-all duration-300 ${isCollapsed ? "w-16" : "w-80"} relative`}
+      className={`flex flex-col bg-gray-900/50 border-l border-gray-800/30 transition-all duration-300 ${isCollapsed ? "w-16" : "w-80"} relative`}
     >
       {/* Header */}
-      <div className="flex items-center justify-between border-b border-neutral-700 px-4 py-4">
+      <div className="flex items-center justify-between border-b border-gray-800/30 px-4 py-4">
         {!isCollapsed && (
           <div className="flex items-center gap-2">
-            <TrendingUp className="h-5 w-5 text-[var(--primary)]" />
+            <TrendingUp className="h-5 w-5 text-[#7C3AED]" />
             <h3 className="font-headline text-sm font-semibold text-white">
               Insights
             </h3>
@@ -53,12 +53,12 @@ export function TrendsSidebar({ analysis }: { analysis: TrendAnalysis }) {
         )}
         <button
           onClick={() => setIsCollapsed(!isCollapsed)}
-          className="rounded-lg bg-neutral-700/50 p-1.5 transition-colors hover:bg-neutral-700"
+          className="rounded-lg bg-gray-800/30 p-1.5 transition-colors hover:bg-gray-800/50 cursor-pointer"
         >
           {isCollapsed ? (
-            <ChevronLeft className="h-4 w-4 text-neutral-300" />
+            <ChevronLeft className="h-4 w-4 text-gray-300" />
           ) : (
-            <ChevronRight className="h-4 w-4 text-neutral-300" />
+            <ChevronRight className="h-4 w-4 text-gray-300" />
           )}
         </button>
       </div>
@@ -66,8 +66,8 @@ export function TrendsSidebar({ analysis }: { analysis: TrendAnalysis }) {
       {!isCollapsed && (
         <div className="flex-1 overflow-y-auto">
           {/* Trend Chart Section */}
-          <div className="border-b border-neutral-700 px-4 py-6">
-            <h4 className="mb-3 text-xs font-semibold uppercase tracking-wider text-neutral-400">
+          <div className="border-b border-gray-800/30 px-4 py-6">
+            <h4 className="mb-3 text-xs font-semibold uppercase tracking-wider text-gray-400">
               Tendência (30 dias)
             </h4>
             {chartData.length > 0 ? (
@@ -76,31 +76,31 @@ export function TrendsSidebar({ analysis }: { analysis: TrendAnalysis }) {
                   <LineChart data={chartData}>
                     <CartesianGrid
                       strokeDasharray="3 3"
-                      stroke="rgba(74, 68, 85, 0.2)"
+                      stroke="rgba(107, 114, 128, 0.2)"
                     />
                     <XAxis
                       dataKey="shortDate"
-                      stroke="rgba(149, 141, 161, 0.5)"
+                      stroke="rgba(156, 163, 175, 0.5)"
                       tick={{ fontSize: 10 }}
                       style={{ fontSize: "10px" }}
                     />
                     <YAxis
-                      stroke="rgba(149, 141, 161, 0.5)"
+                      stroke="rgba(156, 163, 175, 0.5)"
                       tick={{ fontSize: 10 }}
                       style={{ fontSize: "10px" }}
                     />
                     <Tooltip
                       contentStyle={{
-                        backgroundColor: "rgba(19, 19, 19, 0.9)",
-                        border: "1px solid rgba(210, 187, 255, 0.2)",
+                        backgroundColor: "rgba(14, 14, 14, 0.95)",
+                        border: "1px solid rgba(124, 58, 237, 0.2)",
                         borderRadius: "8px",
                       }}
-                      labelStyle={{ color: "rgba(210, 187, 255, 1)" }}
+                      labelStyle={{ color: "#7C3AED" }}
                     />
                     <Line
                       type="monotone"
                       dataKey="interest"
-                      stroke="var(--primary)"
+                      stroke="#7C3AED"
                       dot={false}
                       strokeWidth={2}
                       isAnimationActive={false}
@@ -110,7 +110,7 @@ export function TrendsSidebar({ analysis }: { analysis: TrendAnalysis }) {
               </div>
             ) : (
               <div className="flex h-48 items-center justify-center text-center">
-                <p className="text-xs text-neutral-500">
+                <p className="text-xs text-gray-500">
                   Nenhum dado de tendência disponível
                 </p>
               </div>
@@ -119,7 +119,7 @@ export function TrendsSidebar({ analysis }: { analysis: TrendAnalysis }) {
 
           {/* Top Videos Section */}
           <div className="px-4 py-6">
-            <h4 className="mb-3 text-xs font-semibold uppercase tracking-wider text-neutral-400">
+            <h4 className="mb-3 text-xs font-semibold uppercase tracking-wider text-gray-400">
               Top Vídeos Concorrentes
             </h4>
 
@@ -131,23 +131,23 @@ export function TrendsSidebar({ analysis }: { analysis: TrendAnalysis }) {
                     href={video.url}
                     target="_blank"
                     rel="noopener noreferrer"
-                    className="group rounded-lg border border-neutral-700 bg-neutral-800/50 p-3 transition-all hover:border-[var(--primary)]/50 hover:bg-neutral-800"
+                    className="group rounded-lg border border-gray-800/30 bg-gray-900/50 p-3 transition-all hover:border-[#7C3AED]/50 hover:bg-gray-900"
                   >
                     {/* Rank Badge */}
                     <div className="mb-2 flex items-start justify-between">
-                      <span className="inline-flex h-6 w-6 items-center justify-center rounded-full bg-[var(--primary)]/20 text-xs font-bold text-[var(--primary)]">
+                      <span className="inline-flex h-6 w-6 items-center justify-center rounded-full bg-[#7C3AED]/20 text-xs font-bold text-[#7C3AED]">
                         {idx + 1}
                       </span>
-                      <Play className="h-3 w-3 text-neutral-500 group-hover:text-[var(--primary)]" />
+                      <Play className="h-3 w-3 text-gray-500 group-hover:text-[#7C3AED]" />
                     </div>
 
                     {/* Video Title */}
-                    <h5 className="mb-2 line-clamp-2 text-xs font-medium text-white group-hover:text-[var(--primary)]">
+                    <h5 className="mb-2 line-clamp-2 text-xs font-medium text-white group-hover:text-[#7C3AED]">
                       {video.title}
                     </h5>
 
                     {/* Channel & Views */}
-                    <div className="space-y-1 text-xs text-neutral-400">
+                    <div className="space-y-1 text-xs text-gray-400">
                       <p className="truncate">{video.channel}</p>
                       <div className="flex justify-between">
                         <span>{formatNumber(video.views)} views</span>
@@ -159,7 +159,7 @@ export function TrendsSidebar({ analysis }: { analysis: TrendAnalysis }) {
               </div>
             ) : (
               <div className="text-center">
-                <p className="text-xs text-neutral-500">
+                <p className="text-xs text-gray-500">
                   Nenhum vídeo concorrente encontrado
                 </p>
               </div>

@@ -1,183 +1,242 @@
+@import url("https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=Inter:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500;600&display=swap");
 @import "tailwindcss";
 @import "@nexcript/tailwind-config";
 
 :root {
   color-scheme: dark;
 
-  /* Material Design 3 Color System */
-  --error: #ffb4ab;
-  --primary-container: #7c3aed;
-  --on-tertiary-fixed-variant: #005236;
-  --tertiary-fixed-dim: #4edea3;
-  --on-background: #e5e2e1;
-  --primary-fixed-dim: #d2bbff;
-  --on-secondary: #003355;
-  --on-error: #690005;
-  --primary-fixed: #eaddff;
-  --on-secondary-fixed-variant: #004a78;
-  --secondary-fixed: #cfe5ff;
-  --inverse-on-surface: #313030;
-  --outline-variant: #4a4455;
-  --primary: #d2bbff;
-  --tertiary-fixed: #6ffbbe;
-  --outline: #958da1;
-  --on-primary-fixed-variant: #5a00c6;
-  --background: #131313;
-  --on-primary-fixed: #25005a;
-  --surface-container-lowest: #0e0e0e;
-  --on-tertiary: #003824;
-  --on-primary-container: #ede0ff;
-  --surface-container-low: #1b1b1b;
-  --error-container: #93000a;
-  --surface-bright: #393939;
-  --on-primary: #3f008e;
-  --on-secondary-container: #f6f8ff;
-  --surface-variant: #353535;
-  --surface-container: #20201f;
-  --on-tertiary-fixed: #002113;
-  --on-error-container: #ffdad6;
-  --surface-tint: #d2bbff;
-  --surface: #131313;
-  --surface-container-highest: #353535;
-  --on-surface: #e5e2e1;
-  --on-secondary-fixed: #001d34;
-  --surface-container-high: #2a2a2a;
-  --secondary-container: #0077bd;
-  --secondary: #99cbff;
-  --tertiary-container: #007650;
-  --inverse-surface: #e5e2e1;
-  --inverse-primary: #732ee4;
-  --on-surface-variant: #ccc3d8;
-  --secondary-fixed-dim: #99cbff;
-  --on-tertiary-container: #76ffc2;
-  --tertiary: #4edea3;
-  --surface-dim: #131313;
+  /* ==================== NEXCRIPT BRAND IDENTITY ==================== */
+  /* Electric Purple - Primary CTA & Interactions */
+  --color-electric-purple: #7c3aed;
 
-  /* Font Variables */
+  /* Emerald Logic - Success & Accent States */
+  --color-emerald-logic: #4edea3;
+
+  /* Deep Obsidian - Base Surface & Backgrounds */
+  --color-deep-obsidian: #0e0e0e;
+
+  /* Material Design 3 Color System - OVERRIDDEN WITH NEXCRIPT BRAND */
+  --error: #ff6b6b;
+  --primary-container: #7c3aed;
+  --on-tertiary-fixed-variant: #004d3a;
+  --tertiary-fixed-dim: #4edea3;
+  --on-background: #ffffff;
+  --primary-fixed-dim: #a78bfa;
+  --on-secondary: #1f2937;
+  --on-error: #ffffff;
+  --primary-fixed: #ddd6fe;
+  --on-secondary-fixed-variant: #111827;
+  --secondary-fixed: #dbeafe;
+  --inverse-on-surface: #0e0e0e;
+  --outline-variant: #4b5563;
+  --primary: #a78bfa;
+  --tertiary-fixed: #6fffc2;
+  --outline: #6b7280;
+  --on-primary-fixed-variant: #4c1d95;
+  --background: #0e0e0e;
+  --on-primary-fixed: #3c0a7d;
+  --surface-container-lowest: #0e0e0e;
+  --on-tertiary: #002d22;
+  --on-primary-container: #f3e8ff;
+  --surface-container-low: #1f1f1f;
+  --error-container: #7f1d1d;
+  --surface-bright: #404040;
+  --on-primary: #ffffff;
+  --on-secondary-container: #f9fafb;
+  --surface-variant: #383838;
+  --surface-container: #262626;
+  --on-tertiary-fixed: #001f16;
+  --on-error-container: #ffe4e0;
+  --surface-tint: #a78bfa;
+  --surface: #0e0e0e;
+  --surface-container-highest: #383838;
+  --on-surface: #ffffff;
+  --on-secondary-fixed: #001c27;
+  --surface-container-high: #323232;
+  --secondary-container: #1e40af;
+  --secondary: #93c5fd;
+  --tertiary-container: #047857;
+  --inverse-surface: #ffffff;
+  --inverse-primary: #6d28d9;
+  --on-surface-variant: #d1d5db;
+  --secondary-fixed-dim: #93c5fd;
+  --on-tertiary-container: #82fbbe;
+  --tertiary: #4edea3;
+  --surface-dim: #0e0e0e;
+
+  /* Font Variables - NEXCRIPT BRAND */
   --font-syne: "Syne", system-ui, sans-serif;
   --font-space-grotesk: "Space Grotesk", system-ui, sans-serif;
+  --font-inter: "Inter", system-ui, sans-serif;
   --font-dm-sans: "DM Sans", system-ui, sans-serif;
   --font-jetbrains-mono: "JetBrains Mono", monospace;
 }
 
 * {
-  margin: 0;
-  padding: 0;
   box-sizing: border-box;
 }
 
 html {
-  font-family: var(--font-dm-sans);
+  font-family: var(--font-inter);
   color-scheme: dark;
 }
 
 body {
   color: var(--on-surface);
   background-color: var(--background);
-  line-height: 1.5;
+  line-height: 1.6;
 }
 
 @layer components {
-  /* Button Utilities */
+  /* Button Utilities - NEXCRIPT BRAND */
   .btn-primary {
-    @apply w-full py-4 text-sm font-bold rounded-lg hover:opacity-95 active:scale-[0.98] transition-all;
-    background: linear-gradient(135deg, var(--primary) 0%, var(--primary-container) 100%);
-    box-shadow: 0 12px 24px -4px rgba(210, 187, 255, 0.35), 0 4px 8px -2px rgba(210, 187, 255, 0.2);
-    color: var(--on-primary);
+    @apply w-full py-4 px-4 text-sm font-bold rounded-lg hover:opacity-90 active:scale-[0.98] transition-all cursor-pointer;
+    background: linear-gradient(
+      135deg,
+      var(--color-electric-purple) 0%,
+      #6d28d9 100%
+    );
+    box-shadow:
+      0 12px 24px -4px rgba(124, 58, 237, 0.35),
+      0 4px 8px -2px rgba(124, 58, 237, 0.2);
+    color: white;
     position: relative;
+    border: none;
   }
 
   .btn-primary:hover {
-    box-shadow: 0 16px 32px -4px rgba(210, 187, 255, 0.4), 0 6px 12px -2px rgba(210, 187, 255, 0.25);
+    box-shadow:
+      0 16px 32px -4px rgba(124, 58, 237, 0.45),
+      0 6px 12px -2px rgba(124, 58, 237, 0.3);
+  }
+
+  .btn-primary:disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
   }
 
   .btn-secondary {
-    @apply px-4 py-3 font-medium rounded-lg transition-colors duration-200;
-    background-color: var(--surface-container-high);
-    color: var(--on-surface);
-    border: 1px solid;
-    border-color: rgba(74, 68, 85, 0.1);
+    @apply px-4 py-3 font-medium rounded-lg transition-colors duration-200 cursor-pointer border;
+    background-color: transparent;
+    color: var(--color-electric-purple);
+    border-color: var(--color-electric-purple);
   }
 
   .btn-secondary:hover {
-    background-color: var(--surface-bright);
+    background-color: rgba(124, 58, 237, 0.1);
   }
 
   .btn-ghost {
-    @apply px-4 py-2.5 font-medium rounded-lg transition-colors duration-200;
-    color: var(--primary);
+    @apply px-4 py-2.5 font-medium rounded-lg transition-colors duration-200 cursor-pointer;
+    color: var(--color-electric-purple);
+    background-color: transparent;
   }
 
   .btn-ghost:hover {
-    color: var(--on-surface);
+    background-color: rgba(124, 58, 237, 0.05);
   }
 
-  /* Form Utilities */
+  .btn-success {
+    @apply px-4 py-3 font-medium rounded-lg transition-colors duration-200 cursor-pointer;
+    background-color: var(--color-emerald-logic);
+    color: #001f16;
+    border: none;
+  }
+
+  .btn-success:hover {
+    opacity: 0.9;
+  }
+
+  /* Form Utilities - NEXCRIPT BRAND */
   .input-field {
-    @apply w-full text-sm p-4 rounded-lg focus:outline-none focus:ring-0 transition-all;
+    @apply w-full text-sm p-4 rounded-lg focus:outline-none focus:ring-0 transition-all cursor-text;
     background-color: var(--surface-container-lowest);
     border: 1px solid;
-    border-color: rgba(74, 68, 85, 0.3);
+    border-color: rgba(107, 114, 128, 0.3);
     color: var(--on-surface);
   }
 
   .input-field::placeholder {
-    color: rgba(149, 141, 161, 0.6);
+    color: rgba(156, 163, 175, 0.6);
   }
 
   .input-field:focus {
-    border-color: rgba(210, 187, 255, 0.6);
-    background-color: rgba(14, 14, 14, 0.9);
-    box-shadow: 0 0 0 3px rgba(210, 187, 255, 0.1);
+    border-color: var(--color-electric-purple);
+    background-color: rgba(14, 14, 14, 0.95);
+    box-shadow: 0 0 0 3px rgba(124, 58, 237, 0.15);
   }
 
-  /* Badge Utilities */
+  .input-field:invalid {
+    border-color: #ff6b6b;
+  }
+
+  .input-field:disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
+  }
+
+  /* Badge Utilities - NEXCRIPT BRAND */
   .badge-success {
-    @apply px-3 py-1 rounded-full text-sm font-medium text-white;
-    background-color: var(--tertiary);
+    @apply px-3 py-1 rounded-full text-sm font-medium;
+    background-color: var(--color-emerald-logic);
+    color: #001f16;
   }
 
   .badge-warning {
     @apply px-3 py-1 rounded-full text-sm font-medium text-white;
-    background-color: var(--error);
+    background-color: #f97316;
   }
 
   .badge-error {
     @apply px-3 py-1 rounded-full text-sm font-medium text-white;
-    background-color: var(--error-container);
+    background-color: #dc2626;
   }
 
-  /* Card Utilities */
+  .badge-primary {
+    @apply px-3 py-1 rounded-full text-sm font-medium text-white;
+    background-color: var(--color-electric-purple);
+  }
+
+  /* Card Utilities - NEXCRIPT BRAND */
   .card {
-    @apply rounded-lg p-6;
+    @apply rounded-xl p-6 transition-all duration-200 cursor-pointer;
     background-color: var(--surface-container);
     border: 1px solid;
-    border-color: rgba(74, 68, 85, 0.2);
+    border-color: rgba(107, 114, 128, 0.2);
     box-shadow: 0 2px 8px -2px rgba(0, 0, 0, 0.3);
   }
 
-  /* Text Utilities */
+  .card:hover {
+    border-color: rgba(124, 58, 237, 0.3);
+    box-shadow: 0 4px 12px -2px rgba(124, 58, 237, 0.15);
+    transform: translateY(-2px);
+  }
+
+  /* Text Utilities - NEXCRIPT BRAND */
   .text-headline {
     font-family: var(--font-space-grotesk);
+    font-weight: 700;
+    letter-spacing: -0.01em;
   }
 
   .font-headline {
     font-family: var(--font-space-grotesk);
+    font-weight: 700;
   }
 
   .text-body {
-    font-family: var(--font-dm-sans);
+    font-family: var(--font-inter);
+    font-weight: 400;
   }
 
   .font-body {
-    font-family: var(--font-dm-sans);
+    font-family: var(--font-inter);
   }
 
   .text-mono {
     font-family: var(--font-jetbrains-mono);
-    font-size: 10px;
-    text-transform: uppercase;
-    letter-spacing: 0.2em;
+    font-size: 12px;
+    letter-spacing: 0.05em;
   }
 
   .font-mono {
@@ -192,13 +251,17 @@ body {
 
 /* Material Icons */
 .material-symbols-outlined {
-  font-variation-settings: "FILL" 0, "wght" 400, "GRAD" 0, "opsz" 24;
+  font-variation-settings:
+    "FILL" 0,
+    "wght" 400,
+    "GRAD" 0,
+    "opsz" 24;
 }
 
 /* Ambient glows - using CSS properties */
 @supports (field-sizing: content) {
   body::before {
-    content: '';
+    content: "";
     position: fixed;
     top: 0;
     right: 0;
@@ -212,13 +275,17 @@ body {
   }
 
   body::after {
-    content: '';
+    content: "";
     position: fixed;
     bottom: 0;
     left: 0;
     width: 800px;
     height: 800px;
-    background: radial-gradient(circle, var(--secondary-container) 0%, transparent 70%);
+    background: radial-gradient(
+      circle,
+      var(--secondary-container) 0%,
+      transparent 70%
+    );
     opacity: 0.05;
     filter: blur(200px);
     pointer-events: none;

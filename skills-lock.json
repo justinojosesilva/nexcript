@@ -20,6 +20,11 @@
       "source": "aj-geddes/claude-code-bmad-skills",
       "sourceType": "github",
       "computedHash": "69ba694f8c117c04cc2dc1df7698fc8dd55183c2097b3cea130502a7d527b238"
+    },
+    "ui-ux-pro-max": {
+      "source": "nextlevelbuilder/ui-ux-pro-max-skill",
+      "sourceType": "github",
+      "computedHash": "0a413bf988d06481f69bb81df2070741c3ba12dd9f1be2706d57f259c905992d"
     }
   }
 }

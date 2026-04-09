@@ -2,7 +2,18 @@
 
 import { useEffect, useState } from "react";
 import { useQuery, useMutation } from "@tanstack/react-query";
-import { Sparkles, TrendingUp } from "lucide-react";
+import {
+  Sparkles,
+  TrendingUp,
+  DollarSign,
+  Zap,
+  Lightbulb,
+  Palette,
+  BookOpen,
+  Clapperboard,
+  TrendingDown,
+  Heart,
+} from "lucide-react";
 import { ScoreDimensionBreakdown } from "@/components/score-dimension-breakdown";
 import { TrendsSidebar } from "@/components/trends-sidebar";
 import {
@@ -13,34 +24,34 @@ import {
 } from "@/lib/trends-client";
 
 const NICHE_OPTIONS = [
-  { value: "finance", label: "💰 Finanças" },
-  { value: "technology", label: "💻 Tecnologia" },
-  { value: "productivity", label: "⚡ Produtividade" },
-  { value: "lifestyle", label: "🎨 Lifestyle" },
-  { value: "education", label: "📚 Educação" },
-  { value: "entertainment", label: "🎬 Entretenimento" },
-  { value: "business", label: "📈 Negócios" },
-  { value: "health", label: "💪 Saúde" },
+  { value: "finance", label: "Finanças", icon: DollarSign },
+  { value: "technology", label: "Tecnologia", icon: Zap },
+  { value: "productivity", label: "Produtividade", icon: Lightbulb },
+  { value: "lifestyle", label: "Lifestyle", icon: Palette },
+  { value: "education", label: "Educação", icon: BookOpen },
+  { value: "entertainment", label: "Entretenimento", icon: Clapperboard },
+  { value: "business", label: "Negócios", icon: TrendingDown },
+  { value: "health", label: "Saúde", icon: Heart },
 ];
 
 const GEO_OPTIONS = [
-  { value: "BR", label: "🇧🇷 Brasil" },
-  { value: "US", label: "🇺🇸 USA" },
-  { value: "MX", label: "🇲🇽 México" },
-  { value: "AR", label: "🇦🇷 Argentina" },
-  { value: "ES", label: "🇪🇸 Espanha" },
-  { value: "DE", label: "🇩🇪 Alemanha" },
+  { value: "BR", label: "Brasil" },
+  { value: "US", label: "USA" },
+  { value: "MX", label: "México" },
+  { value: "AR", label: "Argentina" },
+  { value: "ES", label: "Espanha" },
+  { value: "DE", label: "Alemanha" },
 ];
 
 function AnalysisSkeleton() {
   return (
-    <div className="animate-pulse rounded-lg border border-neutral-700 bg-neutral-800 p-6">
-      <div className="mb-4 h-6 w-1/3 rounded bg-neutral-700" />
-      <div className="mb-2 h-4 w-1/4 rounded bg-neutral-700" />
-      <div className="mb-4 h-24 w-full rounded bg-neutral-700" />
+    <div className="animate-pulse rounded-xl border border-gray-800/30 bg-gray-900/50 p-6">
+      <div className="mb-4 h-6 w-1/3 rounded bg-gray-800" />
+      <div className="mb-2 h-4 w-1/4 rounded bg-gray-800" />
+      <div className="mb-4 h-24 w-full rounded bg-gray-800" />
       <div className="grid grid-cols-4 gap-2">
         {[...Array(4)].map((_, i) => (
-          <div key={i} className="h-16 rounded bg-neutral-700" />
+          <div key={i} className="h-16 rounded bg-gray-800" />
         ))}
       </div>
     </div>
@@ -103,9 +114,9 @@ function TrendsSearchForm() {
   return (
     <div className="space-y-6">
       {/* Search Form */}
-      <form onSubmit={handleSubmit} className="space-y-4">
+      <form onSubmit={handleSubmit} className="space-y-4 card">
         <div className="space-y-2">
-          <label className="text-mono ml-1 font-medium text-[var(--outline)]">
+          <label className="font-mono ml-1 font-medium text-gray-400">
             Palavra-chave
           </label>
           <input
@@ -120,7 +131,7 @@ function TrendsSearchForm() {
 
         <div className="grid grid-cols-2 gap-4">
           <div className="space-y-2">
-            <label className="text-mono ml-1 font-medium text-[var(--outline)]">
+            <label className="font-mono ml-1 font-medium text-gray-400">
               Nicho
             </label>
             <select
@@ -138,7 +149,7 @@ function TrendsSearchForm() {
           </div>
 
           <div className="space-y-2">
-            <label className="text-mono ml-1 font-medium text-[var(--outline)]">
+            <label className="font-mono ml-1 font-medium text-gray-400">
               Região
             </label>
             <select
@@ -170,7 +181,7 @@ function TrendsSearchForm() {
 
       {/* Error State */}
       {initiateMutation.isError && (
-        <div className="rounded-lg border border-red-500/50 bg-red-500/10 p-4">
+        <div className="rounded-xl border border-red-500/30 bg-red-500/10 p-4">
           <p className="text-sm text-red-300">
             Erro ao iniciar análise. Tente novamente.
           </p>
@@ -178,7 +189,7 @@ function TrendsSearchForm() {
       )}
 
       {jobStatus?.status === "FAILED" && (
-        <div className="rounded-lg border border-red-500/50 bg-red-500/10 p-4">
+        <div className="rounded-xl border border-red-500/30 bg-red-500/10 p-4">
           <p className="text-sm text-red-300">
             A análise falhou: {jobStatus.failedReason || "Erro desconhecido"}
           </p>
@@ -188,12 +199,12 @@ function TrendsSearchForm() {
       {/* Loading State */}
       {isPolling && (
         <div className="space-y-4">
-          <div className="rounded-lg border border-blue-500/50 bg-blue-500/10 p-4">
+          <div className="rounded-xl border border-[#7C3AED]/30 bg-[#7C3AED]/10 p-4">
             <div className="flex items-center gap-3">
               <div className="animate-spin">
-                <TrendingUp className="h-4 w-4 text-blue-400" />
+                <TrendingUp className="h-4 w-4 text-[#7C3AED]" />
               </div>
-              <p className="text-sm text-blue-300">Analisando tendências...</p>
+              <p className="text-sm text-[#A78BFA]">Analisando tendências...</p>
             </div>
           </div>
           <AnalysisSkeleton />
@@ -204,8 +215,8 @@ function TrendsSearchForm() {
       {isJobDone && isLoadingResults && <AnalysisSkeleton />}
       {isJobDone && analysis && (
         <div className="space-y-4">
-          <div className="rounded-lg border border-green-500/50 bg-green-500/10 p-4">
-            <p className="text-sm text-green-300">
+          <div className="rounded-xl border border-[#4EDEA3]/30 bg-[#4EDEA3]/10 p-4">
+            <p className="text-sm text-[#4EDEA3]">
               ✓ Análise concluída com sucesso!
             </p>
           </div>
@@ -228,16 +239,16 @@ function TrendsSearchForm() {
 
 export default function TrendsPage() {
   return (
-    <div className="min-h-screen bg-neutral-900">
+    <div className="min-h-screen bg-[#0E0E0E]">
       {/* Header */}
-      <div className="border-b border-neutral-800 bg-neutral-900/50 backdrop-blur-sm">
+      <div className="border-b border-gray-800/50 bg-[#0E0E0E]/50 backdrop-blur-sm">
         <div className="mx-auto max-w-5xl px-6 py-8">
           <div className="flex items-start justify-between">
             <div>
               <h1 className="font-headline text-3xl font-bold text-white sm:text-4xl">
                 Pesquisa de Tendências
               </h1>
-              <p className="mt-2 text-neutral-400">
+              <p className="mt-2 text-gray-400">
                 Analise palavras-chave e descubra oportunidades de conteúdo de
                 alto impacto
               </p>

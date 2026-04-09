@@ -763,7 +763,7 @@ export default function NewProjectPage() {
         )}
 
         {/* Navigation */}
-        <div className="mt-8 flex items-center justify-between">
+        <div className="mt-8 flex gap-4 items-center justify-between">
           <button
             onClick={handleBack}
             disabled={step === 1}
@@ -777,7 +777,7 @@ export default function NewProjectPage() {
             <button
               onClick={handleNext}
               disabled={!canProceed}
-              className="btn-primary flex items-center gap-2 disabled:cursor-not-allowed disabled:opacity-40"
+              className="btn-primary w-28 flex items-center gap-2 disabled:cursor-not-allowed disabled:opacity-40"
             >
               Próximo
               <ChevronRight className="h-4 w-4" />
