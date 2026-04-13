@@ -124,9 +124,25 @@ export default function ProjectPage() {
 
         {/* Project Info Card */}
         <div className="card mb-6">
-          <h2 className="mb-4 font-display text-lg font-semibold text-white">
-            Informações
-          </h2>
+          <div className="mb-4 flex items-center justify-between gap-3">
+            <h2 className="font-display text-lg font-semibold text-white">
+              Informações
+            </h2>
+            <div className="flex gap-2">
+              <button
+                onClick={() => router.push(`/projects/${id}/publication`)}
+                className="btn-secondary flex items-center gap-2 px-3 py-2 text-sm"
+              >
+                📝 Título e Tags
+              </button>
+              <button
+                onClick={() => router.push(`/projects/${id}/media`)}
+                className="btn-secondary flex items-center gap-2 px-3 py-2 text-sm"
+              >
+                🎬 Buscar Mídia
+              </button>
+            </div>
+          </div>
           <div className="grid gap-4 sm:grid-cols-2">
             <div>
               <p className="text-xs font-medium uppercase tracking-wider text-neutral-500">

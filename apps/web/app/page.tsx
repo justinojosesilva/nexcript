@@ -29,7 +29,7 @@ export default function Home() {
     <div className="min-h-screen bg-[#0E0E0E]">
       {/* Navigation */}
       <nav className="border-b border-gray-800/30 bg-[#0E0E0E]/50 backdrop-blur-sm">
-        <div className="w-full p-5 flex items-center justify-between">
+        <div className="max-w-7xl mx-auto p-5 flex items-center justify-between">
           <div className="text-xl font-black text-white font-headline">
             Nexcript
           </div>

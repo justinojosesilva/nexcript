@@ -121,3 +121,29 @@ export interface TrendsDataPoint {
   /** Dados adicionais de contexto */
   metadata?: Record<string, unknown>;
 }
+
+/**
+ * Ativo de mídia (imagem ou vídeo) retornado por APIs de terceiros
+ */
+export interface MediaAsset {
+  /** ID único do ativo */
+  id: string;
+
+  /** URL do ativo (download/acesso) */
+  url: string;
+
+  /** URL da miniatura/preview */
+  thumbnailUrl: string;
+
+  /** Provedor da mídia (pexels, pixabay, etc) */
+  provider: 'pexels' | 'pixabay';
+
+  /** Tipo de licença do ativo */
+  license: 'free' | 'commercial';
+
+  /** Tipo de mídia */
+  type: 'image' | 'video';
+
+  /** Duração em segundos (apenas para vídeos) */
+  duration?: number;
+}

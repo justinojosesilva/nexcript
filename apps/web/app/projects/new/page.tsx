@@ -786,7 +786,7 @@ export default function NewProjectPage() {
             <button
               onClick={handleSubmit}
               disabled={!canProceed || isPending}
-              className="btn-primary flex items-center gap-2 disabled:cursor-not-allowed disabled:opacity-40"
+              className="btn-primary w-40 flex items-center gap-2 disabled:cursor-not-allowed disabled:opacity-40"
             >
               {isPending ? (
                 <>

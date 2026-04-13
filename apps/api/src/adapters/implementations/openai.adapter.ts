@@ -53,4 +53,26 @@ export class OpenAIAdapter implements IOpenAIPort {
 
     return content;
   }
+
+  /**
+   * Get embedding vector for text using text-embedding-3-small
+   * @param text The text to embed
+   * @returns Embedding vector (1536 dimensions)
+   */
+  async getEmbedding(text: string): Promise<number[]> {
+    this.logger.debug(`Getting embedding for text (${text.length} chars)`);
+
+    const response = await this.client.embeddings.create({
+      model: 'text-embedding-3-small',
+      input: text,
+    });
+
+    const embedding = response.data[0]?.embedding;
+
+    if (!embedding) {
+      throw new Error('OpenAI returned an empty embedding');
+    }
+
+    return embedding;
+  }
 }

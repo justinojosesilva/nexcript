@@ -211,6 +211,7 @@ exports.Prisma.NarrationScalarFieldEnum = {
   audioUrl: 'audioUrl',
   durationSec: 'durationSec',
   status: 'status',
+  cacheHit: 'cacheHit',
   createdAt: 'createdAt',
   updatedAt: 'updatedAt'
 };
@@ -235,6 +236,8 @@ exports.Prisma.PublicationMetadataScalarFieldEnum = {
   tags: 'tags',
   thumbnailUrl: 'thumbnailUrl',
   platform: 'platform',
+  complianceScore: 'complianceScore',
+  checklistResults: 'checklistResults',
   scheduledAt: 'scheduledAt',
   publishedAt: 'publishedAt',
   createdAt: 'createdAt',

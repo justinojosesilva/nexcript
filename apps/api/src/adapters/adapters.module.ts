@@ -8,6 +8,9 @@ import { ElevenLabsTtsAdapter } from './implementations/elevenlabs-tts.adapter';
 import { OpenAITtsAdapter } from './implementations/openai-tts.adapter';
 import { FallbackTtsAdapter } from './implementations/fallback-tts.adapter';
 import { MemoryStorageAdapter } from './implementations/memory-storage.adapter';
+import { PexelsAdapter } from './implementations/pexels.adapter';
+import { PixabayAdapter } from './implementations/pixabay.adapter';
+import { MediaAdapter } from './implementations/media.adapter';
 
 @Module({
   imports: [ConfigModule, CacheModule],
@@ -34,6 +37,18 @@ import { MemoryStorageAdapter } from './implementations/memory-storage.adapter';
       provide: 'ITtsPort',
       useClass: FallbackTtsAdapter,
     },
+    {
+      provide: 'IPexelsPort',
+      useClass: PexelsAdapter,
+    },
+    {
+      provide: 'IPixabayPort',
+      useClass: PixabayAdapter,
+    },
+    {
+      provide: 'MediaAdapter',
+      useClass: MediaAdapter,
+    },
   ],
   exports: [
     'IYouTubePort',
@@ -41,6 +56,9 @@ import { MemoryStorageAdapter } from './implementations/memory-storage.adapter';
     'IOpenAIPort',
     'IStoragePort',
     'ITtsPort',
+    'IPexelsPort',
+    'IPixabayPort',
+    'MediaAdapter',
   ],
 })
 export class AdaptersModule {}

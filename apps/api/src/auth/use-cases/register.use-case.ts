@@ -51,8 +51,9 @@ export class RegisterUseCase {
 
     const accessToken = this.jwtService.sign({
       sub: user.id,
-      orgId: organization.id,
+      organizationId: organization.id,
       role: user.role,
+      email: user.email,
     });
 
     const refreshToken = await this.refreshTokenService.generateRefreshToken(

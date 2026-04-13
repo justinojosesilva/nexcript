@@ -25,7 +25,11 @@ import { RedisCacheAdapter } from './adapters/redis-cache.adapter';
       provide: 'ICachePort',
       useClass: RedisCacheAdapter,
     },
+    {
+      provide: 'CACHE_PORT',
+      useExisting: 'ICachePort',
+    },
   ],
-  exports: ['ICachePort', 'REDIS_INSTANCE'],
+  exports: ['ICachePort', 'CACHE_PORT', 'REDIS_INSTANCE'],
 })
 export class CacheModule {}

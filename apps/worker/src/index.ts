@@ -201,6 +201,41 @@ async function processNarrationJob(job: Job): Promise<unknown> {
   }
 }
 
+// Job processor for export jobs
+async function processExportJob(job: Job): Promise<unknown> {
+  console.log(`[Worker] Processing export job: ${job.id}`);
+
+  const jobData = job.data as Record<string, unknown>;
+  const { exportJobId, projectId, scriptId, narrationId, organizationId } =
+    jobData;
+
+  try {
+    await job.updateProgress(10);
+
+    const response = await axios.post(`${API_URL}/export/internal/process`, {
+      exportJobId,
+      projectId,
+      scriptId,
+      narrationId,
+      organizationId,
+    });
+
+    await job.updateProgress(90);
+
+    console.log(`[Worker] Completed export job: ${job.id}`);
+    await job.updateProgress(100);
+
+    return response.data;
+  } catch (error) {
+    const errorMessage = error instanceof Error ? error.message : String(error);
+    console.error(
+      `[Worker] Error processing export job ${job.id}:`,
+      errorMessage,
+    );
+    throw error;
+  }
+}
+
 // Update job status in database for jobs with entity references
 async function updateJobStatusInDatabase(
   job: Job,
@@ -359,6 +394,9 @@ const worker = new Worker(
           break;
         case "generate-narration":
           result = await processNarrationJob(job);
+          break;
+        case "process-export":
+          result = await processExportJob(job);
           break;
         default:
           throw new Error(`Unknown job type: ${job.name}`);

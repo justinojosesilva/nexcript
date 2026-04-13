@@ -188,11 +188,8 @@ export default function DashboardPage() {
           <EmptyState />
         ) : (
           <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-3 auto-rows-max">
-            {projects.map((project, index) => (
-              <div
-                key={project.id}
-                className={index % 5 === 0 ? "sm:col-span-2 sm:row-span-2" : ""}
-              >
+            {projects.map((project) => (
+              <div key={project.id}>
                 <ProjectCard project={project} />
               </div>
             ))}

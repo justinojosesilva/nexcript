@@ -14,6 +14,7 @@ export type {
   TitleVariant,
   YouTubeVideo,
   TrendsDataPoint,
+  MediaAsset,
 } from "./content.js";
 
 // Workflow

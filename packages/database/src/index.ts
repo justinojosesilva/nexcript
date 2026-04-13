@@ -8,5 +8,6 @@ export type {
   ContentProject,
   Script,
   Narration,
+  ExportJob,
   Prisma,
 } from "./generated/client";

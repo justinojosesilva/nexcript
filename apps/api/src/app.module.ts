@@ -20,6 +20,9 @@ import { NarrationsModule } from './narrations/narrations.module';
 import { PromptsModule } from './prompts/prompts.module';
 import { HealthModule } from './health/health.module';
 import { LoggingModule } from './logging/logging.module';
+import { MediaModule } from './media/media.module';
+import { PublicationMetadataModule } from './publication-metadata/publication-metadata.module';
+import { ExportModule } from './export/export.module';
 
 @Module({
   imports: [
@@ -41,6 +44,9 @@ import { LoggingModule } from './logging/logging.module';
     ScriptsModule,
     NarrationsModule,
     PromptsModule,
+    MediaModule,
+    PublicationMetadataModule,
+    ExportModule,
     HealthModule,
     LoggingModule,
     BullmqModule,

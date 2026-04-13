@@ -303,18 +303,20 @@ model MediaSuggestion {
 }
 
 model PublicationMetadata {
-  id             String    @id @default(cuid())
-  organizationId String
-  projectId      String    @unique
-  title          String?
-  description    String?
-  tags           String[]
-  thumbnailUrl   String?
-  platform       Platform
-  scheduledAt    DateTime?
-  publishedAt    DateTime?
-  createdAt      DateTime  @default(now())
-  updatedAt      DateTime  @updatedAt
+  id               String    @id @default(cuid())
+  organizationId   String
+  projectId        String    @unique
+  title            String?
+  description      String?
+  tags             String[]
+  thumbnailUrl     String?
+  platform         Platform
+  complianceScore  Int?      // 0-100, null if not calculated
+  checklistResults Json?     // { originalityScore, copyrightScore, monetizationScore }
+  scheduledAt      DateTime?
+  publishedAt      DateTime?
+  createdAt        DateTime  @default(now())
+  updatedAt        DateTime  @updatedAt
 
   organization   Organization   @relation(fields: [organizationId], references: [id])
   contentProject ContentProject @relation(fields: [projectId], references: [id])
