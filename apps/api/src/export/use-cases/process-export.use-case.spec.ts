@@ -120,7 +120,7 @@ describe('ProcessExportUseCase', () => {
     mockExportJobRepo.updateStatus.mockResolvedValue({});
   }
 
-  it('processes export and returns URL', async () => {
+  it('processes export and returns URL with ZIP size', async () => {
     setupValidData();
     setupMockArchiver();
 
@@ -129,6 +129,8 @@ describe('ProcessExportUseCase', () => {
     expect(result.exportUrl).toBe(
       'https://storage.example.com/exports/export-ej-1.zip',
     );
+    expect(typeof result.zipSize).toBe('number');
+    expect(result.zipSize).toBeGreaterThan(0);
     expect(mockStoragePort.uploadFile).toHaveBeenCalledWith(
       expect.any(Buffer),
       expect.stringContaining('exports/org-1/proj-1/export-ej-1.zip'),

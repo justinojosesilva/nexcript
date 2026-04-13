@@ -222,7 +222,17 @@ async function processExportJob(job: Job): Promise<unknown> {
 
     await job.updateProgress(90);
 
-    console.log(`[Worker] Completed export job: ${job.id}`);
+    // Log export details: ZIP size and URL
+    const { exportUrl, zipSize } = response.data as Record<string, unknown>;
+    if (zipSize && typeof zipSize === "number") {
+      const zipSizeKb = (zipSize / 1024).toFixed(2);
+      console.log(
+        `[Worker] Export job ${job.id} completed - ZIP size: ${zipSizeKb}KB, URL: ${exportUrl}`,
+      );
+    } else {
+      console.log(`[Worker] Export job ${job.id} completed - URL: ${exportUrl}`);
+    }
+
     await job.updateProgress(100);
 
     return response.data;
@@ -348,6 +358,8 @@ async function updateJobStatusInDatabase(
 
   // If job has an exportJobId, update ExportJob entity
   if (jobData.exportJobId && typeof jobData.exportJobId === "string") {
+    const projectId = jobData.projectId as string;
+
     await prisma.exportJob.update({
       where: { id: jobData.exportJobId },
       data: {
@@ -365,6 +377,16 @@ async function updateJobStatusInDatabase(
             : undefined,
       },
     });
+
+    // Update ContentProject status to EXPORTED on successful export
+    if (status === "completed" && projectId && typeof projectId === "string") {
+      await prisma.contentProject.update({
+        where: { id: projectId },
+        data: {
+          status: "exported",
+        },
+      });
+    }
   }
 }
 

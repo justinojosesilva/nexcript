@@ -19,6 +19,7 @@ interface ProcessExportInput {
 
 export interface ProcessExportOutput {
   exportUrl: string;
+  zipSize: number;
 }
 
 @Injectable()
@@ -125,9 +126,12 @@ export class ProcessExportUseCase {
       outputUrl: exportUrl,
     });
 
-    this.logger.debug(`Export completed: ${exportUrl}`);
+    const zipSizeKb = zipBuffer.length / 1024;
+    this.logger.debug(
+      `Export completed: ${exportUrl} (${zipSizeKb.toFixed(2)}KB)`,
+    );
 
-    return { exportUrl };
+    return { exportUrl, zipSize: zipBuffer.length };
   }
 
   private createZipBuffer(
