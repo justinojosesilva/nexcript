@@ -5,6 +5,8 @@ import { useQuery } from "@tanstack/react-query";
 import { ArrowLeft } from "lucide-react";
 import { fetchProject } from "@/lib/projects-client";
 import { ScriptsList } from "@/components/scripts-list";
+import { ComplianceBadge } from "@/components/compliance-badge";
+import { ExportFlow } from "@/components/export-flow";
 
 const STATUS_COLORS: Record<string, string> = {
   planning: "bg-blue-500/20 text-blue-300",
@@ -181,6 +183,22 @@ export default function ProjectPage() {
               </p>
             </div>
           </div>
+        </div>
+
+        {/* Compliance Badge */}
+        <div className="mb-6">
+          <h2 className="mb-4 font-display text-lg font-semibold text-white">
+            Conformidade
+          </h2>
+          <ComplianceBadge projectId={id} />
+        </div>
+
+        {/* Export Flow */}
+        <div className="mb-6">
+          <h2 className="mb-4 font-display text-lg font-semibold text-white">
+            Exportação
+          </h2>
+          <ExportFlow projectId={id} />
         </div>
 
         {/* Scripts List Section */}

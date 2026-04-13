@@ -2,7 +2,7 @@
 
 import { useParams, useRouter } from "next/navigation";
 import Image from "next/image";
-import { useQuery, useMutation } from "@tanstack/react-query";
+import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
 import {
   ArrowLeft,
   Search,
@@ -33,6 +33,7 @@ interface BlockMediaState {
 export default function MediaPage() {
   const { id: projectId } = useParams<{ id: string }>();
   const router = useRouter();
+  const queryClient = useQueryClient();
   const [blockMediaMap, setBlockMediaMap] = useState<
     Map<string, BlockMediaState>
   >(new Map());
@@ -98,6 +99,10 @@ export default function MediaPage() {
         });
         setBlockMediaMap(new Map(blockMediaMap));
       }
+      // Invalidate compliance query to trigger badge update
+      queryClient.invalidateQueries({
+        queryKey: ["compliance", projectId],
+      });
     },
   });
 
