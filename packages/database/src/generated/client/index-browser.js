@@ -125,6 +125,8 @@ exports.Prisma.OrganizationScalarFieldEnum = {
   name: 'name',
   slug: 'slug',
   plan: 'plan',
+  subscriptionId: 'subscriptionId',
+  onboardingCompleted: 'onboardingCompleted',
   createdAt: 'createdAt',
   updatedAt: 'updatedAt'
 };
@@ -258,6 +260,52 @@ exports.Prisma.ExportJobScalarFieldEnum = {
   updatedAt: 'updatedAt'
 };
 
+exports.Prisma.PlanScalarFieldEnum = {
+  id: 'id',
+  name: 'name',
+  slug: 'slug',
+  scriptLimit: 'scriptLimit',
+  narrationLimit: 'narrationLimit',
+  exportLimit: 'exportLimit',
+  priceMonthlyBrl: 'priceMonthlyBrl',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt'
+};
+
+exports.Prisma.SubscriptionScalarFieldEnum = {
+  id: 'id',
+  organizationId: 'organizationId',
+  planId: 'planId',
+  status: 'status',
+  stripeSubscriptionId: 'stripeSubscriptionId',
+  currentPeriodEnd: 'currentPeriodEnd',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt'
+};
+
+exports.Prisma.UsageLogScalarFieldEnum = {
+  id: 'id',
+  organizationId: 'organizationId',
+  month: 'month',
+  scripts: 'scripts',
+  narrations: 'narrations',
+  exports: 'exports',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt'
+};
+
+exports.Prisma.OrganizationInviteScalarFieldEnum = {
+  id: 'id',
+  organizationId: 'organizationId',
+  email: 'email',
+  token: 'token',
+  createdByUserId: 'createdByUserId',
+  expiresAt: 'expiresAt',
+  acceptedAt: 'acceptedAt',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt'
+};
+
 exports.Prisma.SortOrder = {
   asc: 'asc',
   desc: 'desc'
@@ -287,7 +335,7 @@ exports.Prisma.JsonNullValueFilter = {
   JsonNull: Prisma.JsonNull,
   AnyNull: Prisma.AnyNull
 };
-exports.Plan = exports.$Enums.Plan = {
+exports.PlanTier = exports.$Enums.PlanTier = {
   free: 'free',
   starter: 'starter',
   professional: 'professional',
@@ -298,7 +346,8 @@ exports.Role = exports.$Enums.Role = {
   admin: 'admin',
   manager: 'manager',
   creator: 'creator',
-  viewer: 'viewer'
+  viewer: 'viewer',
+  member: 'member'
 };
 
 exports.Platform = exports.$Enums.Platform = {
@@ -396,6 +445,14 @@ exports.AssetType = exports.$Enums.AssetType = {
   metadata: 'metadata'
 };
 
+exports.SubscriptionStatus = exports.$Enums.SubscriptionStatus = {
+  active: 'active',
+  inactive: 'inactive',
+  past_due: 'past_due',
+  cancelled: 'cancelled',
+  trialing: 'trialing'
+};
+
 exports.Prisma.ModelName = {
   Organization: 'Organization',
   User: 'User',
@@ -407,7 +464,11 @@ exports.Prisma.ModelName = {
   Narration: 'Narration',
   MediaSuggestion: 'MediaSuggestion',
   PublicationMetadata: 'PublicationMetadata',
-  ExportJob: 'ExportJob'
+  ExportJob: 'ExportJob',
+  Plan: 'Plan',
+  Subscription: 'Subscription',
+  UsageLog: 'UsageLog',
+  OrganizationInvite: 'OrganizationInvite'
 };
 
 /**

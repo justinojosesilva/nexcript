@@ -18,6 +18,7 @@ describe('GetExportStatusUseCase', () => {
     useCase = new GetExportStatusUseCase(mockExportJobRepo as any);
   });
 
+  const recentCompletedAt = new Date(Date.now() - 60 * 60 * 1000); // 1 hour ago — not expired
   const mockExportJob = {
     id: 'ej-1',
     organizationId: 'org-1',
@@ -25,9 +26,9 @@ describe('GetExportStatusUseCase', () => {
     status: 'completed',
     outputUrl: 'https://example.com/export.zip',
     errorMessage: null,
-    startedAt: new Date('2026-04-12T10:00:00Z'),
-    completedAt: new Date('2026-04-12T10:01:00Z'),
-    createdAt: new Date('2026-04-12T10:00:00Z'),
+    startedAt: new Date(recentCompletedAt.getTime() - 60 * 1000),
+    completedAt: recentCompletedAt,
+    createdAt: new Date(recentCompletedAt.getTime() - 60 * 1000),
   };
 
   it('returns export job status', async () => {
@@ -40,7 +41,7 @@ describe('GetExportStatusUseCase', () => {
 
     expect(result.status).toBe('completed');
     expect(result.exportUrl).toBe('https://example.com/export.zip');
-    expect(result.createdAt).toEqual(new Date('2026-04-12T10:00:00Z'));
+    expect(result.createdAt).toEqual(mockExportJob.createdAt);
   });
 
   it('throws ForbiddenException when organizationId is empty', async () => {

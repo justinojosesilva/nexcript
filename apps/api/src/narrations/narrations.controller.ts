@@ -5,6 +5,7 @@ import {
   HttpStatus,
   Post,
   BadRequestException,
+  ForbiddenException,
   NotFoundException,
 } from '@nestjs/common';
 import { ApiOperation, ApiResponse, ApiTags } from '@nestjs/swagger';
@@ -44,15 +45,26 @@ export class NarrationsController {
       throw new BadRequestException('Missing organizationId');
     }
 
-    // Fetch narration to get scriptId for cache key generation
+    // Fetch narration and validate it belongs to the organization via script → project join
     let scriptId = '';
     if (dto.narrationId) {
       const narration = await prisma.narration.findUnique({
         where: { id: dto.narrationId },
+        include: {
+          script: {
+            include: {
+              contentProject: { select: { organizationId: true } },
+            },
+          },
+        },
       });
 
       if (!narration) {
         throw new NotFoundException('Narration not found');
+      }
+
+      if (narration.script.contentProject.organizationId !== dto.organizationId) {
+        throw new ForbiddenException('Narration does not belong to organization');
       }
 
       scriptId = narration.scriptId;

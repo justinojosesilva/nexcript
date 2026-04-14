@@ -112,11 +112,19 @@ enum RpmTier {
   tier_4
 }
 
-enum Plan {
+enum PlanTier {
   free
   starter
   professional
   enterprise
+}
+
+enum SubscriptionStatus {
+  active
+  inactive
+  past_due
+  cancelled
+  trialing
 }
 
 enum Role {
@@ -124,25 +132,32 @@ enum Role {
   manager
   creator
   viewer
+  member
 }
 
 // ─── Models ────────────────────────────────────────────────────────────────
 
 model Organization {
-  id        String   @id @default(cuid())
-  name      String
-  slug      String   @unique
-  plan      Plan     @default(free)
-  createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt
+  id                  String    @id @default(cuid())
+  name                String
+  slug                String    @unique
+  plan                PlanTier  @default(free)
+  subscriptionId      String?   @unique
+  onboardingCompleted Boolean   @default(false)
+  createdAt           DateTime  @default(now())
+  updatedAt           DateTime  @updatedAt
 
+  activeSubscription  Subscription?         @relation("ActiveSubscription", fields: [subscriptionId], references: [id])
+  subscriptions       Subscription[]        @relation("OrgSubscriptions")
   users               User[]
+  invites             OrganizationInvite[]
   channelProfiles     ChannelProfile[]
   contentProjects     ContentProject[]
   trendAnalyses       TrendAnalysis[]
   mediaSuggestions    MediaSuggestion[]
   publicationMetadata PublicationMetadata[]
   exportJobs          ExportJob[]
+  usageLogs           UsageLog[]
 
   @@map("organizations")
 }
@@ -157,9 +172,10 @@ model User {
   createdAt      DateTime @default(now())
   updatedAt      DateTime @updatedAt
 
-  organization     Organization      @relation(fields: [organizationId], references: [id])
+  organization     Organization           @relation(fields: [organizationId], references: [id])
   channelProfiles  ChannelProfile[]
   refreshTokens    RefreshToken[]
+  inviteCreated    OrganizationInvite[]   @relation("CreatedBy")
 
   @@index([organizationId])
   @@map("users")
@@ -344,4 +360,76 @@ model ExportJob {
   @@index([organizationId])
   @@index([projectId])
   @@map("export_jobs")
+}
+
+model Plan {
+  id              String   @id @default(cuid())
+  name            String
+  slug            String   @unique
+  scriptLimit     Int?
+  narrationLimit  Int?
+  exportLimit     Int?
+  priceMonthlyBrl Decimal  @db.Decimal(10, 2)
+  createdAt       DateTime @default(now())
+  updatedAt       DateTime @updatedAt
+
+  subscriptions Subscription[]
+
+  @@map("plans")
+}
+
+model Subscription {
+  id                   String             @id @default(cuid())
+  organizationId       String
+  planId               String
+  status               SubscriptionStatus @default(active)
+  stripeSubscriptionId String?
+  currentPeriodEnd     DateTime?
+  createdAt            DateTime           @default(now())
+  updatedAt            DateTime           @updatedAt
+
+  organization Organization @relation("OrgSubscriptions", fields: [organizationId], references: [id])
+  plan         Plan         @relation(fields: [planId], references: [id])
+  activeFor    Organization? @relation("ActiveSubscription")
+
+  @@index([organizationId])
+  @@map("subscriptions")
+}
+
+model UsageLog {
+  id             String   @id @default(cuid())
+  organizationId String
+  month          String   @db.VarChar(7) // Format: YYYY-MM
+  scripts        Int      @default(0)
+  narrations     Int      @default(0)
+  exports        Int      @default(0)
+  createdAt      DateTime @default(now())
+  updatedAt      DateTime @updatedAt
+
+  organization Organization @relation(fields: [organizationId], references: [id])
+
+  @@unique([organizationId, month])
+  @@index([organizationId])
+  @@index([month])
+  @@map("usage_logs")
+}
+
+model OrganizationInvite {
+  id             String   @id @default(cuid())
+  organizationId String
+  email          String
+  token          String   @unique
+  createdByUserId String
+  expiresAt      DateTime
+  acceptedAt     DateTime?
+  createdAt      DateTime @default(now())
+  updatedAt      DateTime @updatedAt
+
+  organization    Organization @relation(fields: [organizationId], references: [id], onDelete: Cascade)
+  createdByUser   User          @relation("CreatedBy", fields: [createdByUserId], references: [id])
+
+  @@index([organizationId])
+  @@index([email])
+  @@index([token])
+  @@map("organization_invites")
 }

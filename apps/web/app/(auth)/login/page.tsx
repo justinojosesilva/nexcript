@@ -36,7 +36,7 @@ export default function LoginPage() {
     try {
       const response = await login(data);
       storeToken(response.accessToken);
-      router.push("/dashboard");
+      router.push(response.onboardingCompleted ? "/dashboard" : "/onboarding");
     } catch (error) {
       setGlobalError(
         error instanceof Error ? error.message : "Erro ao fazer login",

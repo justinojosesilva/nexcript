@@ -9,5 +9,8 @@ export type {
   Script,
   Narration,
   ExportJob,
+  Plan,
+  Subscription,
+  UsageLog,
   Prisma,
 } from "./generated/client";

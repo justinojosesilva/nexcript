@@ -16,6 +16,7 @@ interface AuthResponse {
     email: string;
     name: string;
   };
+  onboardingCompleted: boolean;
 }
 
 const API_URL = process.env.NEXT_PUBLIC_API_URL || "http://localhost:3002";

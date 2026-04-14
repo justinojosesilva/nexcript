@@ -16,6 +16,7 @@ export class LoginUseCase {
   async execute(dto: LoginDto): Promise<LoginResponse> {
     const user = await this.prismaService.client.user.findUnique({
       where: { email: dto.email },
+      include: { organization: true },
     });
 
     if (!user) {
@@ -50,6 +51,7 @@ export class LoginUseCase {
         email: user.email,
         name: user.name,
       },
+      onboardingCompleted: user.organization.onboardingCompleted,
     };
   }
 }

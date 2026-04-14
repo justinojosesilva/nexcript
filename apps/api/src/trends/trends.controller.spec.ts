@@ -97,7 +97,9 @@ describe('TrendsController', () => {
 
   describe('getTrendAnalysis', () => {
     it('should return trend analysis for a project', async () => {
-      const result = await controller.getTrendAnalysis('proj-1');
+      const authRequest = { user: { organizationId: 'org-1' } } as any;
+
+      const result = await controller.getTrendAnalysis('proj-1', authRequest);
 
       expect(result).toEqual({
         id: 'ta-1',
@@ -105,13 +107,23 @@ describe('TrendsController', () => {
         keyword: 'javascript',
         data: {},
       });
-      expect(getAnalysisMock).toHaveBeenCalledWith('proj-1');
+      expect(getAnalysisMock).toHaveBeenCalledWith('proj-1', 'org-1');
     });
 
-    it('should pass projectId to use case', async () => {
-      await controller.getTrendAnalysis('proj-123');
+    it('should pass projectId and organizationId to use case', async () => {
+      const authRequest = { user: { organizationId: 'org-abc' } } as any;
 
-      expect(getAnalysisMock).toHaveBeenCalledWith('proj-123');
+      await controller.getTrendAnalysis('proj-123', authRequest);
+
+      expect(getAnalysisMock).toHaveBeenCalledWith('proj-123', 'org-abc');
+    });
+
+    it('should throw if organizationId is missing from token', async () => {
+      const authRequest = { user: undefined } as any;
+
+      await expect(
+        controller.getTrendAnalysis('proj-1', authRequest),
+      ).rejects.toThrow('organizationId not found in request');
     });
   });
 

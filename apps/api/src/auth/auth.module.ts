@@ -7,11 +7,15 @@ import { LoginUseCase } from './use-cases/login.use-case';
 import { RegisterUseCase } from './use-cases/register.use-case';
 import { JwtStrategy } from './strategies/jwt.strategy';
 import { JwtAuthGuard } from './guards/jwt-auth.guard';
+import { TenantGuard } from './guards/tenant.guard';
+import { PlanLimitsGuard } from './guards/plan-limits.guard';
 import { RefreshTokenService } from './services/refresh-token.service';
+import { EmailModule } from '../email/email.module';
 
 @Module({
   imports: [
     PassportModule,
+    EmailModule,
     JwtModule.registerAsync({
       inject: [ConfigService],
       useFactory: (config: ConfigService): JwtModuleOptions => ({
@@ -31,7 +35,9 @@ import { RefreshTokenService } from './services/refresh-token.service';
     RefreshTokenService,
     JwtStrategy,
     JwtAuthGuard,
+    TenantGuard,
+    PlanLimitsGuard,
   ],
-  exports: [JwtAuthGuard],
+  exports: [JwtAuthGuard, TenantGuard, PlanLimitsGuard],
 })
 export class AuthModule {}

@@ -64,4 +64,7 @@ export class RegisterResponse {
 
   @ApiProperty({ type: UserData })
   user: UserData;
+
+  @ApiProperty({ example: false, description: 'Whether onboarding has been completed' })
+  onboardingCompleted: boolean;
 }

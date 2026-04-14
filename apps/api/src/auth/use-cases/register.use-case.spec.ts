@@ -51,6 +51,10 @@ const mockRefreshTokenService = {
   generateRefreshToken: jest.fn().mockResolvedValue('refresh-token'),
 };
 
+const mockSendConfirmationEmailUseCase = {
+  execute: jest.fn(),
+};
+
 const dto = {
   name: 'Alice',
   email: 'alice@example.com',
@@ -75,6 +79,7 @@ describe('RegisterUseCase', () => {
       mockPrismaService as any,
       mockJwtService as any,
       mockRefreshTokenService as any,
+      mockSendConfirmationEmailUseCase as any,
     );
   });
 
@@ -83,7 +88,8 @@ describe('RegisterUseCase', () => {
 
     expect(bcrypt.hash).toHaveBeenCalledWith(dto.password, 10);
     expect(txMock.organization.create).toHaveBeenCalledWith({
-      data: { name: 'Acme', slug: 'acme' },
+      // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
+      data: expect.objectContaining({ name: 'Acme', slug: expect.stringMatching(/^acme/) }),
     });
     expect(txMock.user.create).toHaveBeenCalledWith({
       data: {
@@ -96,15 +102,22 @@ describe('RegisterUseCase', () => {
     });
     expect(mockJwtService.sign).toHaveBeenCalledWith({
       sub: mockUser.id,
-      orgId: mockOrg.id,
+      organizationId: mockOrg.id,
       role: mockUser.role,
+      email: mockUser.email,
     });
     expect(mockRefreshTokenService.generateRefreshToken).toHaveBeenCalledWith(
       mockUser.id,
     );
     expect(result).toEqual({
-      access_token: 'jwt-token',
-      refresh_token: 'refresh-token',
+      accessToken: 'jwt-token',
+      refreshToken: 'refresh-token',
+      user: {
+        id: mockUser.id,
+        email: mockUser.email,
+        name: mockUser.name,
+      },
+      onboardingCompleted: false,
     });
   });
 
@@ -137,7 +150,7 @@ describe('RegisterUseCase', () => {
     await useCase.execute(dtoWithSpaces);
     expect(txMock.organization.create).toHaveBeenCalledWith({
       // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
-      data: expect.objectContaining({ slug: 'my-awesome-org' }),
+      data: expect.objectContaining({ slug: expect.stringMatching(/^my-awesome-org/) }),
     });
   });
 });

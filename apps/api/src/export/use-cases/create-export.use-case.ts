@@ -78,6 +78,7 @@ export class CreateExportUseCase {
     const selectedAssets = await prisma.mediaSuggestion.findMany({
       where: {
         projectId,
+        organizationId,
         metadata: { path: ['selected'], equals: true },
       },
     });

@@ -45,13 +45,13 @@ describe('GetTrendAnalysisUseCase', () => {
       mockTrendAnalysis,
     );
 
-    const result = await useCase.execute('proj-1');
+    const result = await useCase.execute('proj-1', 'org-1');
 
     expect(result).toEqual(mockTrendAnalysis);
     expect(
       mockPrismaService.client.trendAnalysis.findFirst,
     ).toHaveBeenCalledWith({
-      where: { projectId: 'proj-1' },
+      where: { projectId: 'proj-1', organizationId: 'org-1' },
       orderBy: { analyzedAt: 'desc' },
     });
   });
@@ -61,24 +61,25 @@ describe('GetTrendAnalysisUseCase', () => {
       null,
     );
 
-    await expect(useCase.execute('proj-nonexistent')).rejects.toThrow(
+    await expect(useCase.execute('proj-nonexistent', 'org-1')).rejects.toThrow(
       NotFoundException,
     );
-    await expect(useCase.execute('proj-nonexistent')).rejects.toThrow(
+    await expect(useCase.execute('proj-nonexistent', 'org-1')).rejects.toThrow(
       'TrendAnalysis not found for project: proj-nonexistent',
     );
   });
 
-  it('should query by project ID', async () => {
+  it('should query by project ID and organizationId', async () => {
     mockPrismaService.client.trendAnalysis.findFirst.mockResolvedValueOnce(
       mockTrendAnalysis,
     );
 
-    await useCase.execute('proj-123');
+    await useCase.execute('proj-123', 'org-abc');
 
     const callArgs =
       mockPrismaService.client.trendAnalysis.findFirst.mock.calls[0][0];
     expect(callArgs.where.projectId).toBe('proj-123');
+    expect(callArgs.where.organizationId).toBe('org-abc');
   });
 
   it('should order results by analyzedAt descending to get most recent', async () => {
@@ -86,10 +87,22 @@ describe('GetTrendAnalysisUseCase', () => {
       mockTrendAnalysis,
     );
 
-    await useCase.execute('proj-1');
+    await useCase.execute('proj-1', 'org-1');
 
     const callArgs =
       mockPrismaService.client.trendAnalysis.findFirst.mock.calls[0][0];
     expect(callArgs.orderBy).toEqual({ analyzedAt: 'desc' });
+  });
+
+  it('should not return trend analysis belonging to a different organization (cross-tenant isolation)', async () => {
+    // org-2 attempts to access proj-1 which belongs to org-1 — findFirst returns null
+    mockPrismaService.client.trendAnalysis.findFirst.mockResolvedValueOnce(null);
+
+    await expect(useCase.execute('proj-1', 'org-2')).rejects.toThrow(NotFoundException);
+
+    const callArgs =
+      mockPrismaService.client.trendAnalysis.findFirst.mock.calls[0][0];
+    expect(callArgs.where.organizationId).toBe('org-2');
+    expect(callArgs.where.projectId).toBe('proj-1');
   });
 });

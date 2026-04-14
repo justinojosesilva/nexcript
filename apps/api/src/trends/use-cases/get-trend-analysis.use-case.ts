@@ -15,10 +15,13 @@ export interface TrendAnalysisResponse {
 export class GetTrendAnalysisUseCase {
   constructor(private readonly prismaService: PrismaService) {}
 
-  async execute(projectId: string): Promise<TrendAnalysisResponse> {
+  async execute(
+    projectId: string,
+    organizationId: string,
+  ): Promise<TrendAnalysisResponse> {
     const trendAnalysis =
       await this.prismaService.client.trendAnalysis.findFirst({
-        where: { projectId },
+        where: { projectId, organizationId },
         orderBy: { analyzedAt: 'desc' },
       });
 

@@ -55,7 +55,7 @@ export default function RegisterPage() {
     try {
       const response = await registerUser(data);
       storeToken(response.accessToken);
-      router.push("/dashboard");
+      router.push("/onboarding");
     } catch (error) {
       setGlobalError(
         error instanceof Error ? error.message : "Erro ao criar conta",

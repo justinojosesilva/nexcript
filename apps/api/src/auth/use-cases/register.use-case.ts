@@ -4,6 +4,7 @@ import * as bcrypt from 'bcrypt';
 import { PrismaService } from '../../prisma/prisma.service';
 import { RegisterDto, RegisterResponse } from '../dto/register.dto';
 import { RefreshTokenService } from '../services/refresh-token.service';
+import { SendConfirmationEmailUseCase } from '../../email/use-cases/send-confirmation-email.use-case';
 
 const BCRYPT_ROUNDS = 10;
 
@@ -13,6 +14,7 @@ export class RegisterUseCase {
     private readonly prismaService: PrismaService,
     private readonly jwtService: JwtService,
     private readonly refreshTokenService: RefreshTokenService,
+    private readonly sendConfirmationEmailUseCase: SendConfirmationEmailUseCase,
   ) {}
 
   async execute(dto: RegisterDto): Promise<RegisterResponse> {
@@ -60,6 +62,18 @@ export class RegisterUseCase {
       user.id,
     );
 
+    // Generate confirmation token (expires in 24 hours)
+    const confirmationToken = this.jwtService.sign(
+      { sub: user.id, email: user.email, type: 'email_confirmation' },
+      { expiresIn: '24h' },
+    );
+
+    // Send confirmation email (non-blocking — doesn't affect registration flow)
+    void this.sendConfirmationEmailUseCase.execute({
+      userEmail: user.email,
+      confirmationToken,
+    });
+
     return {
       accessToken,
       refreshToken,
@@ -68,6 +82,7 @@ export class RegisterUseCase {
         email: user.email,
         name: user.name,
       },
+      onboardingCompleted: false,
     };
   }
 

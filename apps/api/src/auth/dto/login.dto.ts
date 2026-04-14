@@ -37,4 +37,7 @@ export class LoginResponse {
 
   @ApiProperty({ type: UserData })
   user: UserData;
+
+  @ApiProperty({ example: true, description: 'Whether onboarding has been completed' })
+  onboardingCompleted: boolean;
 }

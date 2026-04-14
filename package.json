@@ -27,6 +27,7 @@
     "node": ">=18"
   },
   "dependencies": {
-    "elevenlabs": "^1.59.0"
+    "elevenlabs": "^1.59.0",
+    "resend": "^6.11.0"
   }
 }

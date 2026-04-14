@@ -18,7 +18,11 @@
     "dev": "tsup --watch",
     "generate": "prisma generate",
     "migrate": "prisma migrate dev",
+    "seed": "tsx prisma/seed.ts",
     "studio": "prisma studio"
+  },
+  "prisma": {
+    "seed": "tsx prisma/seed.ts"
   },
   "dependencies": {
     "@nexcript/shared": "workspace:*",

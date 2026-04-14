@@ -12,6 +12,8 @@ import { ProjectsModule } from './projects/projects.module';
 import { BullmqModule } from './bullmq/bullmq.module';
 import { JobsModule } from './jobs/jobs.module';
 import { JwtAuthGuard } from './auth/guards/jwt-auth.guard';
+import { TenantGuard } from './auth/guards/tenant.guard';
+import { PlanLimitsGuard } from './auth/guards/plan-limits.guard';
 import { CacheModule } from './cache/cache.module';
 import { ScoringModule } from './scoring/scoring.module';
 import { TrendsModule } from './trends/trends.module';
@@ -23,6 +25,8 @@ import { LoggingModule } from './logging/logging.module';
 import { MediaModule } from './media/media.module';
 import { PublicationMetadataModule } from './publication-metadata/publication-metadata.module';
 import { ExportModule } from './export/export.module';
+import { BillingModule } from './billing/billing.module';
+import { OrganizationsModule } from './organizations/organizations.module';
 
 @Module({
   imports: [
@@ -47,6 +51,8 @@ import { ExportModule } from './export/export.module';
     MediaModule,
     PublicationMetadataModule,
     ExportModule,
+    BillingModule,
+    OrganizationsModule,
     HealthModule,
     LoggingModule,
     BullmqModule,
@@ -58,6 +64,14 @@ import { ExportModule } from './export/export.module';
     {
       provide: APP_GUARD,
       useClass: JwtAuthGuard,
+    },
+    {
+      provide: APP_GUARD,
+      useClass: TenantGuard,
+    },
+    {
+      provide: APP_GUARD,
+      useClass: PlanLimitsGuard,
     },
   ],
 })

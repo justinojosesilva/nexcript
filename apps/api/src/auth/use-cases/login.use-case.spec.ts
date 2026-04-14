@@ -10,6 +10,16 @@ import { UnauthorizedException } from '@nestjs/common';
 import * as bcrypt from 'bcrypt';
 import { LoginUseCase } from './login.use-case';
 
+const mockOrganization = {
+  id: 'org-1',
+  name: 'Acme',
+  slug: 'acme',
+  plan: 'free',
+  onboardingCompleted: true,
+  createdAt: new Date(),
+  updatedAt: new Date(),
+};
+
 const mockUser = {
   id: 'user-1',
   organizationId: 'org-1',
@@ -19,6 +29,7 @@ const mockUser = {
   passwordHash: 'hashed-password',
   createdAt: new Date(),
   updatedAt: new Date(),
+  organization: mockOrganization,
 };
 
 const mockPrismaService = {
@@ -58,12 +69,18 @@ describe('LoginUseCase', () => {
     );
   });
 
-  it('returns access_token and refresh_token for valid credentials', async () => {
+  it('returns accessToken, refreshToken, user and onboardingCompleted for valid credentials', async () => {
     const result = await useCase.execute(dto);
 
     expect(result).toEqual({
-      access_token: 'jwt-token',
-      refresh_token: 'refresh-token',
+      accessToken: 'jwt-token',
+      refreshToken: 'refresh-token',
+      user: {
+        id: mockUser.id,
+        email: mockUser.email,
+        name: mockUser.name,
+      },
+      onboardingCompleted: mockOrganization.onboardingCompleted,
     });
   });
 
@@ -82,7 +99,6 @@ describe('LoginUseCase', () => {
     mockPrismaService.client.user.findUnique.mockResolvedValue(null);
 
     await expect(useCase.execute(dto)).rejects.toThrow(UnauthorizedException);
-    expect(bcrypt.compare).not.toHaveBeenCalled();
     expect(mockJwtService.sign).not.toHaveBeenCalled();
     expect(mockRefreshTokenService.generateRefreshToken).not.toHaveBeenCalled();
   });

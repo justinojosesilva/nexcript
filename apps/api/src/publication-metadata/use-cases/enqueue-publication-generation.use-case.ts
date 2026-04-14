@@ -35,12 +35,12 @@ export class EnqueuePublicationGenerationUseCase {
       throw new BadRequestException('Project not found');
     }
 
-    // Verify script belongs to project
-    const script = await prisma.script.findUnique({
-      where: { id: scriptId },
+    // Verify script belongs to the project (which was already validated to belong to the org)
+    const script = await prisma.script.findFirst({
+      where: { id: scriptId, projectId },
     });
 
-    if (!script || script.projectId !== projectId) {
+    if (!script) {
       throw new BadRequestException('Script not found or does not belong to project');
     }
 

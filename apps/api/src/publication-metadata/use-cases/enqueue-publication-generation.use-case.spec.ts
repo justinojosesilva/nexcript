@@ -8,7 +8,7 @@ jest.mock('@nexcript/database', () => ({
       findFirst: jest.fn(),
     },
     script: {
-      findUnique: jest.fn(),
+      findFirst: jest.fn(),
     },
   },
 }));
@@ -48,7 +48,7 @@ describe('EnqueuePublicationGenerationUseCase', () => {
       (prisma.contentProject.findFirst as jest.Mock).mockResolvedValueOnce(
         mockProject,
       );
-      (prisma.script.findUnique as jest.Mock).mockResolvedValueOnce(mockScript);
+      (prisma.script.findFirst as jest.Mock).mockResolvedValueOnce(mockScript);
       (mockJobsQueue.add as jest.Mock).mockResolvedValueOnce({
         id: 'job-uuid',
       });
@@ -88,28 +88,24 @@ describe('EnqueuePublicationGenerationUseCase', () => {
       (prisma.contentProject.findFirst as jest.Mock).mockResolvedValueOnce(
         mockProject,
       );
-      (prisma.script.findUnique as jest.Mock).mockResolvedValueOnce(null);
+      (prisma.script.findFirst as jest.Mock).mockResolvedValueOnce(null);
 
       await expect(useCase.execute(validInput)).rejects.toThrow(
         BadRequestException,
       );
     });
 
-    it('should throw if script does not belong to project', async () => {
+    it('should throw if script does not belong to project (returns null for wrong projectId)', async () => {
       const mockProject = {
         id: 'project-123',
         organizationId: 'org-789',
       };
 
-      const mockScript = {
-        id: 'script-456',
-        projectId: 'different-project',
-      };
-
       (prisma.contentProject.findFirst as jest.Mock).mockResolvedValueOnce(
         mockProject,
       );
-      (prisma.script.findUnique as jest.Mock).mockResolvedValueOnce(mockScript);
+      // findFirst with { id, projectId } returns null when projectId doesn't match
+      (prisma.script.findFirst as jest.Mock).mockResolvedValueOnce(null);
 
       await expect(useCase.execute(validInput)).rejects.toThrow(
         BadRequestException,

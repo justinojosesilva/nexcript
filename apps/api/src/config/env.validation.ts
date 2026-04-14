@@ -10,4 +10,11 @@ export const envValidationSchema = Joi.object({
   GOOGLE_TRENDS_REGION: Joi.string().required(),
   OPENAI_API_KEY: Joi.string().required(),
   MAX_COST_PER_SCRIPT_BRL: Joi.number().positive().default(1.5),
+  STRIPE_SECRET_KEY: Joi.string().required(),
+  STRIPE_WEBHOOK_SECRET: Joi.string().required(),
+  STRIPE_SUCCESS_URL: Joi.string().uri().required(),
+  STRIPE_CANCEL_URL: Joi.string().uri().required(),
+  STRIPE_PORTAL_RETURN_URL: Joi.string().uri().required(),
+  RESEND_API_KEY: Joi.string().required(),
+  APP_URL: Joi.string().uri().required(),
 });

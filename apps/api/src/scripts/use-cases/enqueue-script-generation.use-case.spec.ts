@@ -88,6 +88,7 @@ describe('EnqueueScriptGenerationUseCase', () => {
       prisma.client.trendAnalysis.findUnique.mockResolvedValue({
         id: trendAnalysisId,
         projectId,
+        organizationId,
       } as any);
 
       jobsQueue.add.mockResolvedValue({
@@ -108,7 +109,7 @@ describe('EnqueueScriptGenerationUseCase', () => {
 
       expect(prisma.client.trendAnalysis.findUnique).toHaveBeenCalledWith({
         where: { id: trendAnalysisId },
-        select: { id: true, projectId: true },
+        select: { id: true, projectId: true, organizationId: true },
       });
 
       expect(jobsQueue.add).toHaveBeenCalledWith(
@@ -170,6 +171,24 @@ describe('EnqueueScriptGenerationUseCase', () => {
       prisma.client.trendAnalysis.findUnique.mockResolvedValue({
         id: trendAnalysisId,
         projectId: 'different-project',
+        organizationId,
+      } as any);
+
+      await expect(useCase.execute(validInput)).rejects.toThrow(
+        BadRequestException,
+      );
+    });
+
+    it('should throw BadRequestException if trend analysis belongs to a different organization (cross-tenant isolation)', async () => {
+      prisma.client.contentProject.findUnique.mockResolvedValue({
+        id: projectId,
+        organizationId,
+      } as any);
+
+      prisma.client.trendAnalysis.findUnique.mockResolvedValue({
+        id: trendAnalysisId,
+        projectId,
+        organizationId: 'other-org',
       } as any);
 
       await expect(useCase.execute(validInput)).rejects.toThrow(
@@ -193,6 +212,7 @@ describe('EnqueueScriptGenerationUseCase', () => {
         prisma.client.trendAnalysis.findUnique.mockResolvedValue({
           id: trendAnalysisId,
           projectId,
+          organizationId,
         } as any);
 
         jobsQueue.add.mockResolvedValue({ id: 'job-123' } as any);
@@ -222,6 +242,7 @@ describe('EnqueueScriptGenerationUseCase', () => {
       prisma.client.trendAnalysis.findUnique.mockResolvedValue({
         id: trendAnalysisId,
         projectId,
+        organizationId,
       } as any);
 
       jobsQueue.add.mockResolvedValue({ id: 'job-123' } as any);

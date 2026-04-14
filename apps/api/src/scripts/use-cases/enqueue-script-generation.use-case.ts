@@ -39,10 +39,10 @@ export class EnqueueScriptGenerationUseCase {
       );
     }
 
-    // Verify trend analysis exists and belongs to project
+    // Verify trend analysis exists and belongs to the same project and organization
     const trendAnalysis = await this.prisma.client.trendAnalysis.findUnique({
       where: { id: input.trendAnalysisId },
-      select: { id: true, projectId: true },
+      select: { id: true, projectId: true, organizationId: true },
     });
 
     if (!trendAnalysis) {
@@ -54,6 +54,12 @@ export class EnqueueScriptGenerationUseCase {
     if (trendAnalysis.projectId !== input.projectId) {
       throw new BadRequestException(
         `Trend analysis does not belong to project ${input.projectId}`,
+      );
+    }
+
+    if (trendAnalysis.organizationId !== input.organizationId) {
+      throw new BadRequestException(
+        `Trend analysis does not belong to organization ${input.organizationId}`,
       );
     }
 

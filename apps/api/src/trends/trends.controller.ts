@@ -104,8 +104,15 @@ export class TrendsController {
   @ApiResponse({ status: 401, description: 'Unauthorized' })
   async getTrendAnalysis(
     @Param('projectId') projectId: string,
+    @Request() authRequest: AuthRequest,
   ): Promise<unknown> {
-    return this.getTrendAnalysisUseCase.execute(projectId);
+    const organizationId = authRequest.user?.organizationId;
+
+    if (!organizationId) {
+      throw new Error('organizationId not found in request');
+    }
+
+    return this.getTrendAnalysisUseCase.execute(projectId, organizationId);
   }
 
   @Post('internal/execute')
