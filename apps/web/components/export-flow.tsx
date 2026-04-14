@@ -1,6 +1,7 @@
 "use client";
 
 import { useState, useEffect } from "react";
+import { useRouter } from "next/navigation";
 import { useQuery, useMutation } from "@tanstack/react-query";
 import { Download, AlertCircle, CheckCircle2, Loader2 } from "lucide-react";
 import { fetchProject } from "@/lib/projects-client";
@@ -16,9 +17,11 @@ interface ExportFlowProps {
 }
 
 export function ExportFlow({ projectId }: ExportFlowProps) {
+  const router = useRouter();
   const [exportJobId, setExportJobId] = useState<string | null>(null);
   const [exportUrl, setExportUrl] = useState<string | null>(null);
   const [exportError, setExportError] = useState<CreateExportError | null>(null);
+  const [isPlanLimitError, setIsPlanLimitError] = useState(false);
   const [pollingError, setPollingError] = useState<string | null>(null);
 
   // Fetch project data
@@ -71,9 +74,18 @@ export function ExportFlow({ projectId }: ExportFlowProps) {
       setExportError(null);
       setPollingError(null);
     },
-    onError: (error: { response?: { data: CreateExportError } } | null) => {
-      const errorData = error?.response?.data;
-      setExportError(errorData || { message: "Failed to create export" });
+    onError: (error: { response?: { status: number; data: CreateExportError } } | null) => {
+      const status = error?.response?.status;
+      if (status === 402) {
+        setIsPlanLimitError(true);
+        setExportError({
+          message: "Você atingiu o limite do plano Free — faça upgrade para continuar.",
+        });
+      } else {
+        setIsPlanLimitError(false);
+        const errorData = error?.response?.data;
+        setExportError(errorData || { message: "Failed to create export" });
+      }
       setExportJobId("error");
     },
   });
@@ -196,10 +208,18 @@ export function ExportFlow({ projectId }: ExportFlowProps) {
           <AlertCircle className="h-5 w-5 shrink-0 text-red-400" />
           <div>
             <p className="font-medium text-red-300">{exportError.message}</p>
-            {exportError.missing && exportError.missing.length > 0 && (
+            {!isPlanLimitError && exportError.missing && exportError.missing.length > 0 && (
               <p className="mt-1 text-red-200/70">
                 Faltam: {exportError.missing.join(", ")}
               </p>
+            )}
+            {isPlanLimitError && (
+              <button
+                onClick={() => router.push("/plans")}
+                className="mt-2 text-xs font-semibold text-[#A78BFA] transition-colors hover:text-[#7C3AED] cursor-pointer"
+              >
+                Ver planos →
+              </button>
             )}
           </div>
         </div>
@@ -309,6 +329,7 @@ export function ExportFlow({ projectId }: ExportFlowProps) {
                 setExportJobId(null);
                 setExportUrl(null);
                 setExportError(null);
+                setIsPlanLimitError(false);
                 setPollingError(null);
               }}
               className="w-full rounded-lg border border-neutral-700 px-4 py-3 font-medium text-neutral-300 transition-colors hover:border-neutral-600 hover:bg-neutral-800"

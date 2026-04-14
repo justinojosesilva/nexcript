@@ -351,16 +351,33 @@ export function TrendsWizard({ analysis, projectId }: TrendsWizardProps) {
             </div>
 
             {/* Error State */}
-            {createScriptMutation.isError && (
-              <div className="rounded-lg border border-red-500/50 bg-red-500/10 p-4">
-                <div className="flex gap-3">
-                  <AlertCircle className="h-5 w-5 flex-shrink-0 text-red-400" />
-                  <p className="text-sm text-red-200">
-                    Erro ao criar roteiro. Tente novamente.
-                  </p>
+            {createScriptMutation.isError && (() => {
+              const is402 =
+                (createScriptMutation.error as { response?: { status: number } })
+                  ?.response?.status === 402;
+              return (
+                <div className="rounded-lg border border-red-500/50 bg-red-500/10 p-4">
+                  <div className="flex gap-3">
+                    <AlertCircle className="h-5 w-5 flex-shrink-0 text-red-400" />
+                    <div>
+                      <p className="text-sm text-red-200">
+                        {is402
+                          ? "Você atingiu o limite do plano Free — faça upgrade para continuar."
+                          : "Erro ao criar roteiro. Tente novamente."}
+                      </p>
+                      {is402 && (
+                        <button
+                          onClick={() => router.push("/plans")}
+                          className="mt-2 text-xs font-semibold text-[#A78BFA] transition-colors hover:text-[#7C3AED] cursor-pointer"
+                        >
+                          Ver planos →
+                        </button>
+                      )}
+                    </div>
+                  </div>
                 </div>
-              </div>
-            )}
+              );
+            })()}
 
             {/* Navigation */}
             <div className="flex justify-between gap-3">

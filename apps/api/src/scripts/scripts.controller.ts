@@ -29,6 +29,7 @@ import { GetBudgetSummaryUseCase } from './use-cases/get-budget-summary.use-case
 import { UpdateScriptDto } from './dto/update-script.dto';
 import { GenerateScriptDto } from './dto/generate-script.dto';
 import { CreateScriptQueueDto } from './dto/create-script-queue.dto';
+import { CheckPlanLimit } from '../auth/decorators/check-plan-limit.decorator';
 
 @ApiTags('scripts')
 @ApiBearerAuth()
@@ -182,6 +183,7 @@ export class ScriptsController {
 
   @Post('project/:projectId/generate')
   @HttpCode(HttpStatus.CREATED)
+  @CheckPlanLimit('scripts')
   async generateScript(
     @Param('projectId') projectId: string,
     @Body() dto: GenerateScriptDto,

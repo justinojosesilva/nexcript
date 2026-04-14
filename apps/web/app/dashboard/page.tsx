@@ -289,7 +289,10 @@ function UpgradeBanner({
 export default function DashboardPage() {
   const router = useRouter();
   const isAuthenticated = !!getStoredToken();
-  const [bannerDismissed, setBannerDismissed] = useState(false);
+  const [bannerDismissed, setBannerDismissed] = useState(() => {
+    if (typeof window === "undefined") return false;
+    return sessionStorage.getItem("nexcript_upgrade_banner_dismissed") === "1";
+  });
 
   const {
     data: projects = [],
@@ -331,7 +334,10 @@ export default function DashboardPage() {
       {showBanner && (
         <UpgradeBanner
           maxPercent={Math.round(maxPercent)}
-          onDismiss={() => setBannerDismissed(true)}
+          onDismiss={() => {
+            sessionStorage.setItem("nexcript_upgrade_banner_dismissed", "1");
+            setBannerDismissed(true);
+          }}
         />
       )}
 
