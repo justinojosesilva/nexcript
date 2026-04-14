@@ -1,7 +1,9 @@
-import { Injectable, BadRequestException } from '@nestjs/common';
+import { Injectable, BadRequestException, Logger } from '@nestjs/common';
 import { ConfigService } from '@nestjs/config';
 import Stripe from 'stripe';
 import { PrismaService } from '../../prisma/prisma.service';
+import { SendPaymentFailedEmailUseCase } from '../../email/use-cases/send-payment-failed-email.use-case';
+import { SendCancellationWarningEmailUseCase } from '../../email/use-cases/send-cancellation-warning-email.use-case';
 
 interface HandleStripeWebhookInput {
   rawBody: Buffer;
@@ -16,11 +18,14 @@ interface StripeWebhookEvent {
 
 @Injectable()
 export class HandleStripeWebhookUseCase {
+  private readonly logger = new Logger(HandleStripeWebhookUseCase.name);
   private stripe: InstanceType<typeof Stripe>;
 
   constructor(
     private readonly config: ConfigService,
     private readonly prisma: PrismaService,
+    private readonly sendPaymentFailedEmail: SendPaymentFailedEmailUseCase,
+    private readonly sendCancellationWarningEmail: SendCancellationWarningEmailUseCase,
   ) {
     this.stripe = new Stripe(this.config.getOrThrow<string>('STRIPE_SECRET_KEY'));
   }
@@ -146,6 +151,9 @@ export class HandleStripeWebhookUseCase {
       where: { stripeSubscriptionId: stripeSub.id as string },
       data: { status: status as any, currentPeriodEnd },
     });
+
+    // Check if approaching cancellation and send warning email
+    await this.handleSubscriptionCancellationWarning(stripeSub);
   }
 
   private async handleSubscriptionDeleted(
@@ -180,6 +188,124 @@ export class HandleStripeWebhookUseCase {
     await this.prisma.client.subscription.updateMany({
       where: { stripeSubscriptionId },
       data: { status: 'past_due' },
+    });
+
+    // Send billing alert email with idempotency per invoiceId
+    const invoiceId = invoice.id as string | undefined;
+    if (!invoiceId) return;
+
+    const alreadyNotified = await this.prisma.client.billingNotification.findUnique({
+      where: { invoiceId_type: { invoiceId, type: 'payment_failed' } },
+    });
+
+    if (alreadyNotified) return;
+
+    // Fetch organization owner email
+    const subscription = await this.prisma.client.subscription.findFirst({
+      where: { stripeSubscriptionId },
+      include: {
+        organization: {
+          include: {
+            users: {
+              where: { role: 'admin' },
+              orderBy: { createdAt: 'asc' },
+              take: 1,
+              select: { email: true },
+            },
+          },
+        },
+      },
+    });
+
+    if (!subscription?.organization) return;
+
+    const ownerEmail = subscription.organization.users[0]?.email;
+    if (!ownerEmail) return;
+
+    // Parse invoice amounts
+    const amountCents = (invoice.amount_due as number) ?? 0;
+    const nextRetryTimestamp = invoice.next_payment_attempt as number | null;
+    const nextRetryAt = nextRetryTimestamp ? new Date(nextRetryTimestamp * 1000) : null;
+
+    const appUrl = this.config.getOrThrow<string>('APP_URL');
+    const billingPortalUrl = `${appUrl}/dashboard/billing`;
+
+    // Mark as notified before sending to guarantee idempotency
+    await this.prisma.client.billingNotification.create({
+      data: {
+        organizationId: subscription.organizationId,
+        invoiceId,
+        type: 'payment_failed',
+      },
+    });
+
+    void this.sendPaymentFailedEmail.execute({
+      userEmail: ownerEmail,
+      organizationName: subscription.organization.name,
+      amountCents,
+      nextRetryAt,
+      billingPortalUrl,
+    });
+  }
+
+  private async handleSubscriptionCancellationWarning(
+    stripeSub: Record<string, any>,
+  ): Promise<void> {
+    // Only act when cancelAtPeriodEnd is true and within the 3-day window
+    if (!stripeSub.cancel_at_period_end) return;
+
+    const cancelAt = new Date((stripeSub.cancel_at ?? stripeSub.current_period_end) * 1000);
+    const now = new Date();
+    const daysUntilCancel = (cancelAt.getTime() - now.getTime()) / (1000 * 60 * 60 * 24);
+
+    if (daysUntilCancel > 3 || daysUntilCancel < 0) return;
+
+    // Idempotency key: stripeSubscriptionId + "cancellation_warning"
+    const invoiceId = `sub_${stripeSub.id as string}_cancel_warning`;
+
+    const alreadyNotified = await this.prisma.client.billingNotification.findUnique({
+      where: { invoiceId_type: { invoiceId, type: 'cancellation_warning' } },
+    });
+
+    if (alreadyNotified) return;
+
+    const subscription = await this.prisma.client.subscription.findFirst({
+      where: { stripeSubscriptionId: stripeSub.id as string },
+      include: {
+        organization: {
+          include: {
+            users: {
+              where: { role: 'admin' },
+              orderBy: { createdAt: 'asc' },
+              take: 1,
+              select: { email: true },
+            },
+          },
+        },
+      },
+    });
+
+    if (!subscription?.organization) return;
+
+    const ownerEmail = subscription.organization.users[0]?.email;
+    if (!ownerEmail) return;
+
+    const appUrl = this.config.getOrThrow<string>('APP_URL');
+    const billingPortalUrl = `${appUrl}/dashboard/billing`;
+
+    await this.prisma.client.billingNotification.create({
+      data: {
+        organizationId: subscription.organizationId,
+        invoiceId,
+        type: 'cancellation_warning',
+      },
+    });
+
+    void this.sendCancellationWarningEmail.execute({
+      userEmail: ownerEmail,
+      organizationName: subscription.organization.name,
+      cancellationAt: cancelAt,
+      billingPortalUrl,
     });
   }
 }

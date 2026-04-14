@@ -150,8 +150,9 @@ model Organization {
   activeSubscription  Subscription?         @relation("ActiveSubscription", fields: [subscriptionId], references: [id])
   subscriptions       Subscription[]        @relation("OrgSubscriptions")
   users               User[]
-  invites             OrganizationInvite[]
-  channelProfiles     ChannelProfile[]
+  invites              OrganizationInvite[]
+  billingNotifications BillingNotification[]
+  channelProfiles      ChannelProfile[]
   contentProjects     ContentProject[]
   trendAnalyses       TrendAnalysis[]
   mediaSuggestions    MediaSuggestion[]
@@ -432,4 +433,18 @@ model OrganizationInvite {
   @@index([email])
   @@index([token])
   @@map("organization_invites")
+}
+
+model BillingNotification {
+  id             String   @id @default(cuid())
+  organizationId String
+  invoiceId      String
+  type           String   // e.g. "payment_failed", "cancellation_warning"
+  sentAt         DateTime @default(now())
+
+  organization Organization @relation(fields: [organizationId], references: [id], onDelete: Cascade)
+
+  @@unique([invoiceId, type])
+  @@index([organizationId])
+  @@map("billing_notifications")
 }

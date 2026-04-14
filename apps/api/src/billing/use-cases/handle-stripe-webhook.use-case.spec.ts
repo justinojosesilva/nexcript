@@ -19,8 +19,16 @@ const mockPrisma = {
     usageLog: {
       upsert: jest.fn(),
     },
+    billingNotification: {
+      findUnique: jest.fn(),
+      create: jest.fn(),
+    },
   },
 };
+
+// ── Mock Email Use Cases ──────────────────────────────────────────────────────
+const mockSendPaymentFailedEmail = { execute: jest.fn() };
+const mockSendCancellationWarningEmail = { execute: jest.fn() };
 
 jest.mock('../../prisma/prisma.service', () => ({
   PrismaService: jest.fn(() => mockPrisma),
@@ -64,7 +72,12 @@ describe('HandleStripeWebhookUseCase', () => {
 
   beforeEach(() => {
     jest.clearAllMocks();
-    useCase = new HandleStripeWebhookUseCase(makeConfigService(), mockPrisma as any);
+    useCase = new HandleStripeWebhookUseCase(
+      makeConfigService(),
+      mockPrisma as any,
+      mockSendPaymentFailedEmail as any,
+      mockSendCancellationWarningEmail as any,
+    );
   });
 
   // ── Signature verification ────────────────────────────────────────────────
@@ -284,13 +297,34 @@ describe('HandleStripeWebhookUseCase', () => {
 
   // ── invoice.payment_failed ────────────────────────────────────────────────
   describe('invoice.payment_failed', () => {
-    it('sets subscription status to past_due', async () => {
-      mockConstructEvent.mockReturnValue({
-        type: 'invoice.payment_failed',
-        data: {
-          object: { subscription: 'sub_abc123' },
+    const failedInvoiceEvent = {
+      type: 'invoice.payment_failed',
+      data: {
+        object: {
+          id: 'inv_abc123',
+          subscription: 'sub_abc123',
+          amount_due: 4990,
+          next_payment_attempt: Math.floor(Date.now() / 1000) + 86400,
         },
-      });
+      },
+    };
+
+    const mockSubscriptionWithOrg = {
+      id: 'sub-db-1',
+      organizationId: 'org-1',
+      stripeSubscriptionId: 'sub_abc123',
+      organization: {
+        id: 'org-1',
+        name: 'Acme Corp',
+        users: [{ email: 'admin@acme.com' }],
+      },
+    };
+
+    it('sets subscription status to past_due', async () => {
+      mockConstructEvent.mockReturnValue(failedInvoiceEvent);
+      mockPrisma.client.billingNotification.findUnique.mockResolvedValue(null);
+      mockPrisma.client.subscription.findFirst.mockResolvedValue(mockSubscriptionWithOrg);
+      mockPrisma.client.billingNotification.create.mockResolvedValue({});
 
       await useCase.execute(makeInput());
 
@@ -302,6 +336,33 @@ describe('HandleStripeWebhookUseCase', () => {
       );
     });
 
+    it('sends payment failed email on first occurrence', async () => {
+      mockConstructEvent.mockReturnValue(failedInvoiceEvent);
+      mockPrisma.client.billingNotification.findUnique.mockResolvedValue(null);
+      mockPrisma.client.subscription.findFirst.mockResolvedValue(mockSubscriptionWithOrg);
+      mockPrisma.client.billingNotification.create.mockResolvedValue({});
+
+      await useCase.execute(makeInput());
+
+      expect(mockPrisma.client.billingNotification.create).toHaveBeenCalledWith(
+        expect.objectContaining({
+          data: expect.objectContaining({ invoiceId: 'inv_abc123', type: 'payment_failed' }),
+        }),
+      );
+      expect(mockSendPaymentFailedEmail.execute).toHaveBeenCalledWith(
+        expect.objectContaining({ userEmail: 'admin@acme.com', organizationName: 'Acme Corp' }),
+      );
+    });
+
+    it('skips email when invoice was already notified (idempotent)', async () => {
+      mockConstructEvent.mockReturnValue(failedInvoiceEvent);
+      mockPrisma.client.billingNotification.findUnique.mockResolvedValue({ id: 'notif-1' });
+
+      await useCase.execute(makeInput());
+
+      expect(mockSendPaymentFailedEmail.execute).not.toHaveBeenCalled();
+    });
+
     it('does nothing when invoice has no subscription', async () => {
       mockConstructEvent.mockReturnValue({
         type: 'invoice.payment_failed',
@@ -311,6 +372,78 @@ describe('HandleStripeWebhookUseCase', () => {
       await useCase.execute(makeInput());
 
       expect(mockPrisma.client.subscription.updateMany).not.toHaveBeenCalled();
+    });
+  });
+
+  // ── cancellation_warning ──────────────────────────────────────────────────
+  describe('customer.subscription.updated — cancelAtPeriodEnd within 3 days', () => {
+    const cancelSoonTimestamp = Math.floor(Date.now() / 1000) + 2 * 86400; // 2 days from now
+
+    const cancelEvent = {
+      type: 'customer.subscription.updated',
+      data: {
+        object: {
+          id: 'sub_abc123',
+          status: 'active',
+          current_period_end: cancelSoonTimestamp,
+          cancel_at_period_end: true,
+          cancel_at: cancelSoonTimestamp,
+        },
+      },
+    };
+
+    const mockSubscriptionWithOrg = {
+      id: 'sub-db-1',
+      organizationId: 'org-1',
+      stripeSubscriptionId: 'sub_abc123',
+      organization: {
+        id: 'org-1',
+        name: 'Acme Corp',
+        users: [{ email: 'admin@acme.com' }],
+      },
+    };
+
+    it('sends cancellation warning email when within 3 days', async () => {
+      mockConstructEvent.mockReturnValue(cancelEvent);
+      mockPrisma.client.subscription.updateMany.mockResolvedValue({});
+      mockPrisma.client.billingNotification.findUnique.mockResolvedValue(null);
+      mockPrisma.client.subscription.findFirst.mockResolvedValue(mockSubscriptionWithOrg);
+      mockPrisma.client.billingNotification.create.mockResolvedValue({});
+
+      await useCase.execute(makeInput());
+
+      expect(mockSendCancellationWarningEmail.execute).toHaveBeenCalledWith(
+        expect.objectContaining({ userEmail: 'admin@acme.com', organizationName: 'Acme Corp' }),
+      );
+    });
+
+    it('skips warning email when already notified (idempotent)', async () => {
+      mockConstructEvent.mockReturnValue(cancelEvent);
+      mockPrisma.client.subscription.updateMany.mockResolvedValue({});
+      mockPrisma.client.billingNotification.findUnique.mockResolvedValue({ id: 'notif-1' });
+
+      await useCase.execute(makeInput());
+
+      expect(mockSendCancellationWarningEmail.execute).not.toHaveBeenCalled();
+    });
+
+    it('does not send warning when cancel_at_period_end is false', async () => {
+      mockConstructEvent.mockReturnValue({
+        type: 'customer.subscription.updated',
+        data: {
+          object: {
+            id: 'sub_abc123',
+            status: 'active',
+            current_period_end: cancelSoonTimestamp,
+            cancel_at_period_end: false,
+          },
+        },
+      });
+      mockPrisma.client.subscription.updateMany.mockResolvedValue({});
+
+      await useCase.execute(makeInput());
+
+      expect(mockSendCancellationWarningEmail.execute).not.toHaveBeenCalled();
     });
   });
 });

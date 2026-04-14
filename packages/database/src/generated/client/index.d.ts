@@ -88,6 +88,11 @@ export type UsageLog = $Result.DefaultSelection<Prisma.$UsageLogPayload>
  * 
  */
 export type OrganizationInvite = $Result.DefaultSelection<Prisma.$OrganizationInvitePayload>
+/**
+ * Model BillingNotification
+ * 
+ */
+export type BillingNotification = $Result.DefaultSelection<Prisma.$BillingNotificationPayload>
 
 /**
  * Enums
@@ -588,6 +593,16 @@ export class PrismaClient<
     * ```
     */
   get organizationInvite(): Prisma.OrganizationInviteDelegate<ExtArgs, ClientOptions>;
+
+  /**
+   * `prisma.billingNotification`: Exposes CRUD operations for the **BillingNotification** model.
+    * Example usage:
+    * ```ts
+    * // Fetch zero or more BillingNotifications
+    * const billingNotifications = await prisma.billingNotification.findMany()
+    * ```
+    */
+  get billingNotification(): Prisma.BillingNotificationDelegate<ExtArgs, ClientOptions>;
 }
 
 export namespace Prisma {
@@ -1036,7 +1051,8 @@ export namespace Prisma {
     Plan: 'Plan',
     Subscription: 'Subscription',
     UsageLog: 'UsageLog',
-    OrganizationInvite: 'OrganizationInvite'
+    OrganizationInvite: 'OrganizationInvite',
+    BillingNotification: 'BillingNotification'
   };
 
   export type ModelName = (typeof ModelName)[keyof typeof ModelName]
@@ -1052,7 +1068,7 @@ export namespace Prisma {
       omit: GlobalOmitOptions
     }
     meta: {
-      modelProps: "organization" | "user" | "refreshToken" | "channelProfile" | "contentProject" | "trendAnalysis" | "script" | "narration" | "mediaSuggestion" | "publicationMetadata" | "exportJob" | "plan" | "subscription" | "usageLog" | "organizationInvite"
+      modelProps: "organization" | "user" | "refreshToken" | "channelProfile" | "contentProject" | "trendAnalysis" | "script" | "narration" | "mediaSuggestion" | "publicationMetadata" | "exportJob" | "plan" | "subscription" | "usageLog" | "organizationInvite" | "billingNotification"
       txIsolationLevel: Prisma.TransactionIsolationLevel
     }
     model: {
@@ -2166,6 +2182,80 @@ export namespace Prisma {
           }
         }
       }
+      BillingNotification: {
+        payload: Prisma.$BillingNotificationPayload<ExtArgs>
+        fields: Prisma.BillingNotificationFieldRefs
+        operations: {
+          findUnique: {
+            args: Prisma.BillingNotificationFindUniqueArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$BillingNotificationPayload> | null
+          }
+          findUniqueOrThrow: {
+            args: Prisma.BillingNotificationFindUniqueOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$BillingNotificationPayload>
+          }
+          findFirst: {
+            args: Prisma.BillingNotificationFindFirstArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$BillingNotificationPayload> | null
+          }
+          findFirstOrThrow: {
+            args: Prisma.BillingNotificationFindFirstOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$BillingNotificationPayload>
+          }
+          findMany: {
+            args: Prisma.BillingNotificationFindManyArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$BillingNotificationPayload>[]
+          }
+          create: {
+            args: Prisma.BillingNotificationCreateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$BillingNotificationPayload>
+          }
+          createMany: {
+            args: Prisma.BillingNotificationCreateManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          createManyAndReturn: {
+            args: Prisma.BillingNotificationCreateManyAndReturnArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$BillingNotificationPayload>[]
+          }
+          delete: {
+            args: Prisma.BillingNotificationDeleteArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$BillingNotificationPayload>
+          }
+          update: {
+            args: Prisma.BillingNotificationUpdateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$BillingNotificationPayload>
+          }
+          deleteMany: {
+            args: Prisma.BillingNotificationDeleteManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          updateMany: {
+            args: Prisma.BillingNotificationUpdateManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          updateManyAndReturn: {
+            args: Prisma.BillingNotificationUpdateManyAndReturnArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$BillingNotificationPayload>[]
+          }
+          upsert: {
+            args: Prisma.BillingNotificationUpsertArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$BillingNotificationPayload>
+          }
+          aggregate: {
+            args: Prisma.BillingNotificationAggregateArgs<ExtArgs>
+            result: $Utils.Optional<AggregateBillingNotification>
+          }
+          groupBy: {
+            args: Prisma.BillingNotificationGroupByArgs<ExtArgs>
+            result: $Utils.Optional<BillingNotificationGroupByOutputType>[]
+          }
+          count: {
+            args: Prisma.BillingNotificationCountArgs<ExtArgs>
+            result: $Utils.Optional<BillingNotificationCountAggregateOutputType> | number
+          }
+        }
+      }
     }
   } & {
     other: {
@@ -2289,6 +2379,7 @@ export namespace Prisma {
     subscription?: SubscriptionOmit
     usageLog?: UsageLogOmit
     organizationInvite?: OrganizationInviteOmit
+    billingNotification?: BillingNotificationOmit
   }
 
   /* Types for Logging */
@@ -2372,6 +2463,7 @@ export namespace Prisma {
     subscriptions: number
     users: number
     invites: number
+    billingNotifications: number
     channelProfiles: number
     contentProjects: number
     trendAnalyses: number
@@ -2385,6 +2477,7 @@ export namespace Prisma {
     subscriptions?: boolean | OrganizationCountOutputTypeCountSubscriptionsArgs
     users?: boolean | OrganizationCountOutputTypeCountUsersArgs
     invites?: boolean | OrganizationCountOutputTypeCountInvitesArgs
+    billingNotifications?: boolean | OrganizationCountOutputTypeCountBillingNotificationsArgs
     channelProfiles?: boolean | OrganizationCountOutputTypeCountChannelProfilesArgs
     contentProjects?: boolean | OrganizationCountOutputTypeCountContentProjectsArgs
     trendAnalyses?: boolean | OrganizationCountOutputTypeCountTrendAnalysesArgs
@@ -2424,6 +2517,13 @@ export namespace Prisma {
    */
   export type OrganizationCountOutputTypeCountInvitesArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     where?: OrganizationInviteWhereInput
+  }
+
+  /**
+   * OrganizationCountOutputType without action
+   */
+  export type OrganizationCountOutputTypeCountBillingNotificationsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: BillingNotificationWhereInput
   }
 
   /**
@@ -2881,6 +2981,7 @@ export namespace Prisma {
     subscriptions?: boolean | Organization$subscriptionsArgs<ExtArgs>
     users?: boolean | Organization$usersArgs<ExtArgs>
     invites?: boolean | Organization$invitesArgs<ExtArgs>
+    billingNotifications?: boolean | Organization$billingNotificationsArgs<ExtArgs>
     channelProfiles?: boolean | Organization$channelProfilesArgs<ExtArgs>
     contentProjects?: boolean | Organization$contentProjectsArgs<ExtArgs>
     trendAnalyses?: boolean | Organization$trendAnalysesArgs<ExtArgs>
@@ -2932,6 +3033,7 @@ export namespace Prisma {
     subscriptions?: boolean | Organization$subscriptionsArgs<ExtArgs>
     users?: boolean | Organization$usersArgs<ExtArgs>
     invites?: boolean | Organization$invitesArgs<ExtArgs>
+    billingNotifications?: boolean | Organization$billingNotificationsArgs<ExtArgs>
     channelProfiles?: boolean | Organization$channelProfilesArgs<ExtArgs>
     contentProjects?: boolean | Organization$contentProjectsArgs<ExtArgs>
     trendAnalyses?: boolean | Organization$trendAnalysesArgs<ExtArgs>
@@ -2955,6 +3057,7 @@ export namespace Prisma {
       subscriptions: Prisma.$SubscriptionPayload<ExtArgs>[]
       users: Prisma.$UserPayload<ExtArgs>[]
       invites: Prisma.$OrganizationInvitePayload<ExtArgs>[]
+      billingNotifications: Prisma.$BillingNotificationPayload<ExtArgs>[]
       channelProfiles: Prisma.$ChannelProfilePayload<ExtArgs>[]
       contentProjects: Prisma.$ContentProjectPayload<ExtArgs>[]
       trendAnalyses: Prisma.$TrendAnalysisPayload<ExtArgs>[]
@@ -3370,6 +3473,7 @@ export namespace Prisma {
     subscriptions<T extends Organization$subscriptionsArgs<ExtArgs> = {}>(args?: Subset<T, Organization$subscriptionsArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$SubscriptionPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
     users<T extends Organization$usersArgs<ExtArgs> = {}>(args?: Subset<T, Organization$usersArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$UserPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
     invites<T extends Organization$invitesArgs<ExtArgs> = {}>(args?: Subset<T, Organization$invitesArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$OrganizationInvitePayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+    billingNotifications<T extends Organization$billingNotificationsArgs<ExtArgs> = {}>(args?: Subset<T, Organization$billingNotificationsArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$BillingNotificationPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
     channelProfiles<T extends Organization$channelProfilesArgs<ExtArgs> = {}>(args?: Subset<T, Organization$channelProfilesArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$ChannelProfilePayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
     contentProjects<T extends Organization$contentProjectsArgs<ExtArgs> = {}>(args?: Subset<T, Organization$contentProjectsArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$ContentProjectPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
     trendAnalyses<T extends Organization$trendAnalysesArgs<ExtArgs> = {}>(args?: Subset<T, Organization$trendAnalysesArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$TrendAnalysisPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
@@ -3903,6 +4007,30 @@ export namespace Prisma {
     take?: number
     skip?: number
     distinct?: OrganizationInviteScalarFieldEnum | OrganizationInviteScalarFieldEnum[]
+  }
+
+  /**
+   * Organization.billingNotifications
+   */
+  export type Organization$billingNotificationsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the BillingNotification
+     */
+    select?: BillingNotificationSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the BillingNotification
+     */
+    omit?: BillingNotificationOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: BillingNotificationInclude<ExtArgs> | null
+    where?: BillingNotificationWhereInput
+    orderBy?: BillingNotificationOrderByWithRelationInput | BillingNotificationOrderByWithRelationInput[]
+    cursor?: BillingNotificationWhereUniqueInput
+    take?: number
+    skip?: number
+    distinct?: BillingNotificationScalarFieldEnum | BillingNotificationScalarFieldEnum[]
   }
 
   /**
@@ -20401,6 +20529,1069 @@ export namespace Prisma {
 
 
   /**
+   * Model BillingNotification
+   */
+
+  export type AggregateBillingNotification = {
+    _count: BillingNotificationCountAggregateOutputType | null
+    _min: BillingNotificationMinAggregateOutputType | null
+    _max: BillingNotificationMaxAggregateOutputType | null
+  }
+
+  export type BillingNotificationMinAggregateOutputType = {
+    id: string | null
+    organizationId: string | null
+    invoiceId: string | null
+    type: string | null
+    sentAt: Date | null
+  }
+
+  export type BillingNotificationMaxAggregateOutputType = {
+    id: string | null
+    organizationId: string | null
+    invoiceId: string | null
+    type: string | null
+    sentAt: Date | null
+  }
+
+  export type BillingNotificationCountAggregateOutputType = {
+    id: number
+    organizationId: number
+    invoiceId: number
+    type: number
+    sentAt: number
+    _all: number
+  }
+
+
+  export type BillingNotificationMinAggregateInputType = {
+    id?: true
+    organizationId?: true
+    invoiceId?: true
+    type?: true
+    sentAt?: true
+  }
+
+  export type BillingNotificationMaxAggregateInputType = {
+    id?: true
+    organizationId?: true
+    invoiceId?: true
+    type?: true
+    sentAt?: true
+  }
+
+  export type BillingNotificationCountAggregateInputType = {
+    id?: true
+    organizationId?: true
+    invoiceId?: true
+    type?: true
+    sentAt?: true
+    _all?: true
+  }
+
+  export type BillingNotificationAggregateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which BillingNotification to aggregate.
+     */
+    where?: BillingNotificationWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of BillingNotifications to fetch.
+     */
+    orderBy?: BillingNotificationOrderByWithRelationInput | BillingNotificationOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the start position
+     */
+    cursor?: BillingNotificationWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` BillingNotifications from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` BillingNotifications.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Count returned BillingNotifications
+    **/
+    _count?: true | BillingNotificationCountAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the minimum value
+    **/
+    _min?: BillingNotificationMinAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the maximum value
+    **/
+    _max?: BillingNotificationMaxAggregateInputType
+  }
+
+  export type GetBillingNotificationAggregateType<T extends BillingNotificationAggregateArgs> = {
+        [P in keyof T & keyof AggregateBillingNotification]: P extends '_count' | 'count'
+      ? T[P] extends true
+        ? number
+        : GetScalarType<T[P], AggregateBillingNotification[P]>
+      : GetScalarType<T[P], AggregateBillingNotification[P]>
+  }
+
+
+
+
+  export type BillingNotificationGroupByArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: BillingNotificationWhereInput
+    orderBy?: BillingNotificationOrderByWithAggregationInput | BillingNotificationOrderByWithAggregationInput[]
+    by: BillingNotificationScalarFieldEnum[] | BillingNotificationScalarFieldEnum
+    having?: BillingNotificationScalarWhereWithAggregatesInput
+    take?: number
+    skip?: number
+    _count?: BillingNotificationCountAggregateInputType | true
+    _min?: BillingNotificationMinAggregateInputType
+    _max?: BillingNotificationMaxAggregateInputType
+  }
+
+  export type BillingNotificationGroupByOutputType = {
+    id: string
+    organizationId: string
+    invoiceId: string
+    type: string
+    sentAt: Date
+    _count: BillingNotificationCountAggregateOutputType | null
+    _min: BillingNotificationMinAggregateOutputType | null
+    _max: BillingNotificationMaxAggregateOutputType | null
+  }
+
+  type GetBillingNotificationGroupByPayload<T extends BillingNotificationGroupByArgs> = Prisma.PrismaPromise<
+    Array<
+      PickEnumerable<BillingNotificationGroupByOutputType, T['by']> &
+        {
+          [P in ((keyof T) & (keyof BillingNotificationGroupByOutputType))]: P extends '_count'
+            ? T[P] extends boolean
+              ? number
+              : GetScalarType<T[P], BillingNotificationGroupByOutputType[P]>
+            : GetScalarType<T[P], BillingNotificationGroupByOutputType[P]>
+        }
+      >
+    >
+
+
+  export type BillingNotificationSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    organizationId?: boolean
+    invoiceId?: boolean
+    type?: boolean
+    sentAt?: boolean
+    organization?: boolean | OrganizationDefaultArgs<ExtArgs>
+  }, ExtArgs["result"]["billingNotification"]>
+
+  export type BillingNotificationSelectCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    organizationId?: boolean
+    invoiceId?: boolean
+    type?: boolean
+    sentAt?: boolean
+    organization?: boolean | OrganizationDefaultArgs<ExtArgs>
+  }, ExtArgs["result"]["billingNotification"]>
+
+  export type BillingNotificationSelectUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    organizationId?: boolean
+    invoiceId?: boolean
+    type?: boolean
+    sentAt?: boolean
+    organization?: boolean | OrganizationDefaultArgs<ExtArgs>
+  }, ExtArgs["result"]["billingNotification"]>
+
+  export type BillingNotificationSelectScalar = {
+    id?: boolean
+    organizationId?: boolean
+    invoiceId?: boolean
+    type?: boolean
+    sentAt?: boolean
+  }
+
+  export type BillingNotificationOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "organizationId" | "invoiceId" | "type" | "sentAt", ExtArgs["result"]["billingNotification"]>
+  export type BillingNotificationInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    organization?: boolean | OrganizationDefaultArgs<ExtArgs>
+  }
+  export type BillingNotificationIncludeCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    organization?: boolean | OrganizationDefaultArgs<ExtArgs>
+  }
+  export type BillingNotificationIncludeUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    organization?: boolean | OrganizationDefaultArgs<ExtArgs>
+  }
+
+  export type $BillingNotificationPayload<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    name: "BillingNotification"
+    objects: {
+      organization: Prisma.$OrganizationPayload<ExtArgs>
+    }
+    scalars: $Extensions.GetPayloadResult<{
+      id: string
+      organizationId: string
+      invoiceId: string
+      type: string
+      sentAt: Date
+    }, ExtArgs["result"]["billingNotification"]>
+    composites: {}
+  }
+
+  type BillingNotificationGetPayload<S extends boolean | null | undefined | BillingNotificationDefaultArgs> = $Result.GetResult<Prisma.$BillingNotificationPayload, S>
+
+  type BillingNotificationCountArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> =
+    Omit<BillingNotificationFindManyArgs, 'select' | 'include' | 'distinct' | 'omit'> & {
+      select?: BillingNotificationCountAggregateInputType | true
+    }
+
+  export interface BillingNotificationDelegate<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> {
+    [K: symbol]: { types: Prisma.TypeMap<ExtArgs>['model']['BillingNotification'], meta: { name: 'BillingNotification' } }
+    /**
+     * Find zero or one BillingNotification that matches the filter.
+     * @param {BillingNotificationFindUniqueArgs} args - Arguments to find a BillingNotification
+     * @example
+     * // Get one BillingNotification
+     * const billingNotification = await prisma.billingNotification.findUnique({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUnique<T extends BillingNotificationFindUniqueArgs>(args: SelectSubset<T, BillingNotificationFindUniqueArgs<ExtArgs>>): Prisma__BillingNotificationClient<$Result.GetResult<Prisma.$BillingNotificationPayload<ExtArgs>, T, "findUnique", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find one BillingNotification that matches the filter or throw an error with `error.code='P2025'`
+     * if no matches were found.
+     * @param {BillingNotificationFindUniqueOrThrowArgs} args - Arguments to find a BillingNotification
+     * @example
+     * // Get one BillingNotification
+     * const billingNotification = await prisma.billingNotification.findUniqueOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUniqueOrThrow<T extends BillingNotificationFindUniqueOrThrowArgs>(args: SelectSubset<T, BillingNotificationFindUniqueOrThrowArgs<ExtArgs>>): Prisma__BillingNotificationClient<$Result.GetResult<Prisma.$BillingNotificationPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find the first BillingNotification that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {BillingNotificationFindFirstArgs} args - Arguments to find a BillingNotification
+     * @example
+     * // Get one BillingNotification
+     * const billingNotification = await prisma.billingNotification.findFirst({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirst<T extends BillingNotificationFindFirstArgs>(args?: SelectSubset<T, BillingNotificationFindFirstArgs<ExtArgs>>): Prisma__BillingNotificationClient<$Result.GetResult<Prisma.$BillingNotificationPayload<ExtArgs>, T, "findFirst", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find the first BillingNotification that matches the filter or
+     * throw `PrismaKnownClientError` with `P2025` code if no matches were found.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {BillingNotificationFindFirstOrThrowArgs} args - Arguments to find a BillingNotification
+     * @example
+     * // Get one BillingNotification
+     * const billingNotification = await prisma.billingNotification.findFirstOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirstOrThrow<T extends BillingNotificationFindFirstOrThrowArgs>(args?: SelectSubset<T, BillingNotificationFindFirstOrThrowArgs<ExtArgs>>): Prisma__BillingNotificationClient<$Result.GetResult<Prisma.$BillingNotificationPayload<ExtArgs>, T, "findFirstOrThrow", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find zero or more BillingNotifications that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {BillingNotificationFindManyArgs} args - Arguments to filter and select certain fields only.
+     * @example
+     * // Get all BillingNotifications
+     * const billingNotifications = await prisma.billingNotification.findMany()
+     * 
+     * // Get first 10 BillingNotifications
+     * const billingNotifications = await prisma.billingNotification.findMany({ take: 10 })
+     * 
+     * // Only select the `id`
+     * const billingNotificationWithIdOnly = await prisma.billingNotification.findMany({ select: { id: true } })
+     * 
+     */
+    findMany<T extends BillingNotificationFindManyArgs>(args?: SelectSubset<T, BillingNotificationFindManyArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$BillingNotificationPayload<ExtArgs>, T, "findMany", GlobalOmitOptions>>
+
+    /**
+     * Create a BillingNotification.
+     * @param {BillingNotificationCreateArgs} args - Arguments to create a BillingNotification.
+     * @example
+     * // Create one BillingNotification
+     * const BillingNotification = await prisma.billingNotification.create({
+     *   data: {
+     *     // ... data to create a BillingNotification
+     *   }
+     * })
+     * 
+     */
+    create<T extends BillingNotificationCreateArgs>(args: SelectSubset<T, BillingNotificationCreateArgs<ExtArgs>>): Prisma__BillingNotificationClient<$Result.GetResult<Prisma.$BillingNotificationPayload<ExtArgs>, T, "create", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Create many BillingNotifications.
+     * @param {BillingNotificationCreateManyArgs} args - Arguments to create many BillingNotifications.
+     * @example
+     * // Create many BillingNotifications
+     * const billingNotification = await prisma.billingNotification.createMany({
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     *     
+     */
+    createMany<T extends BillingNotificationCreateManyArgs>(args?: SelectSubset<T, BillingNotificationCreateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Create many BillingNotifications and returns the data saved in the database.
+     * @param {BillingNotificationCreateManyAndReturnArgs} args - Arguments to create many BillingNotifications.
+     * @example
+     * // Create many BillingNotifications
+     * const billingNotification = await prisma.billingNotification.createManyAndReturn({
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * 
+     * // Create many BillingNotifications and only return the `id`
+     * const billingNotificationWithIdOnly = await prisma.billingNotification.createManyAndReturn({
+     *   select: { id: true },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * 
+     */
+    createManyAndReturn<T extends BillingNotificationCreateManyAndReturnArgs>(args?: SelectSubset<T, BillingNotificationCreateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$BillingNotificationPayload<ExtArgs>, T, "createManyAndReturn", GlobalOmitOptions>>
+
+    /**
+     * Delete a BillingNotification.
+     * @param {BillingNotificationDeleteArgs} args - Arguments to delete one BillingNotification.
+     * @example
+     * // Delete one BillingNotification
+     * const BillingNotification = await prisma.billingNotification.delete({
+     *   where: {
+     *     // ... filter to delete one BillingNotification
+     *   }
+     * })
+     * 
+     */
+    delete<T extends BillingNotificationDeleteArgs>(args: SelectSubset<T, BillingNotificationDeleteArgs<ExtArgs>>): Prisma__BillingNotificationClient<$Result.GetResult<Prisma.$BillingNotificationPayload<ExtArgs>, T, "delete", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Update one BillingNotification.
+     * @param {BillingNotificationUpdateArgs} args - Arguments to update one BillingNotification.
+     * @example
+     * // Update one BillingNotification
+     * const billingNotification = await prisma.billingNotification.update({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+     */
+    update<T extends BillingNotificationUpdateArgs>(args: SelectSubset<T, BillingNotificationUpdateArgs<ExtArgs>>): Prisma__BillingNotificationClient<$Result.GetResult<Prisma.$BillingNotificationPayload<ExtArgs>, T, "update", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Delete zero or more BillingNotifications.
+     * @param {BillingNotificationDeleteManyArgs} args - Arguments to filter BillingNotifications to delete.
+     * @example
+     * // Delete a few BillingNotifications
+     * const { count } = await prisma.billingNotification.deleteMany({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     * 
+     */
+    deleteMany<T extends BillingNotificationDeleteManyArgs>(args?: SelectSubset<T, BillingNotificationDeleteManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Update zero or more BillingNotifications.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {BillingNotificationUpdateManyArgs} args - Arguments to update one or more rows.
+     * @example
+     * // Update many BillingNotifications
+     * const billingNotification = await prisma.billingNotification.updateMany({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+     */
+    updateMany<T extends BillingNotificationUpdateManyArgs>(args: SelectSubset<T, BillingNotificationUpdateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Update zero or more BillingNotifications and returns the data updated in the database.
+     * @param {BillingNotificationUpdateManyAndReturnArgs} args - Arguments to update many BillingNotifications.
+     * @example
+     * // Update many BillingNotifications
+     * const billingNotification = await prisma.billingNotification.updateManyAndReturn({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * 
+     * // Update zero or more BillingNotifications and only return the `id`
+     * const billingNotificationWithIdOnly = await prisma.billingNotification.updateManyAndReturn({
+     *   select: { id: true },
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * 
+     */
+    updateManyAndReturn<T extends BillingNotificationUpdateManyAndReturnArgs>(args: SelectSubset<T, BillingNotificationUpdateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$BillingNotificationPayload<ExtArgs>, T, "updateManyAndReturn", GlobalOmitOptions>>
+
+    /**
+     * Create or update one BillingNotification.
+     * @param {BillingNotificationUpsertArgs} args - Arguments to update or create a BillingNotification.
+     * @example
+     * // Update or create a BillingNotification
+     * const billingNotification = await prisma.billingNotification.upsert({
+     *   create: {
+     *     // ... data to create a BillingNotification
+     *   },
+     *   update: {
+     *     // ... in case it already exists, update
+     *   },
+     *   where: {
+     *     // ... the filter for the BillingNotification we want to update
+     *   }
+     * })
+     */
+    upsert<T extends BillingNotificationUpsertArgs>(args: SelectSubset<T, BillingNotificationUpsertArgs<ExtArgs>>): Prisma__BillingNotificationClient<$Result.GetResult<Prisma.$BillingNotificationPayload<ExtArgs>, T, "upsert", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+
+    /**
+     * Count the number of BillingNotifications.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {BillingNotificationCountArgs} args - Arguments to filter BillingNotifications to count.
+     * @example
+     * // Count the number of BillingNotifications
+     * const count = await prisma.billingNotification.count({
+     *   where: {
+     *     // ... the filter for the BillingNotifications we want to count
+     *   }
+     * })
+    **/
+    count<T extends BillingNotificationCountArgs>(
+      args?: Subset<T, BillingNotificationCountArgs>,
+    ): Prisma.PrismaPromise<
+      T extends $Utils.Record<'select', any>
+        ? T['select'] extends true
+          ? number
+          : GetScalarType<T['select'], BillingNotificationCountAggregateOutputType>
+        : number
+    >
+
+    /**
+     * Allows you to perform aggregations operations on a BillingNotification.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {BillingNotificationAggregateArgs} args - Select which aggregations you would like to apply and on what fields.
+     * @example
+     * // Ordered by age ascending
+     * // Where email contains prisma.io
+     * // Limited to the 10 users
+     * const aggregations = await prisma.user.aggregate({
+     *   _avg: {
+     *     age: true,
+     *   },
+     *   where: {
+     *     email: {
+     *       contains: "prisma.io",
+     *     },
+     *   },
+     *   orderBy: {
+     *     age: "asc",
+     *   },
+     *   take: 10,
+     * })
+    **/
+    aggregate<T extends BillingNotificationAggregateArgs>(args: Subset<T, BillingNotificationAggregateArgs>): Prisma.PrismaPromise<GetBillingNotificationAggregateType<T>>
+
+    /**
+     * Group by BillingNotification.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {BillingNotificationGroupByArgs} args - Group by arguments.
+     * @example
+     * // Group by city, order by createdAt, get count
+     * const result = await prisma.user.groupBy({
+     *   by: ['city', 'createdAt'],
+     *   orderBy: {
+     *     createdAt: true
+     *   },
+     *   _count: {
+     *     _all: true
+     *   },
+     * })
+     * 
+    **/
+    groupBy<
+      T extends BillingNotificationGroupByArgs,
+      HasSelectOrTake extends Or<
+        Extends<'skip', Keys<T>>,
+        Extends<'take', Keys<T>>
+      >,
+      OrderByArg extends True extends HasSelectOrTake
+        ? { orderBy: BillingNotificationGroupByArgs['orderBy'] }
+        : { orderBy?: BillingNotificationGroupByArgs['orderBy'] },
+      OrderFields extends ExcludeUnderscoreKeys<Keys<MaybeTupleToUnion<T['orderBy']>>>,
+      ByFields extends MaybeTupleToUnion<T['by']>,
+      ByValid extends Has<ByFields, OrderFields>,
+      HavingFields extends GetHavingFields<T['having']>,
+      HavingValid extends Has<ByFields, HavingFields>,
+      ByEmpty extends T['by'] extends never[] ? True : False,
+      InputErrors extends ByEmpty extends True
+      ? `Error: "by" must not be empty.`
+      : HavingValid extends False
+      ? {
+          [P in HavingFields]: P extends ByFields
+            ? never
+            : P extends string
+            ? `Error: Field "${P}" used in "having" needs to be provided in "by".`
+            : [
+                Error,
+                'Field ',
+                P,
+                ` in "having" needs to be provided in "by"`,
+              ]
+        }[HavingFields]
+      : 'take' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "take", you also need to provide "orderBy"'
+      : 'skip' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "skip", you also need to provide "orderBy"'
+      : ByValid extends True
+      ? {}
+      : {
+          [P in OrderFields]: P extends ByFields
+            ? never
+            : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+        }[OrderFields]
+    >(args: SubsetIntersection<T, BillingNotificationGroupByArgs, OrderByArg> & InputErrors): {} extends InputErrors ? GetBillingNotificationGroupByPayload<T> : Prisma.PrismaPromise<InputErrors>
+  /**
+   * Fields of the BillingNotification model
+   */
+  readonly fields: BillingNotificationFieldRefs;
+  }
+
+  /**
+   * The delegate class that acts as a "Promise-like" for BillingNotification.
+   * Why is this prefixed with `Prisma__`?
+   * Because we want to prevent naming conflicts as mentioned in
+   * https://github.com/prisma/prisma-client-js/issues/707
+   */
+  export interface Prisma__BillingNotificationClient<T, Null = never, ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
+    readonly [Symbol.toStringTag]: "PrismaPromise"
+    organization<T extends OrganizationDefaultArgs<ExtArgs> = {}>(args?: Subset<T, OrganizationDefaultArgs<ExtArgs>>): Prisma__OrganizationClient<$Result.GetResult<Prisma.$OrganizationPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
+    /**
+     * Attaches callbacks for the resolution and/or rejection of the Promise.
+     * @param onfulfilled The callback to execute when the Promise is resolved.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of which ever callback is executed.
+     */
+    then<TResult1 = T, TResult2 = never>(onfulfilled?: ((value: T) => TResult1 | PromiseLike<TResult1>) | undefined | null, onrejected?: ((reason: any) => TResult2 | PromiseLike<TResult2>) | undefined | null): $Utils.JsPromise<TResult1 | TResult2>
+    /**
+     * Attaches a callback for only the rejection of the Promise.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of the callback.
+     */
+    catch<TResult = never>(onrejected?: ((reason: any) => TResult | PromiseLike<TResult>) | undefined | null): $Utils.JsPromise<T | TResult>
+    /**
+     * Attaches a callback that is invoked when the Promise is settled (fulfilled or rejected). The
+     * resolved value cannot be modified from the callback.
+     * @param onfinally The callback to execute when the Promise is settled (fulfilled or rejected).
+     * @returns A Promise for the completion of the callback.
+     */
+    finally(onfinally?: (() => void) | undefined | null): $Utils.JsPromise<T>
+  }
+
+
+
+
+  /**
+   * Fields of the BillingNotification model
+   */
+  interface BillingNotificationFieldRefs {
+    readonly id: FieldRef<"BillingNotification", 'String'>
+    readonly organizationId: FieldRef<"BillingNotification", 'String'>
+    readonly invoiceId: FieldRef<"BillingNotification", 'String'>
+    readonly type: FieldRef<"BillingNotification", 'String'>
+    readonly sentAt: FieldRef<"BillingNotification", 'DateTime'>
+  }
+    
+
+  // Custom InputTypes
+  /**
+   * BillingNotification findUnique
+   */
+  export type BillingNotificationFindUniqueArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the BillingNotification
+     */
+    select?: BillingNotificationSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the BillingNotification
+     */
+    omit?: BillingNotificationOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: BillingNotificationInclude<ExtArgs> | null
+    /**
+     * Filter, which BillingNotification to fetch.
+     */
+    where: BillingNotificationWhereUniqueInput
+  }
+
+  /**
+   * BillingNotification findUniqueOrThrow
+   */
+  export type BillingNotificationFindUniqueOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the BillingNotification
+     */
+    select?: BillingNotificationSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the BillingNotification
+     */
+    omit?: BillingNotificationOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: BillingNotificationInclude<ExtArgs> | null
+    /**
+     * Filter, which BillingNotification to fetch.
+     */
+    where: BillingNotificationWhereUniqueInput
+  }
+
+  /**
+   * BillingNotification findFirst
+   */
+  export type BillingNotificationFindFirstArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the BillingNotification
+     */
+    select?: BillingNotificationSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the BillingNotification
+     */
+    omit?: BillingNotificationOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: BillingNotificationInclude<ExtArgs> | null
+    /**
+     * Filter, which BillingNotification to fetch.
+     */
+    where?: BillingNotificationWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of BillingNotifications to fetch.
+     */
+    orderBy?: BillingNotificationOrderByWithRelationInput | BillingNotificationOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for BillingNotifications.
+     */
+    cursor?: BillingNotificationWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` BillingNotifications from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` BillingNotifications.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of BillingNotifications.
+     */
+    distinct?: BillingNotificationScalarFieldEnum | BillingNotificationScalarFieldEnum[]
+  }
+
+  /**
+   * BillingNotification findFirstOrThrow
+   */
+  export type BillingNotificationFindFirstOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the BillingNotification
+     */
+    select?: BillingNotificationSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the BillingNotification
+     */
+    omit?: BillingNotificationOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: BillingNotificationInclude<ExtArgs> | null
+    /**
+     * Filter, which BillingNotification to fetch.
+     */
+    where?: BillingNotificationWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of BillingNotifications to fetch.
+     */
+    orderBy?: BillingNotificationOrderByWithRelationInput | BillingNotificationOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for BillingNotifications.
+     */
+    cursor?: BillingNotificationWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` BillingNotifications from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` BillingNotifications.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of BillingNotifications.
+     */
+    distinct?: BillingNotificationScalarFieldEnum | BillingNotificationScalarFieldEnum[]
+  }
+
+  /**
+   * BillingNotification findMany
+   */
+  export type BillingNotificationFindManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the BillingNotification
+     */
+    select?: BillingNotificationSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the BillingNotification
+     */
+    omit?: BillingNotificationOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: BillingNotificationInclude<ExtArgs> | null
+    /**
+     * Filter, which BillingNotifications to fetch.
+     */
+    where?: BillingNotificationWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of BillingNotifications to fetch.
+     */
+    orderBy?: BillingNotificationOrderByWithRelationInput | BillingNotificationOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for listing BillingNotifications.
+     */
+    cursor?: BillingNotificationWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` BillingNotifications from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` BillingNotifications.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of BillingNotifications.
+     */
+    distinct?: BillingNotificationScalarFieldEnum | BillingNotificationScalarFieldEnum[]
+  }
+
+  /**
+   * BillingNotification create
+   */
+  export type BillingNotificationCreateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the BillingNotification
+     */
+    select?: BillingNotificationSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the BillingNotification
+     */
+    omit?: BillingNotificationOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: BillingNotificationInclude<ExtArgs> | null
+    /**
+     * The data needed to create a BillingNotification.
+     */
+    data: XOR<BillingNotificationCreateInput, BillingNotificationUncheckedCreateInput>
+  }
+
+  /**
+   * BillingNotification createMany
+   */
+  export type BillingNotificationCreateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to create many BillingNotifications.
+     */
+    data: BillingNotificationCreateManyInput | BillingNotificationCreateManyInput[]
+    skipDuplicates?: boolean
+  }
+
+  /**
+   * BillingNotification createManyAndReturn
+   */
+  export type BillingNotificationCreateManyAndReturnArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the BillingNotification
+     */
+    select?: BillingNotificationSelectCreateManyAndReturn<ExtArgs> | null
+    /**
+     * Omit specific fields from the BillingNotification
+     */
+    omit?: BillingNotificationOmit<ExtArgs> | null
+    /**
+     * The data used to create many BillingNotifications.
+     */
+    data: BillingNotificationCreateManyInput | BillingNotificationCreateManyInput[]
+    skipDuplicates?: boolean
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: BillingNotificationIncludeCreateManyAndReturn<ExtArgs> | null
+  }
+
+  /**
+   * BillingNotification update
+   */
+  export type BillingNotificationUpdateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the BillingNotification
+     */
+    select?: BillingNotificationSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the BillingNotification
+     */
+    omit?: BillingNotificationOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: BillingNotificationInclude<ExtArgs> | null
+    /**
+     * The data needed to update a BillingNotification.
+     */
+    data: XOR<BillingNotificationUpdateInput, BillingNotificationUncheckedUpdateInput>
+    /**
+     * Choose, which BillingNotification to update.
+     */
+    where: BillingNotificationWhereUniqueInput
+  }
+
+  /**
+   * BillingNotification updateMany
+   */
+  export type BillingNotificationUpdateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to update BillingNotifications.
+     */
+    data: XOR<BillingNotificationUpdateManyMutationInput, BillingNotificationUncheckedUpdateManyInput>
+    /**
+     * Filter which BillingNotifications to update
+     */
+    where?: BillingNotificationWhereInput
+    /**
+     * Limit how many BillingNotifications to update.
+     */
+    limit?: number
+  }
+
+  /**
+   * BillingNotification updateManyAndReturn
+   */
+  export type BillingNotificationUpdateManyAndReturnArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the BillingNotification
+     */
+    select?: BillingNotificationSelectUpdateManyAndReturn<ExtArgs> | null
+    /**
+     * Omit specific fields from the BillingNotification
+     */
+    omit?: BillingNotificationOmit<ExtArgs> | null
+    /**
+     * The data used to update BillingNotifications.
+     */
+    data: XOR<BillingNotificationUpdateManyMutationInput, BillingNotificationUncheckedUpdateManyInput>
+    /**
+     * Filter which BillingNotifications to update
+     */
+    where?: BillingNotificationWhereInput
+    /**
+     * Limit how many BillingNotifications to update.
+     */
+    limit?: number
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: BillingNotificationIncludeUpdateManyAndReturn<ExtArgs> | null
+  }
+
+  /**
+   * BillingNotification upsert
+   */
+  export type BillingNotificationUpsertArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the BillingNotification
+     */
+    select?: BillingNotificationSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the BillingNotification
+     */
+    omit?: BillingNotificationOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: BillingNotificationInclude<ExtArgs> | null
+    /**
+     * The filter to search for the BillingNotification to update in case it exists.
+     */
+    where: BillingNotificationWhereUniqueInput
+    /**
+     * In case the BillingNotification found by the `where` argument doesn't exist, create a new BillingNotification with this data.
+     */
+    create: XOR<BillingNotificationCreateInput, BillingNotificationUncheckedCreateInput>
+    /**
+     * In case the BillingNotification was found with the provided `where` argument, update it with this data.
+     */
+    update: XOR<BillingNotificationUpdateInput, BillingNotificationUncheckedUpdateInput>
+  }
+
+  /**
+   * BillingNotification delete
+   */
+  export type BillingNotificationDeleteArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the BillingNotification
+     */
+    select?: BillingNotificationSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the BillingNotification
+     */
+    omit?: BillingNotificationOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: BillingNotificationInclude<ExtArgs> | null
+    /**
+     * Filter which BillingNotification to delete.
+     */
+    where: BillingNotificationWhereUniqueInput
+  }
+
+  /**
+   * BillingNotification deleteMany
+   */
+  export type BillingNotificationDeleteManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which BillingNotifications to delete
+     */
+    where?: BillingNotificationWhereInput
+    /**
+     * Limit how many BillingNotifications to delete.
+     */
+    limit?: number
+  }
+
+  /**
+   * BillingNotification without action
+   */
+  export type BillingNotificationDefaultArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the BillingNotification
+     */
+    select?: BillingNotificationSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the BillingNotification
+     */
+    omit?: BillingNotificationOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: BillingNotificationInclude<ExtArgs> | null
+  }
+
+
+  /**
    * Enums
    */
 
@@ -20643,6 +21834,17 @@ export namespace Prisma {
   };
 
   export type OrganizationInviteScalarFieldEnum = (typeof OrganizationInviteScalarFieldEnum)[keyof typeof OrganizationInviteScalarFieldEnum]
+
+
+  export const BillingNotificationScalarFieldEnum: {
+    id: 'id',
+    organizationId: 'organizationId',
+    invoiceId: 'invoiceId',
+    type: 'type',
+    sentAt: 'sentAt'
+  };
+
+  export type BillingNotificationScalarFieldEnum = (typeof BillingNotificationScalarFieldEnum)[keyof typeof BillingNotificationScalarFieldEnum]
 
 
   export const SortOrder: {
@@ -20990,6 +22192,7 @@ export namespace Prisma {
     subscriptions?: SubscriptionListRelationFilter
     users?: UserListRelationFilter
     invites?: OrganizationInviteListRelationFilter
+    billingNotifications?: BillingNotificationListRelationFilter
     channelProfiles?: ChannelProfileListRelationFilter
     contentProjects?: ContentProjectListRelationFilter
     trendAnalyses?: TrendAnalysisListRelationFilter
@@ -21012,6 +22215,7 @@ export namespace Prisma {
     subscriptions?: SubscriptionOrderByRelationAggregateInput
     users?: UserOrderByRelationAggregateInput
     invites?: OrganizationInviteOrderByRelationAggregateInput
+    billingNotifications?: BillingNotificationOrderByRelationAggregateInput
     channelProfiles?: ChannelProfileOrderByRelationAggregateInput
     contentProjects?: ContentProjectOrderByRelationAggregateInput
     trendAnalyses?: TrendAnalysisOrderByRelationAggregateInput
@@ -21037,6 +22241,7 @@ export namespace Prisma {
     subscriptions?: SubscriptionListRelationFilter
     users?: UserListRelationFilter
     invites?: OrganizationInviteListRelationFilter
+    billingNotifications?: BillingNotificationListRelationFilter
     channelProfiles?: ChannelProfileListRelationFilter
     contentProjects?: ContentProjectListRelationFilter
     trendAnalyses?: TrendAnalysisListRelationFilter
@@ -22229,6 +23434,62 @@ export namespace Prisma {
     updatedAt?: DateTimeWithAggregatesFilter<"OrganizationInvite"> | Date | string
   }
 
+  export type BillingNotificationWhereInput = {
+    AND?: BillingNotificationWhereInput | BillingNotificationWhereInput[]
+    OR?: BillingNotificationWhereInput[]
+    NOT?: BillingNotificationWhereInput | BillingNotificationWhereInput[]
+    id?: StringFilter<"BillingNotification"> | string
+    organizationId?: StringFilter<"BillingNotification"> | string
+    invoiceId?: StringFilter<"BillingNotification"> | string
+    type?: StringFilter<"BillingNotification"> | string
+    sentAt?: DateTimeFilter<"BillingNotification"> | Date | string
+    organization?: XOR<OrganizationScalarRelationFilter, OrganizationWhereInput>
+  }
+
+  export type BillingNotificationOrderByWithRelationInput = {
+    id?: SortOrder
+    organizationId?: SortOrder
+    invoiceId?: SortOrder
+    type?: SortOrder
+    sentAt?: SortOrder
+    organization?: OrganizationOrderByWithRelationInput
+  }
+
+  export type BillingNotificationWhereUniqueInput = Prisma.AtLeast<{
+    id?: string
+    invoiceId_type?: BillingNotificationInvoiceIdTypeCompoundUniqueInput
+    AND?: BillingNotificationWhereInput | BillingNotificationWhereInput[]
+    OR?: BillingNotificationWhereInput[]
+    NOT?: BillingNotificationWhereInput | BillingNotificationWhereInput[]
+    organizationId?: StringFilter<"BillingNotification"> | string
+    invoiceId?: StringFilter<"BillingNotification"> | string
+    type?: StringFilter<"BillingNotification"> | string
+    sentAt?: DateTimeFilter<"BillingNotification"> | Date | string
+    organization?: XOR<OrganizationScalarRelationFilter, OrganizationWhereInput>
+  }, "id" | "invoiceId_type">
+
+  export type BillingNotificationOrderByWithAggregationInput = {
+    id?: SortOrder
+    organizationId?: SortOrder
+    invoiceId?: SortOrder
+    type?: SortOrder
+    sentAt?: SortOrder
+    _count?: BillingNotificationCountOrderByAggregateInput
+    _max?: BillingNotificationMaxOrderByAggregateInput
+    _min?: BillingNotificationMinOrderByAggregateInput
+  }
+
+  export type BillingNotificationScalarWhereWithAggregatesInput = {
+    AND?: BillingNotificationScalarWhereWithAggregatesInput | BillingNotificationScalarWhereWithAggregatesInput[]
+    OR?: BillingNotificationScalarWhereWithAggregatesInput[]
+    NOT?: BillingNotificationScalarWhereWithAggregatesInput | BillingNotificationScalarWhereWithAggregatesInput[]
+    id?: StringWithAggregatesFilter<"BillingNotification"> | string
+    organizationId?: StringWithAggregatesFilter<"BillingNotification"> | string
+    invoiceId?: StringWithAggregatesFilter<"BillingNotification"> | string
+    type?: StringWithAggregatesFilter<"BillingNotification"> | string
+    sentAt?: DateTimeWithAggregatesFilter<"BillingNotification"> | Date | string
+  }
+
   export type OrganizationCreateInput = {
     id?: string
     name: string
@@ -22241,6 +23502,7 @@ export namespace Prisma {
     subscriptions?: SubscriptionCreateNestedManyWithoutOrganizationInput
     users?: UserCreateNestedManyWithoutOrganizationInput
     invites?: OrganizationInviteCreateNestedManyWithoutOrganizationInput
+    billingNotifications?: BillingNotificationCreateNestedManyWithoutOrganizationInput
     channelProfiles?: ChannelProfileCreateNestedManyWithoutOrganizationInput
     contentProjects?: ContentProjectCreateNestedManyWithoutOrganizationInput
     trendAnalyses?: TrendAnalysisCreateNestedManyWithoutOrganizationInput
@@ -22262,6 +23524,7 @@ export namespace Prisma {
     subscriptions?: SubscriptionUncheckedCreateNestedManyWithoutOrganizationInput
     users?: UserUncheckedCreateNestedManyWithoutOrganizationInput
     invites?: OrganizationInviteUncheckedCreateNestedManyWithoutOrganizationInput
+    billingNotifications?: BillingNotificationUncheckedCreateNestedManyWithoutOrganizationInput
     channelProfiles?: ChannelProfileUncheckedCreateNestedManyWithoutOrganizationInput
     contentProjects?: ContentProjectUncheckedCreateNestedManyWithoutOrganizationInput
     trendAnalyses?: TrendAnalysisUncheckedCreateNestedManyWithoutOrganizationInput
@@ -22283,6 +23546,7 @@ export namespace Prisma {
     subscriptions?: SubscriptionUpdateManyWithoutOrganizationNestedInput
     users?: UserUpdateManyWithoutOrganizationNestedInput
     invites?: OrganizationInviteUpdateManyWithoutOrganizationNestedInput
+    billingNotifications?: BillingNotificationUpdateManyWithoutOrganizationNestedInput
     channelProfiles?: ChannelProfileUpdateManyWithoutOrganizationNestedInput
     contentProjects?: ContentProjectUpdateManyWithoutOrganizationNestedInput
     trendAnalyses?: TrendAnalysisUpdateManyWithoutOrganizationNestedInput
@@ -22304,6 +23568,7 @@ export namespace Prisma {
     subscriptions?: SubscriptionUncheckedUpdateManyWithoutOrganizationNestedInput
     users?: UserUncheckedUpdateManyWithoutOrganizationNestedInput
     invites?: OrganizationInviteUncheckedUpdateManyWithoutOrganizationNestedInput
+    billingNotifications?: BillingNotificationUncheckedUpdateManyWithoutOrganizationNestedInput
     channelProfiles?: ChannelProfileUncheckedUpdateManyWithoutOrganizationNestedInput
     contentProjects?: ContentProjectUncheckedUpdateManyWithoutOrganizationNestedInput
     trendAnalyses?: TrendAnalysisUncheckedUpdateManyWithoutOrganizationNestedInput
@@ -23597,6 +24862,61 @@ export namespace Prisma {
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
+  export type BillingNotificationCreateInput = {
+    id?: string
+    invoiceId: string
+    type: string
+    sentAt?: Date | string
+    organization: OrganizationCreateNestedOneWithoutBillingNotificationsInput
+  }
+
+  export type BillingNotificationUncheckedCreateInput = {
+    id?: string
+    organizationId: string
+    invoiceId: string
+    type: string
+    sentAt?: Date | string
+  }
+
+  export type BillingNotificationUpdateInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    invoiceId?: StringFieldUpdateOperationsInput | string
+    type?: StringFieldUpdateOperationsInput | string
+    sentAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    organization?: OrganizationUpdateOneRequiredWithoutBillingNotificationsNestedInput
+  }
+
+  export type BillingNotificationUncheckedUpdateInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    organizationId?: StringFieldUpdateOperationsInput | string
+    invoiceId?: StringFieldUpdateOperationsInput | string
+    type?: StringFieldUpdateOperationsInput | string
+    sentAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type BillingNotificationCreateManyInput = {
+    id?: string
+    organizationId: string
+    invoiceId: string
+    type: string
+    sentAt?: Date | string
+  }
+
+  export type BillingNotificationUpdateManyMutationInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    invoiceId?: StringFieldUpdateOperationsInput | string
+    type?: StringFieldUpdateOperationsInput | string
+    sentAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type BillingNotificationUncheckedUpdateManyInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    organizationId?: StringFieldUpdateOperationsInput | string
+    invoiceId?: StringFieldUpdateOperationsInput | string
+    type?: StringFieldUpdateOperationsInput | string
+    sentAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
   export type StringFilter<$PrismaModel = never> = {
     equals?: string | StringFieldRefInput<$PrismaModel>
     in?: string[] | ListStringFieldRefInput<$PrismaModel>
@@ -23673,6 +24993,12 @@ export namespace Prisma {
     none?: OrganizationInviteWhereInput
   }
 
+  export type BillingNotificationListRelationFilter = {
+    every?: BillingNotificationWhereInput
+    some?: BillingNotificationWhereInput
+    none?: BillingNotificationWhereInput
+  }
+
   export type ChannelProfileListRelationFilter = {
     every?: ChannelProfileWhereInput
     some?: ChannelProfileWhereInput
@@ -23729,6 +25055,10 @@ export namespace Prisma {
   }
 
   export type OrganizationInviteOrderByRelationAggregateInput = {
+    _count?: SortOrder
+  }
+
+  export type BillingNotificationOrderByRelationAggregateInput = {
     _count?: SortOrder
   }
 
@@ -24972,6 +26302,35 @@ export namespace Prisma {
     updatedAt?: SortOrder
   }
 
+  export type BillingNotificationInvoiceIdTypeCompoundUniqueInput = {
+    invoiceId: string
+    type: string
+  }
+
+  export type BillingNotificationCountOrderByAggregateInput = {
+    id?: SortOrder
+    organizationId?: SortOrder
+    invoiceId?: SortOrder
+    type?: SortOrder
+    sentAt?: SortOrder
+  }
+
+  export type BillingNotificationMaxOrderByAggregateInput = {
+    id?: SortOrder
+    organizationId?: SortOrder
+    invoiceId?: SortOrder
+    type?: SortOrder
+    sentAt?: SortOrder
+  }
+
+  export type BillingNotificationMinOrderByAggregateInput = {
+    id?: SortOrder
+    organizationId?: SortOrder
+    invoiceId?: SortOrder
+    type?: SortOrder
+    sentAt?: SortOrder
+  }
+
   export type SubscriptionCreateNestedOneWithoutActiveForInput = {
     create?: XOR<SubscriptionCreateWithoutActiveForInput, SubscriptionUncheckedCreateWithoutActiveForInput>
     connectOrCreate?: SubscriptionCreateOrConnectWithoutActiveForInput
@@ -24997,6 +26356,13 @@ export namespace Prisma {
     connectOrCreate?: OrganizationInviteCreateOrConnectWithoutOrganizationInput | OrganizationInviteCreateOrConnectWithoutOrganizationInput[]
     createMany?: OrganizationInviteCreateManyOrganizationInputEnvelope
     connect?: OrganizationInviteWhereUniqueInput | OrganizationInviteWhereUniqueInput[]
+  }
+
+  export type BillingNotificationCreateNestedManyWithoutOrganizationInput = {
+    create?: XOR<BillingNotificationCreateWithoutOrganizationInput, BillingNotificationUncheckedCreateWithoutOrganizationInput> | BillingNotificationCreateWithoutOrganizationInput[] | BillingNotificationUncheckedCreateWithoutOrganizationInput[]
+    connectOrCreate?: BillingNotificationCreateOrConnectWithoutOrganizationInput | BillingNotificationCreateOrConnectWithoutOrganizationInput[]
+    createMany?: BillingNotificationCreateManyOrganizationInputEnvelope
+    connect?: BillingNotificationWhereUniqueInput | BillingNotificationWhereUniqueInput[]
   }
 
   export type ChannelProfileCreateNestedManyWithoutOrganizationInput = {
@@ -25067,6 +26433,13 @@ export namespace Prisma {
     connectOrCreate?: OrganizationInviteCreateOrConnectWithoutOrganizationInput | OrganizationInviteCreateOrConnectWithoutOrganizationInput[]
     createMany?: OrganizationInviteCreateManyOrganizationInputEnvelope
     connect?: OrganizationInviteWhereUniqueInput | OrganizationInviteWhereUniqueInput[]
+  }
+
+  export type BillingNotificationUncheckedCreateNestedManyWithoutOrganizationInput = {
+    create?: XOR<BillingNotificationCreateWithoutOrganizationInput, BillingNotificationUncheckedCreateWithoutOrganizationInput> | BillingNotificationCreateWithoutOrganizationInput[] | BillingNotificationUncheckedCreateWithoutOrganizationInput[]
+    connectOrCreate?: BillingNotificationCreateOrConnectWithoutOrganizationInput | BillingNotificationCreateOrConnectWithoutOrganizationInput[]
+    createMany?: BillingNotificationCreateManyOrganizationInputEnvelope
+    connect?: BillingNotificationWhereUniqueInput | BillingNotificationWhereUniqueInput[]
   }
 
   export type ChannelProfileUncheckedCreateNestedManyWithoutOrganizationInput = {
@@ -25184,6 +26557,20 @@ export namespace Prisma {
     update?: OrganizationInviteUpdateWithWhereUniqueWithoutOrganizationInput | OrganizationInviteUpdateWithWhereUniqueWithoutOrganizationInput[]
     updateMany?: OrganizationInviteUpdateManyWithWhereWithoutOrganizationInput | OrganizationInviteUpdateManyWithWhereWithoutOrganizationInput[]
     deleteMany?: OrganizationInviteScalarWhereInput | OrganizationInviteScalarWhereInput[]
+  }
+
+  export type BillingNotificationUpdateManyWithoutOrganizationNestedInput = {
+    create?: XOR<BillingNotificationCreateWithoutOrganizationInput, BillingNotificationUncheckedCreateWithoutOrganizationInput> | BillingNotificationCreateWithoutOrganizationInput[] | BillingNotificationUncheckedCreateWithoutOrganizationInput[]
+    connectOrCreate?: BillingNotificationCreateOrConnectWithoutOrganizationInput | BillingNotificationCreateOrConnectWithoutOrganizationInput[]
+    upsert?: BillingNotificationUpsertWithWhereUniqueWithoutOrganizationInput | BillingNotificationUpsertWithWhereUniqueWithoutOrganizationInput[]
+    createMany?: BillingNotificationCreateManyOrganizationInputEnvelope
+    set?: BillingNotificationWhereUniqueInput | BillingNotificationWhereUniqueInput[]
+    disconnect?: BillingNotificationWhereUniqueInput | BillingNotificationWhereUniqueInput[]
+    delete?: BillingNotificationWhereUniqueInput | BillingNotificationWhereUniqueInput[]
+    connect?: BillingNotificationWhereUniqueInput | BillingNotificationWhereUniqueInput[]
+    update?: BillingNotificationUpdateWithWhereUniqueWithoutOrganizationInput | BillingNotificationUpdateWithWhereUniqueWithoutOrganizationInput[]
+    updateMany?: BillingNotificationUpdateManyWithWhereWithoutOrganizationInput | BillingNotificationUpdateManyWithWhereWithoutOrganizationInput[]
+    deleteMany?: BillingNotificationScalarWhereInput | BillingNotificationScalarWhereInput[]
   }
 
   export type ChannelProfileUpdateManyWithoutOrganizationNestedInput = {
@@ -25328,6 +26715,20 @@ export namespace Prisma {
     update?: OrganizationInviteUpdateWithWhereUniqueWithoutOrganizationInput | OrganizationInviteUpdateWithWhereUniqueWithoutOrganizationInput[]
     updateMany?: OrganizationInviteUpdateManyWithWhereWithoutOrganizationInput | OrganizationInviteUpdateManyWithWhereWithoutOrganizationInput[]
     deleteMany?: OrganizationInviteScalarWhereInput | OrganizationInviteScalarWhereInput[]
+  }
+
+  export type BillingNotificationUncheckedUpdateManyWithoutOrganizationNestedInput = {
+    create?: XOR<BillingNotificationCreateWithoutOrganizationInput, BillingNotificationUncheckedCreateWithoutOrganizationInput> | BillingNotificationCreateWithoutOrganizationInput[] | BillingNotificationUncheckedCreateWithoutOrganizationInput[]
+    connectOrCreate?: BillingNotificationCreateOrConnectWithoutOrganizationInput | BillingNotificationCreateOrConnectWithoutOrganizationInput[]
+    upsert?: BillingNotificationUpsertWithWhereUniqueWithoutOrganizationInput | BillingNotificationUpsertWithWhereUniqueWithoutOrganizationInput[]
+    createMany?: BillingNotificationCreateManyOrganizationInputEnvelope
+    set?: BillingNotificationWhereUniqueInput | BillingNotificationWhereUniqueInput[]
+    disconnect?: BillingNotificationWhereUniqueInput | BillingNotificationWhereUniqueInput[]
+    delete?: BillingNotificationWhereUniqueInput | BillingNotificationWhereUniqueInput[]
+    connect?: BillingNotificationWhereUniqueInput | BillingNotificationWhereUniqueInput[]
+    update?: BillingNotificationUpdateWithWhereUniqueWithoutOrganizationInput | BillingNotificationUpdateWithWhereUniqueWithoutOrganizationInput[]
+    updateMany?: BillingNotificationUpdateManyWithWhereWithoutOrganizationInput | BillingNotificationUpdateManyWithWhereWithoutOrganizationInput[]
+    deleteMany?: BillingNotificationScalarWhereInput | BillingNotificationScalarWhereInput[]
   }
 
   export type ChannelProfileUncheckedUpdateManyWithoutOrganizationNestedInput = {
@@ -26313,6 +27714,20 @@ export namespace Prisma {
     update?: XOR<XOR<UserUpdateToOneWithWhereWithoutInviteCreatedInput, UserUpdateWithoutInviteCreatedInput>, UserUncheckedUpdateWithoutInviteCreatedInput>
   }
 
+  export type OrganizationCreateNestedOneWithoutBillingNotificationsInput = {
+    create?: XOR<OrganizationCreateWithoutBillingNotificationsInput, OrganizationUncheckedCreateWithoutBillingNotificationsInput>
+    connectOrCreate?: OrganizationCreateOrConnectWithoutBillingNotificationsInput
+    connect?: OrganizationWhereUniqueInput
+  }
+
+  export type OrganizationUpdateOneRequiredWithoutBillingNotificationsNestedInput = {
+    create?: XOR<OrganizationCreateWithoutBillingNotificationsInput, OrganizationUncheckedCreateWithoutBillingNotificationsInput>
+    connectOrCreate?: OrganizationCreateOrConnectWithoutBillingNotificationsInput
+    upsert?: OrganizationUpsertWithoutBillingNotificationsInput
+    connect?: OrganizationWhereUniqueInput
+    update?: XOR<XOR<OrganizationUpdateToOneWithWhereWithoutBillingNotificationsInput, OrganizationUpdateWithoutBillingNotificationsInput>, OrganizationUncheckedUpdateWithoutBillingNotificationsInput>
+  }
+
   export type NestedStringFilter<$PrismaModel = never> = {
     equals?: string | StringFieldRefInput<$PrismaModel>
     in?: string[] | ListStringFieldRefInput<$PrismaModel>
@@ -26968,6 +28383,30 @@ export namespace Prisma {
     skipDuplicates?: boolean
   }
 
+  export type BillingNotificationCreateWithoutOrganizationInput = {
+    id?: string
+    invoiceId: string
+    type: string
+    sentAt?: Date | string
+  }
+
+  export type BillingNotificationUncheckedCreateWithoutOrganizationInput = {
+    id?: string
+    invoiceId: string
+    type: string
+    sentAt?: Date | string
+  }
+
+  export type BillingNotificationCreateOrConnectWithoutOrganizationInput = {
+    where: BillingNotificationWhereUniqueInput
+    create: XOR<BillingNotificationCreateWithoutOrganizationInput, BillingNotificationUncheckedCreateWithoutOrganizationInput>
+  }
+
+  export type BillingNotificationCreateManyOrganizationInputEnvelope = {
+    data: BillingNotificationCreateManyOrganizationInput | BillingNotificationCreateManyOrganizationInput[]
+    skipDuplicates?: boolean
+  }
+
   export type ChannelProfileCreateWithoutOrganizationInput = {
     id?: string
     name: string
@@ -27342,6 +28781,33 @@ export namespace Prisma {
     updatedAt?: DateTimeFilter<"OrganizationInvite"> | Date | string
   }
 
+  export type BillingNotificationUpsertWithWhereUniqueWithoutOrganizationInput = {
+    where: BillingNotificationWhereUniqueInput
+    update: XOR<BillingNotificationUpdateWithoutOrganizationInput, BillingNotificationUncheckedUpdateWithoutOrganizationInput>
+    create: XOR<BillingNotificationCreateWithoutOrganizationInput, BillingNotificationUncheckedCreateWithoutOrganizationInput>
+  }
+
+  export type BillingNotificationUpdateWithWhereUniqueWithoutOrganizationInput = {
+    where: BillingNotificationWhereUniqueInput
+    data: XOR<BillingNotificationUpdateWithoutOrganizationInput, BillingNotificationUncheckedUpdateWithoutOrganizationInput>
+  }
+
+  export type BillingNotificationUpdateManyWithWhereWithoutOrganizationInput = {
+    where: BillingNotificationScalarWhereInput
+    data: XOR<BillingNotificationUpdateManyMutationInput, BillingNotificationUncheckedUpdateManyWithoutOrganizationInput>
+  }
+
+  export type BillingNotificationScalarWhereInput = {
+    AND?: BillingNotificationScalarWhereInput | BillingNotificationScalarWhereInput[]
+    OR?: BillingNotificationScalarWhereInput[]
+    NOT?: BillingNotificationScalarWhereInput | BillingNotificationScalarWhereInput[]
+    id?: StringFilter<"BillingNotification"> | string
+    organizationId?: StringFilter<"BillingNotification"> | string
+    invoiceId?: StringFilter<"BillingNotification"> | string
+    type?: StringFilter<"BillingNotification"> | string
+    sentAt?: DateTimeFilter<"BillingNotification"> | Date | string
+  }
+
   export type ChannelProfileUpsertWithWhereUniqueWithoutOrganizationInput = {
     where: ChannelProfileWhereUniqueInput
     update: XOR<ChannelProfileUpdateWithoutOrganizationInput, ChannelProfileUncheckedUpdateWithoutOrganizationInput>
@@ -27577,6 +29043,7 @@ export namespace Prisma {
     activeSubscription?: SubscriptionCreateNestedOneWithoutActiveForInput
     subscriptions?: SubscriptionCreateNestedManyWithoutOrganizationInput
     invites?: OrganizationInviteCreateNestedManyWithoutOrganizationInput
+    billingNotifications?: BillingNotificationCreateNestedManyWithoutOrganizationInput
     channelProfiles?: ChannelProfileCreateNestedManyWithoutOrganizationInput
     contentProjects?: ContentProjectCreateNestedManyWithoutOrganizationInput
     trendAnalyses?: TrendAnalysisCreateNestedManyWithoutOrganizationInput
@@ -27597,6 +29064,7 @@ export namespace Prisma {
     updatedAt?: Date | string
     subscriptions?: SubscriptionUncheckedCreateNestedManyWithoutOrganizationInput
     invites?: OrganizationInviteUncheckedCreateNestedManyWithoutOrganizationInput
+    billingNotifications?: BillingNotificationUncheckedCreateNestedManyWithoutOrganizationInput
     channelProfiles?: ChannelProfileUncheckedCreateNestedManyWithoutOrganizationInput
     contentProjects?: ContentProjectUncheckedCreateNestedManyWithoutOrganizationInput
     trendAnalyses?: TrendAnalysisUncheckedCreateNestedManyWithoutOrganizationInput
@@ -27727,6 +29195,7 @@ export namespace Prisma {
     activeSubscription?: SubscriptionUpdateOneWithoutActiveForNestedInput
     subscriptions?: SubscriptionUpdateManyWithoutOrganizationNestedInput
     invites?: OrganizationInviteUpdateManyWithoutOrganizationNestedInput
+    billingNotifications?: BillingNotificationUpdateManyWithoutOrganizationNestedInput
     channelProfiles?: ChannelProfileUpdateManyWithoutOrganizationNestedInput
     contentProjects?: ContentProjectUpdateManyWithoutOrganizationNestedInput
     trendAnalyses?: TrendAnalysisUpdateManyWithoutOrganizationNestedInput
@@ -27747,6 +29216,7 @@ export namespace Prisma {
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     subscriptions?: SubscriptionUncheckedUpdateManyWithoutOrganizationNestedInput
     invites?: OrganizationInviteUncheckedUpdateManyWithoutOrganizationNestedInput
+    billingNotifications?: BillingNotificationUncheckedUpdateManyWithoutOrganizationNestedInput
     channelProfiles?: ChannelProfileUncheckedUpdateManyWithoutOrganizationNestedInput
     contentProjects?: ContentProjectUncheckedUpdateManyWithoutOrganizationNestedInput
     trendAnalyses?: TrendAnalysisUncheckedUpdateManyWithoutOrganizationNestedInput
@@ -27895,6 +29365,7 @@ export namespace Prisma {
     subscriptions?: SubscriptionCreateNestedManyWithoutOrganizationInput
     users?: UserCreateNestedManyWithoutOrganizationInput
     invites?: OrganizationInviteCreateNestedManyWithoutOrganizationInput
+    billingNotifications?: BillingNotificationCreateNestedManyWithoutOrganizationInput
     contentProjects?: ContentProjectCreateNestedManyWithoutOrganizationInput
     trendAnalyses?: TrendAnalysisCreateNestedManyWithoutOrganizationInput
     mediaSuggestions?: MediaSuggestionCreateNestedManyWithoutOrganizationInput
@@ -27915,6 +29386,7 @@ export namespace Prisma {
     subscriptions?: SubscriptionUncheckedCreateNestedManyWithoutOrganizationInput
     users?: UserUncheckedCreateNestedManyWithoutOrganizationInput
     invites?: OrganizationInviteUncheckedCreateNestedManyWithoutOrganizationInput
+    billingNotifications?: BillingNotificationUncheckedCreateNestedManyWithoutOrganizationInput
     contentProjects?: ContentProjectUncheckedCreateNestedManyWithoutOrganizationInput
     trendAnalyses?: TrendAnalysisUncheckedCreateNestedManyWithoutOrganizationInput
     mediaSuggestions?: MediaSuggestionUncheckedCreateNestedManyWithoutOrganizationInput
@@ -28028,6 +29500,7 @@ export namespace Prisma {
     subscriptions?: SubscriptionUpdateManyWithoutOrganizationNestedInput
     users?: UserUpdateManyWithoutOrganizationNestedInput
     invites?: OrganizationInviteUpdateManyWithoutOrganizationNestedInput
+    billingNotifications?: BillingNotificationUpdateManyWithoutOrganizationNestedInput
     contentProjects?: ContentProjectUpdateManyWithoutOrganizationNestedInput
     trendAnalyses?: TrendAnalysisUpdateManyWithoutOrganizationNestedInput
     mediaSuggestions?: MediaSuggestionUpdateManyWithoutOrganizationNestedInput
@@ -28048,6 +29521,7 @@ export namespace Prisma {
     subscriptions?: SubscriptionUncheckedUpdateManyWithoutOrganizationNestedInput
     users?: UserUncheckedUpdateManyWithoutOrganizationNestedInput
     invites?: OrganizationInviteUncheckedUpdateManyWithoutOrganizationNestedInput
+    billingNotifications?: BillingNotificationUncheckedUpdateManyWithoutOrganizationNestedInput
     contentProjects?: ContentProjectUncheckedUpdateManyWithoutOrganizationNestedInput
     trendAnalyses?: TrendAnalysisUncheckedUpdateManyWithoutOrganizationNestedInput
     mediaSuggestions?: MediaSuggestionUncheckedUpdateManyWithoutOrganizationNestedInput
@@ -28121,6 +29595,7 @@ export namespace Prisma {
     subscriptions?: SubscriptionCreateNestedManyWithoutOrganizationInput
     users?: UserCreateNestedManyWithoutOrganizationInput
     invites?: OrganizationInviteCreateNestedManyWithoutOrganizationInput
+    billingNotifications?: BillingNotificationCreateNestedManyWithoutOrganizationInput
     channelProfiles?: ChannelProfileCreateNestedManyWithoutOrganizationInput
     trendAnalyses?: TrendAnalysisCreateNestedManyWithoutOrganizationInput
     mediaSuggestions?: MediaSuggestionCreateNestedManyWithoutOrganizationInput
@@ -28141,6 +29616,7 @@ export namespace Prisma {
     subscriptions?: SubscriptionUncheckedCreateNestedManyWithoutOrganizationInput
     users?: UserUncheckedCreateNestedManyWithoutOrganizationInput
     invites?: OrganizationInviteUncheckedCreateNestedManyWithoutOrganizationInput
+    billingNotifications?: BillingNotificationUncheckedCreateNestedManyWithoutOrganizationInput
     channelProfiles?: ChannelProfileUncheckedCreateNestedManyWithoutOrganizationInput
     trendAnalyses?: TrendAnalysisUncheckedCreateNestedManyWithoutOrganizationInput
     mediaSuggestions?: MediaSuggestionUncheckedCreateNestedManyWithoutOrganizationInput
@@ -28386,6 +29862,7 @@ export namespace Prisma {
     subscriptions?: SubscriptionUpdateManyWithoutOrganizationNestedInput
     users?: UserUpdateManyWithoutOrganizationNestedInput
     invites?: OrganizationInviteUpdateManyWithoutOrganizationNestedInput
+    billingNotifications?: BillingNotificationUpdateManyWithoutOrganizationNestedInput
     channelProfiles?: ChannelProfileUpdateManyWithoutOrganizationNestedInput
     trendAnalyses?: TrendAnalysisUpdateManyWithoutOrganizationNestedInput
     mediaSuggestions?: MediaSuggestionUpdateManyWithoutOrganizationNestedInput
@@ -28406,6 +29883,7 @@ export namespace Prisma {
     subscriptions?: SubscriptionUncheckedUpdateManyWithoutOrganizationNestedInput
     users?: UserUncheckedUpdateManyWithoutOrganizationNestedInput
     invites?: OrganizationInviteUncheckedUpdateManyWithoutOrganizationNestedInput
+    billingNotifications?: BillingNotificationUncheckedUpdateManyWithoutOrganizationNestedInput
     channelProfiles?: ChannelProfileUncheckedUpdateManyWithoutOrganizationNestedInput
     trendAnalyses?: TrendAnalysisUncheckedUpdateManyWithoutOrganizationNestedInput
     mediaSuggestions?: MediaSuggestionUncheckedUpdateManyWithoutOrganizationNestedInput
@@ -28563,6 +30041,7 @@ export namespace Prisma {
     subscriptions?: SubscriptionCreateNestedManyWithoutOrganizationInput
     users?: UserCreateNestedManyWithoutOrganizationInput
     invites?: OrganizationInviteCreateNestedManyWithoutOrganizationInput
+    billingNotifications?: BillingNotificationCreateNestedManyWithoutOrganizationInput
     channelProfiles?: ChannelProfileCreateNestedManyWithoutOrganizationInput
     contentProjects?: ContentProjectCreateNestedManyWithoutOrganizationInput
     mediaSuggestions?: MediaSuggestionCreateNestedManyWithoutOrganizationInput
@@ -28583,6 +30062,7 @@ export namespace Prisma {
     subscriptions?: SubscriptionUncheckedCreateNestedManyWithoutOrganizationInput
     users?: UserUncheckedCreateNestedManyWithoutOrganizationInput
     invites?: OrganizationInviteUncheckedCreateNestedManyWithoutOrganizationInput
+    billingNotifications?: BillingNotificationUncheckedCreateNestedManyWithoutOrganizationInput
     channelProfiles?: ChannelProfileUncheckedCreateNestedManyWithoutOrganizationInput
     contentProjects?: ContentProjectUncheckedCreateNestedManyWithoutOrganizationInput
     mediaSuggestions?: MediaSuggestionUncheckedCreateNestedManyWithoutOrganizationInput
@@ -28660,6 +30140,7 @@ export namespace Prisma {
     subscriptions?: SubscriptionUpdateManyWithoutOrganizationNestedInput
     users?: UserUpdateManyWithoutOrganizationNestedInput
     invites?: OrganizationInviteUpdateManyWithoutOrganizationNestedInput
+    billingNotifications?: BillingNotificationUpdateManyWithoutOrganizationNestedInput
     channelProfiles?: ChannelProfileUpdateManyWithoutOrganizationNestedInput
     contentProjects?: ContentProjectUpdateManyWithoutOrganizationNestedInput
     mediaSuggestions?: MediaSuggestionUpdateManyWithoutOrganizationNestedInput
@@ -28680,6 +30161,7 @@ export namespace Prisma {
     subscriptions?: SubscriptionUncheckedUpdateManyWithoutOrganizationNestedInput
     users?: UserUncheckedUpdateManyWithoutOrganizationNestedInput
     invites?: OrganizationInviteUncheckedUpdateManyWithoutOrganizationNestedInput
+    billingNotifications?: BillingNotificationUncheckedUpdateManyWithoutOrganizationNestedInput
     channelProfiles?: ChannelProfileUncheckedUpdateManyWithoutOrganizationNestedInput
     contentProjects?: ContentProjectUncheckedUpdateManyWithoutOrganizationNestedInput
     mediaSuggestions?: MediaSuggestionUncheckedUpdateManyWithoutOrganizationNestedInput
@@ -28983,6 +30465,7 @@ export namespace Prisma {
     subscriptions?: SubscriptionCreateNestedManyWithoutOrganizationInput
     users?: UserCreateNestedManyWithoutOrganizationInput
     invites?: OrganizationInviteCreateNestedManyWithoutOrganizationInput
+    billingNotifications?: BillingNotificationCreateNestedManyWithoutOrganizationInput
     channelProfiles?: ChannelProfileCreateNestedManyWithoutOrganizationInput
     contentProjects?: ContentProjectCreateNestedManyWithoutOrganizationInput
     trendAnalyses?: TrendAnalysisCreateNestedManyWithoutOrganizationInput
@@ -29003,6 +30486,7 @@ export namespace Prisma {
     subscriptions?: SubscriptionUncheckedCreateNestedManyWithoutOrganizationInput
     users?: UserUncheckedCreateNestedManyWithoutOrganizationInput
     invites?: OrganizationInviteUncheckedCreateNestedManyWithoutOrganizationInput
+    billingNotifications?: BillingNotificationUncheckedCreateNestedManyWithoutOrganizationInput
     channelProfiles?: ChannelProfileUncheckedCreateNestedManyWithoutOrganizationInput
     contentProjects?: ContentProjectUncheckedCreateNestedManyWithoutOrganizationInput
     trendAnalyses?: TrendAnalysisUncheckedCreateNestedManyWithoutOrganizationInput
@@ -29080,6 +30564,7 @@ export namespace Prisma {
     subscriptions?: SubscriptionUpdateManyWithoutOrganizationNestedInput
     users?: UserUpdateManyWithoutOrganizationNestedInput
     invites?: OrganizationInviteUpdateManyWithoutOrganizationNestedInput
+    billingNotifications?: BillingNotificationUpdateManyWithoutOrganizationNestedInput
     channelProfiles?: ChannelProfileUpdateManyWithoutOrganizationNestedInput
     contentProjects?: ContentProjectUpdateManyWithoutOrganizationNestedInput
     trendAnalyses?: TrendAnalysisUpdateManyWithoutOrganizationNestedInput
@@ -29100,6 +30585,7 @@ export namespace Prisma {
     subscriptions?: SubscriptionUncheckedUpdateManyWithoutOrganizationNestedInput
     users?: UserUncheckedUpdateManyWithoutOrganizationNestedInput
     invites?: OrganizationInviteUncheckedUpdateManyWithoutOrganizationNestedInput
+    billingNotifications?: BillingNotificationUncheckedUpdateManyWithoutOrganizationNestedInput
     channelProfiles?: ChannelProfileUncheckedUpdateManyWithoutOrganizationNestedInput
     contentProjects?: ContentProjectUncheckedUpdateManyWithoutOrganizationNestedInput
     trendAnalyses?: TrendAnalysisUncheckedUpdateManyWithoutOrganizationNestedInput
@@ -29167,6 +30653,7 @@ export namespace Prisma {
     subscriptions?: SubscriptionCreateNestedManyWithoutOrganizationInput
     users?: UserCreateNestedManyWithoutOrganizationInput
     invites?: OrganizationInviteCreateNestedManyWithoutOrganizationInput
+    billingNotifications?: BillingNotificationCreateNestedManyWithoutOrganizationInput
     channelProfiles?: ChannelProfileCreateNestedManyWithoutOrganizationInput
     contentProjects?: ContentProjectCreateNestedManyWithoutOrganizationInput
     trendAnalyses?: TrendAnalysisCreateNestedManyWithoutOrganizationInput
@@ -29187,6 +30674,7 @@ export namespace Prisma {
     subscriptions?: SubscriptionUncheckedCreateNestedManyWithoutOrganizationInput
     users?: UserUncheckedCreateNestedManyWithoutOrganizationInput
     invites?: OrganizationInviteUncheckedCreateNestedManyWithoutOrganizationInput
+    billingNotifications?: BillingNotificationUncheckedCreateNestedManyWithoutOrganizationInput
     channelProfiles?: ChannelProfileUncheckedCreateNestedManyWithoutOrganizationInput
     contentProjects?: ContentProjectUncheckedCreateNestedManyWithoutOrganizationInput
     trendAnalyses?: TrendAnalysisUncheckedCreateNestedManyWithoutOrganizationInput
@@ -29264,6 +30752,7 @@ export namespace Prisma {
     subscriptions?: SubscriptionUpdateManyWithoutOrganizationNestedInput
     users?: UserUpdateManyWithoutOrganizationNestedInput
     invites?: OrganizationInviteUpdateManyWithoutOrganizationNestedInput
+    billingNotifications?: BillingNotificationUpdateManyWithoutOrganizationNestedInput
     channelProfiles?: ChannelProfileUpdateManyWithoutOrganizationNestedInput
     contentProjects?: ContentProjectUpdateManyWithoutOrganizationNestedInput
     trendAnalyses?: TrendAnalysisUpdateManyWithoutOrganizationNestedInput
@@ -29284,6 +30773,7 @@ export namespace Prisma {
     subscriptions?: SubscriptionUncheckedUpdateManyWithoutOrganizationNestedInput
     users?: UserUncheckedUpdateManyWithoutOrganizationNestedInput
     invites?: OrganizationInviteUncheckedUpdateManyWithoutOrganizationNestedInput
+    billingNotifications?: BillingNotificationUncheckedUpdateManyWithoutOrganizationNestedInput
     channelProfiles?: ChannelProfileUncheckedUpdateManyWithoutOrganizationNestedInput
     contentProjects?: ContentProjectUncheckedUpdateManyWithoutOrganizationNestedInput
     trendAnalyses?: TrendAnalysisUncheckedUpdateManyWithoutOrganizationNestedInput
@@ -29351,6 +30841,7 @@ export namespace Prisma {
     subscriptions?: SubscriptionCreateNestedManyWithoutOrganizationInput
     users?: UserCreateNestedManyWithoutOrganizationInput
     invites?: OrganizationInviteCreateNestedManyWithoutOrganizationInput
+    billingNotifications?: BillingNotificationCreateNestedManyWithoutOrganizationInput
     channelProfiles?: ChannelProfileCreateNestedManyWithoutOrganizationInput
     contentProjects?: ContentProjectCreateNestedManyWithoutOrganizationInput
     trendAnalyses?: TrendAnalysisCreateNestedManyWithoutOrganizationInput
@@ -29371,6 +30862,7 @@ export namespace Prisma {
     subscriptions?: SubscriptionUncheckedCreateNestedManyWithoutOrganizationInput
     users?: UserUncheckedCreateNestedManyWithoutOrganizationInput
     invites?: OrganizationInviteUncheckedCreateNestedManyWithoutOrganizationInput
+    billingNotifications?: BillingNotificationUncheckedCreateNestedManyWithoutOrganizationInput
     channelProfiles?: ChannelProfileUncheckedCreateNestedManyWithoutOrganizationInput
     contentProjects?: ContentProjectUncheckedCreateNestedManyWithoutOrganizationInput
     trendAnalyses?: TrendAnalysisUncheckedCreateNestedManyWithoutOrganizationInput
@@ -29448,6 +30940,7 @@ export namespace Prisma {
     subscriptions?: SubscriptionUpdateManyWithoutOrganizationNestedInput
     users?: UserUpdateManyWithoutOrganizationNestedInput
     invites?: OrganizationInviteUpdateManyWithoutOrganizationNestedInput
+    billingNotifications?: BillingNotificationUpdateManyWithoutOrganizationNestedInput
     channelProfiles?: ChannelProfileUpdateManyWithoutOrganizationNestedInput
     contentProjects?: ContentProjectUpdateManyWithoutOrganizationNestedInput
     trendAnalyses?: TrendAnalysisUpdateManyWithoutOrganizationNestedInput
@@ -29468,6 +30961,7 @@ export namespace Prisma {
     subscriptions?: SubscriptionUncheckedUpdateManyWithoutOrganizationNestedInput
     users?: UserUncheckedUpdateManyWithoutOrganizationNestedInput
     invites?: OrganizationInviteUncheckedUpdateManyWithoutOrganizationNestedInput
+    billingNotifications?: BillingNotificationUncheckedUpdateManyWithoutOrganizationNestedInput
     channelProfiles?: ChannelProfileUncheckedUpdateManyWithoutOrganizationNestedInput
     contentProjects?: ContentProjectUncheckedUpdateManyWithoutOrganizationNestedInput
     trendAnalyses?: TrendAnalysisUncheckedUpdateManyWithoutOrganizationNestedInput
@@ -29582,6 +31076,7 @@ export namespace Prisma {
     activeSubscription?: SubscriptionCreateNestedOneWithoutActiveForInput
     users?: UserCreateNestedManyWithoutOrganizationInput
     invites?: OrganizationInviteCreateNestedManyWithoutOrganizationInput
+    billingNotifications?: BillingNotificationCreateNestedManyWithoutOrganizationInput
     channelProfiles?: ChannelProfileCreateNestedManyWithoutOrganizationInput
     contentProjects?: ContentProjectCreateNestedManyWithoutOrganizationInput
     trendAnalyses?: TrendAnalysisCreateNestedManyWithoutOrganizationInput
@@ -29602,6 +31097,7 @@ export namespace Prisma {
     updatedAt?: Date | string
     users?: UserUncheckedCreateNestedManyWithoutOrganizationInput
     invites?: OrganizationInviteUncheckedCreateNestedManyWithoutOrganizationInput
+    billingNotifications?: BillingNotificationUncheckedCreateNestedManyWithoutOrganizationInput
     channelProfiles?: ChannelProfileUncheckedCreateNestedManyWithoutOrganizationInput
     contentProjects?: ContentProjectUncheckedCreateNestedManyWithoutOrganizationInput
     trendAnalyses?: TrendAnalysisUncheckedCreateNestedManyWithoutOrganizationInput
@@ -29656,6 +31152,7 @@ export namespace Prisma {
     subscriptions?: SubscriptionCreateNestedManyWithoutOrganizationInput
     users?: UserCreateNestedManyWithoutOrganizationInput
     invites?: OrganizationInviteCreateNestedManyWithoutOrganizationInput
+    billingNotifications?: BillingNotificationCreateNestedManyWithoutOrganizationInput
     channelProfiles?: ChannelProfileCreateNestedManyWithoutOrganizationInput
     contentProjects?: ContentProjectCreateNestedManyWithoutOrganizationInput
     trendAnalyses?: TrendAnalysisCreateNestedManyWithoutOrganizationInput
@@ -29676,6 +31173,7 @@ export namespace Prisma {
     subscriptions?: SubscriptionUncheckedCreateNestedManyWithoutOrganizationInput
     users?: UserUncheckedCreateNestedManyWithoutOrganizationInput
     invites?: OrganizationInviteUncheckedCreateNestedManyWithoutOrganizationInput
+    billingNotifications?: BillingNotificationUncheckedCreateNestedManyWithoutOrganizationInput
     channelProfiles?: ChannelProfileUncheckedCreateNestedManyWithoutOrganizationInput
     contentProjects?: ContentProjectUncheckedCreateNestedManyWithoutOrganizationInput
     trendAnalyses?: TrendAnalysisUncheckedCreateNestedManyWithoutOrganizationInput
@@ -29712,6 +31210,7 @@ export namespace Prisma {
     activeSubscription?: SubscriptionUpdateOneWithoutActiveForNestedInput
     users?: UserUpdateManyWithoutOrganizationNestedInput
     invites?: OrganizationInviteUpdateManyWithoutOrganizationNestedInput
+    billingNotifications?: BillingNotificationUpdateManyWithoutOrganizationNestedInput
     channelProfiles?: ChannelProfileUpdateManyWithoutOrganizationNestedInput
     contentProjects?: ContentProjectUpdateManyWithoutOrganizationNestedInput
     trendAnalyses?: TrendAnalysisUpdateManyWithoutOrganizationNestedInput
@@ -29732,6 +31231,7 @@ export namespace Prisma {
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     users?: UserUncheckedUpdateManyWithoutOrganizationNestedInput
     invites?: OrganizationInviteUncheckedUpdateManyWithoutOrganizationNestedInput
+    billingNotifications?: BillingNotificationUncheckedUpdateManyWithoutOrganizationNestedInput
     channelProfiles?: ChannelProfileUncheckedUpdateManyWithoutOrganizationNestedInput
     contentProjects?: ContentProjectUncheckedUpdateManyWithoutOrganizationNestedInput
     trendAnalyses?: TrendAnalysisUncheckedUpdateManyWithoutOrganizationNestedInput
@@ -29798,6 +31298,7 @@ export namespace Prisma {
     subscriptions?: SubscriptionUpdateManyWithoutOrganizationNestedInput
     users?: UserUpdateManyWithoutOrganizationNestedInput
     invites?: OrganizationInviteUpdateManyWithoutOrganizationNestedInput
+    billingNotifications?: BillingNotificationUpdateManyWithoutOrganizationNestedInput
     channelProfiles?: ChannelProfileUpdateManyWithoutOrganizationNestedInput
     contentProjects?: ContentProjectUpdateManyWithoutOrganizationNestedInput
     trendAnalyses?: TrendAnalysisUpdateManyWithoutOrganizationNestedInput
@@ -29818,6 +31319,7 @@ export namespace Prisma {
     subscriptions?: SubscriptionUncheckedUpdateManyWithoutOrganizationNestedInput
     users?: UserUncheckedUpdateManyWithoutOrganizationNestedInput
     invites?: OrganizationInviteUncheckedUpdateManyWithoutOrganizationNestedInput
+    billingNotifications?: BillingNotificationUncheckedUpdateManyWithoutOrganizationNestedInput
     channelProfiles?: ChannelProfileUncheckedUpdateManyWithoutOrganizationNestedInput
     contentProjects?: ContentProjectUncheckedUpdateManyWithoutOrganizationNestedInput
     trendAnalyses?: TrendAnalysisUncheckedUpdateManyWithoutOrganizationNestedInput
@@ -29839,6 +31341,7 @@ export namespace Prisma {
     subscriptions?: SubscriptionCreateNestedManyWithoutOrganizationInput
     users?: UserCreateNestedManyWithoutOrganizationInput
     invites?: OrganizationInviteCreateNestedManyWithoutOrganizationInput
+    billingNotifications?: BillingNotificationCreateNestedManyWithoutOrganizationInput
     channelProfiles?: ChannelProfileCreateNestedManyWithoutOrganizationInput
     contentProjects?: ContentProjectCreateNestedManyWithoutOrganizationInput
     trendAnalyses?: TrendAnalysisCreateNestedManyWithoutOrganizationInput
@@ -29859,6 +31362,7 @@ export namespace Prisma {
     subscriptions?: SubscriptionUncheckedCreateNestedManyWithoutOrganizationInput
     users?: UserUncheckedCreateNestedManyWithoutOrganizationInput
     invites?: OrganizationInviteUncheckedCreateNestedManyWithoutOrganizationInput
+    billingNotifications?: BillingNotificationUncheckedCreateNestedManyWithoutOrganizationInput
     channelProfiles?: ChannelProfileUncheckedCreateNestedManyWithoutOrganizationInput
     contentProjects?: ContentProjectUncheckedCreateNestedManyWithoutOrganizationInput
     trendAnalyses?: TrendAnalysisUncheckedCreateNestedManyWithoutOrganizationInput
@@ -29895,6 +31399,7 @@ export namespace Prisma {
     subscriptions?: SubscriptionUpdateManyWithoutOrganizationNestedInput
     users?: UserUpdateManyWithoutOrganizationNestedInput
     invites?: OrganizationInviteUpdateManyWithoutOrganizationNestedInput
+    billingNotifications?: BillingNotificationUpdateManyWithoutOrganizationNestedInput
     channelProfiles?: ChannelProfileUpdateManyWithoutOrganizationNestedInput
     contentProjects?: ContentProjectUpdateManyWithoutOrganizationNestedInput
     trendAnalyses?: TrendAnalysisUpdateManyWithoutOrganizationNestedInput
@@ -29915,6 +31420,7 @@ export namespace Prisma {
     subscriptions?: SubscriptionUncheckedUpdateManyWithoutOrganizationNestedInput
     users?: UserUncheckedUpdateManyWithoutOrganizationNestedInput
     invites?: OrganizationInviteUncheckedUpdateManyWithoutOrganizationNestedInput
+    billingNotifications?: BillingNotificationUncheckedUpdateManyWithoutOrganizationNestedInput
     channelProfiles?: ChannelProfileUncheckedUpdateManyWithoutOrganizationNestedInput
     contentProjects?: ContentProjectUncheckedUpdateManyWithoutOrganizationNestedInput
     trendAnalyses?: TrendAnalysisUncheckedUpdateManyWithoutOrganizationNestedInput
@@ -29934,6 +31440,7 @@ export namespace Prisma {
     activeSubscription?: SubscriptionCreateNestedOneWithoutActiveForInput
     subscriptions?: SubscriptionCreateNestedManyWithoutOrganizationInput
     users?: UserCreateNestedManyWithoutOrganizationInput
+    billingNotifications?: BillingNotificationCreateNestedManyWithoutOrganizationInput
     channelProfiles?: ChannelProfileCreateNestedManyWithoutOrganizationInput
     contentProjects?: ContentProjectCreateNestedManyWithoutOrganizationInput
     trendAnalyses?: TrendAnalysisCreateNestedManyWithoutOrganizationInput
@@ -29954,6 +31461,7 @@ export namespace Prisma {
     updatedAt?: Date | string
     subscriptions?: SubscriptionUncheckedCreateNestedManyWithoutOrganizationInput
     users?: UserUncheckedCreateNestedManyWithoutOrganizationInput
+    billingNotifications?: BillingNotificationUncheckedCreateNestedManyWithoutOrganizationInput
     channelProfiles?: ChannelProfileUncheckedCreateNestedManyWithoutOrganizationInput
     contentProjects?: ContentProjectUncheckedCreateNestedManyWithoutOrganizationInput
     trendAnalyses?: TrendAnalysisUncheckedCreateNestedManyWithoutOrganizationInput
@@ -30021,6 +31529,7 @@ export namespace Prisma {
     activeSubscription?: SubscriptionUpdateOneWithoutActiveForNestedInput
     subscriptions?: SubscriptionUpdateManyWithoutOrganizationNestedInput
     users?: UserUpdateManyWithoutOrganizationNestedInput
+    billingNotifications?: BillingNotificationUpdateManyWithoutOrganizationNestedInput
     channelProfiles?: ChannelProfileUpdateManyWithoutOrganizationNestedInput
     contentProjects?: ContentProjectUpdateManyWithoutOrganizationNestedInput
     trendAnalyses?: TrendAnalysisUpdateManyWithoutOrganizationNestedInput
@@ -30041,6 +31550,7 @@ export namespace Prisma {
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     subscriptions?: SubscriptionUncheckedUpdateManyWithoutOrganizationNestedInput
     users?: UserUncheckedUpdateManyWithoutOrganizationNestedInput
+    billingNotifications?: BillingNotificationUncheckedUpdateManyWithoutOrganizationNestedInput
     channelProfiles?: ChannelProfileUncheckedUpdateManyWithoutOrganizationNestedInput
     contentProjects?: ContentProjectUncheckedUpdateManyWithoutOrganizationNestedInput
     trendAnalyses?: TrendAnalysisUncheckedUpdateManyWithoutOrganizationNestedInput
@@ -30087,6 +31597,106 @@ export namespace Prisma {
     refreshTokens?: RefreshTokenUncheckedUpdateManyWithoutUserNestedInput
   }
 
+  export type OrganizationCreateWithoutBillingNotificationsInput = {
+    id?: string
+    name: string
+    slug: string
+    plan?: $Enums.PlanTier
+    onboardingCompleted?: boolean
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    activeSubscription?: SubscriptionCreateNestedOneWithoutActiveForInput
+    subscriptions?: SubscriptionCreateNestedManyWithoutOrganizationInput
+    users?: UserCreateNestedManyWithoutOrganizationInput
+    invites?: OrganizationInviteCreateNestedManyWithoutOrganizationInput
+    channelProfiles?: ChannelProfileCreateNestedManyWithoutOrganizationInput
+    contentProjects?: ContentProjectCreateNestedManyWithoutOrganizationInput
+    trendAnalyses?: TrendAnalysisCreateNestedManyWithoutOrganizationInput
+    mediaSuggestions?: MediaSuggestionCreateNestedManyWithoutOrganizationInput
+    publicationMetadata?: PublicationMetadataCreateNestedManyWithoutOrganizationInput
+    exportJobs?: ExportJobCreateNestedManyWithoutOrganizationInput
+    usageLogs?: UsageLogCreateNestedManyWithoutOrganizationInput
+  }
+
+  export type OrganizationUncheckedCreateWithoutBillingNotificationsInput = {
+    id?: string
+    name: string
+    slug: string
+    plan?: $Enums.PlanTier
+    subscriptionId?: string | null
+    onboardingCompleted?: boolean
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    subscriptions?: SubscriptionUncheckedCreateNestedManyWithoutOrganizationInput
+    users?: UserUncheckedCreateNestedManyWithoutOrganizationInput
+    invites?: OrganizationInviteUncheckedCreateNestedManyWithoutOrganizationInput
+    channelProfiles?: ChannelProfileUncheckedCreateNestedManyWithoutOrganizationInput
+    contentProjects?: ContentProjectUncheckedCreateNestedManyWithoutOrganizationInput
+    trendAnalyses?: TrendAnalysisUncheckedCreateNestedManyWithoutOrganizationInput
+    mediaSuggestions?: MediaSuggestionUncheckedCreateNestedManyWithoutOrganizationInput
+    publicationMetadata?: PublicationMetadataUncheckedCreateNestedManyWithoutOrganizationInput
+    exportJobs?: ExportJobUncheckedCreateNestedManyWithoutOrganizationInput
+    usageLogs?: UsageLogUncheckedCreateNestedManyWithoutOrganizationInput
+  }
+
+  export type OrganizationCreateOrConnectWithoutBillingNotificationsInput = {
+    where: OrganizationWhereUniqueInput
+    create: XOR<OrganizationCreateWithoutBillingNotificationsInput, OrganizationUncheckedCreateWithoutBillingNotificationsInput>
+  }
+
+  export type OrganizationUpsertWithoutBillingNotificationsInput = {
+    update: XOR<OrganizationUpdateWithoutBillingNotificationsInput, OrganizationUncheckedUpdateWithoutBillingNotificationsInput>
+    create: XOR<OrganizationCreateWithoutBillingNotificationsInput, OrganizationUncheckedCreateWithoutBillingNotificationsInput>
+    where?: OrganizationWhereInput
+  }
+
+  export type OrganizationUpdateToOneWithWhereWithoutBillingNotificationsInput = {
+    where?: OrganizationWhereInput
+    data: XOR<OrganizationUpdateWithoutBillingNotificationsInput, OrganizationUncheckedUpdateWithoutBillingNotificationsInput>
+  }
+
+  export type OrganizationUpdateWithoutBillingNotificationsInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    slug?: StringFieldUpdateOperationsInput | string
+    plan?: EnumPlanTierFieldUpdateOperationsInput | $Enums.PlanTier
+    onboardingCompleted?: BoolFieldUpdateOperationsInput | boolean
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    activeSubscription?: SubscriptionUpdateOneWithoutActiveForNestedInput
+    subscriptions?: SubscriptionUpdateManyWithoutOrganizationNestedInput
+    users?: UserUpdateManyWithoutOrganizationNestedInput
+    invites?: OrganizationInviteUpdateManyWithoutOrganizationNestedInput
+    channelProfiles?: ChannelProfileUpdateManyWithoutOrganizationNestedInput
+    contentProjects?: ContentProjectUpdateManyWithoutOrganizationNestedInput
+    trendAnalyses?: TrendAnalysisUpdateManyWithoutOrganizationNestedInput
+    mediaSuggestions?: MediaSuggestionUpdateManyWithoutOrganizationNestedInput
+    publicationMetadata?: PublicationMetadataUpdateManyWithoutOrganizationNestedInput
+    exportJobs?: ExportJobUpdateManyWithoutOrganizationNestedInput
+    usageLogs?: UsageLogUpdateManyWithoutOrganizationNestedInput
+  }
+
+  export type OrganizationUncheckedUpdateWithoutBillingNotificationsInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    slug?: StringFieldUpdateOperationsInput | string
+    plan?: EnumPlanTierFieldUpdateOperationsInput | $Enums.PlanTier
+    subscriptionId?: NullableStringFieldUpdateOperationsInput | string | null
+    onboardingCompleted?: BoolFieldUpdateOperationsInput | boolean
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    subscriptions?: SubscriptionUncheckedUpdateManyWithoutOrganizationNestedInput
+    users?: UserUncheckedUpdateManyWithoutOrganizationNestedInput
+    invites?: OrganizationInviteUncheckedUpdateManyWithoutOrganizationNestedInput
+    channelProfiles?: ChannelProfileUncheckedUpdateManyWithoutOrganizationNestedInput
+    contentProjects?: ContentProjectUncheckedUpdateManyWithoutOrganizationNestedInput
+    trendAnalyses?: TrendAnalysisUncheckedUpdateManyWithoutOrganizationNestedInput
+    mediaSuggestions?: MediaSuggestionUncheckedUpdateManyWithoutOrganizationNestedInput
+    publicationMetadata?: PublicationMetadataUncheckedUpdateManyWithoutOrganizationNestedInput
+    exportJobs?: ExportJobUncheckedUpdateManyWithoutOrganizationNestedInput
+    usageLogs?: UsageLogUncheckedUpdateManyWithoutOrganizationNestedInput
+  }
+
   export type SubscriptionCreateManyOrganizationInput = {
     id?: string
     planId: string
@@ -30116,6 +31726,13 @@ export namespace Prisma {
     acceptedAt?: Date | string | null
     createdAt?: Date | string
     updatedAt?: Date | string
+  }
+
+  export type BillingNotificationCreateManyOrganizationInput = {
+    id?: string
+    invoiceId: string
+    type: string
+    sentAt?: Date | string
   }
 
   export type ChannelProfileCreateManyOrganizationInput = {
@@ -30301,6 +31918,27 @@ export namespace Prisma {
     acceptedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type BillingNotificationUpdateWithoutOrganizationInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    invoiceId?: StringFieldUpdateOperationsInput | string
+    type?: StringFieldUpdateOperationsInput | string
+    sentAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type BillingNotificationUncheckedUpdateWithoutOrganizationInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    invoiceId?: StringFieldUpdateOperationsInput | string
+    type?: StringFieldUpdateOperationsInput | string
+    sentAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type BillingNotificationUncheckedUpdateManyWithoutOrganizationInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    invoiceId?: StringFieldUpdateOperationsInput | string
+    type?: StringFieldUpdateOperationsInput | string
+    sentAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
   export type ChannelProfileUpdateWithoutOrganizationInput = {

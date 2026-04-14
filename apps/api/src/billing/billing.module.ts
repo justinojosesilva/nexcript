@@ -8,9 +8,10 @@ import { CreatePortalSessionUseCase } from './use-cases/create-portal-session.us
 import { GetBillingStatusUseCase } from './use-cases/get-billing-status.use-case';
 import { PrismaModule } from '../prisma/prisma.module';
 import { CacheModule } from '../cache/cache.module';
+import { EmailModule } from '../email/email.module';
 
 @Module({
-  imports: [PrismaModule, CacheModule],
+  imports: [PrismaModule, CacheModule, EmailModule],
   controllers: [BillingController],
   providers: [
     CreateCheckoutSessionUseCase,

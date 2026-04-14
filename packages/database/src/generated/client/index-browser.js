@@ -306,6 +306,14 @@ exports.Prisma.OrganizationInviteScalarFieldEnum = {
   updatedAt: 'updatedAt'
 };
 
+exports.Prisma.BillingNotificationScalarFieldEnum = {
+  id: 'id',
+  organizationId: 'organizationId',
+  invoiceId: 'invoiceId',
+  type: 'type',
+  sentAt: 'sentAt'
+};
+
 exports.Prisma.SortOrder = {
   asc: 'asc',
   desc: 'desc'
@@ -468,7 +476,8 @@ exports.Prisma.ModelName = {
   Plan: 'Plan',
   Subscription: 'Subscription',
   UsageLog: 'UsageLog',
-  OrganizationInvite: 'OrganizationInvite'
+  OrganizationInvite: 'OrganizationInvite',
+  BillingNotification: 'BillingNotification'
 };
 
 /**
