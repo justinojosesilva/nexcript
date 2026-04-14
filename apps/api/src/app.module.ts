@@ -27,6 +27,7 @@ import { PublicationMetadataModule } from './publication-metadata/publication-me
 import { ExportModule } from './export/export.module';
 import { BillingModule } from './billing/billing.module';
 import { OrganizationsModule } from './organizations/organizations.module';
+import { AdminModule } from './admin/admin.module';
 
 @Module({
   imports: [
@@ -53,6 +54,7 @@ import { OrganizationsModule } from './organizations/organizations.module';
     ExportModule,
     BillingModule,
     OrganizationsModule,
+    AdminModule,
     HealthModule,
     LoggingModule,
     BullmqModule,

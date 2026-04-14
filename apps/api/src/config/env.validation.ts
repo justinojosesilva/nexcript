@@ -17,4 +17,5 @@ export const envValidationSchema = Joi.object({
   STRIPE_PORTAL_RETURN_URL: Joi.string().uri().required(),
   RESEND_API_KEY: Joi.string().required(),
   APP_URL: Joi.string().uri().required(),
+  ADMIN_API_KEY: Joi.string().min(32).optional(),
 });
