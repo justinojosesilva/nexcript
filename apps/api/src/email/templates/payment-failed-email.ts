@@ -13,7 +13,7 @@ export function paymentFailedEmailTemplate(args: {
     <head>
       <meta charset="UTF-8">
       <meta name="viewport" content="width=device-width, initial-scale=1.0">
-      <title>Falha no Pagamento — Nexcript</title>
+      <title>Falha no Pagamento — nexvideo</title>
       <style>
         body {
           font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', sans-serif;
@@ -110,7 +110,7 @@ export function paymentFailedEmailTemplate(args: {
       <div class="container">
         <div class="content">
           <div class="header">
-            <div class="logo">Nexcript</div>
+            <div class="logo">nexvideo</div>
             <p class="subtitle">Plataforma de Produção de Conteúdo com IA</p>
           </div>
 
@@ -140,7 +140,7 @@ export function paymentFailedEmailTemplate(args: {
           <p>Se já atualizou o cartão ou acredita que isso é um erro, entre em contato com nosso suporte.</p>
 
           <div class="footer">
-            <p>© 2026 Nexcript. Todos os direitos reservados.</p>
+            <p>© 2026 nexvideo. Todos os direitos reservados.</p>
             <p>Enviado para: <strong>${userEmail}</strong></p>
           </div>
         </div>

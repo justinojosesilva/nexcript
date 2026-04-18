@@ -1,5 +1,5 @@
 import { Injectable } from '@nestjs/common';
-import { type Script } from '@nexcript/database';
+import { type Script } from '@nexvideo/database';
 import { PrismaService } from '../prisma/prisma.service';
 import { IScriptRepository } from './script.repository.interface';
 

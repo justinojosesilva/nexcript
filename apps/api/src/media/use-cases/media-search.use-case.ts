@@ -3,9 +3,9 @@ import {
   Logger,
   BadRequestException,
 } from '@nestjs/common';
-import { MediaAsset } from '@nexcript/shared';
-import { mediaQueryPrompt } from '@nexcript/prompts';
-import { prisma } from '@nexcript/database';
+import { MediaAsset } from '@nexvideo/shared';
+import { mediaQueryPrompt } from '@nexvideo/prompts';
+import { prisma } from '@nexvideo/database';
 import { SearchMediaDto } from '../dto/search-media.dto';
 import { MediaAdapter } from 'src/adapters/implementations/media.adapter';
 

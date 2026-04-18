@@ -1,5 +1,5 @@
 import { Test, TestingModule } from '@nestjs/testing';
-import { FormatType } from '@nexcript/shared';
+import { FormatType } from '@nexvideo/shared';
 import { ScriptsController } from './scripts.controller';
 import { GetScriptsUseCase } from './use-cases/get-scripts.use-case';
 import { UpdateScriptUseCase } from './use-cases/update-script.use-case';

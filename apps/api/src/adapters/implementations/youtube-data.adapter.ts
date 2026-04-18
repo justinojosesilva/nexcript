@@ -1,6 +1,6 @@
 import { Injectable, Logger } from '@nestjs/common';
 import { ConfigService } from '@nestjs/config';
-import { YouTubeVideo, NicheCategory, Platform } from '@nexcript/shared';
+import { YouTubeVideo, NicheCategory, Platform } from '@nexvideo/shared';
 import { IYouTubePort } from '../interfaces/youtube.port';
 import { YouTubeApiError } from '../exceptions/youtube-api.error';
 

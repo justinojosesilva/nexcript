@@ -291,7 +291,7 @@ export default function DashboardPage() {
   const isAuthenticated = !!getStoredToken();
   const [bannerDismissed, setBannerDismissed] = useState(() => {
     if (typeof window === "undefined") return false;
-    return sessionStorage.getItem("nexcript_upgrade_banner_dismissed") === "1";
+    return sessionStorage.getItem("nexvideo_upgrade_banner_dismissed") === "1";
   });
 
   const {
@@ -335,7 +335,7 @@ export default function DashboardPage() {
         <UpgradeBanner
           maxPercent={Math.round(maxPercent)}
           onDismiss={() => {
-            sessionStorage.setItem("nexcript_upgrade_banner_dismissed", "1");
+            sessionStorage.setItem("nexvideo_upgrade_banner_dismissed", "1");
             setBannerDismissed(true);
           }}
         />

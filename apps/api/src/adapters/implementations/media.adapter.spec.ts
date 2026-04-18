@@ -1,6 +1,6 @@
 import { MediaAdapter } from './media.adapter';
 import { IPexelsPort, IPixabayPort } from '../interfaces/media.port';
-import { MediaAsset } from '@nexcript/shared';
+import { MediaAsset } from '@nexvideo/shared';
 
 describe('MediaAdapter', () => {
   let adapter: MediaAdapter;

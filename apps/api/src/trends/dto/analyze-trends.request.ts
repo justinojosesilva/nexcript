@@ -1,5 +1,5 @@
 import { IsString, IsEnum } from 'class-validator';
-import { NicheCategory } from '@nexcript/shared';
+import { NicheCategory } from '@nexvideo/shared';
 
 export class AnalyzeTrendsRequest {
   @IsString()

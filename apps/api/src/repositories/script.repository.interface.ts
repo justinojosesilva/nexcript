@@ -1,4 +1,4 @@
-import { type Script } from '@nexcript/database';
+import { type Script } from '@nexvideo/database';
 
 export interface IScriptRepository {
   create(data: Omit<Script, 'id' | 'createdAt' | 'updatedAt'>): Promise<Script>;

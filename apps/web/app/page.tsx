@@ -31,7 +31,7 @@ export default function Home() {
       <nav className="border-b border-gray-800/30 bg-[#0E0E0E]/50 backdrop-blur-sm">
         <div className="max-w-7xl mx-auto p-5 flex items-center justify-between">
           <div className="text-xl font-black text-white font-headline">
-            Nexcript
+            nexvideo
           </div>
           <div className="flex gap-4">
             <Link
@@ -300,7 +300,7 @@ export default function Home() {
           <div className="grid md:grid-cols-4 gap-8 mb-12">
             <div>
               <h3 className="text-white font-headline font-bold mb-4">
-                Nexcript
+                nexvideo
               </h3>
               <p className="text-sm text-gray-400">
                 Plataforma de produção de conteúdo com IA.
@@ -353,7 +353,7 @@ export default function Home() {
             </div>
           </div>
           <div className="border-t border-gray-800/30 pt-8 flex flex-col sm:flex-row justify-between items-center text-sm text-gray-500">
-            <p>&copy; 2024 Nexcript. Todos os direitos reservados.</p>
+            <p>&copy; 2024 nexvideo. Todos os direitos reservados.</p>
             <div className="flex gap-6 mt-4 sm:mt-0">
               <a href="#" className="hover:text-gray-400 transition-colors">
                 Twitter

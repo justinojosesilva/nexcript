@@ -1,9 +1,9 @@
-jest.mock('@nexcript/database', () => ({
+jest.mock('@nexvideo/database', () => ({
   prisma: {},
   PrismaClient: jest.fn(),
 }));
 
-import { NicheCategory } from '@nexcript/shared';
+import { NicheCategory } from '@nexvideo/shared';
 import { TrendsController } from './trends.controller';
 import { EnqueueTrendAnalysisUseCase } from './use-cases/enqueue-trend-analysis.use-case';
 import { GetTrendAnalysisUseCase } from './use-cases/get-trend-analysis.use-case';

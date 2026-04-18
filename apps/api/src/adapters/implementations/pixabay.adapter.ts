@@ -1,6 +1,6 @@
 import { Injectable, Inject } from '@nestjs/common';
 import { ConfigService } from '@nestjs/config';
-import { MediaAsset } from '@nexcript/shared';
+import { MediaAsset } from '@nexvideo/shared';
 import { ICachePort } from '../../cache/interfaces/cache.port';
 import { IPixabayPort } from '../interfaces/media.port';
 import { createHash } from 'crypto';

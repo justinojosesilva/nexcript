@@ -41,8 +41,8 @@ describe('CreateCheckoutSessionUseCase', () => {
       getOrThrow: jest.fn((key: string) => {
         const map: Record<string, string> = {
           STRIPE_SECRET_KEY: 'sk_test_secret',
-          STRIPE_SUCCESS_URL: 'https://nexcript.com/success',
-          STRIPE_CANCEL_URL: 'https://nexcript.com/cancel',
+          STRIPE_SUCCESS_URL: 'https://nexvideo.com/success',
+          STRIPE_CANCEL_URL: 'https://nexvideo.com/cancel',
         };
         return map[key];
       }),
@@ -101,8 +101,8 @@ describe('CreateCheckoutSessionUseCase', () => {
         mode: 'subscription',
         customer_email: 'user@example.com',
         metadata: { organizationId: 'org-123', planId: 'plan-starter' },
-        success_url: 'https://nexcript.com/success',
-        cancel_url: 'https://nexcript.com/cancel',
+        success_url: 'https://nexvideo.com/success',
+        cancel_url: 'https://nexvideo.com/cancel',
         line_items: [
           expect.objectContaining({
             price_data: expect.objectContaining({

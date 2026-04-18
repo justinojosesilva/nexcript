@@ -21,7 +21,7 @@ import {
   selectMedia,
   type SearchMediaPayload,
 } from "@/lib/media-client";
-import { type MediaAsset } from "@nexcript/shared";
+import { type MediaAsset } from "@nexvideo/shared";
 
 interface BlockMediaState {
   blockId: string;

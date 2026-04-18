@@ -12,7 +12,7 @@ export function cancellationWarningEmailTemplate(args: {
     <head>
       <meta charset="UTF-8">
       <meta name="viewport" content="width=device-width, initial-scale=1.0">
-      <title>Assinatura encerrando em breve — Nexcript</title>
+      <title>Assinatura encerrando em breve — nexvideo</title>
       <style>
         body {
           font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', sans-serif;
@@ -102,7 +102,7 @@ export function cancellationWarningEmailTemplate(args: {
       <div class="container">
         <div class="content">
           <div class="header">
-            <div class="logo">Nexcript</div>
+            <div class="logo">nexvideo</div>
             <p class="subtitle">Plataforma de Produção de Conteúdo com IA</p>
           </div>
 
@@ -126,7 +126,7 @@ export function cancellationWarningEmailTemplate(args: {
           <p>Se não deseja continuar, nenhuma ação é necessária — sua assinatura será encerrada na data acima.</p>
 
           <div class="footer">
-            <p>© 2026 Nexcript. Todos os direitos reservados.</p>
+            <p>© 2026 nexvideo. Todos os direitos reservados.</p>
             <p>Enviado para: <strong>${userEmail}</strong></p>
           </div>
         </div>

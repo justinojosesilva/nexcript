@@ -59,15 +59,15 @@ export async function register(data: RegisterRequest): Promise<AuthResponse> {
 
 export function getStoredToken(): string | null {
   if (typeof window === "undefined") return null;
-  return localStorage.getItem("nexcript_token");
+  return localStorage.getItem("nexvideo_token");
 }
 
 export function storeToken(token: string): void {
   if (typeof window === "undefined") return;
-  localStorage.setItem("nexcript_token", token);
+  localStorage.setItem("nexvideo_token", token);
 }
 
 export function removeToken(): void {
   if (typeof window === "undefined") return;
-  localStorage.removeItem("nexcript_token");
+  localStorage.removeItem("nexvideo_token");
 }

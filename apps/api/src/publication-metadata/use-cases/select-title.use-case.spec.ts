@@ -1,8 +1,8 @@
 import { BadRequestException } from '@nestjs/common';
-import { prisma } from '@nexcript/database';
+import { prisma } from '@nexvideo/database';
 import { SelectTitleUseCase } from './select-title.use-case';
 
-jest.mock('@nexcript/database', () => ({
+jest.mock('@nexvideo/database', () => ({
   prisma: {
     contentProject: {
       findFirst: jest.fn(),

@@ -1,5 +1,5 @@
 import { Injectable } from '@nestjs/common';
-import { getAllPromptVersions } from '@nexcript/prompts';
+import { getAllPromptVersions } from '@nexvideo/prompts';
 
 export interface PromptsVersionResponse {
   [category: string]: string;

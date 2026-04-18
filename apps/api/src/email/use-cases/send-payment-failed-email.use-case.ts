@@ -42,7 +42,7 @@ export class SendPaymentFailedEmailUseCase {
 
     try {
       await this.resend.emails.send({
-        from: 'noreply@nexcript.app',
+        from: 'noreply@nexvideo.app',
         to: userEmail,
         subject: `⚠️ Falha no pagamento da sua assinatura — ${organizationName}`,
         html,

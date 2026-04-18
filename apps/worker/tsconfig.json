@@ -14,8 +14,8 @@
     "moduleResolution": "node",
     "baseUrl": ".",
     "paths": {
-      "@nexcript/database": ["../../../packages/database/dist/index.js"],
-      "@nexcript/shared": ["../../../packages/shared/dist/index.js"]
+      "@nexvideo/database": ["../../../packages/database/dist/index.js"],
+      "@nexvideo/shared": ["../../../packages/shared/dist/index.js"]
     }
   },
   "include": ["src"],

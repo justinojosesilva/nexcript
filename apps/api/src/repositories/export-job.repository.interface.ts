@@ -1,4 +1,4 @@
-import { type ExportJob } from '@nexcript/database';
+import { type ExportJob } from '@nexvideo/database';
 
 export interface IExportJobRepository {
   create(data: {

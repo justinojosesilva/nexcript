@@ -1,5 +1,5 @@
 import { Injectable } from '@nestjs/common';
-import { type ChannelProfile } from '@nexcript/database';
+import { type ChannelProfile } from '@nexvideo/database';
 import { PrismaService } from '../prisma/prisma.service';
 import { IChannelProfileRepository } from './channel-profile.repository.interface';
 

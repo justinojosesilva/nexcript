@@ -5,7 +5,7 @@ import {
   IsOptional,
   IsArray,
 } from 'class-validator';
-import { ContentTone } from '@nexcript/shared';
+import { ContentTone } from '@nexvideo/shared';
 import { ApiProperty } from '@nestjs/swagger';
 
 export class ScriptBlockInput {

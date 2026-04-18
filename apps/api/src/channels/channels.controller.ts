@@ -9,7 +9,7 @@ import {
   Patch,
   Post,
 } from '@nestjs/common';
-import { type ChannelProfile } from '@nexcript/database';
+import { type ChannelProfile } from '@nexvideo/database';
 import { CurrentUser } from '../auth/decorators/current-user.decorator';
 import { type JwtPayload } from '../auth/strategies/jwt.strategy';
 import { CreateChannelProfileDto } from './dto/create-channel-profile.dto';

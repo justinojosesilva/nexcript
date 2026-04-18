@@ -18,7 +18,7 @@ import {
   ApiTags,
   ApiBearerAuth,
 } from '@nestjs/swagger';
-import { type Script } from '@nexcript/database';
+import { type Script } from '@nexvideo/database';
 import { CurrentUser } from '../auth/decorators/current-user.decorator';
 import { type JwtPayload } from '../auth/strategies/jwt.strategy';
 import { GetScriptsUseCase } from './use-cases/get-scripts.use-case';

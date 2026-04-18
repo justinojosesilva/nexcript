@@ -1,4 +1,4 @@
-import { FormatType, NicheCategory, ProjectStatus } from '@nexcript/shared';
+import { FormatType, NicheCategory, ProjectStatus } from '@nexvideo/shared';
 
 export interface ChannelProfileSummary {
   id: string;

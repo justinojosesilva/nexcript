@@ -1,6 +1,8 @@
 import { Module } from '@nestjs/common';
-import { APP_GUARD } from '@nestjs/core';
+import { APP_FILTER, APP_GUARD, APP_INTERCEPTOR } from '@nestjs/core';
 import { ConfigModule } from '@nestjs/config';
+import { SentryGlobalFilter, SentryModule } from '@sentry/nestjs/setup';
+import { SentryUserContextInterceptor } from './common/interceptors/sentry-user-context.interceptor';
 import { AppController } from './app.controller';
 import { AppService } from './app.service';
 import { envValidationSchema } from './config/env.validation';
@@ -31,6 +33,7 @@ import { AdminModule } from './admin/admin.module';
 
 @Module({
   imports: [
+    SentryModule.forRoot(),
     ConfigModule.forRoot({
       isGlobal: true,
       validationSchema: envValidationSchema,
@@ -63,6 +66,14 @@ import { AdminModule } from './admin/admin.module';
   controllers: [AppController],
   providers: [
     AppService,
+    {
+      provide: APP_FILTER,
+      useClass: SentryGlobalFilter,
+    },
+    {
+      provide: APP_INTERCEPTOR,
+      useClass: SentryUserContextInterceptor,
+    },
     {
       provide: APP_GUARD,
       useClass: JwtAuthGuard,

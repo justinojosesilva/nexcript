@@ -1,5 +1,5 @@
 import { IsString, IsEnum } from 'class-validator';
-import { FormatType, ContentTone } from '@nexcript/shared';
+import { FormatType, ContentTone } from '@nexvideo/shared';
 import { ApiProperty } from '@nestjs/swagger';
 
 export class CreateScriptQueueDto {

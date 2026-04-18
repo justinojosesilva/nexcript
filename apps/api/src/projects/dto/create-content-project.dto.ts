@@ -5,7 +5,7 @@ import {
   IsOptional,
   IsString,
 } from 'class-validator';
-import { FormatType, NicheCategory } from '@nexcript/shared';
+import { FormatType, NicheCategory } from '@nexvideo/shared';
 
 export class CreateContentProjectDto {
   @IsString()

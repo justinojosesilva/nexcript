@@ -1,4 +1,4 @@
-import { type ContentProject } from '@nexcript/database';
+import { type ContentProject } from '@nexvideo/database';
 
 export interface ContentProjectWithChannelProfile extends ContentProject {
   channelProfile: {

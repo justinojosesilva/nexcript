@@ -1,10 +1,10 @@
-jest.mock('@nexcript/database', () => ({
+jest.mock('@nexvideo/database', () => ({
   prisma: {},
   PrismaClient: jest.fn(),
 }));
 
 import { ForbiddenException, NotFoundException } from '@nestjs/common';
-import { FormatType, NicheCategory, ProjectStatus } from '@nexcript/shared';
+import { FormatType, NicheCategory, ProjectStatus } from '@nexvideo/shared';
 import { GetContentProjectUseCase } from './get-content-project.use-case';
 
 const mockProject = {

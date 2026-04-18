@@ -5,7 +5,7 @@ import {
   NicheCategory,
   Platform,
   ScoreClassification,
-} from '@nexcript/shared';
+} from '@nexvideo/shared';
 
 describe('SaturationScorer', () => {
   let scorer: SaturationScorer;

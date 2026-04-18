@@ -1,7 +1,7 @@
 import { Test, TestingModule } from '@nestjs/testing';
 import { GetBudgetSummaryUseCase } from './get-budget-summary.use-case';
 import { ScriptRepository } from '../../repositories/script.repository';
-import { FormatType } from '@nexcript/shared';
+import { FormatType } from '@nexvideo/shared';
 
 describe('GetBudgetSummaryUseCase', () => {
   let useCase: GetBudgetSummaryUseCase;

@@ -1,3 +1,3 @@
-import { postcssConfig } from "@nexcript/tailwind-config/postcss";
+import { postcssConfig } from "@nexvideo/tailwind-config/postcss";
 
 export default postcssConfig;

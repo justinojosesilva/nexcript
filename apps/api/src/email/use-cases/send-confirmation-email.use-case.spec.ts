@@ -38,9 +38,9 @@ describe('SendConfirmationEmailUseCase', () => {
     });
 
     expect(mockResend.emails.send).toHaveBeenCalledWith({
-      from: 'noreply@nexcript.app',
+      from: 'noreply@nexvideo.app',
       to: 'user@example.com',
-      subject: 'Confirme seu email — Nexcript',
+      subject: 'Confirme seu email — nexvideo',
       html: expect.stringContaining('https://app.example.com/auth/confirm?token=token-123'),
     });
   });

@@ -1,5 +1,5 @@
 import { DemandScorer } from './demand.scorer';
-import { ScoreClassification } from '@nexcript/shared';
+import { ScoreClassification } from '@nexvideo/shared';
 import type { IYouTubePort } from '../adapters/interfaces/youtube.port';
 import type { ITrendsPort } from '../adapters/interfaces/trends.port';
 import Redis from 'ioredis';

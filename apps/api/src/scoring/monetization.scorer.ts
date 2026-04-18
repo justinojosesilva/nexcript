@@ -5,8 +5,8 @@ import {
   IScoreDimensionService,
   ScoreCalculationResult,
   ScoreCalculator,
-} from '@nexcript/shared';
-import { NicheCategory, RpmTier } from '@nexcript/shared';
+} from '@nexvideo/shared';
+import { NicheCategory, RpmTier } from '@nexvideo/shared';
 
 /**
  * RPM (Revenue Per Mille) range for each niche category

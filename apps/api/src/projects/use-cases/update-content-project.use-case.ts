@@ -3,7 +3,7 @@ import {
   Injectable,
   NotFoundException,
 } from '@nestjs/common';
-import { type ContentProject } from '@nexcript/database';
+import { type ContentProject } from '@nexvideo/database';
 import { ContentProjectRepository } from '../../repositories/content-project.repository';
 import { UpdateContentProjectDto } from '../dto/update-content-project.dto';
 

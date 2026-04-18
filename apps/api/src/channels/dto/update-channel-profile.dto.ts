@@ -4,7 +4,7 @@ import {
   NarrationStyle,
   NicheCategory,
   Platform,
-} from '@nexcript/shared';
+} from '@nexvideo/shared';
 
 export class UpdateChannelProfileDto {
   @IsString()

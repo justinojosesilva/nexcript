@@ -1,8 +1,8 @@
 import { Injectable, Logger, BadRequestException, Inject } from '@nestjs/common';
-import { prisma } from '@nexcript/database';
+import { prisma } from '@nexvideo/database';
 import { OpenAIAdapter } from '../adapters/implementations/openai.adapter';
 import { MonetizationScorer } from './monetization.scorer';
-import { NicheCategory } from '@nexcript/shared';
+import { NicheCategory } from '@nexvideo/shared';
 
 export interface ComplianceScorerInput {
   projectId: string;

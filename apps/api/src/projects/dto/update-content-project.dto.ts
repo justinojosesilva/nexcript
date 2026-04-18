@@ -1,5 +1,5 @@
 import { IsEnum, IsInt, IsOptional, IsString } from 'class-validator';
-import { FormatType } from '@nexcript/shared';
+import { FormatType } from '@nexvideo/shared';
 
 export class UpdateContentProjectDto {
   @IsString()

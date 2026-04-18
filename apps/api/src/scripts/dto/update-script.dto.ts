@@ -1,4 +1,4 @@
-import { type ScriptBlock } from '@nexcript/shared';
+import { type ScriptBlock } from '@nexvideo/shared';
 import { IsOptional, IsArray, IsString, IsNumber } from 'class-validator';
 
 export class UpdateScriptDto {

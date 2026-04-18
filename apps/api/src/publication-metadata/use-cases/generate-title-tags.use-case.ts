@@ -4,9 +4,9 @@ import {
   BadRequestException,
   Inject,
 } from '@nestjs/common';
-import { titleVariantsPrompt, tagsPrompt } from '@nexcript/prompts';
-import { type TitleVariantsOutput, type YoutubeTagsOutput } from '@nexcript/prompts';
-import { prisma } from '@nexcript/database';
+import { titleVariantsPrompt, tagsPrompt } from '@nexvideo/prompts';
+import { type TitleVariantsOutput, type YoutubeTagsOutput } from '@nexvideo/prompts';
+import { prisma } from '@nexvideo/database';
 import { IOpenAIPort } from '../../adapters/interfaces/openai.port';
 import { GenerateTitleTagsDto } from '../dto/generate-title-tags.dto';
 

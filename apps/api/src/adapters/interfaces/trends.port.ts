@@ -1,4 +1,4 @@
-import { TrendsDataPoint } from '@nexcript/shared';
+import { TrendsDataPoint } from '@nexvideo/shared';
 
 /**
  * Port interface for Google Trends API integration

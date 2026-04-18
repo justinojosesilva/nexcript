@@ -1,7 +1,7 @@
 import { ConfigService } from '@nestjs/config';
 import { YouTubeDataAdapter } from './youtube-data.adapter';
 import { YouTubeApiError } from '../exceptions/youtube-api.error';
-import { Platform } from '@nexcript/shared';
+import { Platform } from '@nexvideo/shared';
 
 describe('YouTubeDataAdapter', () => {
   let adapter: YouTubeDataAdapter;

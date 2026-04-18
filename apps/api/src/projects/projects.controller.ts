@@ -8,7 +8,7 @@ import {
   Patch,
   Post,
 } from '@nestjs/common';
-import { type ContentProject } from '@nexcript/database';
+import { type ContentProject } from '@nexvideo/database';
 import { CurrentUser } from '../auth/decorators/current-user.decorator';
 import { type JwtPayload } from '../auth/strategies/jwt.strategy';
 import { CreateContentProjectDto } from './dto/create-content-project.dto';

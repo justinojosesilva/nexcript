@@ -1,5 +1,5 @@
 {
-  "name": "@nexcript/prompts",
+  "name": "@nexvideo/prompts",
   "version": "1.0.0",
   "type": "module",
   "private": true,
@@ -19,7 +19,7 @@
     "typecheck": "tsc --noEmit"
   },
   "devDependencies": {
-    "@nexcript/typescript-config": "workspace:*",
+    "@nexvideo/typescript-config": "workspace:*",
     "tsup": "^8.5.1",
     "typescript": "^5.7.3"
   }

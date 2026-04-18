@@ -15,14 +15,14 @@ import {
   ApiTags,
   ApiBearerAuth,
 } from '@nestjs/swagger';
-import { type MediaAsset } from '@nexcript/shared';
+import { type MediaAsset } from '@nexvideo/shared';
 import { CurrentUser } from '../auth/decorators/current-user.decorator';
 import { type JwtPayload } from '../auth/strategies/jwt.strategy';
 import { MediaSearchUseCase } from './use-cases/media-search.use-case';
 import { SelectMediaUseCase } from './use-cases/select-media.use-case';
 import { SearchMediaDto } from './dto/search-media.dto';
 import { SelectMediaDto } from './dto/select-media.dto';
-import { prisma } from '@nexcript/database';
+import { prisma } from '@nexvideo/database';
 
 @ApiTags('media')
 @ApiBearerAuth()

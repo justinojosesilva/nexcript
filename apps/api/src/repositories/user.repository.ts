@@ -1,5 +1,5 @@
 import { Injectable } from '@nestjs/common';
-import { type User } from '@nexcript/database';
+import { type User } from '@nexvideo/database';
 import { PrismaService } from '../prisma/prisma.service';
 import { PrismaRepository } from './base/prisma.repository';
 

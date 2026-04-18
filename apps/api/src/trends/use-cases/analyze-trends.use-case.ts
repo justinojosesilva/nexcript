@@ -4,7 +4,7 @@ import { DemandScorer } from '../../scoring/demand.scorer';
 import { SaturationScorer } from '../../scoring/saturation.scorer';
 import { MonetizationScorer } from '../../scoring/monetization.scorer';
 import { QualityGapScorer } from '../../scoring/quality-gap.scorer';
-import { ScoreCalculator, NicheCategory } from '@nexcript/shared';
+import { ScoreCalculator, NicheCategory } from '@nexvideo/shared';
 
 export interface AnalyzeTrendsInput {
   /** ContentProject ID to analyze */

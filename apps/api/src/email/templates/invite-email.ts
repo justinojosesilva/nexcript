@@ -12,7 +12,7 @@ export function inviteEmailTemplate(args: {
     <head>
       <meta charset="UTF-8">
       <meta name="viewport" content="width=device-width, initial-scale=1.0">
-      <title>Você foi convidado para ${organizationName} — Nexcript</title>
+      <title>Você foi convidado para ${organizationName} — nexvideo</title>
       <style>
         body {
           font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', sans-serif;
@@ -102,7 +102,7 @@ export function inviteEmailTemplate(args: {
       <div class="container">
         <div class="content">
           <div class="header">
-            <div class="logo">Nexcript</div>
+            <div class="logo">nexvideo</div>
             <p class="subtitle">Plataforma de Produção de Conteúdo com IA</p>
           </div>
 
@@ -110,7 +110,7 @@ export function inviteEmailTemplate(args: {
 
           <p>Olá,</p>
 
-          <p><span class="highlight">${inviterName}</span> convidou você para colaborar na organização <span class="highlight">${organizationName}</span> no Nexcript.</p>
+          <p><span class="highlight">${inviterName}</span> convidou você para colaborar na organização <span class="highlight">${organizationName}</span> no nexvideo.</p>
 
           <p>Clique no botão abaixo para aceitar o convite e começar a colaborar:</p>
 
@@ -128,7 +128,7 @@ export function inviteEmailTemplate(args: {
           <p>Se você não foi convidado ou não deseja participar, pode ignorar este email com segurança.</p>
 
           <div class="footer">
-            <p>© 2026 Nexcript. Todos os direitos reservados.</p>
+            <p>© 2026 nexvideo. Todos os direitos reservados.</p>
             <p>Enviado para: <strong>${inviteeEmail}</strong></p>
           </div>
         </div>

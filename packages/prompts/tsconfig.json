@@ -1,5 +1,5 @@
 {
-  "extends": "@nexcript/typescript-config/base.json",
+  "extends": "@nexvideo/typescript-config/base.json",
   "compilerOptions": {
     "outDir": "./dist"
   },

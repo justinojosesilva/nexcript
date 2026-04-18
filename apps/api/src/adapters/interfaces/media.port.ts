@@ -1,4 +1,4 @@
-import { MediaAsset } from '@nexcript/shared';
+import { MediaAsset } from '@nexvideo/shared';
 
 /**
  * Port interface for Pexels API integration

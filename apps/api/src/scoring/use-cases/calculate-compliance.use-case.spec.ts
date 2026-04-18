@@ -1,9 +1,9 @@
 import { BadRequestException } from '@nestjs/common';
-import { prisma } from '@nexcript/database';
+import { prisma } from '@nexvideo/database';
 import { CalculateComplianceUseCase } from './calculate-compliance.use-case';
-import { NicheCategory } from '@nexcript/shared';
+import { NicheCategory } from '@nexvideo/shared';
 
-jest.mock('@nexcript/database', () => ({
+jest.mock('@nexvideo/database', () => ({
   prisma: {
     contentProject: {
       findFirst: jest.fn(),

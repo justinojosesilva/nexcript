@@ -29,7 +29,7 @@ export function getApiClient(): AxiosInstance {
       (error) => {
         if (error.response?.status === 401) {
           // Token expired or invalid
-          localStorage.removeItem("nexcript_token");
+          localStorage.removeItem("nexvideo_token");
           if (typeof window !== "undefined") {
             window.location.href = "/login";
           }

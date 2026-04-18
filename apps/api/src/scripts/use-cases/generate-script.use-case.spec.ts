@@ -1,7 +1,7 @@
 import { BadRequestException } from '@nestjs/common';
 import { Test, TestingModule } from '@nestjs/testing';
 import { ConfigService } from '@nestjs/config';
-import { FormatType, NicheCategory, ContentTone } from '@nexcript/shared';
+import { FormatType, NicheCategory, ContentTone } from '@nexvideo/shared';
 import { GenerateScriptUseCase } from './generate-script.use-case';
 import { ScriptRepository } from '../../repositories/script.repository';
 import { ContentProjectRepository } from '../../repositories/content-project.repository';

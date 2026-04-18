@@ -4,7 +4,7 @@ import {
   BadRequestException,
   ForbiddenException,
 } from '@nestjs/common';
-import { prisma } from '@nexcript/database';
+import { prisma } from '@nexvideo/database';
 
 export interface ComplianceResponse {
   projectId: string;

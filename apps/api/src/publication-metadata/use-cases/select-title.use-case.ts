@@ -3,7 +3,7 @@ import {
   Logger,
   BadRequestException,
 } from '@nestjs/common';
-import { prisma } from '@nexcript/database';
+import { prisma } from '@nexvideo/database';
 import { SelectTitleDto } from '../dto/select-title.dto';
 
 interface SelectTitleInput extends SelectTitleDto {

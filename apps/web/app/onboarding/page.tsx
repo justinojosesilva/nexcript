@@ -169,7 +169,7 @@ function Step1Welcome() {
     <div className="space-y-8">
       <div className="text-center">
         <h2 className="font-headline text-3xl font-bold text-white mb-3">
-          Bem-vindo ao Nexcript
+          Bem-vindo ao nexvideo
         </h2>
         <p className="text-neutral-400 text-base max-w-md mx-auto">
           Veja como funciona antes de começar. Em menos de 2 minutos você terá
@@ -196,7 +196,7 @@ function Step1Welcome() {
             <div className="h-3 w-3 rounded-full bg-green-500/60" />
           </div>
           <div className="flex-1 mx-3 h-5 rounded-full bg-neutral-800/80 flex items-center px-3">
-            <span className="text-xs text-neutral-500 font-mono">nexcript.app</span>
+            <span className="text-xs text-neutral-500 font-mono">nexvideo.app</span>
           </div>
         </div>
 
@@ -660,7 +660,7 @@ export default function OnboardingPage() {
                 className="text-base font-bold text-white"
                 style={{ fontFamily: "var(--font-space-grotesk)" }}
               >
-                Nexcript
+                nexvideo
               </span>
             </div>
             <span className="text-xs text-neutral-500 font-mono">

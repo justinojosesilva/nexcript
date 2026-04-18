@@ -1,4 +1,4 @@
-import { FormatType, NicheCategory, ContentTone } from '@nexcript/shared';
+import { FormatType, NicheCategory, ContentTone } from '@nexvideo/shared';
 import { IsString, IsEnum, IsOptional } from 'class-validator';
 
 export class GenerateScriptDto {

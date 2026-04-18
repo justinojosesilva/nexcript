@@ -1,5 +1,5 @@
 import { Injectable, Logger } from '@nestjs/common';
-import { TrendsDataPoint } from '@nexcript/shared';
+import { TrendsDataPoint } from '@nexvideo/shared';
 import { ITrendsPort } from '../interfaces/trends.port';
 import { RequestRateLimiter } from '../utils/request-rate-limiter';
 

@@ -1,5 +1,5 @@
 {
-  "extends": "@nexcript/typescript-config/nextjs.json",
+  "extends": "@nexvideo/typescript-config/nextjs.json",
   "compilerOptions": {
     "plugins": [
       {

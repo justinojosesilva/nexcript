@@ -1,4 +1,4 @@
-import "@nexcript/ui/styles.css";
+import "@nexvideo/ui/styles.css";
 import "./globals.css";
 import type { Metadata } from "next";
 import { Syne, DM_Sans, JetBrains_Mono, Space_Grotesk } from "next/font/google";
@@ -33,7 +33,7 @@ const jetbrainsMono = JetBrains_Mono({
 });
 
 export const metadata: Metadata = {
-  title: "Nexcript",
+  title: "nexvideo",
   description: "Platform for AI-powered content production",
 };
 

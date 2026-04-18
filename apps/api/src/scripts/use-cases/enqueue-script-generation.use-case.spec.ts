@@ -1,10 +1,10 @@
 import { Test, TestingModule } from '@nestjs/testing';
 import { BadRequestException } from '@nestjs/common';
-import { FormatType, ContentTone } from '@nexcript/shared';
+import { FormatType, ContentTone } from '@nexvideo/shared';
 import { EnqueueScriptGenerationUseCase } from './enqueue-script-generation.use-case';
 import { JOBS_QUEUE_TOKEN } from '../../bullmq/bullmq.module';
 
-jest.mock('@nexcript/database', () => ({
+jest.mock('@nexvideo/database', () => ({
   prisma: {
     $connect: jest.fn(),
     $disconnect: jest.fn(),

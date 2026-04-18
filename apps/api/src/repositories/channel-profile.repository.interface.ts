@@ -1,4 +1,4 @@
-import { type ChannelProfile } from '@nexcript/database';
+import { type ChannelProfile } from '@nexvideo/database';
 
 export interface IChannelProfileRepository {
   findByOrg(organizationId: string): Promise<ChannelProfile[]>;

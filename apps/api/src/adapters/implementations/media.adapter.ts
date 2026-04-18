@@ -1,5 +1,5 @@
 import { Injectable, Inject } from '@nestjs/common';
-import { MediaAsset } from '@nexcript/shared';
+import { MediaAsset } from '@nexvideo/shared';
 import { IPexelsPort, IPixabayPort } from '../interfaces/media.port';
 
 /**

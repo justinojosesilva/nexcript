@@ -9,7 +9,7 @@ import {
   NotFoundException,
 } from '@nestjs/common';
 import { ApiOperation, ApiResponse, ApiTags } from '@nestjs/swagger';
-import { prisma } from '@nexcript/database';
+import { prisma } from '@nexvideo/database';
 import { SynthesizeNarrationUseCase } from './use-cases/synthesize-narration.use-case';
 import { SynthesizeNarrationDto } from './dto/synthesize-narration.dto';
 

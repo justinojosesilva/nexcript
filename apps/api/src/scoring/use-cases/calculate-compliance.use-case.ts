@@ -1,7 +1,7 @@
 import { Injectable, Logger, BadRequestException } from '@nestjs/common';
-import { prisma } from '@nexcript/database';
+import { prisma } from '@nexvideo/database';
 import { ComplianceScorer, ComplianceScorerResult } from '../compliance.scorer';
-import { NicheCategory } from '@nexcript/shared';
+import { NicheCategory } from '@nexvideo/shared';
 
 interface CalculateComplianceInput {
   projectId: string;

@@ -6,6 +6,6 @@ export default defineConfig({
     path: "prisma/migrations",
   },
   datasource: {
-    url: process.env["DATABASE_URL"] ?? "postgresql://localhost:5432/nexcript",
+    url: process.env["DATABASE_URL"] ?? "postgresql://localhost:5432/nexvideo",
   },
 });

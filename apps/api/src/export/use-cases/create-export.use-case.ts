@@ -7,7 +7,7 @@ import {
   UnprocessableEntityException,
 } from '@nestjs/common';
 import { Queue } from 'bullmq';
-import { prisma } from '@nexcript/database';
+import { prisma } from '@nexvideo/database';
 import { JOBS_QUEUE_TOKEN } from '../../bullmq/bullmq.module';
 import { ExportJobRepository } from '../../repositories/export-job.repository';
 

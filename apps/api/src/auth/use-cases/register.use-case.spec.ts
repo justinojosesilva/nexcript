@@ -1,4 +1,4 @@
-jest.mock('@nexcript/database', () => ({
+jest.mock('@nexvideo/database', () => ({
   prisma: {},
   PrismaClient: jest.fn(),
 }));

@@ -1,6 +1,6 @@
 import { Injectable, Logger, Inject } from '@nestjs/common';
-import { prisma } from '@nexcript/database';
-import { type Script } from '@nexcript/database';
+import { prisma } from '@nexvideo/database';
+import { type Script } from '@nexvideo/database';
 import { type UpdateScriptDto } from '../dto/update-script.dto';
 import { ICachePort } from '../../cache/interfaces/cache.port';
 

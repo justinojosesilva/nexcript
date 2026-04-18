@@ -1,7 +1,7 @@
 import { Test, TestingModule } from '@nestjs/testing';
 import { QualityGapScorer } from './quality-gap.scorer';
-import { ScoreClassification, NicheCategory, Platform } from '@nexcript/shared';
-import { YouTubeVideo } from '@nexcript/shared';
+import { ScoreClassification, NicheCategory, Platform } from '@nexvideo/shared';
+import { YouTubeVideo } from '@nexvideo/shared';
 
 describe('QualityGapScorer', () => {
   let scorer: QualityGapScorer;

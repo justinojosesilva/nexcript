@@ -1,5 +1,5 @@
 import { BadRequestException, Injectable } from '@nestjs/common';
-import { type ContentProject } from '@nexcript/database';
+import { type ContentProject } from '@nexvideo/database';
 import { PrismaService } from '../prisma/prisma.service';
 import {
   ContentProjectWithChannelProfile,

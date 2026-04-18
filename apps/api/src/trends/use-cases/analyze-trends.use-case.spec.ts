@@ -1,10 +1,10 @@
-jest.mock('@nexcript/database', () => ({
+jest.mock('@nexvideo/database', () => ({
   prisma: {},
   PrismaClient: jest.fn(),
 }));
 
 import { NotFoundException } from '@nestjs/common';
-import { NicheCategory } from '@nexcript/shared';
+import { NicheCategory } from '@nexvideo/shared';
 import { AnalyzeTrendsUseCase } from './analyze-trends.use-case';
 
 // ────────────── mock factories ──────────────

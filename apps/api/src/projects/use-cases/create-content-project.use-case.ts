@@ -1,6 +1,6 @@
 import { ForbiddenException, Injectable } from '@nestjs/common';
-import { ProjectStatus } from '@nexcript/shared';
-import { type ContentProject } from '@nexcript/database';
+import { ProjectStatus } from '@nexvideo/shared';
+import { type ContentProject } from '@nexvideo/database';
 import { ContentProjectRepository } from '../../repositories/content-project.repository';
 import { CreateContentProjectDto } from '../dto/create-content-project.dto';
 

@@ -1,6 +1,6 @@
 import { Injectable } from '@nestjs/common';
-import { prisma } from '@nexcript/database';
-import { type Script } from '@nexcript/database';
+import { prisma } from '@nexvideo/database';
+import { type Script } from '@nexvideo/database';
 
 @Injectable()
 export class GetScriptsUseCase {

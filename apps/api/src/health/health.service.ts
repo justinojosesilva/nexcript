@@ -119,7 +119,7 @@ export class HealthService {
     try {
       // Try to get queue length from Redis
       // This is an approximation of worker health based on queue activity
-      const queueLength = await this.redis.llen('nexcript-jobs');
+      const queueLength = await this.redis.llen('nexvideo-jobs');
 
       return {
         status: 'ok',

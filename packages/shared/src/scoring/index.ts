@@ -1,5 +1,5 @@
 /**
- * @nexcript/shared - Scoring Module
+ * @nexvideo/shared - Scoring Module
  * Cálculo e classificação de scores de conteúdo com pesos configuráveis
  */
 

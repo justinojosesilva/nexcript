@@ -5,7 +5,7 @@ import {
   BadRequestException,
 } from '@nestjs/common';
 import * as archiver from 'archiver';
-import { prisma } from '@nexcript/database';
+import { prisma } from '@nexvideo/database';
 import { IStoragePort } from '../../adapters/interfaces/storage.port';
 import { ExportJobRepository } from '../../repositories/export-job.repository';
 

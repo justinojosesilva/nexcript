@@ -5,8 +5,8 @@ import {
   IScoreDimensionService,
   ScoreCalculationResult,
   ScoreClassification,
-} from '@nexcript/shared';
-import { gapAnalysisPrompt } from '@nexcript/prompts';
+} from '@nexvideo/shared';
+import { gapAnalysisPrompt } from '@nexvideo/prompts';
 import type { IYouTubePort } from '../adapters/interfaces/youtube.port';
 import type { IOpenAIPort } from '../adapters/interfaces/openai.port';
 

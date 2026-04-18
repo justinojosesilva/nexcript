@@ -33,7 +33,7 @@ export const REDIS_CONNECTION_TOKEN = 'REDIS_CONNECTION';
     {
       provide: JOBS_QUEUE_TOKEN,
       useFactory: (redisConnection: Redis) => {
-        return new Queue('nexcript-jobs', {
+        return new Queue('nexvideo-jobs', {
           connection: redisConnection,
           defaultJobOptions: {
             attempts: 3,

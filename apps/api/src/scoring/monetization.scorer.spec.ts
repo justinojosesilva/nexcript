@@ -1,5 +1,5 @@
 import { MonetizationScorer } from './monetization.scorer';
-import { NicheCategory, RpmTier, ScoreClassification } from '@nexcript/shared';
+import { NicheCategory, RpmTier, ScoreClassification } from '@nexvideo/shared';
 import Redis from 'ioredis';
 
 describe('MonetizationScorer', () => {

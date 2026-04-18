@@ -29,7 +29,7 @@ export default function AuthLayout({ children }: { children: ReactNode }) {
           {/* Header */}
           <div className="relative z-10 mb-12">
             <h1 className="text-3xl font-black tracking-tighter text-white font-headline">
-              Nexcript
+              nexvideo
             </h1>
           </div>
 
@@ -94,7 +94,7 @@ export default function AuthLayout({ children }: { children: ReactNode }) {
             {/* Mobile Logo */}
             <div className="lg:hidden mb-12 text-center">
               <h1 className="text-2xl font-black tracking-tighter text-white font-headline">
-                Nexcript
+                nexvideo
               </h1>
             </div>
 

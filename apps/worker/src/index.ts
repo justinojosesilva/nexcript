@@ -1,11 +1,32 @@
+import * as Sentry from "@sentry/node";
 import { Queue, Worker, Job } from "bullmq";
 import Redis from "ioredis";
 import axios from "axios";
-import { prisma } from "@nexcript/database";
+import { prisma } from "@nexvideo/database";
+
+Sentry.init({
+  dsn: process.env.SENTRY_DSN,
+  environment: process.env.NODE_ENV || "development",
+  enabled: !!process.env.SENTRY_DSN,
+  tracesSampleRate: 1.0,
+});
 
 const REDIS_URL = process.env.REDIS_URL || "redis://localhost:6379";
-const QUEUE_NAME = "nexcript-jobs";
+const QUEUE_NAME = "nexvideo-jobs";
 const API_URL = process.env.API_URL || "http://localhost:3002";
+
+const REDACTED_PAYLOAD_KEYS = new Set(["scriptBlocks", "apiKey", "token", "password", "secret"]);
+
+function redactJobPayload(data: Record<string, unknown>): Record<string, unknown> {
+  return Object.fromEntries(
+    Object.entries(data).map(([key, value]) => {
+      if (REDACTED_PAYLOAD_KEYS.has(key)) return [key, "[REDACTED]"];
+      if (typeof value === "string" && value.length > 200)
+        return [key, `${value.slice(0, 200)}...[truncated]`];
+      return [key, value];
+    }),
+  );
+}
 
 const redisConnection = new Redis(REDIS_URL, {
   maxRetriesPerRequest: null,
@@ -442,6 +463,20 @@ const worker = new Worker(
         errorMessage,
       );
 
+      Sentry.withScope((scope) => {
+        scope.setTag("queue", QUEUE_NAME);
+        scope.setTag("job.id", job.id ?? "unknown");
+        scope.setTag("job.name", job.name);
+        scope.setTag("job.attempts_made", String(job.attemptsMade));
+        scope.setContext("job", {
+          id: job.id,
+          name: job.name,
+          attemptsMade: job.attemptsMade,
+          payload: redactJobPayload(job.data as Record<string, unknown>),
+        });
+        Sentry.captureException(error);
+      });
+
       // Update database status to FAILED with error message
       await updateJobStatusInDatabase(job, "failed", errorMessage);
 
@@ -475,6 +510,7 @@ worker.on("failed", (job, err) => {
 
 worker.on("error", (err) => {
   console.error("[Worker] Worker error:", err);
+  Sentry.captureException(err, { tags: { queue: QUEUE_NAME, "error.type": "worker_infrastructure" } });
 });
 
 worker.on("active", (job) => {
@@ -488,6 +524,7 @@ async function shutdown() {
     await worker.close();
     await redisConnection.quit();
     await prisma.$disconnect();
+    await Sentry.close(2000);
     console.log("[Worker] Shutdown complete");
     process.exit(0);
   } catch (error) {
@@ -499,10 +536,18 @@ async function shutdown() {
 process.on("SIGTERM", shutdown);
 process.on("SIGINT", shutdown);
 
-// Handle uncaught exceptions
+// Handle uncaught exceptions and unhandled rejections
 process.on("uncaughtException", (error) => {
   console.error("[Worker] Uncaught exception:", error);
-  shutdown();
+  Sentry.captureException(error, { tags: { queue: QUEUE_NAME, "error.type": "uncaught_exception" } });
+  void shutdown();
+});
+
+process.on("unhandledRejection", (reason) => {
+  console.error("[Worker] Unhandled rejection:", reason);
+  Sentry.captureException(reason instanceof Error ? reason : new Error(String(reason)), {
+    tags: { queue: QUEUE_NAME, "error.type": "unhandled_rejection" },
+  });
 });
 
 // Start worker

@@ -27,9 +27,10 @@
     "@nestjs/passport": "^11.0.5",
     "@nestjs/platform-express": "^11.0.1",
     "@nestjs/swagger": "^11.2.6",
-    "@nexcript/database": "workspace:*",
-    "@nexcript/prompts": "workspace:*",
-    "@nexcript/shared": "workspace:*",
+    "@nexvideo/database": "workspace:*",
+    "@nexvideo/prompts": "workspace:*",
+    "@nexvideo/shared": "workspace:*",
+    "@sentry/nestjs": "^10.49.0",
     "archiver": "^7.0.1",
     "axios": "^1.14.0",
     "bcrypt": "^6.0.0",
@@ -39,9 +40,11 @@
     "dotenv": "^17.4.1",
     "ioredis": "^5.10.1",
     "joi": "^18.1.2",
+    "nestjs-pino": "^4.6.1",
     "openai": "^6.33.0",
     "passport": "^0.7.0",
     "passport-jwt": "^4.0.1",
+    "pino-http": "^11.0.0",
     "reflect-metadata": "^0.2.2",
     "resend": "^6.11.0",
     "rxjs": "^7.8.1",
@@ -92,9 +95,9 @@
       "^.+\\.(t|j)s$": "ts-jest"
     },
     "moduleNameMapper": {
-      "^@nexcript/database$": "<rootDir>/../../../packages/database/dist/index.cjs",
-      "^@nexcript/prompts$": "<rootDir>/../../../packages/prompts/dist/index.cjs",
-      "^@nexcript/shared$": "<rootDir>/../../../packages/shared/dist/index.cjs"
+      "^@nexvideo/database$": "<rootDir>/../../../packages/database/dist/index.cjs",
+      "^@nexvideo/prompts$": "<rootDir>/../../../packages/prompts/dist/index.cjs",
+      "^@nexvideo/shared$": "<rootDir>/../../../packages/shared/dist/index.cjs"
     },
     "collectCoverageFrom": [
       "**/*.(t|j)s"

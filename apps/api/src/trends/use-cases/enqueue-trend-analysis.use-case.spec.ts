@@ -1,5 +1,5 @@
 import { EnqueueTrendAnalysisUseCase } from './enqueue-trend-analysis.use-case';
-import { NicheCategory } from '@nexcript/shared';
+import { NicheCategory } from '@nexvideo/shared';
 import { Queue } from 'bullmq';
 
 describe('EnqueueTrendAnalysisUseCase', () => {

@@ -1,5 +1,5 @@
 {
-  "name": "@nexcript/database",
+  "name": "@nexvideo/database",
   "version": "1.0.0",
   "private": true,
   "main": "./dist/index.js",
@@ -18,6 +18,7 @@
     "dev": "tsup --watch",
     "generate": "prisma generate",
     "migrate": "prisma migrate dev",
+    "migrate:deploy": "prisma migrate deploy",
     "seed": "tsx prisma/seed.ts",
     "studio": "prisma studio"
   },
@@ -25,14 +26,14 @@
     "seed": "tsx prisma/seed.ts"
   },
   "dependencies": {
-    "@nexcript/shared": "workspace:*",
+    "@nexvideo/shared": "workspace:*",
     "@prisma/adapter-pg": "^7.6.0",
     "@prisma/client": "^7.6.0",
     "@prisma/client-runtime-utils": "^7.6.0",
     "pg": "^8.20.0"
   },
   "devDependencies": {
-    "@nexcript/typescript-config": "workspace:*",
+    "@nexvideo/typescript-config": "workspace:*",
     "@types/node": "^22.10.7",
     "@types/pg": "^8.20.0",
     "prisma": "^7.6.0",

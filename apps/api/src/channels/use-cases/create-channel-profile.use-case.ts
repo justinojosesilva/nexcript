@@ -1,5 +1,5 @@
 import { ForbiddenException, Injectable } from '@nestjs/common';
-import { type ChannelProfile } from '@nexcript/database';
+import { type ChannelProfile } from '@nexvideo/database';
 import { ChannelProfileRepository } from '../../repositories/channel-profile.repository';
 import { CreateChannelProfileDto } from '../dto/create-channel-profile.dto';
 

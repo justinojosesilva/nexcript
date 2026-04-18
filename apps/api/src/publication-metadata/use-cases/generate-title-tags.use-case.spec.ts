@@ -1,10 +1,10 @@
 import { BadRequestException } from '@nestjs/common';
-import { prisma } from '@nexcript/database';
+import { prisma } from '@nexvideo/database';
 import { GenerateTitleTagsUseCase } from './generate-title-tags.use-case';
 import { GenerateTitleTagsDto } from '../dto/generate-title-tags.dto';
 
 // Mock prisma
-jest.mock('@nexcript/database', () => ({
+jest.mock('@nexvideo/database', () => ({
   prisma: {
     contentProject: {
       findFirst: jest.fn(),
@@ -19,7 +19,7 @@ jest.mock('@nexcript/database', () => ({
 }));
 
 // Mock prompts
-jest.mock('@nexcript/prompts', () => ({
+jest.mock('@nexvideo/prompts', () => ({
   titleVariantsPrompt: jest.fn(({ topic }) => `Generate titles for: ${topic}`),
   tagsPrompt: jest.fn(({ topic }) => `Generate tags for: ${topic}`),
 }));

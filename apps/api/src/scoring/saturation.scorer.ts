@@ -5,7 +5,7 @@ import {
   IScoreDimensionService,
   ScoreCalculationResult,
   ScoreClassification,
-} from '@nexcript/shared';
+} from '@nexvideo/shared';
 import type { IYouTubePort } from '../adapters/interfaces/youtube.port';
 
 /**

@@ -3,7 +3,7 @@ import { HealthService } from './health.service';
 import { PrismaService } from '../prisma/prisma.service';
 import Redis from 'ioredis';
 
-jest.mock('@nexcript/database', () => ({
+jest.mock('@nexvideo/database', () => ({
   prisma: {
     $connect: jest.fn(),
     $disconnect: jest.fn(),

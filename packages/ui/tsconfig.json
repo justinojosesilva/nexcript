@@ -1,5 +1,5 @@
 {
-  "extends": "@nexcript/typescript-config/react-library.json",
+  "extends": "@nexvideo/typescript-config/react-library.json",
   "compilerOptions": {
     "outDir": "dist",
     "strictNullChecks": true

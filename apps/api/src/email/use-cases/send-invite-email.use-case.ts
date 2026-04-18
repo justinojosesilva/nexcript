@@ -34,9 +34,9 @@ export class SendInviteEmailUseCase {
 
     try {
       await this.resend.emails.send({
-        from: 'noreply@nexcript.app',
+        from: 'noreply@nexvideo.app',
         to: inviteeEmail,
-        subject: `Você foi convidado para ${organizationName} — Nexcript`,
+        subject: `Você foi convidado para ${organizationName} — nexvideo`,
         html,
       });
     } catch (error) {

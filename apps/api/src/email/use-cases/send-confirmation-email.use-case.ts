@@ -30,9 +30,9 @@ export class SendConfirmationEmailUseCase {
 
     try {
       await this.resend.emails.send({
-        from: 'noreply@nexcript.app',
+        from: 'noreply@nexvideo.app',
         to: userEmail,
-        subject: 'Confirme seu email — Nexcript',
+        subject: 'Confirme seu email — nexvideo',
         html,
       });
     } catch (error) {

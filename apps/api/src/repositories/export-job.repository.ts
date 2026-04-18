@@ -1,5 +1,5 @@
 import { Injectable } from '@nestjs/common';
-import { type ExportJob } from '@nexcript/database';
+import { type ExportJob } from '@nexvideo/database';
 import { PrismaService } from '../prisma/prisma.service';
 import { IExportJobRepository } from './export-job.repository.interface';
 

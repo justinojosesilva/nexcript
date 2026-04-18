@@ -20,7 +20,7 @@ import {
   type ScriptData,
 } from "@/lib/scripts-client";
 
-// Script block type icons and labels - NEXCRIPT BRAND
+// Script block type icons and labels - nexvideo BRAND
 const BLOCK_TYPES = {
   HOOK: {
     icon: Target,

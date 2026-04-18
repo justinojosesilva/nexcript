@@ -101,7 +101,7 @@ test_unit_tests() {
   log_step "Running export unit tests"
 
   # Run only export tests
-  if DATABASE_URL="postgresql://postgres:postgres@localhost:5432/nexcript" \
+  if DATABASE_URL="postgresql://postgres:postgres@localhost:5432/nexvideo" \
      pnpm --filter api test --testNamePattern="export|Export" 2>&1 | grep -q "28 passed"; then
     log_pass "All 28 export tests passed"
   else

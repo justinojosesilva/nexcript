@@ -37,9 +37,9 @@ export class SendCancellationWarningEmailUseCase {
 
     try {
       await this.resend.emails.send({
-        from: 'noreply@nexcript.app',
+        from: 'noreply@nexvideo.app',
         to: userEmail,
-        subject: `⏰ Sua assinatura ${organizationName} encerra em 3 dias — Nexcript`,
+        subject: `⏰ Sua assinatura ${organizationName} encerra em 3 dias — nexvideo`,
         html,
       });
     } catch (error) {

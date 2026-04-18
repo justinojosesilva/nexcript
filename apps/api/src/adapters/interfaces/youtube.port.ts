@@ -1,4 +1,4 @@
-import { YouTubeVideo } from '@nexcript/shared';
+import { YouTubeVideo } from '@nexvideo/shared';
 
 /**
  * Port interface for YouTube API integration

@@ -1,4 +1,4 @@
-import { type MediaAsset } from "@nexcript/shared";
+import { type MediaAsset } from "@nexvideo/shared";
 import { getApiClient } from "./api-client";
 
 export interface SearchMediaPayload {

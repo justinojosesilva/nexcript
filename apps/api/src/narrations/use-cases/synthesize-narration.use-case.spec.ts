@@ -1,6 +1,6 @@
 import { BadRequestException } from '@nestjs/common';
 import { Test, TestingModule } from '@nestjs/testing';
-import { ContentTone } from '@nexcript/shared';
+import { ContentTone } from '@nexvideo/shared';
 import { SynthesizeNarrationUseCase } from './synthesize-narration.use-case';
 import { CacheTtsSynthesisUseCase } from './cache-tts-synthesis.use-case';
 import { ITtsPort } from '../../adapters/interfaces/tts.port';

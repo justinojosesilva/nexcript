@@ -140,7 +140,7 @@ export class PlanLimitsGuard implements CanActivate {
         limit,
         current: currentUsage,
         planName,
-        upgradeUrl: 'https://nexcript.com/plans',
+        upgradeUrl: 'https://nexvideo.com/plans',
       });
     }
 

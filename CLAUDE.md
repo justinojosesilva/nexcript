@@ -13,13 +13,13 @@ apps/
   worker/    — BullMQ worker (tsx), processa filas do Redis e chama OpenAI
 
 packages/
-  database/          — Prisma schema + PrismaClient singleton (@nexcript/database)
-  shared/            — Tipos, interfaces, enums e utils compartilhados (@nexcript/shared)
-  prompts/           — Prompts tipados para OpenAI, organizados por categoria (@nexcript/prompts)
-  ui/                — Biblioteca de componentes React compartilhada (@nexcript/ui)
-  eslint-config/     — Configuração ESLint compartilhada (@nexcript/eslint-config)
-  tailwind-config/   — Configuração Tailwind compartilhada (@nexcript/tailwind-config)
-  typescript-config/ — tsconfigs base, nextjs e react-library (@nexcript/typescript-config)
+  database/          — Prisma schema + PrismaClient singleton (@nexvideo/database)
+  shared/            — Tipos, interfaces, enums e utils compartilhados (@nexvideo/shared)
+  prompts/           — Prompts tipados para OpenAI, organizados por categoria (@nexvideo/prompts)
+  ui/                — Biblioteca de componentes React compartilhada (@nexvideo/ui)
+  eslint-config/     — Configuração ESLint compartilhada (@nexvideo/eslint-config)
+  tailwind-config/   — Configuração Tailwind compartilhada (@nexvideo/tailwind-config)
+  typescript-config/ — tsconfigs base, nextjs e react-library (@nexvideo/typescript-config)
 ```
 
 ## Commands
@@ -47,9 +47,9 @@ pnpm --filter api test:e2e      # e2e (jest-e2e.json)
 pnpm --filter api test:cov      # coverage
 
 # Database
-pnpm --filter @nexcript/database generate   # prisma generate
-pnpm --filter @nexcript/database migrate    # prisma migrate dev
-pnpm --filter @nexcript/database studio     # prisma studio
+pnpm --filter @nexvideo/database generate   # prisma generate
+pnpm --filter @nexvideo/database migrate    # prisma migrate dev
+pnpm --filter @nexvideo/database studio     # prisma studio
 ```
 
 ### Infraestrutura
@@ -76,7 +76,7 @@ src/
 Uso no worker:
 
 ```typescript
-import { financeScriptPrompt } from "@nexcript/prompts";
+import { financeScriptPrompt } from "@nexvideo/prompts";
 const prompt = financeScriptPrompt({
   topic: "como sair das dívidas",
   durationMinutes: 12,
@@ -87,9 +87,9 @@ Para adicionar novos prompts: criar o arquivo na categoria correspondente, expor
 
 ## Architecture Notes
 
-- **`packages/database`** é o único dono do schema Prisma e exporta um singleton `prisma` (evita múltiplas conexões em dev). Todo código server-side importa de `@nexcript/database`, não de `@prisma/client` diretamente.
+- **`packages/database`** é o único dono do schema Prisma e exporta um singleton `prisma` (evita múltiplas conexões em dev). Todo código server-side importa de `@nexvideo/database`, não de `@prisma/client` diretamente.
 - **`packages/shared`** e **`packages/prompts`** precisam ser buildados antes dos apps que os consomem (`^build` no Turbo resolve isso automaticamente).
 - **`packages/ui`** é compilado para `dist/` — não consumido direto do source. CSS classes usam prefixo `ui-` para não colidir com Tailwind das apps.
 - **`apps/worker`** é um processo Node.js mínimo (sem framework). Recebe jobs via BullMQ, chama OpenAI e pode chamar a API via HTTP quando necessário.
-- **`apps/api`** ainda tem `@prisma/client` como dependência direta (scaffold inicial) — ao criar os primeiros módulos NestJS, migrar para importar de `@nexcript/database`.
+- **`apps/api`** ainda tem `@prisma/client` como dependência direta (scaffold inicial) — ao criar os primeiros módulos NestJS, migrar para importar de `@nexvideo/database`.
 - Turbo task graph: `build` depende de `^build`; `dev` é persistente e sem cache; `test` e `test:e2e` dependem de `^build`.

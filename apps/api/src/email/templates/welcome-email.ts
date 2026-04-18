@@ -11,7 +11,7 @@ export function welcomeEmailTemplate(args: {
     <head>
       <meta charset="UTF-8">
       <meta name="viewport" content="width=device-width, initial-scale=1.0">
-      <title>Bem-vindo ao Nexcript</title>
+      <title>Bem-vindo ao nexvideo</title>
       <style>
         body {
           font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', sans-serif;
@@ -106,7 +106,7 @@ export function welcomeEmailTemplate(args: {
       <div class="container">
         <div class="content">
           <div class="header">
-            <div class="logo">Nexcript</div>
+            <div class="logo">nexvideo</div>
             <p class="subtitle">Plataforma de Produção de Conteúdo com IA</p>
           </div>
 
@@ -122,7 +122,7 @@ export function welcomeEmailTemplate(args: {
             <div class="feature-item">Exportar seus projetos</div>
           </div>
 
-          <p>Clique no botão abaixo para criar seu primeiro vídeo e explorar todo o poder do Nexcript:</p>
+          <p>Clique no botão abaixo para criar seu primeiro vídeo e explorar todo o poder do nexvideo:</p>
 
           <div class="button-container">
             <a href="${createVideoUrl}" class="button">Criar Primeiro Vídeo</a>
@@ -133,7 +133,7 @@ export function welcomeEmailTemplate(args: {
           <p style="font-size: 14px; color: #666;">Aproveite e bom conteúdo! 🚀</p>
 
           <div class="footer">
-            <p>© 2026 Nexcript. Todos os direitos reservados.</p>
+            <p>© 2026 nexvideo. Todos os direitos reservados.</p>
             <p>Enviado para: <strong>${userEmail}</strong></p>
           </div>
         </div>

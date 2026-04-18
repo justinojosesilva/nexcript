@@ -6,7 +6,7 @@ import {
 } from '@nestjs/common';
 import { Queue } from 'bullmq';
 import { JOBS_QUEUE_TOKEN } from '../../bullmq/bullmq.module';
-import { prisma } from '@nexcript/database';
+import { prisma } from '@nexvideo/database';
 
 interface EnqueuePublicationGenerationInput {
   projectId: string;

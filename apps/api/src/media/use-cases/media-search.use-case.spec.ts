@@ -1,12 +1,12 @@
 import { BadRequestException } from '@nestjs/common';
-import { MediaAsset } from '@nexcript/shared';
-import { prisma } from '@nexcript/database';
+import { MediaAsset } from '@nexvideo/shared';
+import { prisma } from '@nexvideo/database';
 import { MediaSearchUseCase } from './media-search.use-case';
 import { MediaAdapter } from '../../adapters/implementations/media.adapter';
 import { SearchMediaDto } from '../dto/search-media.dto';
 
 // Mock prisma
-jest.mock('@nexcript/database', () => ({
+jest.mock('@nexvideo/database', () => ({
   prisma: {
     script: {
       findUnique: jest.fn(),
@@ -18,8 +18,8 @@ jest.mock('@nexcript/database', () => ({
 }));
 
 // Mock mediaQueryPrompt
-jest.mock('@nexcript/shared', () => {
-  const actual = jest.requireActual('@nexcript/shared');
+jest.mock('@nexvideo/shared', () => {
+  const actual = jest.requireActual('@nexvideo/shared');
   return {
     ...actual,
     mediaQueryPrompt: jest.fn(({ blockContent }) => `search for ${blockContent.substring(0, 20)}`),

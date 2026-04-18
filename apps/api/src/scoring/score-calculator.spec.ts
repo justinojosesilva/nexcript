@@ -1,9 +1,9 @@
-import { ScoreCalculator } from '@nexcript/shared';
+import { ScoreCalculator } from '@nexvideo/shared';
 import {
   DimensionScoreValues,
   ScoreClassification,
   ScoreWeightsConfig,
-} from '@nexcript/shared';
+} from '@nexvideo/shared';
 
 describe('ScoreCalculator', () => {
   describe('constructor', () => {

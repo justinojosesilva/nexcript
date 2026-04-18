@@ -6,7 +6,7 @@ import {
   ScoreCalculationResult,
   ScoreCalculator,
   ScoreClassification,
-} from '@nexcript/shared';
+} from '@nexvideo/shared';
 import type { IYouTubePort } from '../adapters/interfaces/youtube.port';
 import type { ITrendsPort } from '../adapters/interfaces/trends.port';
 

@@ -1,4 +1,4 @@
-jest.mock('@nexcript/database', () => ({
+jest.mock('@nexvideo/database', () => ({
   prisma: {},
   PrismaClient: jest.fn(),
 }));
@@ -9,7 +9,7 @@ import {
   NicheCategory,
   ContentTone,
   NarrationStyle,
-} from '@nexcript/shared';
+} from '@nexvideo/shared';
 import { UpdateChannelProfileUseCase } from './update-channel-profile.use-case';
 
 const mockChannelProfile = {

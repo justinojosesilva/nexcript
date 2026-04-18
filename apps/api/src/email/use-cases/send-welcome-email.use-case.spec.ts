@@ -38,7 +38,7 @@ describe('SendWelcomeEmailUseCase', () => {
     });
 
     expect(mockResend.emails.send).toHaveBeenCalledWith({
-      from: 'noreply@nexcript.app',
+      from: 'noreply@nexvideo.app',
       to: 'john@example.com',
       subject: expect.stringContaining('Bem-vindo'),
       html: expect.stringContaining('John Doe'),
@@ -107,7 +107,7 @@ describe('SendWelcomeEmailUseCase', () => {
     expect(configService.getOrThrow).toHaveBeenCalledWith('APP_URL');
   });
 
-  it('sends email from nexcript domain', async () => {
+  it('sends email from nexvideo domain', async () => {
     mockResend.emails.send.mockResolvedValue({ id: 'email-456' });
 
     await useCase.execute({
@@ -116,6 +116,6 @@ describe('SendWelcomeEmailUseCase', () => {
     });
 
     const call = mockResend.emails.send.mock.calls[0][0];
-    expect(call.from).toBe('noreply@nexcript.app');
+    expect(call.from).toBe('noreply@nexvideo.app');
   });
 });

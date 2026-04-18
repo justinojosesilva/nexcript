@@ -8,7 +8,7 @@ async function setup() {
     try {
         console.log('Setting up E2E test environment...\n');
         // 1. Try to register a test user
-        const testEmail = `test-${Date.now()}@nexcript.dev`;
+        const testEmail = `test-${Date.now()}@nexvideo.dev`;
         const testPassword = 'TestPassword123!';
         console.log(`📝 Attempting to register test user: ${testEmail}`);
         try {

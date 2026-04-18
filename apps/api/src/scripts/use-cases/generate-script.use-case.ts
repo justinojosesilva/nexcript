@@ -5,9 +5,9 @@ import {
   Inject,
 } from '@nestjs/common';
 import { ConfigService } from '@nestjs/config';
-import { type Script } from '@nexcript/database';
-import { genericScriptPrompt } from '@nexcript/prompts';
-import { FormatType } from '@nexcript/shared';
+import { type Script } from '@nexvideo/database';
+import { genericScriptPrompt } from '@nexvideo/prompts';
+import { FormatType } from '@nexvideo/shared';
 import { ScriptRepository } from '../../repositories/script.repository';
 import { ContentProjectRepository } from '../../repositories/content-project.repository';
 import { IOpenAIPort } from '../../adapters/interfaces/openai.port';

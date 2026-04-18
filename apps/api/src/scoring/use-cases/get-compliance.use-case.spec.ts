@@ -3,7 +3,7 @@ const mockPrisma = {
   publicationMetadata: { findUnique: jest.fn() },
 };
 
-jest.mock('@nexcript/database', () => ({
+jest.mock('@nexvideo/database', () => ({
   prisma: mockPrisma,
   PrismaClient: jest.fn(),
 }));

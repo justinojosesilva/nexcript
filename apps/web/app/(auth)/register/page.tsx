@@ -76,7 +76,7 @@ export default function RegisterPage() {
           Criar Conta
         </h2>
         <p className="text-gray-400 text-base font-body">
-          Comece sua jornada com Nexcript
+          Comece sua jornada com nexvideo
         </p>
       </div>
 

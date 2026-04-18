@@ -9,10 +9,10 @@ import {
   type NarrationPromptInput,
   type NarrationTone,
   type NarrationSpeed,
-} from '@nexcript/prompts';
+} from '@nexvideo/prompts';
 import { ITtsPort, SynthesizeOutput } from '../../adapters/interfaces/tts.port';
 import { SynthesizeNarrationDto } from '../dto/synthesize-narration.dto';
-import { ContentTone } from '@nexcript/shared';
+import { ContentTone } from '@nexvideo/shared';
 import { CacheTtsSynthesisUseCase } from './cache-tts-synthesis.use-case';
 
 interface SynthesizeNarrationInput extends SynthesizeNarrationDto {

@@ -10,7 +10,7 @@ export function confirmationEmailTemplate(args: {
     <head>
       <meta charset="UTF-8">
       <meta name="viewport" content="width=device-width, initial-scale=1.0">
-      <title>Confirme seu Email — Nexcript</title>
+      <title>Confirme seu Email — nexvideo</title>
       <style>
         body {
           font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', sans-serif;
@@ -96,7 +96,7 @@ export function confirmationEmailTemplate(args: {
       <div class="container">
         <div class="content">
           <div class="header">
-            <div class="logo">Nexcript</div>
+            <div class="logo">nexvideo</div>
             <p class="subtitle">Plataforma de Produção de Conteúdo com IA</p>
           </div>
 
@@ -104,7 +104,7 @@ export function confirmationEmailTemplate(args: {
 
           <p>Olá!</p>
 
-          <p>Obrigado por se registrar no Nexcript. Para ativar sua conta, confirme seu endereço de email clicando no botão abaixo:</p>
+          <p>Obrigado por se registrar no nexvideo. Para ativar sua conta, confirme seu endereço de email clicando no botão abaixo:</p>
 
           <div class="button-container">
             <a href="${confirmationUrl}" class="button">Confirmar Email</a>
@@ -120,7 +120,7 @@ export function confirmationEmailTemplate(args: {
           <p>Se você não criou essa conta, pode ignorar este email com segurança.</p>
 
           <div class="footer">
-            <p>© 2026 Nexcript. Todos os direitos reservados.</p>
+            <p>© 2026 nexvideo. Todos os direitos reservados.</p>
             <p>Enviado para: <strong>${userEmail}</strong></p>
           </div>
         </div>

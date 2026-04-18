@@ -1,11 +1,11 @@
 /**
- * Nexcript Design Tokens
+ * nexvideo Design Tokens
  * Definição centralizada de cores, espaçamento, tipografia e outros tokens de design
  * Dark-first theme com Electric Purple como cor primária
  */
 
-export const nexcriptTokens = {
-  // Brand Colors - Nexcript Approved
+export const nexvideoTokens = {
+  // Brand Colors - nexvideo Approved
   brand: {
     primary: "#7C3AED", // Electric Purple
     success: "#10B981", // Emerald Logic
@@ -28,7 +28,7 @@ export const nexcriptTokens = {
   },
 } as const;
 
-export const nexcriptTokensWithScales = {
+export const nexvideoTokensWithScales = {
   // Core Brand Colors
   colors: {
     // Material Design 3 Colors
@@ -211,4 +211,4 @@ export const nexcriptTokensWithScales = {
   },
 } as const;
 
-export type NexcriptTokens = typeof nexcriptTokens;
+export type nexvideoTokens = typeof nexvideoTokens;

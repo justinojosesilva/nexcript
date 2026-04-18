@@ -31,9 +31,9 @@ export class SendWelcomeEmailUseCase {
 
     try {
       await this.resend.emails.send({
-        from: 'noreply@nexcript.app',
+        from: 'noreply@nexvideo.app',
         to: userEmail,
-        subject: 'Bem-vindo ao Nexcript — Crie seu primeiro vídeo',
+        subject: 'Bem-vindo ao nexvideo — Crie seu primeiro vídeo',
         html,
       });
     } catch (error) {

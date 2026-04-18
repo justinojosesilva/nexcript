@@ -18,4 +18,5 @@ export const envValidationSchema = Joi.object({
   RESEND_API_KEY: Joi.string().required(),
   APP_URL: Joi.string().uri().required(),
   ADMIN_API_KEY: Joi.string().min(32).optional(),
+  SENTRY_DSN: Joi.string().uri().optional(),
 });

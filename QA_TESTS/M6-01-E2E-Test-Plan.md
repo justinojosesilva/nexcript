@@ -1,7 +1,7 @@
 # Test Plan: M6-01 E2E completo Trends → Export
 
 ## Executive Summary
-End-to-end testing for the complete Nexcript workflow from Trends analysis through Export ZIP generation. This test validates the entire content production pipeline and ensures data integrity across all modules.
+End-to-end testing for the complete nexvideo workflow from Trends analysis through Export ZIP generation. This test validates the entire content production pipeline and ensures data integrity across all modules.
 
 **Priority:** P0 Critical  
 **Complexity:** High  

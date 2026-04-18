@@ -15,7 +15,7 @@ import {
   ApiTags,
   ApiBearerAuth,
 } from '@nestjs/swagger';
-import { prisma } from '@nexcript/database';
+import { prisma } from '@nexvideo/database';
 import { CurrentUser } from '../auth/decorators/current-user.decorator';
 import { type JwtPayload } from '../auth/strategies/jwt.strategy';
 import { GenerateTitleTagsUseCase } from './use-cases/generate-title-tags.use-case';

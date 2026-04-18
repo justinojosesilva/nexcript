@@ -1,11 +1,11 @@
 @import url("https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=Inter:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500;600&display=swap");
 @import "tailwindcss";
-@import "@nexcript/tailwind-config";
+@import "@nexvideo/tailwind-config";
 
 :root {
   color-scheme: dark;
 
-  /* ==================== NEXCRIPT BRAND IDENTITY ==================== */
+  /* ==================== nexvideo BRAND IDENTITY ==================== */
   /* Electric Purple - Primary CTA & Interactions */
   --color-electric-purple: #7c3aed;
 
@@ -15,7 +15,7 @@
   /* Deep Obsidian - Base Surface & Backgrounds */
   --color-deep-obsidian: #0e0e0e;
 
-  /* Material Design 3 Color System - OVERRIDDEN WITH NEXCRIPT BRAND */
+  /* Material Design 3 Color System - OVERRIDDEN WITH nexvideo BRAND */
   --error: #ff6b6b;
   --primary-container: #7c3aed;
   --on-tertiary-fixed-variant: #004d3a;
@@ -64,7 +64,7 @@
   --tertiary: #4edea3;
   --surface-dim: #0e0e0e;
 
-  /* Font Variables - NEXCRIPT BRAND */
+  /* Font Variables - nexvideo BRAND */
   --font-syne: "Syne", system-ui, sans-serif;
   --font-space-grotesk: "Space Grotesk", system-ui, sans-serif;
   --font-inter: "Inter", system-ui, sans-serif;
@@ -88,7 +88,7 @@ body {
 }
 
 @layer components {
-  /* Button Utilities - NEXCRIPT BRAND */
+  /* Button Utilities - nexvideo BRAND */
   .btn-primary {
     @apply w-full py-4 px-4 text-sm font-bold rounded-lg hover:opacity-90 active:scale-[0.98] transition-all cursor-pointer;
     background: linear-gradient(
@@ -147,7 +147,7 @@ body {
     opacity: 0.9;
   }
 
-  /* Form Utilities - NEXCRIPT BRAND */
+  /* Form Utilities - nexvideo BRAND */
   .input-field {
     @apply w-full text-sm p-4 rounded-lg focus:outline-none focus:ring-0 transition-all cursor-text;
     background-color: var(--surface-container-lowest);
@@ -175,7 +175,7 @@ body {
     cursor: not-allowed;
   }
 
-  /* Badge Utilities - NEXCRIPT BRAND */
+  /* Badge Utilities - nexvideo BRAND */
   .badge-success {
     @apply px-3 py-1 rounded-full text-sm font-medium;
     background-color: var(--color-emerald-logic);
@@ -197,7 +197,7 @@ body {
     background-color: var(--color-electric-purple);
   }
 
-  /* Card Utilities - NEXCRIPT BRAND */
+  /* Card Utilities - nexvideo BRAND */
   .card {
     @apply rounded-xl p-6 transition-all duration-200 cursor-pointer;
     background-color: var(--surface-container);
@@ -212,7 +212,7 @@ body {
     transform: translateY(-2px);
   }
 
-  /* Text Utilities - NEXCRIPT BRAND */
+  /* Text Utilities - nexvideo BRAND */
   .text-headline {
     font-family: var(--font-space-grotesk);
     font-weight: 700;

@@ -1,10 +1,18 @@
 import 'dotenv/config';
+import * as Sentry from '@sentry/nestjs';
 import { NestFactory } from '@nestjs/core';
 import { ValidationPipe } from '@nestjs/common';
 import { SwaggerModule, DocumentBuilder } from '@nestjs/swagger';
 import { AppModule } from './app.module';
 
 async function bootstrap() {
+  Sentry.init({
+    dsn: process.env.SENTRY_DSN,
+    environment: process.env.NODE_ENV || 'development',
+    enabled: !!process.env.SENTRY_DSN,
+    tracesSampleRate: 1.0,
+  });
+
   const app = await NestFactory.create(AppModule, { rawBody: true });
 
   // Enable CORS for frontend
@@ -19,7 +27,7 @@ async function bootstrap() {
 
   // Swagger setup
   const config = new DocumentBuilder()
-    .setTitle('Nexcript API')
+    .setTitle('nexvideo API')
     .setDescription('Plataforma de Produção de Conteúdo com IA')
     .setVersion('1.0.0')
     .addBearerAuth(
